@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISP / Static Residential Proxies — ROLA-IP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="premium-styles.css?v=usecases-compact-1">
+</head>
+<body>
+
+<!-- ====================== NAV ====================== -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#" class="logo"><span class="logo__mark"></span>ROLA<span style="color:var(--green-2)">IP</span></a>
+    <div class="nav__links">
+      <a href="#" class="active">Home</a>
+      <a href="#features">Service <span class="nav__chev"></span></a>
+      <a href="#pricing">Price</a>
+      <a href="#use-cases">Proxy For <span class="nav__chev"></span></a>
+      <a href="#integration">Learn <span class="nav__chev"></span></a>
+    </div>
+    <div class="nav__actions">
+      <a href="#" class="nav__login">Register/Login</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#features">Features</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#geo">Coverage</a>
+  <a href="#use-cases">Use Cases</a>
+  <a href="#integration">Docs</a>
+  <a href="#faq">FAQ</a>
+  <a href="#" class="btn btn--primary btn--block">Start Free Trial</a>
+</div>
+
+<!-- ====================== 1. HERO ====================== -->
+<header class="hero" data-screen-label="Hero">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <h1 data-rise="1">ISP / Static Residential Proxies</h1>
+      <p class="hero__sub" data-rise="2">Stable ISP proxies with high success rates, per-IP billing, and no hidden fees.</p>
+      <div class="hero__stats" data-rise="3">
+        <div class="hstat">
+          <div class="hstat__v">99.9%</div>
+          <div class="hstat__l">Success rate</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat__v">1.3M+</div>
+          <div class="hstat__l">IP pool size</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat__v">From $2.10/IP</div>
+          <div class="hstat__l">Starting price</div>
+        </div>
+      </div>
+      <div class="hero__ctas" data-rise="4">
+        <a href="#pricing" class="btn btn--primary">Start free trial</a>
+        <a href="#" class="btn btn--ghost">Contact sales</a>
+      </div>
+    </div>
+
+    <!-- Layered product visual -->
+    <div class="hero__visual" aria-hidden="true">
+      <!-- main map panel -->
+      <div class="hv-panel hv-map">
+        <div class="hv-map__head">
+          <div class="hv-map__title">Global Network <span>· live routing</span></div>
+          <div class="hv-live"><span class="d"></span>LIVE</div>
+        </div>
+        <div class="hv-mapwrap">
+          <svg viewBox="0 0 460 260" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <radialGradient id="nodeg" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#6EF2A3"/>
+                <stop offset="100%" stop-color="#2ED47A"/>
+              </radialGradient>
+            </defs>
+            <!-- connection lines -->
+            <g stroke="rgba(120,255,190,.35)" stroke-width="1" fill="none">
+              <path class="flow" d="M70 150 Q170 60 250 95"/>
+              <path class="flow" d="M250 95 Q340 70 400 130" style="animation-delay:.6s"/>
+              <path class="flow" d="M70 150 Q150 200 220 185" style="animation-delay:.3s"/>
+              <path class="flow" d="M250 95 Q260 160 220 185" style="animation-delay:.9s"/>
+              <path class="flow" d="M220 185 Q330 200 400 130" style="animation-delay:1.2s"/>
+              <path class="flow" d="M70 150 Q200 120 250 95" style="animation-delay:.45s"/>
+            </g>
+            <!-- faint continent dots grid -->
+            <g fill="rgba(120,255,190,.1)">
+              <!-- scattered dot field to suggest a map -->
+              <circle cx="60" cy="120" r="1.4"/><circle cx="80" cy="110" r="1.4"/><circle cx="95" cy="130" r="1.4"/>
+              <circle cx="110" cy="115" r="1.4"/><circle cx="120" cy="140" r="1.4"/><circle cx="140" cy="120" r="1.4"/>
+              <circle cx="155" cy="105" r="1.4"/><circle cx="170" cy="130" r="1.4"/><circle cx="185" cy="115" r="1.4"/>
+              <circle cx="205" cy="100" r="1.4"/><circle cx="225" cy="125" r="1.4"/><circle cx="245" cy="110" r="1.4"/>
+              <circle cx="265" cy="135" r="1.4"/><circle cx="285" cy="120" r="1.4"/><circle cx="305" cy="105" r="1.4"/>
+              <circle cx="325" cy="130" r="1.4"/><circle cx="345" cy="115" r="1.4"/><circle cx="365" cy="135" r="1.4"/>
+              <circle cx="385" cy="120" r="1.4"/><circle cx="405" cy="140" r="1.4"/>
+              <circle cx="90" cy="160" r="1.4"/><circle cx="130" cy="175" r="1.4"/><circle cx="175" cy="165" r="1.4"/>
+              <circle cx="215" cy="180" r="1.4"/><circle cx="255" cy="170" r="1.4"/><circle cx="300" cy="180" r="1.4"/>
+              <circle cx="340" cy="165" r="1.4"/><circle cx="380" cy="175" r="1.4"/>
+              <circle cx="105" cy="90" r="1.4"/><circle cx="160" cy="80" r="1.4"/><circle cx="230" cy="78" r="1.4"/>
+              <circle cx="300" cy="82" r="1.4"/><circle cx="360" cy="92" r="1.4"/>
+            </g>
+            <!-- active nodes -->
+            <circle class="node node-pulse" cx="70" cy="150" r="3.5" fill="url(#nodeg)"/>
+            <circle class="node node-pulse" cx="250" cy="95" r="3.5" fill="url(#nodeg)" style="animation-delay:.5s"/>
+            <circle class="node node-pulse" cx="400" cy="130" r="3.5" fill="url(#nodeg)" style="animation-delay:1s"/>
+            <circle class="node node-pulse" cx="220" cy="185" r="3.5" fill="url(#nodeg)" style="animation-delay:1.5s"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- floating success card -->
+      <div class="hv-float hv-success">
+        <div class="lbl">Request Success</div>
+        <div class="val">99.9%</div>
+        <div class="hv-bar"><i></i></div>
+      </div>
+
+      <!-- floating mini metrics -->
+      <div class="hv-float hv-mini">
+        <div class="row"><span class="k">Avg. latency</span><span class="v">182 ms</span></div>
+        <div class="row"><span class="k">Session uptime</span><span class="v up">99.95%</span></div>
+        <div class="row"><span class="k">Active IPs</span><span class="v">842,319</span></div>
+      </div>
+
+      <!-- floating code panel -->
+      <div class="hv-panel hv-float hv-code">
+        <div class="hv-code__bar"><i></i><i></i><i></i><span>request.sh</span></div>
+        <pre><span class="cm-cmt"># route via ISP gateway</span>
+curl -x <span class="cm-str">gate.rola</span> \
+  -U <span class="cm-str">USER:PASS</span> \
+  <span class="cm-str">ipinfo.io</span>
+<span class="cm-cmt"># → 200 OK</span></pre>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== 2. TRUST BAR ====================== -->
+<section class="trustbar" data-screen-label="Trust Bar">
+  <div class="container trustbar__inner">
+    <div class="rating rating--trustpilot" data-reveal>
+      <div class="rating__brand">
+        <span class="rating__logo rating__logo--trust" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="20.5 248.5 600 147.3"><path d="M178.2 300.7h60.7V312H215v63.7h-13.1V312h-23.8zm58.1 20.7h11.2v10.5h.2c.4-1.5 1.1-2.9 2.1-4.3s2.2-2.7 3.7-3.8c1.4-1.2 3-2.1 4.8-2.8 1.7-.7 3.5-1.1 5.3-1.1 1.4 0 2.4.1 2.9.1.5.1 1.1.2 1.6.2v11.5c-.8-.2-1.7-.3-2.6-.4s-1.7-.2-2.6-.2c-2 0-3.9.4-5.7 1.2s-3.3 2-4.7 3.5c-1.3 1.6-2.4 3.5-3.2 5.8s-1.2 5-1.2 8v25.8h-12zm86.8 54.3h-11.8v-7.6h-.2c-1.5 2.8-3.7 4.9-6.6 6.6s-5.9 2.5-8.9 2.5c-7.1 0-12.3-1.7-15.5-5.3-3.2-3.5-4.8-8.9-4.8-16v-34.5h12v33.3c0 4.8.9 8.2 2.8 10.1 1.8 2 4.4 3 7.7 3 2.5 0 4.6-.4 6.3-1.2s3.1-1.8 4.1-3.1c1.1-1.3 1.8-2.9 2.3-4.7s.7-3.8.7-5.9v-31.5h12v54.3zm20.4-17.4c.4 3.5 1.7 5.9 4 7.4 2.3 1.4 5.1 2.1 8.3 2.1 1.1 0 2.4-.1 3.8-.3s2.8-.5 4-1c1.3-.5 2.3-1.2 3.1-2.2s1.2-2.2 1.1-3.7-.6-2.8-1.7-3.8-2.4-1.7-4-2.4c-1.6-.6-3.5-1.1-5.6-1.5s-4.2-.9-6.4-1.4-4.4-1.1-6.5-1.8-3.9-1.6-5.6-2.9c-1.6-1.2-3-2.7-3.9-4.6-1-1.9-1.5-4.1-1.5-6.9 0-3 .7-5.4 2.2-7.4 1.4-2 3.3-3.6 5.5-4.8s4.7-2.1 7.4-2.6 5.3-.7 7.7-.7c2.8 0 5.5.3 8 .9s4.9 1.5 6.9 2.9c2.1 1.3 3.8 3.1 5.1 5.2 1.4 2.1 2.2 4.7 2.6 7.7h-12.5c-.6-2.9-1.9-4.8-3.9-5.8-2.1-1-4.4-1.5-7.1-1.5-.8 0-1.9.1-3 .2-1.2.2-2.2.4-3.3.8-1 .4-1.9 1-2.6 1.7s-1.1 1.7-1.1 2.9c0 1.5.5 2.6 1.5 3.5s2.3 1.6 4 2.3c1.6.6 3.5 1.1 5.6 1.5s4.3.9 6.5 1.4 4.3 1.1 6.4 1.8 4 1.6 5.6 2.9c1.6 1.2 3 2.7 4 4.5s1.5 4.1 1.5 6.7c0 3.2-.7 5.9-2.2 8.2-1.5 2.2-3.4 4.1-5.7 5.5s-5 2.4-7.8 3.1c-2.9.6-5.7 1-8.5 1-3.4 0-6.6-.4-9.5-1.2s-5.5-2-7.6-3.5c-2.1-1.6-3.8-3.5-5-5.9-1.2-2.3-1.9-5.1-2-8.4h12.1v.1zm39.5-36.9h9.1V305h12v16.3h10.8v8.9h-10.8v29c0 1.3.1 2.3.2 3.3.1.9.4 1.7.7 2.3.4.6 1 1.1 1.7 1.4.8.3 1.8.5 3.2.5.8 0 1.7 0 2.5-.1s1.7-.2 2.5-.4v9.3c-1.3.2-2.6.3-3.9.4-1.3.2-2.5.2-3.9.2-3.2 0-5.7-.3-7.6-.9s-3.4-1.5-4.5-2.6c-1.1-1.2-1.8-2.6-2.2-4.3s-.6-3.8-.7-6v-32H383v-9.1zm40.3 0h11.3v7.4h.2c1.7-3.2 4-5.4 7-6.8s6.2-2.1 9.8-2.1c4.3 0 8 .7 11.2 2.3 3.2 1.5 5.8 3.5 7.9 6.2 2.1 2.6 3.7 5.7 4.7 9.2s1.6 7.3 1.6 11.2c0 3.7-.5 7.2-1.4 10.6-1 3.4-2.4 6.5-4.3 9.1s-4.3 4.7-7.3 6.3-6.4 2.4-10.4 2.4c-1.7 0-3.5-.2-5.2-.5s-3.4-.8-5-1.5-3.1-1.6-4.4-2.7c-1.4-1.1-2.5-2.4-3.4-3.8h-.2v27.1h-12v-74.4zm41.9 27.2c0-2.4-.3-4.8-1-7.1-.6-2.3-1.6-4.3-2.9-6.1s-2.9-3.2-4.7-4.3c-1.9-1.1-4.1-1.6-6.5-1.6-5 0-8.8 1.7-11.4 5.2-2.5 3.5-3.8 8.2-3.8 14 0 2.8.3 5.3 1 7.6s1.6 4.3 3 6c1.3 1.7 2.9 3 4.8 4s4 1.5 6.5 1.5c2.8 0 5-.6 6.9-1.7s3.4-2.6 4.7-4.3c1.2-1.8 2.1-3.8 2.6-6.1.5-2.4.8-4.7.8-7.1zm21.1-47.9h12V312h-12zm0 20.7h12v54.3h-12zm22.7-20.7h12v75h-12zm48.6 76.5c-4.3 0-8.2-.7-11.6-2.2s-6.2-3.4-8.6-5.9c-2.3-2.5-4.1-5.6-5.3-9.1s-1.9-7.4-1.9-11.5.6-7.9 1.9-11.4c1.2-3.5 3-6.5 5.3-9.1 2.3-2.5 5.2-4.5 8.6-5.9s7.3-2.2 11.6-2.2 8.2.7 11.6 2.2c3.4 1.4 6.2 3.4 8.6 5.9 2.3 2.5 4.1 5.6 5.3 9.1s1.9 7.3 1.9 11.4c0 4.2-.6 8-1.9 11.5s-3 6.5-5.3 9.1c-2.3 2.5-5.2 4.5-8.6 5.9s-7.2 2.2-11.6 2.2zm0-9.5c2.6 0 5-.6 6.9-1.7 2-1.1 3.5-2.6 4.8-4.4s2.2-3.9 2.8-6.1c.6-2.3.9-4.6.9-7 0-2.3-.3-4.6-.9-6.9s-1.5-4.3-2.8-6.1-2.9-3.2-4.8-4.3c-2-1.1-4.3-1.7-6.9-1.7s-5 .6-6.9 1.7c-2 1.1-3.5 2.6-4.8 4.3-1.3 1.8-2.2 3.8-2.8 6.1s-.9 4.6-.9 6.9c0 2.4.3 4.7.9 7s1.5 4.3 2.8 6.1 2.9 3.3 4.8 4.4c2 1.2 4.3 1.7 6.9 1.7zm31-46.3h9.1V305h12v16.3h10.8v8.9h-10.8v29c0 1.3.1 2.3.2 3.3.1.9.4 1.7.7 2.3.4.6 1 1.1 1.7 1.4.8.3 1.8.5 3.2.5.8 0 1.7 0 2.5-.1s1.7-.2 2.5-.4v9.3c-1.3.2-2.6.3-3.9.4-1.3.2-2.5.2-3.9.2-3.2 0-5.7-.3-7.6-.9s-3.4-1.5-4.5-2.6c-1.1-1.2-1.8-2.6-2.2-4.3s-.6-3.8-.7-6v-32h-9.1v-9.1z"/><path fill="#00b67a" d="M164.2 300.7h-54.9l-16.9-52.2-17 52.2-54.9-.1 44.4 32.3-17 52.2 44.4-32.3 44.4 32.3-16.9-52.2z"/><path fill="#005128" d="m123.6 344.7-3.8-11.8-27.4 19.9z"/></svg></span>
+      </div>
+      <div class="rating__score">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span class="muted">★</span>
+      </div>
+    </div>
+    <div class="rating rating--g2" data-reveal data-delay="1">
+      <div class="rating__brand">
+        <span class="rating__logo rating__logo--g2" aria-hidden="true">
+          <svg fill="#FF492C" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>G2</title><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm.122 5.143c.45 0 .9.044 1.342.132l-1.342 2.806C9.962 8.08 8.203 9.84 8.203 12s1.76 3.92 3.92 3.92c.937 0 1.844-.338 2.553-.951l1.483 2.572A6.856 6.856 0 0 1 5.266 12a6.856 6.856 0 0 1 6.856-6.856Zm3.498.49a1.262 1.262 0 0 1 .026 0c.427 0 .792.113 1.101.34.31.229.466.546.466.946 0 .639-.36 1.03-1.035 1.376l-.377.191c-.403.204-.602.385-.657.706h2.05v.85h-3.101v-.144c0-.526.103-.96.314-1.306.211-.345.576-.65 1.102-.917l.242-.117c.427-.216.538-.401.538-.625 0-.266-.228-.458-.6-.458-.44 0-.773.228-1.004.694l-.592-.595c.13-.279.338-.502.619-.675a1.7 1.7 0 0 1 .908-.266Zm-2.094 5.388h3.394l1.697 2.937-1.697 2.94-1.697-2.94H11.83l1.696-2.937Z"/></svg>
+        </span>
+        <span>G2</span>
+      </div>
+      <div class="rating__score">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span class="outline">☆</span>
+      </div>
+    </div>
+    <div class="rating rating--capterra" data-reveal data-delay="2">
+      <div class="rating__brand">
+        <span class="rating__logo rating__logo--capterra" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 20 20"><path fill="#FF9D28" d="m0 7.301 8.152.002h4.957v-4.96z"/><path fill="#68C5ED" d="M13.11 2.342v17.516L19.3 0z"/><path fill="#044D80" d="m13.11 7.304-4.958-.001 4.957 12.555z"/><path fill="#E54747" d="m0 7.301 9.423 3.223-1.271-3.222z"/></svg>
+        </span>
+        <span>Capterra</span>
+      </div>
+      <div class="rating__score">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 3. CLIENT LOGOS ====================== -->
+<section class="logos" data-screen-label="Client Logos">
+  <div class="marquee">
+    <div class="marquee__track">
+      <span class="logo-ph">DataForge</span><span class="logo-ph">MarketLens</span>
+      <span class="logo-ph">Northstar</span><span class="logo-ph">CartPulse</span>
+      <span class="logo-ph">SignalBay</span><span class="logo-ph">AtlasIQ</span>
+      <span class="logo-ph">QueryGrid</span><span class="logo-ph">FetchOps</span>
+    </div>
+    <div class="marquee__track" aria-hidden="true">
+      <span class="logo-ph">DataForge</span><span class="logo-ph">MarketLens</span>
+      <span class="logo-ph">Northstar</span><span class="logo-ph">CartPulse</span>
+      <span class="logo-ph">SignalBay</span><span class="logo-ph">AtlasIQ</span>
+      <span class="logo-ph">QueryGrid</span><span class="logo-ph">FetchOps</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 4. CORE FEATURES ====================== -->
+<section class="section" id="features" data-screen-label="Core Features">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <div class="eyebrow">Why ROLA-IP</div>
+      <h2 class="h-section">Reliability engineered into every IP</h2>
+    </div>
+    <div class="features__grid">
+      <div class="fcard fcard--success" data-reveal>
+        <div class="fcard__media" aria-hidden="true">
+          <div class="metric-tile">
+            <span class="metric-tile__label">Request success</span>
+            <span class="metric-tile__value">99.9%</span>
+          </div>
+          <div class="sparkline">
+            <span style="height:42%"></span><span style="height:58%"></span><span style="height:48%"></span><span style="height:72%"></span><span style="height:64%"></span><span style="height:86%"></span><span style="height:78%"></span>
+          </div>
+          <div class="status-row"><span></span><span></span><span></span></div>
+        </div>
+        <h3>High success rates</h3>
+        <p>Route requests through clean ISP inventory built for fewer retries and steadier completion.</p>
+      </div>
+      <div class="fcard fcard--sessions" data-reveal data-delay="1">
+        <div class="fcard__media" aria-hidden="true">
+          <div class="session-card">
+            <span class="session-dot"></span>
+            <div>
+              <strong>Sticky session</strong>
+              <span>24h window</span>
+            </div>
+          </div>
+          <div class="session-track"><i></i></div>
+          <div class="session-nodes"><span></span><span></span><span></span></div>
+        </div>
+        <h3>Long &amp; persistent sessions</h3>
+        <p>Keep identity and routing stable across long-running workflows.</p>
+      </div>
+      <div class="fcard fcard--asn" data-reveal data-delay="2">
+        <div class="fcard__media" aria-hidden="true">
+          <div class="asn-score">
+            <span>ASN score</span>
+            <strong>A+</strong>
+          </div>
+          <div class="asn-grid">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="asn-pill">Residential ISP</div>
+        </div>
+        <h3>Premium ASN &amp; IP quality</h3>
+        <p>Prioritize trusted residential ISP networks with measurable reputation signals.</p>
+      </div>
+      <div class="fcard fcard--billing" data-reveal data-delay="3">
+        <div class="fcard__media" aria-hidden="true">
+          <div class="invoice-card">
+            <span>Per-IP billing</span>
+            <strong>$X/IP</strong>
+          </div>
+          <div class="invoice-lines">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="invoice-total"><span>No overage</span><i></i></div>
+        </div>
+        <h3>Pay-per-IP, no hidden fees</h3>
+        <p>Predictable per-IP pricing with unlimited bandwidth included.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 5. PRICING ====================== -->
+<section class="section" id="pricing" data-screen-label="Pricing">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <div class="eyebrow">Pricing</div>
+      <h2 class="h-section">Transparent, per-IP pricing</h2>
+    </div>
+    <div class="pricing__grid">
+      <div class="pcard" data-reveal>
+        <span class="pcard__badge">Free trial</span>
+        <div class="pcard__name">Starter</div>
+        <div class="pcard__ips">25 ISP IPs for small teams and first production workloads.</div>
+        <div class="pcard__price">$80<span class="u">/mo</span></div>
+        <div class="pcard__month">$3.20 per IP · billed monthly</div>
+        <div class="pcard__div"></div>
+        <a href="#" class="btn btn--ghost btn--sm btn--block">Start Free Trial</a>
+        <ul class="pcard__feats">
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Unlimited bandwidth</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>12 locations</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>API &amp; dashboard access</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Email support</li>
+        </ul>
+      </div>
+
+      <div class="pcard" data-reveal data-delay="1">
+        <span class="pcard__badge">Scale</span>
+        <div class="pcard__name">Advanced</div>
+        <div class="pcard__ips">100 ISP IPs for growing scraping and automation pipelines.</div>
+        <div class="pcard__price">$275<span class="u">/mo</span></div>
+        <div class="pcard__month">$2.75 per IP · billed monthly</div>
+        <div class="pcard__div"></div>
+        <a href="#" class="btn btn--ghost btn--sm btn--block">Start Free Trial</a>
+        <ul class="pcard__feats">
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Everything in Starter</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>48 locations</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Sub-accounts &amp; roles</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Priority support</li>
+        </ul>
+      </div>
+
+      <div class="pcard pcard--popular" data-reveal data-delay="2">
+        <span class="pcard__badge">Most popular</span>
+        <div class="pcard__name">Premium</div>
+        <div class="pcard__ips">500 ISP IPs for high-volume teams that need steadier scale.</div>
+        <div class="pcard__price">$1,050<span class="u">/mo</span></div>
+        <div class="pcard__month">$2.10 per IP · billed monthly</div>
+        <div class="pcard__div"></div>
+        <a href="#" class="btn btn--primary btn--sm btn--block">Start Free Trial</a>
+        <ul class="pcard__feats">
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Everything in Advanced</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>All locations</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>24/7 live chat support</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Dedicated account manager</li>
+        </ul>
+      </div>
+
+      <div class="pcard" data-reveal data-delay="3">
+        <span class="pcard__badge">Custom</span>
+        <div class="pcard__name">Enterprise</div>
+        <div class="pcard__ips">1,000+ ISP IPs with custom allocation, SLA and infrastructure.</div>
+        <div class="pcard__price">Custom</div>
+        <div class="pcard__month">Volume-based pricing</div>
+        <div class="pcard__div"></div>
+        <a href="#" class="btn btn--ghost btn--sm btn--block">Contact Sales</a>
+        <ul class="pcard__feats">
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Everything in Premium</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Custom IP allocation</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>SLA &amp; dedicated infra</li>
+          <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Custom integration support</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pricing__note pricing__payments" data-reveal>
+      <div class="payments__copy">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.3 8.3-8 9-4.7-.7-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-5"/></svg>
+        <span>Accepted payment methods</span>
+      </div>
+      <div class="payments__logos" aria-label="Supported payment methods">
+        <span class="paymark paymark--paypal"><img class="paymark__img" src="assets/payments/paypal.svg" alt="PayPal"></span>
+        <span class="paymark paymark--visa"><img class="paymark__img" src="assets/payments/visa.svg" alt="Visa"></span>
+        <span class="paymark paymark--amex"><img class="paymark__img" src="assets/payments/amex.svg" alt="American Express"></span>
+        <span class="paymark paymark--alipay"><img class="paymark__img" src="assets/payments/alipay.svg" alt="Alipay"></span>
+        <span class="paymark paymark--mastercard"><img class="paymark__img" src="assets/payments/mastercard.svg" alt="Mastercard"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 6. GEO COVERAGE ====================== -->
+<section class="section" id="geo" data-screen-label="Geo Coverage">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <div class="eyebrow">Coverage</div>
+      <h2 class="h-section">Global proxy network</h2>
+    </div>
+    <div class="geo__locations" data-reveal>
+      <article class="geo-loc"><span class="geo-loc__flag">🇺🇸</span><div><h3>USA</h3><p>6,843,600 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇬🇧</span><div><h3>United Kingdom</h3><p>2,765,400 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇫🇷</span><div><h3>France</h3><p>3,479,400 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇩🇪</span><div><h3>Germany</h3><p>1,110,960 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇧🇷</span><div><h3>Brazil</h3><p>13,725,120 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇵🇰</span><div><h3>Pakistan</h3><p>7,612,080 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇷🇺</span><div><h3>Russia</h3><p>2,074,320 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇪🇸</span><div><h3>Spain</h3><p>785,040 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇨🇦</span><div><h3>Canada</h3><p>1,948,760 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇮🇹</span><div><h3>Italy</h3><p>1,284,900 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇳🇱</span><div><h3>Netherlands</h3><p>902,480 IPs</p></div></article>
+      <article class="geo-loc"><span class="geo-loc__flag">🇯🇵</span><div><h3>Japan</h3><p>4,106,300 IPs</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 7. USE CASES ====================== -->
+<section class="section" id="use-cases" style="background:rgba(13,23,34,.5);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)" data-screen-label="Use Cases">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">Use Cases</div>
+      <h2 class="h-section">Built for every data-driven workflow</h2>
+    </div>
+    <div class="cases__grid">
+      <div class="ucard" data-reveal>
+        <div class="ucard__num">01</div>
+        <div class="ucard__icon"><svg viewBox="0 0 24 24"><path d="M4 8h16M4 8l2-4h12l2 4M4 8v10a2 2 0 002 2h12a2 2 0 002-2V8"/><path d="M9 12h6"/></svg></div>
+        <h3>E-commerce intelligence</h3>
+        <p>Track competitor pricing, monitor stock and buy-box changes, and audit listings across global marketplaces without rate limits or geo-blocks.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="1">
+        <div class="ucard__num">02</div>
+        <div class="ucard__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
+        <h3>Ad verification</h3>
+        <p>Confirm placements, detect ad fraud, and check creatives exactly as local users see them — across any target country or city.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="2">
+        <div class="ucard__icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M5 16l4-5 3 3 3-6 4 8"/></svg></div>
+        <div class="ucard__num" style="display:none"></div>
+        <h3>Market research</h3>
+        <p>Aggregate pricing, sentiment, and competitive signals at scale from geo-restricted or language-specific sources with consistent, clean access.</p>
+      </div>
+      <div class="ucard" data-reveal>
+        <div class="ucard__num">04</div>
+        <div class="ucard__icon"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Cybersecurity</h3>
+        <p>Run threat intelligence, brand-protection sweeps, and phishing investigations from stable, attributable IPs that don't tip off targets.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="1">
+        <div class="ucard__icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg></div>
+        <div class="ucard__num" style="display:none"></div>
+        <h3>SEO &amp; SERP monitoring</h3>
+        <p>Track rankings, audit local search results, and benchmark competitor visibility region-by-region with accurate, un-personalized results.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="2">
+        <div class="ucard__num">06</div>
+        <div class="ucard__icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h9"/><circle cx="19" cy="17" r="2"/></svg></div>
+        <h3>AI &amp; data collection</h3>
+        <p>Build and refresh training datasets reliably at scale — collecting public web data without triggering CAPTCHAs, rate limits, or IP bans.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 8. INTEGRATION ====================== -->
+<section class="section" id="integration" data-screen-label="Integration">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">Quick Start</div>
+      <h2 class="h-section">Integrate in minutes, not days</h2>
+    </div>
+    <div class="integ__grid">
+      <div class="codepanel" data-reveal>
+        <div class="codepanel__top">
+          <div class="codetabs">
+            <button class="codetab active" data-tab="curl">curl</button>
+            <button class="codetab" data-tab="python">Python</button>
+            <button class="codetab" data-tab="node">Node</button>
+          </div>
+          <button class="copybtn" id="copyBtn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 10V3.5A1.5 1.5 0 014.5 2H11"/></svg>
+            <span>Copy</span>
+          </button>
+        </div>
+        <div class="codebody">
+          <div class="codepane active" data-pane="curl">
+<pre><span class="cm-cmt"># Route any request through your ISP gateway</span>
+curl -x http://<span class="cm-str">USER</span>:<span class="cm-str">PASS</span>@gate.rola-ip.com:<span class="cm-str">PORT</span> \
+     <span class="cm-str">"https://ipinfo.io/json"</span>
+
+<span class="cm-cmt"># Pin a country with a session token</span>
+curl -x http://<span class="cm-str">USER-country-us-session-a1b2</span>:<span class="cm-str">PASS</span>@gate.rola-ip.com:<span class="cm-str">PORT</span> \
+     <span class="cm-str">"https://ipinfo.io/json"</span></pre>
+          </div>
+          <div class="codepane" data-pane="python">
+<pre><span class="cm-kw">import</span> requests
+
+proxy = <span class="cm-str">"http://USER:PASS@gate.rola-ip.com:PORT"</span>
+proxies = {<span class="cm-str">"http"</span>: proxy, <span class="cm-str">"https"</span>: proxy}
+
+r = requests.<span class="cm-fn">get</span>(<span class="cm-str">"https://ipinfo.io/json"</span>, proxies=proxies)
+<span class="cm-fn">print</span>(r.<span class="cm-fn">json</span>())  <span class="cm-cmt"># {"ip": "...", "country": "US", ...}</span></pre>
+          </div>
+          <div class="codepane" data-pane="node">
+<pre><span class="cm-kw">import</span> axios <span class="cm-kw">from</span> <span class="cm-str">"axios"</span>;
+<span class="cm-kw">import</span> { HttpsProxyAgent } <span class="cm-kw">from</span> <span class="cm-str">"https-proxy-agent"</span>;
+
+<span class="cm-kw">const</span> agent = <span class="cm-kw">new</span> <span class="cm-fn">HttpsProxyAgent</span>(
+  <span class="cm-str">"http://USER:PASS@gate.rola-ip.com:PORT"</span>
+);
+
+<span class="cm-kw">const</span> { data } = <span class="cm-kw">await</span> axios.<span class="cm-fn">get</span>(<span class="cm-str">"https://ipinfo.io/json"</span>, { httpsAgent: agent });
+console.<span class="cm-fn">log</span>(data);</pre>
+          </div>
+        </div>
+      </div>
+      <div class="integ__info" data-reveal data-delay="1">
+        <h3>Up and running in under 5 minutes</h3>
+        <p>Generate an endpoint in the dashboard, drop in your credentials, and route traffic. Country and session targeting are controlled inline — no extra config.</p>
+        <ul class="integ__list">
+          <li><span class="ico"><svg viewBox="0 0 16 16"><path d="M2 8h12M9 4l4 4-4 4"/></svg></span>Endpoint generator in dashboard</li>
+          <li><span class="ico"><svg viewBox="0 0 16 16"><path d="M5 3L1 8l4 5M11 3l4 5-4 5"/></svg></span>Python &amp; Node.js SDKs</li>
+          <li><span class="ico"><svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M2 6h12"/></svg></span>REST API for IP management</li>
+          <li><span class="ico"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M5 8l2 2 4-4"/></svg></span>Scrapy, Puppeteer &amp; Selenium ready</li>
+        </ul>
+        <div class="integ__quick">
+          <a href="#" class="btn btn--primary btn--sm">Read the Docs <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          <a href="#" class="btn btn--ghost btn--sm">API Reference</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 9. TESTIMONIALS ====================== -->
+<section class="section" data-screen-label="Testimonials">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <div class="eyebrow">Customer Stories</div>
+      <h2 class="h-section">Trusted where uptime is non-negotiable</h2>
+    </div>
+    <div class="tcards">
+      <div class="tcard tcard--featured" data-reveal>
+        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Verified data team</span></div>
+        <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
+        <div class="tcard__metric"><strong>52%</strong><span>fewer retries in week one</span></div>
+        <div class="tcard__author">
+          <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
+          <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead</div><div class="tcard__company">Northstar Analytics</div></div>
+        </div>
+      </div>
+      <div class="tcard" data-reveal data-delay="1">
+        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Growth engineering</span></div>
+        <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
+        <div class="tcard__author">
+          <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
+          <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth Engineering</div><div class="tcard__company">CartPulse</div></div>
+        </div>
+      </div>
+      <div class="tcard" data-reveal data-delay="2">
+        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Infrastructure</span></div>
+        <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
+        <div class="tcard__author">
+          <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
+          <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager</div><div class="tcard__company">MarketLens</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 10. COMPLIANCE ====================== -->
+<section class="section" id="compliance" style="background:rgba(13,23,34,.5);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)" data-screen-label="Compliance">
+  <div class="container">
+    <div class="compliance__grid">
+      <div class="compliance__copy" data-reveal>
+        <div class="eyebrow">Security &amp; Compliance</div>
+        <h2 class="h-section">Built to pass enterprise procurement review</h2>
+        <ul class="compliance__points">
+          <li><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15 5.3a1 1 0 010 1.4l-6.5 6.5a1 1 0 01-1.4 0L3.5 9.6a1 1 0 111.4-1.4l2.9 2.9 5.8-5.8a1 1 0 011.4 0z"/></svg>Ethically sourced, consent-based IP supply</li>
+          <li><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15 5.3a1 1 0 010 1.4l-6.5 6.5a1 1 0 01-1.4 0L3.5 9.6a1 1 0 111.4-1.4l2.9 2.9 5.8-5.8a1 1 0 011.4 0z"/></svg>Documented data-processing agreements (DPA)</li>
+          <li><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15 5.3a1 1 0 010 1.4l-6.5 6.5a1 1 0 01-1.4 0L3.5 9.6a1 1 0 111.4-1.4l2.9 2.9 5.8-5.8a1 1 0 011.4 0z"/></svg>KYC verification &amp; acceptable-use enforcement</li>
+          <li><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15 5.3a1 1 0 010 1.4l-6.5 6.5a1 1 0 01-1.4 0L3.5 9.6a1 1 0 111.4-1.4l2.9 2.9 5.8-5.8a1 1 0 011.4 0z"/></svg>Security documentation available on request</li>
+        </ul>
+      </div>
+      <div class="badge-matrix badge-matrix--image" data-reveal>
+        <img src="g2-badges.png" alt="G2 Spring 2025 awards: Best Results, Best Usability, Best Support, Highest User Adoption, Grid Leader, and Fastest Implementation">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 11. FAQ ====================== -->
+<section class="section" id="faq" data-screen-label="FAQ">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <div class="eyebrow">FAQ</div>
+      <h2 class="h-section">Questions, answered</h2>
+    </div>
+    <div class="faq__wrap" data-reveal>
+      <div class="faq-item">
+        <button class="faq-item__q">What is an ISP proxy?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>An ISP proxy — also called a static residential proxy — is an IP address hosted in a datacenter but registered to a real Internet Service Provider. Target sites see it as a legitimate residential connection, so you get the trust profile of a home IP combined with datacenter-grade speed and stability.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">How are ISP proxies different from rotating residential proxies?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Rotating residential proxies pull a different IP from a shared pool on each request and are usually billed by bandwidth (per GB). ISP proxies give you a fixed, dedicated IP that stays the same until you change it, billed per-IP with unlimited bandwidth. They're the better fit when you need persistent identity, stable sessions, and predictable cost.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Do you offer a free trial?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Yes. You can test the network on a 7-day free trial before committing — no credit card required to start. Trial accounts include 5 ISP IPs and dashboard access.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">How does per-IP billing work?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>You pay a flat monthly price for each IP in your plan. Bandwidth is unlimited and included — there are no per-GB charges, no overage fees, and no hidden line items. Your monthly cost is the same whether you send one request or millions.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Which regions and locations do you support?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>We offer ISP proxies across 85+ countries, with the deepest pools in the US, UK, Germany, Canada, and other major markets. Country-level targeting is available everywhere; city-level targeting is available in 210 metro areas.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">How long can a session last?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>ISP proxies are static by design — you keep the same IP for the full duration of your subscription with no forced rotation. This makes them ideal for authenticated sessions, account management, and long-running collection jobs.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Are there any target-site restrictions?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Our proxies can access most publicly available websites. All usage must comply with our Acceptable Use Policy, which prohibits illegal activity, credential abuse, spam, payment fraud, and attacks on third-party services.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">What authentication methods are supported?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Both username/password authentication and IP whitelisting are supported. You can configure either (or both) from the dashboard and switch at any time.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Is the service compliant for enterprise procurement?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Yes. We align with GDPR and CCPA, source all IPs ethically through consent-based ISP partnerships, and can provide a DPA, ISO 27001 documentation, SOC 2 Type II report access, and security audit details on request.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 12. FINAL CTA ====================== -->
+<section class="finalcta" data-screen-label="Final CTA">
+  <div class="container">
+    <div class="finalcta__box" data-reveal>
+      <div class="finalcta__eyebrow">Ready when your pipeline is</div>
+      <h2>Start routing through stable ISP proxies today</h2>
+      <div class="finalcta__ctas">
+        <a href="#" class="btn btn--primary">Start Free Trial <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a href="#" class="btn btn--ghost">Contact Sales</a>
+      </div>
+      <div class="finalcta__promise">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.8 3.7 4 .6-2.9 2.8.7 4L8 10.3 4.4 12.2l.7-4L2.2 5.3l4-.6z"/></svg>
+        14-day money-back guarantee · No lock-in contracts · Cancel anytime
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="#" class="logo"><span class="logo__mark"></span>ROLA<span style="color:var(--green-2)">IP</span></a>
+        <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">ISP Proxies</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#geo">Locations</a></li>
+          <li><a href="#pricing">Free Trial</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="#integration">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">SDKs</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact Sales</a></li>
+          <li><a href="#compliance">Compliance</a></li>
+          <li><a href="#">Privacy &amp; Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 ROLA-IP. All rights reserved.</span>
+      <span>sales@rola-ip.com</span>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ---- Enable entrance animations only when the document is actually visible ----
+// (preview/export iframes render hidden, which pauses CSS animations at opacity:0;
+//  leaving .anim off keeps all content visible in those contexts.)
+(function(){
+  function enable(){ if (document.visibilityState === 'visible') { document.documentElement.classList.add('anim'); } }
+  if (document.visibilityState === 'visible') { enable(); }
+  else { document.addEventListener('visibilitychange', function once(){ if(document.visibilityState==='visible'){ enable(); document.removeEventListener('visibilitychange', once); } }); }
+  // Safety net: if animations get paused (hidden tab, slow render) and never complete,
+  // force the visible end-state so content can never get stuck invisible.
+  setTimeout(function(){
+    document.querySelectorAll('.hero [data-rise], .hero__visual').forEach(function(el){
+      el.style.opacity = '1'; el.style.transform = 'none';
+    });
+  }, 2600);
+})();
+
+// ---- Sticky nav ----
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+// ---- Mobile nav ----
+const burger = document.getElementById('hamburger');
+const mnav = document.getElementById('mobileNav');
+burger.addEventListener('click', () => {
+  const open = mnav.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mnav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  mnav.classList.remove('open'); burger.classList.remove('open'); document.body.style.overflow='';
+}));
+
+// ---- Scroll reveal ----
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+// ---- Count-up ----
+function countUp(el){
+  const raw = el.getAttribute('data-count');
+  const num = parseFloat(String(raw).replace(/[^0-9.]/g,''));
+  if (isNaN(num)) return;
+  const suffix = el.getAttribute('data-suffix') || '';
+  const dur = 1400, start = performance.now();
+  const dec = (String(raw).split('.')[1]||'').length;
+  function tick(t){
+    const p = Math.min((t-start)/dur, 1);
+    const eased = 1 - Math.pow(1-p, 3);
+    el.textContent = (num*eased).toFixed(dec) + suffix;
+    if (p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const countIO = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); countIO.unobserve(e.target);} });
+},{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>countIO.observe(el));
+
+// ---- Code tabs ----
+document.querySelectorAll('.codetab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.codetab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.codepane').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelector('.codepane[data-pane="'+tab.dataset.tab+'"]').classList.add('active');
+  });
+});
+
+// ---- Copy button ----
+const copyBtn = document.getElementById('copyBtn');
+copyBtn.addEventListener('click', ()=>{
+  const pane = document.querySelector('.codepane.active pre');
+  const text = pane ? pane.innerText : '';
+  navigator.clipboard.writeText(text).then(()=>{
+    copyBtn.classList.add('copied');
+    copyBtn.querySelector('span').textContent = 'Copied';
+    setTimeout(()=>{ copyBtn.classList.remove('copied'); copyBtn.querySelector('span').textContent='Copy'; }, 1800);
+  }).catch(()=>{});
+});
+
+// ---- FAQ accordion ----
+document.querySelectorAll('.faq-item__q').forEach(q=>{
+  q.addEventListener('click', ()=>{
+    const item = q.parentElement;
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-item__a').style.maxHeight=null; });
+    if(!open){ item.classList.add('open'); const a=item.querySelector('.faq-item__a'); a.style.maxHeight=a.scrollHeight+'px'; }
+  });
+});
+
+// ---- Smooth anchor scroll ----
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const id=a.getAttribute('href'); if(id==='#')return;
+    const el=document.querySelector(id);
+    if(el){ e.preventDefault(); window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-72, behavior:'smooth'}); }
+  });
+});
+</script>
+</body>
+</html>
