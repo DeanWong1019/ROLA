@@ -997,13 +997,16 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   max-width:var(--max-w);
   padding:84px;
   border-radius:34px;
-  background:#F8F8F6;
+  background:#080703!important;
 }
 #geo .section-head{margin-bottom:80px!important}
-#geo .h-section{color:#080703!important}
-#geo .section-sub{color:rgba(8,7,3,.58)!important}
-#geo .geo-loc h3{color:#080703!important;white-space:nowrap!important;margin-bottom:8px!important}
-#geo .geo-loc p{color:rgba(8,7,3,.58)!important}
+#geo .eyebrow{background:rgba(255,255,255,.1)!important;color:rgba(255,255,255,.7)!important}
+#geo .h-section{color:#fff!important}
+#geo .section-sub{color:rgba(255,255,255,.55)!important}
+#geo .geo-loc h3{color:#fff!important;white-space:nowrap!important;margin-bottom:8px!important}
+#geo .geo-loc p{color:rgba(255,255,255,.45)!important}
+#geo .geo__cta .btn--secondary{background:#fff!important;color:#080703!important;border-color:#fff!important}
+#geo .geo-loc__more{background:rgba(255,255,255,.12)!important;color:#fff!important}
 
 #use-cases .section-head{
   max-width:860px!important;margin-bottom:56px!important;text-align:center!important}
