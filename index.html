@@ -66,77 +66,7 @@
 
     <!-- Layered product visual -->
     <div class="hero__visual" aria-hidden="true">
-      <!-- main map panel -->
-      <div class="hv-panel hv-map">
-        <div class="hv-map__head">
-          <div class="hv-map__title">Global Network <span>· live routing</span></div>
-          <div class="hv-live"><span class="d"></span>LIVE</div>
-        </div>
-        <div class="hv-mapwrap">
-          <svg viewBox="0 0 460 260" preserveAspectRatio="xMidYMid meet">
-            <defs>
-              <radialGradient id="nodeg" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#6EF2A3"/>
-                <stop offset="100%" stop-color="#2ED47A"/>
-              </radialGradient>
-            </defs>
-            <!-- connection lines -->
-            <g stroke="rgba(120,255,190,.35)" stroke-width="1" fill="none">
-              <path class="flow" d="M70 150 Q170 60 250 95"/>
-              <path class="flow" d="M250 95 Q340 70 400 130" style="animation-delay:.6s"/>
-              <path class="flow" d="M70 150 Q150 200 220 185" style="animation-delay:.3s"/>
-              <path class="flow" d="M250 95 Q260 160 220 185" style="animation-delay:.9s"/>
-              <path class="flow" d="M220 185 Q330 200 400 130" style="animation-delay:1.2s"/>
-              <path class="flow" d="M70 150 Q200 120 250 95" style="animation-delay:.45s"/>
-            </g>
-            <!-- faint continent dots grid -->
-            <g fill="rgba(120,255,190,.1)">
-              <!-- scattered dot field to suggest a map -->
-              <circle cx="60" cy="120" r="1.4"/><circle cx="80" cy="110" r="1.4"/><circle cx="95" cy="130" r="1.4"/>
-              <circle cx="110" cy="115" r="1.4"/><circle cx="120" cy="140" r="1.4"/><circle cx="140" cy="120" r="1.4"/>
-              <circle cx="155" cy="105" r="1.4"/><circle cx="170" cy="130" r="1.4"/><circle cx="185" cy="115" r="1.4"/>
-              <circle cx="205" cy="100" r="1.4"/><circle cx="225" cy="125" r="1.4"/><circle cx="245" cy="110" r="1.4"/>
-              <circle cx="265" cy="135" r="1.4"/><circle cx="285" cy="120" r="1.4"/><circle cx="305" cy="105" r="1.4"/>
-              <circle cx="325" cy="130" r="1.4"/><circle cx="345" cy="115" r="1.4"/><circle cx="365" cy="135" r="1.4"/>
-              <circle cx="385" cy="120" r="1.4"/><circle cx="405" cy="140" r="1.4"/>
-              <circle cx="90" cy="160" r="1.4"/><circle cx="130" cy="175" r="1.4"/><circle cx="175" cy="165" r="1.4"/>
-              <circle cx="215" cy="180" r="1.4"/><circle cx="255" cy="170" r="1.4"/><circle cx="300" cy="180" r="1.4"/>
-              <circle cx="340" cy="165" r="1.4"/><circle cx="380" cy="175" r="1.4"/>
-              <circle cx="105" cy="90" r="1.4"/><circle cx="160" cy="80" r="1.4"/><circle cx="230" cy="78" r="1.4"/>
-              <circle cx="300" cy="82" r="1.4"/><circle cx="360" cy="92" r="1.4"/>
-            </g>
-            <!-- active nodes -->
-            <circle class="node node-pulse" cx="70" cy="150" r="3.5" fill="url(#nodeg)"/>
-            <circle class="node node-pulse" cx="250" cy="95" r="3.5" fill="url(#nodeg)" style="animation-delay:.5s"/>
-            <circle class="node node-pulse" cx="400" cy="130" r="3.5" fill="url(#nodeg)" style="animation-delay:1s"/>
-            <circle class="node node-pulse" cx="220" cy="185" r="3.5" fill="url(#nodeg)" style="animation-delay:1.5s"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- floating success card -->
-      <div class="hv-float hv-success">
-        <div class="lbl">Request Success</div>
-        <div class="val">99.9%</div>
-        <div class="hv-bar"><i></i></div>
-      </div>
-
-      <!-- floating mini metrics -->
-      <div class="hv-float hv-mini">
-        <div class="row"><span class="k">Avg. latency</span><span class="v">182 ms</span></div>
-        <div class="row"><span class="k">Session uptime</span><span class="v up">99.95%</span></div>
-        <div class="row"><span class="k">Active IPs</span><span class="v">842,319</span></div>
-      </div>
-
-      <!-- floating code panel -->
-      <div class="hv-panel hv-float hv-code">
-        <div class="hv-code__bar"><i></i><i></i><i></i><span>request.sh</span></div>
-        <pre><span class="cm-cmt"># route via ISP gateway</span>
-curl -x <span class="cm-str">gate.rola</span> \
-  -U <span class="cm-str">USER:PASS</span> \
-  <span class="cm-str">ipinfo.io</span>
-<span class="cm-cmt"># → 200 OK</span></pre>
-      </div>
+      <div class="hero__placeholder"></div>
     </div>
   </div>
   <!-- Hero theme palette -->
@@ -210,64 +140,23 @@ curl -x <span class="cm-str">gate.rola</span> \
       <h2 class="h-section">Reliability engineered into every IP</h2>
     </div>
     <div class="features__grid">
-      <div class="fcard fcard--success" data-reveal>
-        <div class="fcard__media" aria-hidden="true">
-          <div class="metric-tile">
-            <span class="metric-tile__label">Request success</span>
-            <span class="metric-tile__value">99.9%</span>
-          </div>
-          <div class="sparkline">
-            <span style="height:42%"></span><span style="height:58%"></span><span style="height:48%"></span><span style="height:72%"></span><span style="height:64%"></span><span style="height:86%"></span><span style="height:78%"></span>
-          </div>
-          <div class="status-row"><span></span><span></span><span></span></div>
-        </div>
-        <div class="fcard__placeholder" aria-hidden="true"></div>
+      <div class="fcard" data-reveal>
+        <div class="fcard__icon" aria-hidden="true"></div>
         <h3>High success rates</h3>
         <p>Route requests through clean ISP inventory built for fewer retries and steadier completion.</p>
       </div>
-      <div class="fcard fcard--sessions" data-reveal data-delay="1">
-        <div class="fcard__media" aria-hidden="true">
-          <div class="session-card">
-            <span class="session-dot"></span>
-            <div>
-              <strong>Sticky session</strong>
-              <span>24h window</span>
-            </div>
-          </div>
-          <div class="session-track"><i></i></div>
-          <div class="session-nodes"><span></span><span></span><span></span></div>
-        </div>
-        <div class="fcard__placeholder" aria-hidden="true"></div>
+      <div class="fcard" data-reveal data-delay="1">
+        <div class="fcard__icon" aria-hidden="true"></div>
         <h3>Long &amp; persistent sessions</h3>
         <p>Keep identity and routing stable across long-running workflows.</p>
       </div>
-      <div class="fcard fcard--asn" data-reveal data-delay="2">
-        <div class="fcard__media" aria-hidden="true">
-          <div class="asn-score">
-            <span>ASN score</span>
-            <strong>A+</strong>
-          </div>
-          <div class="asn-grid">
-            <span></span><span></span><span></span><span></span>
-          </div>
-          <div class="asn-pill">Residential ISP</div>
-        </div>
-        <div class="fcard__placeholder" aria-hidden="true"></div>
+      <div class="fcard" data-reveal data-delay="2">
+        <div class="fcard__icon" aria-hidden="true"></div>
         <h3>Premium ASN &amp; IP quality</h3>
         <p>Prioritize trusted residential ISP networks with measurable reputation signals.</p>
       </div>
-      <div class="fcard fcard--billing" data-reveal data-delay="3">
-        <div class="fcard__media" aria-hidden="true">
-          <div class="invoice-card">
-            <span>Per-IP billing</span>
-            <strong>$X/IP</strong>
-          </div>
-          <div class="invoice-lines">
-            <span></span><span></span><span></span>
-          </div>
-          <div class="invoice-total"><span>No overage</span><i></i></div>
-        </div>
-        <div class="fcard__placeholder" aria-hidden="true"></div>
+      <div class="fcard" data-reveal data-delay="3">
+        <div class="fcard__icon" aria-hidden="true"></div>
         <h3>Pay-per-IP, no hidden fees</h3>
         <p>Predictable per-IP pricing with unlimited bandwidth included.</p>
       </div>
