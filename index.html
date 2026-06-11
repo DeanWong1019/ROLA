@@ -35,11 +35,11 @@
   <a href="#use-cases">Use Cases</a>
   <a href="#integration">Docs</a>
   <a href="#faq">FAQ</a>
-  <a href="#" class="btn btn--primary btn--block">Start Free Trial</a>
+  <a href="#" class="btn btn--secondary btn--block">Start Free Trial</a>
 </div>
 
 <!-- ====================== 1. HERO ====================== -->
-<header class="hero" data-screen-label="Hero">
+<header class="hero" data-screen-label="Hero" data-theme="pink">
   <div class="container hero__grid">
     <div class="hero__text">
       <h1 data-rise="1">ISP / Static Residential Proxies</h1>
@@ -59,7 +59,7 @@
         </div>
       </div>
       <div class="hero__ctas" data-rise="4">
-        <a href="#pricing" class="btn btn--primary">Start free trial</a>
+        <a href="#pricing" class="btn btn--secondary">Start free trial</a>
         <a href="#" class="btn btn--ghost">Contact sales</a>
       </div>
     </div>
@@ -139,6 +139,13 @@ curl -x <span class="cm-str">gate.rola</span> \
       </div>
     </div>
   </div>
+  <!-- Hero theme palette -->
+  <div class="hero__palette" role="group" aria-label="Background theme">
+    <button class="hero__swatch active" data-color="pink"  aria-label="Pink theme"></button>
+    <button class="hero__swatch"        data-color="yellow" aria-label="Yellow theme"></button>
+    <button class="hero__swatch"        data-color="blue"  aria-label="Blue theme"></button>
+    <button class="hero__swatch"        data-color="red"   aria-label="Red theme"></button>
+  </div>
 </header>
 
 <!-- ====================== 2. TRUST BAR ====================== -->
@@ -214,6 +221,7 @@ curl -x <span class="cm-str">gate.rola</span> \
           </div>
           <div class="status-row"><span></span><span></span><span></span></div>
         </div>
+        <div class="fcard__placeholder" aria-hidden="true"></div>
         <h3>High success rates</h3>
         <p>Route requests through clean ISP inventory built for fewer retries and steadier completion.</p>
       </div>
@@ -229,6 +237,7 @@ curl -x <span class="cm-str">gate.rola</span> \
           <div class="session-track"><i></i></div>
           <div class="session-nodes"><span></span><span></span><span></span></div>
         </div>
+        <div class="fcard__placeholder" aria-hidden="true"></div>
         <h3>Long &amp; persistent sessions</h3>
         <p>Keep identity and routing stable across long-running workflows.</p>
       </div>
@@ -243,6 +252,7 @@ curl -x <span class="cm-str">gate.rola</span> \
           </div>
           <div class="asn-pill">Residential ISP</div>
         </div>
+        <div class="fcard__placeholder" aria-hidden="true"></div>
         <h3>Premium ASN &amp; IP quality</h3>
         <p>Prioritize trusted residential ISP networks with measurable reputation signals.</p>
       </div>
@@ -257,6 +267,7 @@ curl -x <span class="cm-str">gate.rola</span> \
           </div>
           <div class="invoice-total"><span>No overage</span><i></i></div>
         </div>
+        <div class="fcard__placeholder" aria-hidden="true"></div>
         <h3>Pay-per-IP, no hidden fees</h3>
         <p>Predictable per-IP pricing with unlimited bandwidth included.</p>
       </div>
@@ -486,7 +497,7 @@ console.<span class="cm-fn">log</span>(data);</pre>
           <li><span class="ico"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M5 8l2 2 4-4"/></svg></span>Scrapy, Puppeteer &amp; Selenium ready</li>
         </ul>
         <div class="integ__quick">
-          <a href="#" class="btn btn--primary btn--sm">Read the Docs <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          <a href="#" class="btn btn--primary btn--sm">Read the Docs</a>
           <a href="#" class="btn btn--ghost btn--sm">API Reference</a>
         </div>
       </div>
@@ -607,7 +618,7 @@ console.<span class="cm-fn">log</span>(data);</pre>
       <div class="finalcta__eyebrow">Ready when your pipeline is</div>
       <h2>Start routing through stable ISP proxies today</h2>
       <div class="finalcta__ctas">
-        <a href="#" class="btn btn--primary">Start Free Trial <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a href="#" class="btn btn--primary">Start Free Trial</a>
         <a href="#" class="btn btn--ghost">Contact Sales</a>
       </div>
       <div class="finalcta__promise">
@@ -762,6 +773,18 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     if(el){ e.preventDefault(); window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-72, behavior:'smooth'}); }
   });
 });
+
+// ---- Hero palette switcher ----
+(function(){
+  var hero = document.querySelector('.hero');
+  document.querySelectorAll('.hero__swatch').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.hero__swatch').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      hero.setAttribute('data-theme', btn.dataset.color);
+    });
+  });
+})();
 </script>
 </body>
 </html>
