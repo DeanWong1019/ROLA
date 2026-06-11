@@ -1000,7 +1000,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   background:#080703!important;
 }
 #geo .section-head{margin-bottom:80px!important}
-#geo .eyebrow{background:rgba(255,255,255,.1)!important;color:rgba(255,255,255,.7)!important}
+#geo .eyebrow{background:rgba(26,215,159,.16)!important}
 #geo .h-section{color:#fff!important}
 #geo .section-sub{color:rgba(255,255,255,.55)!important}
 #geo .geo-loc h3{color:#fff!important;white-space:nowrap!important;margin-bottom:8px!important}
@@ -1109,6 +1109,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .section .eyebrow::before,#features .eyebrow::before,#pricing .eyebrow::before,#geo .eyebrow::before,
 #use-cases .eyebrow::before,#integration .eyebrow::before,[data-screen-label="Testimonials"] .eyebrow::before,
 #compliance .eyebrow::before,#faq .eyebrow::before{display:none!important}
+#geo .eyebrow{color:#5EE8C0!important}
 
 .finalcta{padding:116px 0 132px!important;background:#fff!important}
 .finalcta .container{max-width:var(--max-w)}
