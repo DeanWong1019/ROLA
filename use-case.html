@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Use Cases — ROLA-IP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="premium-styles.css">
+<script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+<style>
+  .hero{ background:#000 }
+  .hero::before{ display:none }
+  .hero::after{ display:none }
+
+  /* Trustbar on black background */
+  .trustbar .rating__brand{ color:#fff !important }
+  .trustbar .sep{ background:rgba(255,255,255,.12) }
+
+  /* Nav: white text when unscrolled (hero is black) */
+
+  /* All page sections: white */
+  .section{ background:#fff !important }
+  #challenges, #capabilities{ color:#080703 }
+  #challenges .h-section, #capabilities .h-section{ color:#080703 !important }
+  .challenges__layout{ display:grid; grid-template-columns:1fr 1.4fr; gap:var(--space-14); align-items:start }
+  .challenges__head{ margin-bottom:0; max-width:none; position:sticky; top:96px }
+  .challenges__grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-6) }
+  #challenges .fcard{ text-align:left !important; align-items:flex-start !important }
+  #challenges .fcard h3{ text-align:left !important }
+  #challenges .fcard p{ text-align:left !important }
+  #capabilities .ucard{ min-height:0; padding:var(--space-8) }
+  #capabilities .ucard h3{ color:#080703 !important }
+  #capabilities .ucard p{ color:rgba(8,7,3,.62) !important }
+</style>
+</head>
+<body>
+
+<!-- ====================== NAV ====================== -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">ROLA</a>
+    <div class="nav__links">
+      <a href="index.html">Home</a>
+      <a href="index.html#features">Service <span class="nav__chev"></span></a>
+      <a href="index.html#pricing">Price</a>
+      <a href="use-case.html" class="active">Proxy For <span class="nav__chev"></span></a>
+      <a href="index.html#integration">Learn <span class="nav__chev"></span></a>
+    </div>
+    <div class="nav__actions">
+      <a href="#" class="nav__login">Register/Login</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="index.html#features">Features</a>
+  <a href="index.html#pricing">Pricing</a>
+  <a href="use-case.html" class="active">Use Cases</a>
+  <a href="index.html#integration">Docs</a>
+  <a href="#" class="btn btn--secondary btn--block">Start Free Trial</a>
+</div>
+
+<!-- ====================== HERO ====================== -->
+<header class="hero" data-screen-label="Hero">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <h1 data-rise="1">Scale web scraping &amp; data collection — without getting blocked</h1>
+      <p class="hero__sub" data-rise="3">Bypass blocks and CAPTCHAs, reach any region, and collect public data at any scale — with clean ISP IPs built for production workloads.</p>
+      <div class="hero__stats" data-rise="4">
+        <div class="hstat">
+          <div class="hstat__v">1.3M<span class="g">+</span></div>
+          <div class="hstat__l">ISP IP pool</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat__v">99.9<span class="g">%</span></div>
+          <div class="hstat__l">Success rate</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat__v">195<span class="g">+</span></div>
+          <div class="hstat__l">Countries covered</div>
+        </div>
+      </div>
+      <div class="hero__ctas" data-rise="5">
+        <a href="index.html#pricing" class="btn btn--secondary">Start free trial</a>
+        <a href="index.html#pricing" class="btn btn--ghost">View pricing</a>
+      </div>
+      <div class="hero__trust" data-rise="6">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.8 3.7 4 .6-2.9 2.8.7 4L8 10.3 4.4 12.2l.7-4L2.2 5.3l4-.6z"/></svg>
+        No bandwidth caps · Per-IP billing · Cancel anytime
+      </div>
+    </div>
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__placeholder"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== TRUST BAR ====================== -->
+<section class="trustbar" style="background:#000;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)">
+  <div class="container trustbar__inner">
+    <div class="rating rating--trustpilot" data-reveal>
+      <div class="rating__brand">
+        <span class="rating__logo rating__logo--trust" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="20.5 248.5 600 147.3"><path d="M178.2 300.7h60.7V312H215v63.7h-13.1V312h-23.8zm58.1 20.7h11.2v10.5h.2c.4-1.5 1.1-2.9 2.1-4.3s2.2-2.7 3.7-3.8c1.4-1.2 3-2.1 4.8-2.8 1.7-.7 3.5-1.1 5.3-1.1 1.4 0 2.4.1 2.9.1.5.1 1.1.2 1.6.2v11.5c-.8-.2-1.7-.3-2.6-.4s-1.7-.2-2.6-.2c-2 0-3.9.4-5.7 1.2s-3.3 2-4.7 3.5c-1.3 1.6-2.4 3.5-3.2 5.8s-1.2 5-1.2 8v25.8h-12zm86.8 54.3h-11.8v-7.6h-.2c-1.5 2.8-3.7 4.9-6.6 6.6s-5.9 2.5-8.9 2.5c-7.1 0-12.3-1.7-15.5-5.3-3.2-3.5-4.8-8.9-4.8-16v-34.5h12v33.3c0 4.8.9 8.2 2.8 10.1 1.8 2 4.4 3 7.7 3 2.5 0 4.6-.4 6.3-1.2s3.1-1.8 4.1-3.1c1.1-1.3 1.8-2.9 2.3-4.7s.7-3.8.7-5.9v-31.5h12v54.3zm20.4-17.4c.4 3.5 1.7 5.9 4 7.4 2.3 1.4 5.1 2.1 8.3 2.1 1.1 0 2.4-.1 3.8-.3s2.8-.5 4-1c1.3-.5 2.3-1.2 3.1-2.2s1.2-2.2 1.1-3.7-.6-2.8-1.7-3.8-2.4-1.7-4-2.4c-1.6-.6-3.5-1.1-5.6-1.5s-4.2-.9-6.4-1.4-4.4-1.1-6.5-1.8-3.9-1.6-5.6-2.9c-1.6-1.2-3-2.7-3.9-4.6-1-1.9-1.5-4.1-1.5-6.9 0-3 .7-5.4 2.2-7.4 1.4-2 3.3-3.6 5.5-4.8s4.7-2.1 7.4-2.6 5.3-.7 7.7-.7c2.8 0 5.5.3 8 .9s4.9 1.5 6.9 2.9c2.1 1.3 3.8 3.1 5.1 5.2 1.4 2.1 2.2 4.7 2.6 7.7h-12.5c-.6-2.9-1.9-4.8-3.9-5.8-2.1-1-4.4-1.5-7.1-1.5-.8 0-1.9.1-3 .2-1.2.2-2.2.4-3.3.8-1 .4-1.9 1-2.6 1.7s-1.1 1.7-1.1 2.9c0 1.5.5 2.6 1.5 3.5s2.3 1.6 4 2.3c1.6.6 3.5 1.1 5.6 1.5s4.3.9 6.5 1.4 4.3 1.1 6.4 1.8 4 1.6 5.6 2.9c1.6 1.2 3 2.7 4 4.5s1.5 4.1 1.5 6.7c0 3.2-.7 5.9-2.2 8.2-1.5 2.2-3.4 4.1-5.7 5.5s-5 2.4-7.8 3.1c-2.9.6-5.7 1-8.5 1-3.4 0-6.6-.4-9.5-1.2s-5.5-2-7.6-3.5c-2.1-1.6-3.8-3.5-5-5.9-1.2-2.3-1.9-5.1-2-8.4h12.1v.1zm39.5-36.9h9.1V305h12v16.3h10.8v8.9h-10.8v29c0 1.3.1 2.3.2 3.3.1.9.4 1.7.7 2.3.4.6 1 1.1 1.7 1.4.8.3 1.8.5 3.2.5.8 0 1.7 0 2.5-.1s1.7-.2 2.5-.4v9.3c-1.3.2-2.6.3-3.9.4-1.3.2-2.5.2-3.9.2-3.2 0-5.7-.3-7.6-.9s-3.4-1.5-4.5-2.6c-1.1-1.2-1.8-2.6-2.2-4.3s-.6-3.8-.7-6v-32H383v-9.1zm40.3 0h11.3v7.4h.2c1.7-3.2 4-5.4 7-6.8s6.2-2.1 9.8-2.1c4.3 0 8 .7 11.2 2.3 3.2 1.5 5.8 3.5 7.9 6.2 2.1 2.6 3.7 5.7 4.7 9.2s1.6 7.3 1.6 11.2c0 3.7-.5 7.2-1.4 10.6-1 3.4-2.4 6.5-4.3 9.1s-4.3 4.7-7.3 6.3-6.4 2.4-10.4 2.4c-1.7 0-3.5-.2-5.2-.5s-3.4-.8-5-1.5-3.1-1.6-4.4-2.7c-1.4-1.1-2.5-2.4-3.4-3.8h-.2v27.1h-12v-74.4zm41.9 27.2c0-2.4-.3-4.8-1-7.1-.6-2.3-1.6-4.3-2.9-6.1s-2.9-3.2-4.7-4.3c-1.9-1.1-4.1-1.6-6.5-1.6-5 0-8.8 1.7-11.4 5.2-2.5 3.5-3.8 8.2-3.8 14 0 2.8.3 5.3 1 7.6s1.6 4.3 3 6c1.3 1.7 2.9 3 4.8 4s4 1.5 6.5 1.5c2.8 0 5-.6 6.9-1.7s3.4-2.6 4.7-4.3c1.2-1.8 2.1-3.8 2.6-6.1.5-2.4.8-4.7.8-7.1zm21.1-47.9h12V312h-12zm0 20.7h12v54.3h-12zm22.7-20.7h12v75h-12zm48.6 76.5c-4.3 0-8.2-.7-11.6-2.2s-6.2-3.4-8.6-5.9c-2.3-2.5-4.1-5.6-5.3-9.1s-1.9-7.4-1.9-11.5.6-7.9 1.9-11.4c1.2-3.5 3-6.5 5.3-9.1 2.3-2.5 5.2-4.5 8.6-5.9s7.3-2.2 11.6-2.2 8.2.7 11.6 2.2c3.4 1.4 6.2 3.4 8.6 5.9 2.3 2.5 4.1 5.6 5.3 9.1s1.9 7.3 1.9 11.4c0 4.2-.6 8-1.9 11.5s-3 6.5-5.3 9.1c-2.3 2.5-5.2 4.5-8.6 5.9s-7.2 2.2-11.6 2.2zm0-9.5c2.6 0 5-.6 6.9-1.7 2-1.1 3.5-2.6 4.8-4.4s2.2-3.9 2.8-6.1c.6-2.3.9-4.6.9-7 0-2.3-.3-4.6-.9-6.9s-1.5-4.3-2.8-6.1-2.9-3.2-4.8-4.3c-2-1.1-4.3-1.7-6.9-1.7s-5 .6-6.9 1.7c-2 1.1-3.5 2.6-4.8 4.3-1.3 1.8-2.2 3.8-2.8 6.1s-.9 4.6-.9 6.9c0 2.4.3 4.7.9 7s1.5 4.3 2.8 6.1 2.9 3.3 4.8 4.4c2 1.2 4.3 1.7 6.9 1.7zm31-46.3h9.1V305h12v16.3h10.8v8.9h-10.8v29c0 1.3.1 2.3.2 3.3.1.9.4 1.7.7 2.3.4.6 1 1.1 1.7 1.4.8.3 1.8.5 3.2.5.8 0 1.7 0 2.5-.1s1.7-.2 2.5-.4v9.3c-1.3.2-2.6.3-3.9.4-1.3.2-2.5.2-3.9.2-3.2 0-5.7-.3-7.6-.9s-3.4-1.5-4.5-2.6c-1.1-1.2-1.8-2.6-2.2-4.3s-.6-3.8-.7-6v-32h-9.1v-9.1z"/><path fill="#00b67a" d="M164.2 300.7h-54.9l-16.9-52.2-17 52.2-54.9-.1 44.4 32.3-17 52.2 44.4-32.3 44.4 32.3-16.9-52.2z"/><path fill="#005128" d="m123.6 344.7-3.8-11.8-27.4 19.9z"/></svg></span>
+      </div>
+      <div class="rating__score">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span class="muted">★</span>
+      </div>
+    </div>
+    <div class="rating rating--g2" data-reveal data-delay="1">
+      <div class="rating__brand">
+        <span class="rating__logo rating__logo--g2" aria-hidden="true">
+          <svg fill="#FF492C" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>G2</title><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm.122 5.143c.45 0 .9.044 1.342.132l-1.342 2.806C9.962 8.08 8.203 9.84 8.203 12s1.76 3.92 3.92 3.92c.937 0 1.844-.338 2.553-.951l1.483 2.572A6.856 6.856 0 0 1 5.266 12a6.856 6.856 0 0 1 6.856-6.856Zm3.498.49a1.262 1.262 0 0 1 .026 0c.427 0 .792.113 1.101.34.31.229.466.546.466.946 0 .639-.36 1.03-1.035 1.376l-.377.191c-.403.204-.602.385-.657.706h2.05v.85h-3.101v-.144c0-.526.103-.96.314-1.306.211-.345.576-.65 1.102-.917l.242-.117c.427-.216.538-.401.538-.625 0-.266-.228-.458-.6-.458-.44 0-.773.228-1.004.694l-.592-.595c.13-.279.338-.502.619-.675a1.7 1.7 0 0 1 .908-.266Zm-2.094 5.388h3.394l1.697 2.937-1.697 2.94-1.697-2.94H11.83l1.696-2.937Z"/></svg>
+        </span>
+        <span>G2</span>
+      </div>
+      <div class="rating__score">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span class="outline">☆</span>
+      </div>
+    </div>
+    <div class="rating rating--capterra" data-reveal data-delay="2">
+      <div class="rating__brand">
+        <span class="rating__logo rating__logo--capterra" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 20 20"><path fill="#FF9D28" d="m0 7.301 8.152.002h4.957v-4.96z"/><path fill="#68C5ED" d="M13.11 2.342v17.516L19.3 0z"/><path fill="#044D80" d="m13.11 7.304-4.958-.001 4.957 12.555z"/><path fill="#E54747" d="m0 7.301 9.423 3.223-1.271-3.222z"/></svg>
+        </span>
+        <span>Capterra</span>
+      </div>
+      <div class="rating__score">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 2. SCRAPING CHALLENGES ====================== -->
+<section class="section" id="challenges">
+  <div class="container challenges__layout">
+    <div class="section-head challenges__head" data-reveal>
+      <div class="eyebrow">Common Challenges</div>
+      <h2 class="h-section">Why scrapers fail — and how to fix it</h2>
+    </div>
+    <div class="challenges__grid">
+      <div class="fcard" data-reveal>
+        <div class="fcard__icon" aria-hidden="true" style="background:rgba(239,68,68,.1);border-radius:var(--radius);margin-bottom:var(--space-5)">
+          <iconify-icon icon="solar:bug-bold-duotone" style="color:#EF4444;font-size:28px"></iconify-icon>
+        </div>
+        <h3>Bot detection &amp; IP bans</h3>
+        <p>Automated traffic gets fingerprinted within seconds. Sites block entire IP ranges, kill sessions mid-crawl, and silently return junk data instead of errors.</p>
+      </div>
+      <div class="fcard" data-reveal data-delay="1">
+        <div class="fcard__icon" aria-hidden="true" style="background:rgba(59,130,246,.1);border-radius:var(--radius);margin-bottom:var(--space-5)">
+          <iconify-icon icon="solar:globus-bold-duotone" style="color:#3B82F6;font-size:28px"></iconify-icon>
+        </div>
+        <h3>Geo restrictions</h3>
+        <p>Prices, content, and search results differ by region. Scraping from a single location gives you an incomplete — and often wrong — picture of the market.</p>
+      </div>
+      <div class="fcard" data-reveal data-delay="1">
+        <div class="fcard__icon" aria-hidden="true" style="background:rgba(245,158,11,.1);border-radius:var(--radius);margin-bottom:var(--space-5)">
+          <iconify-icon icon="solar:lock-bold-duotone" style="color:#F59E0B;font-size:28px"></iconify-icon>
+        </div>
+        <h3>CAPTCHAs &amp; rate limits</h3>
+        <p>WAFs and anti-bot layers slow pipelines to a crawl. CAPTCHA challenges and per-IP rate limits waste retries and inflate infrastructure cost.</p>
+      </div>
+      <div class="fcard" data-reveal data-delay="2">
+        <div class="fcard__icon" aria-hidden="true" style="background:rgba(139,92,246,.1);border-radius:var(--radius);margin-bottom:var(--space-5)">
+          <iconify-icon icon="solar:clock-circle-bold-duotone" style="color:#8B5CF6;font-size:28px"></iconify-icon>
+        </div>
+        <h3>High maintenance cost</h3>
+        <p>Managing proxy pools, rotation logic, and retry queues in-house drains engineering time — time better spent on the data your business actually needs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 3. CORE CAPABILITIES ====================== -->
+<section class="section" id="capabilities">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">Why ROLA-IP</div>
+      <h2 class="h-section">Infrastructure built for production scraping</h2>
+    </div>
+    <div class="cases__grid">
+      <div class="ucard" data-reveal>
+        <div class="ucard__header">
+          <iconify-icon icon="solar:chart-2-bold-duotone" style="color:#1AD79F;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>99.9% success rate</h3>
+        </div>
+        <p>Clean ISP IPs with verified reputation pass bot-detection layers that block datacenter ranges — fewer retries, higher throughput, steadier pipelines.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="1">
+        <div class="ucard__header">
+          <iconify-icon icon="solar:refresh-circle-bold-duotone" style="color:#3B82F6;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>1.3M+ IPs with auto-rotation</h3>
+        </div>
+        <p>A single banned IP never stalls your job. Rotate on every request or pin a sticky session — both modes work without config changes.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="2">
+        <div class="ucard__header">
+          <iconify-icon icon="solar:global-bold-duotone" style="color:#6366F1;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>195+ countries, city-level targeting</h3>
+        </div>
+        <p>Geo-target at country, state, or city level to collect the localized prices, SERPs, and content your model actually needs — no VPN gymnastics required.</p>
+      </div>
+      <div class="ucard" data-reveal>
+        <div class="ucard__header">
+          <iconify-icon icon="solar:settings-bold-duotone" style="color:#F59E0B;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>Flexible session control</h3>
+        </div>
+        <p>Toggle between rotating and sticky sessions per-request. Ideal for authenticated flows, cart management, and multi-step scraping sequences.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="1">
+        <div class="ucard__header">
+          <iconify-icon icon="solar:shield-check-bold-duotone" style="color:#8B5CF6;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>Managed complexity</h3>
+        </div>
+        <p>Proxy rotation, retry logic, and session failover are handled at the gateway level — your scraper stays simple, the infrastructure stays reliable.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="2">
+        <div class="ucard__header">
+          <iconify-icon icon="solar:tag-price-bold-duotone" style="color:#EC4899;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>Predictable per-IP billing</h3>
+        </div>
+        <p>Pay per IP, not per GB. Unlimited bandwidth included — no overage surprises no matter how many requests your pipeline sends each month.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 5. INTEGRATION ====================== -->
+<section class="section" id="integration" data-screen-label="Integration">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">Quick Start</div>
+      <h2 class="h-section">Integrate in minutes, not days</h2>
+    </div>
+    <div class="integ__grid">
+      <div class="codepanel" data-reveal>
+        <div class="codepanel__top">
+          <div class="codetabs">
+            <button class="codetab active" data-tab="curl">curl</button>
+            <button class="codetab" data-tab="python">Python</button>
+            <button class="codetab" data-tab="node">Node</button>
+          </div>
+          <button class="copybtn" id="copyBtn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 10V3.5A1.5 1.5 0 014.5 2H11"/></svg>
+            <span>Copy</span>
+          </button>
+        </div>
+        <div class="codebody">
+          <div class="codepane active" data-pane="curl">
+<pre><span class="cm-cmt"># Route any request through your ISP gateway</span>
+curl -x http://<span class="cm-str">USER</span>:<span class="cm-str">PASS</span>@gate.rola-ip.com:<span class="cm-str">PORT</span> \
+     <span class="cm-str">"https://ipinfo.io/json"</span>
+
+<span class="cm-cmt"># Pin a country with a session token</span>
+curl -x http://<span class="cm-str">USER-country-us-session-a1b2</span>:<span class="cm-str">PASS</span>@gate.rola-ip.com:<span class="cm-str">PORT</span> \
+     <span class="cm-str">"https://ipinfo.io/json"</span></pre>
+          </div>
+          <div class="codepane" data-pane="python">
+<pre><span class="cm-kw">import</span> requests
+
+proxy = <span class="cm-str">"http://USER:PASS@gate.rola-ip.com:PORT"</span>
+proxies = {<span class="cm-str">"http"</span>: proxy, <span class="cm-str">"https"</span>: proxy}
+
+r = requests.<span class="cm-fn">get</span>(<span class="cm-str">"https://target-site.com/products"</span>, proxies=proxies)
+<span class="cm-fn">print</span>(r.<span class="cm-fn">json</span>())  <span class="cm-cmt"># {"price": "...", "stock": "...", ...}</span></pre>
+          </div>
+          <div class="codepane" data-pane="node">
+<pre><span class="cm-kw">import</span> axios <span class="cm-kw">from</span> <span class="cm-str">"axios"</span>;
+<span class="cm-kw">import</span> { HttpsProxyAgent } <span class="cm-kw">from</span> <span class="cm-str">"https-proxy-agent"</span>;
+
+<span class="cm-kw">const</span> agent = <span class="cm-kw">new</span> <span class="cm-fn">HttpsProxyAgent</span>(
+  <span class="cm-str">"http://USER:PASS@gate.rola-ip.com:PORT"</span>
+);
+
+<span class="cm-kw">const</span> { data } = <span class="cm-kw">await</span> axios.<span class="cm-fn">get</span>(<span class="cm-str">"https://target-site.com/products"</span>, { httpsAgent: agent });
+console.<span class="cm-fn">log</span>(data);</pre>
+          </div>
+        </div>
+      </div>
+      <div class="integ__info" data-reveal data-delay="1">
+        <h3>Up and running in under 5 minutes</h3>
+        <p>Generate an endpoint in the dashboard, drop in your credentials, and route traffic. Country and session targeting are controlled inline — no extra config.</p>
+        <ul class="integ__list">
+          <li><span class="ico"><svg viewBox="0 0 16 16"><path d="M2 8h12M9 4l4 4-4 4"/></svg></span>Works with Scrapy, Puppeteer &amp; Selenium</li>
+          <li><span class="ico"><svg viewBox="0 0 16 16"><path d="M5 3L1 8l4 5M11 3l4 5-4 5"/></svg></span>Python &amp; Node.js SDKs</li>
+          <li><span class="ico"><svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M2 6h12"/></svg></span>REST API for IP &amp; session management</li>
+          <li><span class="ico"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M5 8l2 2 4-4"/></svg></span>Endpoint generator in dashboard</li>
+        </ul>
+        <div class="integ__quick">
+          <a href="#" class="btn btn--primary btn--sm">Read the Docs</a>
+          <a href="#" class="btn btn--ghost btn--sm">API Reference</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 6. CROSS-SELL USE CASES ====================== -->
+<section class="section" id="use-cases" data-screen-label="Use Cases">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">More Use Cases</div>
+      <h2 class="h-section">Every data-driven workflow, covered</h2>
+    </div>
+    <div class="cases__grid">
+      <div class="ucard" data-reveal>
+        <div class="ucard__header">
+          <iconify-icon icon="solar:bag-5-bold-duotone" style="color:#6366F1;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>E-commerce intelligence</h3>
+        </div>
+        <p>Track competitor pricing, monitor stock and buy-box changes, and audit listings across global marketplaces without rate limits or geo-blocks.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="1">
+        <div class="ucard__header">
+          <iconify-icon icon="solar:target-bold-duotone" style="color:#F59E0B;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>Ad verification</h3>
+        </div>
+        <p>Confirm placements, detect ad fraud, and check creatives exactly as local users see them — across any target country or city.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="2">
+        <div class="ucard__header">
+          <iconify-icon icon="solar:chart-2-bold-duotone" style="color:#3B82F6;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>Market research</h3>
+        </div>
+        <p>Aggregate pricing, sentiment, and competitive signals at scale from geo-restricted or language-specific sources with consistent, clean access.</p>
+      </div>
+      <div class="ucard" data-reveal>
+        <div class="ucard__header">
+          <iconify-icon icon="solar:shield-check-bold-duotone" style="color:#EF4444;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>Cybersecurity</h3>
+        </div>
+        <p>Run threat intelligence, brand-protection sweeps, and phishing investigations from stable, attributable IPs that don't tip off targets.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="1">
+        <div class="ucard__header">
+          <iconify-icon icon="solar:magnifer-bold-duotone" style="color:#8B5CF6;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>SEO &amp; SERP monitoring</h3>
+        </div>
+        <p>Track rankings, audit local search results, and benchmark competitor visibility region-by-region with accurate, un-personalized results.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="2">
+        <div class="ucard__header">
+          <iconify-icon icon="solar:database-bold-duotone" style="color:#EC4899;font-size:28px;flex-shrink:0"></iconify-icon>
+          <h3>AI &amp; data collection</h3>
+        </div>
+        <p>Build and refresh training datasets reliably at scale — collecting public web data without triggering CAPTCHAs, rate limits, or IP bans.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 9. TESTIMONIALS ====================== -->
+<section class="section" data-screen-label="Testimonials">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <div class="eyebrow">Customer Stories</div>
+      <h2 class="h-section">Trusted where uptime is non-negotiable</h2>
+    </div>
+    <div class="tcards">
+      <div class="tcard tcard--featured" data-reveal>
+        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Verified data team</span></div>
+        <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
+        <div class="tcard__metric"><strong>52%</strong><span>fewer retries in week one</span></div>
+        <div class="tcard__author">
+          <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
+          <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead</div><div class="tcard__company">Northstar Analytics</div></div>
+        </div>
+      </div>
+      <div class="tcard" data-reveal data-delay="1">
+        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Growth engineering</span></div>
+        <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
+        <div class="tcard__author">
+          <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
+          <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth Engineering</div><div class="tcard__company">CartPulse</div></div>
+        </div>
+      </div>
+      <div class="tcard" data-reveal data-delay="2">
+        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Infrastructure</span></div>
+        <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
+        <div class="tcard__author">
+          <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
+          <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager</div><div class="tcard__company">MarketLens</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 11. FAQ ====================== -->
+<section class="section" id="faq" data-screen-label="FAQ">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <div class="eyebrow">FAQ</div>
+      <h2 class="h-section">Questions, answered</h2>
+    </div>
+    <div class="faq__wrap" data-reveal>
+      <div class="faq-item">
+        <button class="faq-item__q">Is web scraping legal?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Scraping publicly available data is generally legal in most jurisdictions, particularly after the hiQ v. LinkedIn ruling affirmed access to public information. However, legality depends on what data is collected, how it's used, and the target site's terms. We recommend reviewing applicable laws and consulting legal counsel for your specific use case. ROLA-IP IPs may only be used to access data you're authorized to collect.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Which type of proxy is best for web scraping?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>It depends on your target. ISP proxies (static residential) are the best all-rounder — they look like real residential connections but offer datacenter-level stability and speed. They're ideal for e-commerce, SERP monitoring, and data pipelines that need persistent sessions. For high-volume, low-sensitivity targets, datacenter proxies offer maximum speed. For hyper-restricted targets or mobile-specific content, mobile proxies give the deepest cover.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Can I target a specific country or city?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Yes. Country-level targeting is available across all 195+ supported locations. City-level targeting is available in 210+ metro areas. You set the target inline in your proxy credentials — no separate config file needed. ASN-level targeting is also available for scenarios where you need to appear on a specific network.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Does ROLA-IP work with Scrapy, Puppeteer, and Selenium?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Yes. Any tool that supports standard HTTP/HTTPS proxy configuration will work — including Scrapy, Puppeteer, Playwright, Selenium, Cheerio, and Octoparse. Just point the tool's proxy setting to your ROLA-IP gateway URL with your credentials. Our docs include copy-paste snippets for each framework.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">My scraper got blocked — what should I do?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>First, switch to rotating mode so each request uses a fresh IP. Second, add realistic request headers (User-Agent, Accept-Language, Referer) to reduce fingerprint signals. Third, lower your request rate and add randomized delays. If blocks persist on a specific target, contact our support team — we can help tune your session strategy or recommend a different proxy type for that site.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Do you support JavaScript-rendered pages?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>ROLA-IP provides the proxy infrastructure — for JS rendering you'll pair it with a headless browser like Puppeteer or Playwright. Route the browser's traffic through your ROLA-IP gateway and you get both JS execution and residential IP coverage. Our docs show exactly how to configure this.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Is there a free trial?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Yes. You can test the network on a 7-day free trial — no credit card required. Trial accounts include 5 ISP IPs and full dashboard access so you can validate success rates and geo-targeting before committing to a plan.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">How is pricing calculated for scraping workloads?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>ROLA-IP charges per IP, not per GB. You pay a flat monthly price for each IP in your plan, and bandwidth is unlimited. This makes costs completely predictable regardless of how many requests your pipeline sends — ideal for high-volume scraping jobs where bandwidth-based billing would be unpredictable.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 12. FINAL CTA ====================== -->
+<section class="finalcta" data-screen-label="Final CTA">
+  <div class="container">
+    <div class="finalcta__box" data-reveal>
+      <div class="finalcta__eyebrow">Ready to scale your data collection</div>
+      <h2>Stop fighting bans. Start collecting at scale.</h2>
+      <div class="finalcta__ctas">
+        <a href="#" class="btn btn--primary">Start Free Trial</a>
+        <a href="index.html#pricing" class="btn btn--ghost">View Pricing</a>
+      </div>
+      <div class="finalcta__promise">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.8 3.7 4 .6-2.9 2.8.7 4L8 10.3 4.4 12.2l.7-4L2.2 5.3l4-.6z"/></svg>
+        14-day money-back guarantee · No bandwidth caps · Cancel anytime
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="logo">ROLA</a>
+        <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#features">ISP Proxies</a></li>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="index.html#geo">Locations</a></li>
+          <li><a href="index.html#pricing">Free Trial</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="index.html#integration">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">SDKs</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact Sales</a></li>
+          <li><a href="index.html#compliance">Compliance</a></li>
+          <li><a href="#">Privacy &amp; Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 ROLA-IP. All rights reserved.</span>
+      <span>sales@rola-ip.com</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  function enable(){ if (document.visibilityState === 'visible') { document.documentElement.classList.add('anim'); } }
+  if (document.visibilityState === 'visible') { enable(); }
+  else { document.addEventListener('visibilitychange', function once(){ if(document.visibilityState==='visible'){ enable(); document.removeEventListener('visibilitychange', once); } }); }
+})();
+
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+const burger = document.getElementById('hamburger');
+const mnav = document.getElementById('mobileNav');
+burger.addEventListener('click', () => {
+  const open = mnav.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.12});
+document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+// Code tabs
+document.querySelectorAll('.codetab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.codetab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.codepane').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelector('.codepane[data-pane="'+tab.dataset.tab+'"]').classList.add('active');
+  });
+});
+
+// Copy button
+const copyBtn = document.getElementById('copyBtn');
+if(copyBtn) copyBtn.addEventListener('click', ()=>{
+  const pane = document.querySelector('.codepane.active pre');
+  const text = pane ? pane.innerText : '';
+  navigator.clipboard.writeText(text).then(()=>{
+    copyBtn.classList.add('copied');
+    copyBtn.querySelector('span').textContent = 'Copied';
+    setTimeout(()=>{ copyBtn.classList.remove('copied'); copyBtn.querySelector('span').textContent='Copy'; }, 1800);
+  }).catch(()=>{});
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-item__q').forEach(q=>{
+  q.addEventListener('click', ()=>{
+    const item = q.parentElement;
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-item__a').style.maxHeight=null; });
+    if(!open){ item.classList.add('open'); const a=item.querySelector('.faq-item__a'); a.style.maxHeight=a.scrollHeight+'px'; }
+  });
+});
+
+// Hero animation safety net
+setTimeout(function(){
+  document.querySelectorAll('.hero [data-rise], .hero__visual').forEach(function(el){
+    el.style.opacity = '1'; el.style.transform = 'none';
+  });
+}, 2600);
+
+// Hero palette switcher
+(function(){
+  var hero = document.querySelector('.hero');
+  document.querySelectorAll('.hero__swatch').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.hero__swatch').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      hero.setAttribute('data-theme', btn.dataset.color);
+    });
+  });
+})();
+</script>
+</body>
+</html>

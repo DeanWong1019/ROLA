@@ -203,6 +203,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .nav.scrolled .nav__login:hover{color:#04130B;border-color:var(--green-2);background:var(--green-2)}
 .nav.scrolled .nav .btn--primary,.nav.scrolled .nav .btn--primary:hover{background:var(--green);color:#04130B;box-shadow:none}
 .nav.scrolled .nav__chev{border-color:currentColor}
+.nav.scrolled .logo{color:#080703}
 .nav .btn--primary{background:var(--green);color:#04130B}
 .nav .btn--primary:hover{background:var(--green-2);border-color:var(--green-2)}
 
