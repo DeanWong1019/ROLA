@@ -1085,27 +1085,31 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 
 #integration .integ__grid{
   grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);
-  gap:56px;align-items:center;padding:56px;border-radius:32px;background:#F8F8F6}
+  gap:56px;align-items:stretch;padding:56px;border-radius:32px;background:#F8F8F6}
 #integration .codepanel{
-  border-radius:24px!important;background:#0B1117!important;border-color:rgba(255,255,255,.08)!important;
-  box-shadow:0 28px 76px -46px rgba(8,7,3,.7)!important}
+  border-radius:16px!important;background:#333!important;border:none!important;
+  box-shadow:0 16px 36px rgba(0,0,0,0.16)!important;padding:20px!important;
+  height:100%;box-sizing:border-box}
 #integration .codepanel__top{
-  min-height:72px;padding:0 16px 0 24px!important;background:#101821!important;border-color:rgba(255,255,255,.08)!important}
-#integration .codetabs{gap:8px}
+  min-height:auto!important;padding:0 0 16px 0!important;background:transparent!important;
+  border:none!important;display:flex!important;align-items:center!important}
+#integration .codetabs{flex:1;display:flex;gap:4px;overflow-x:auto}
 #integration .codetab{
-  padding:20px 12px;font-size:var(--text-base);font-weight:700;color:rgba(255,255,255,.48)!important;border-bottom-width:3px}
-#integration .codetab.active{color:#fff!important;border-bottom-color:var(--green)!important}
+  height:28px;padding:0 10px;border-radius:8px;font-family:var(--font-mono);font-size:12px;font-weight:500;
+  color:rgba(255,255,255,.35)!important;border:none;background:transparent;cursor:pointer;white-space:nowrap;flex-shrink:0}
+#integration .codetab:hover{background:rgba(255,255,255,.06)!important;color:rgba(255,255,255,.6)!important}
+#integration .codetab.active{background:rgba(255,255,255,.10)!important;color:#fff!important;border-bottom:none!important}
 #integration .copybtn{
-  height:32px;padding:0 12px!important;border-radius:6px;background:rgba(255,255,255,.06)!important;
-  color:rgba(255,255,255,.72)!important;border-color:rgba(255,255,255,.1)!important;font-size:var(--text-xs)!important;font-weight:500}
+  width:28px;height:28px;padding:0!important;border-radius:50%!important;background:transparent!important;
+  color:rgba(255,255,255,.35)!important;border:none!important;display:flex!important;align-items:center!important;
+  justify-content:center!important;flex-shrink:0}
+#integration .copybtn:hover{background:rgba(255,255,255,.08)!important;color:rgba(255,255,255,.7)!important}
 #integration .copybtn svg{width:14px;height:14px}
-#integration .copybtn span{display:inline}
-#integration .codepane{padding:36px;overflow-x:auto}
-#integration .codepane pre{font-size:var(--text-sm)!important;line-height:1.78!important;color:#D8E3DC!important}
-#integration .cm-kw{color:#5EE8C0!important}
-#integration .cm-str{color:#69D6FF!important}
-#integration .cm-cmt{color:#748494!important}
-#integration .cm-fn{color:#C7A8FF!important}
+#integration .copybtn span{display:none}
+#integration .codebody{overflow-x:auto}
+.th-code{display:grid;grid-template-columns:28px 1fr;column-gap:16px;font-family:var(--font-mono);font-size:13px;line-height:20px}
+.th-ln{text-align:right;color:rgba(255,255,255,.2);user-select:none}
+.th-lc{white-space:pre;color:#f2f2f2;min-width:0}
 #integration .integ__info h3{
   max-width:540px;font-size:var(--text-3xl)!important;line-height:1.05;letter-spacing:-.045em;margin-bottom:16px;color:#080703!important}
 #integration .integ__info p{

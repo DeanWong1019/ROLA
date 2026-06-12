@@ -180,7 +180,7 @@
         <div class="pcard__price">$80<span class="u">/mo</span></div>
         <div class="pcard__month">$3.20 per IP · billed monthly</div>
         <div class="pcard__div"></div>
-        <a href="#" class="btn btn--ghost btn--sm btn--block">Start Free Trial</a>
+        <a href="#" class="btn btn--ghost btn--lg btn--block">Start Free Trial</a>
         <ul class="pcard__feats">
           <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Unlimited bandwidth</li>
           <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>12 locations</li>
@@ -196,7 +196,7 @@
         <div class="pcard__price">$275<span class="u">/mo</span></div>
         <div class="pcard__month">$2.75 per IP · billed monthly</div>
         <div class="pcard__div"></div>
-        <a href="#" class="btn btn--ghost btn--sm btn--block">Start Free Trial</a>
+        <a href="#" class="btn btn--ghost btn--lg btn--block">Start Free Trial</a>
         <ul class="pcard__feats">
           <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Everything in Starter</li>
           <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>48 locations</li>
@@ -215,7 +215,7 @@
         <div class="pcard__price">$1,050<span class="u">/mo</span></div>
         <div class="pcard__month">$2.10 per IP · billed monthly</div>
         <div class="pcard__div"></div>
-        <a href="#" class="btn btn--primary btn--sm btn--block">Start Free Trial</a>
+        <a href="#" class="btn btn--primary btn--lg btn--block">Start Free Trial</a>
         <ul class="pcard__feats">
           <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Everything in Advanced</li>
           <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>All locations</li>
@@ -231,7 +231,7 @@
         <div class="pcard__price">Custom</div>
         <div class="pcard__month">Volume-based pricing</div>
         <div class="pcard__div"></div>
-        <a href="#" class="btn btn--ghost btn--sm btn--block">Contact Sales</a>
+        <a href="#" class="btn btn--ghost btn--lg btn--block">Contact Sales</a>
         <ul class="pcard__feats">
           <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Everything in Premium</li>
           <li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.3 4.3a1 1 0 010 1.4l-6 6a1 1 0 01-1.4 0l-3-3a1 1 0 111.4-1.4L6.6 9.6l5.3-5.3a1 1 0 011.4 0z"/></svg>Custom IP allocation</li>
@@ -344,46 +344,14 @@
     <div class="integ__grid">
       <div class="codepanel" data-reveal>
         <div class="codepanel__top">
-          <div class="codetabs">
-            <button class="codetab active" data-tab="curl">curl</button>
-            <button class="codetab" data-tab="python">Python</button>
-            <button class="codetab" data-tab="node">Node</button>
-          </div>
-          <button class="copybtn" id="copyBtn">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 10V3.5A1.5 1.5 0 014.5 2H11"/></svg>
+          <div class="codetabs" id="codeTabsBar"></div>
+          <button class="copybtn" id="copyBtn" aria-label="Copy code">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 10V3.5A1.5 1.5 0 014.5 2H11"/></svg>
             <span>Copy</span>
           </button>
         </div>
         <div class="codebody">
-          <div class="codepane active" data-pane="curl">
-<pre><span class="cm-cmt"># Route any request through your ISP gateway</span>
-curl -x http://<span class="cm-str">USER</span>:<span class="cm-str">PASS</span>@gate.rola-ip.com:<span class="cm-str">PORT</span> \
-     <span class="cm-str">"https://ipinfo.io/json"</span>
-
-<span class="cm-cmt"># Pin a country with a session token</span>
-curl -x http://<span class="cm-str">USER-country-us-session-a1b2</span>:<span class="cm-str">PASS</span>@gate.rola-ip.com:<span class="cm-str">PORT</span> \
-     <span class="cm-str">"https://ipinfo.io/json"</span></pre>
-          </div>
-          <div class="codepane" data-pane="python">
-<pre><span class="cm-kw">import</span> requests
-
-proxy = <span class="cm-str">"http://USER:PASS@gate.rola-ip.com:PORT"</span>
-proxies = {<span class="cm-str">"http"</span>: proxy, <span class="cm-str">"https"</span>: proxy}
-
-r = requests.<span class="cm-fn">get</span>(<span class="cm-str">"https://ipinfo.io/json"</span>, proxies=proxies)
-<span class="cm-fn">print</span>(r.<span class="cm-fn">json</span>())  <span class="cm-cmt"># {"ip": "...", "country": "US", ...}</span></pre>
-          </div>
-          <div class="codepane" data-pane="node">
-<pre><span class="cm-kw">import</span> axios <span class="cm-kw">from</span> <span class="cm-str">"axios"</span>;
-<span class="cm-kw">import</span> { HttpsProxyAgent } <span class="cm-kw">from</span> <span class="cm-str">"https-proxy-agent"</span>;
-
-<span class="cm-kw">const</span> agent = <span class="cm-kw">new</span> <span class="cm-fn">HttpsProxyAgent</span>(
-  <span class="cm-str">"http://USER:PASS@gate.rola-ip.com:PORT"</span>
-);
-
-<span class="cm-kw">const</span> { data } = <span class="cm-kw">await</span> axios.<span class="cm-fn">get</span>(<span class="cm-str">"https://ipinfo.io/json"</span>, { httpsAgent: agent });
-console.<span class="cm-fn">log</span>(data);</pre>
-          </div>
+          <div class="th-code" id="codeDisplay"></div>
         </div>
       </div>
       <div class="integ__info" data-reveal data-delay="1">
@@ -632,27 +600,128 @@ const countIO = new IntersectionObserver((entries)=>{
 },{threshold:.6});
 document.querySelectorAll('[data-count]').forEach(el=>countIO.observe(el));
 
-// ---- Code tabs ----
-document.querySelectorAll('.codetab').forEach(tab=>{
-  tab.addEventListener('click', ()=>{
-    document.querySelectorAll('.codetab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.codepane').forEach(p=>p.classList.remove('active'));
-    tab.classList.add('active');
-    document.querySelector('.codepane[data-pane="'+tab.dataset.tab+'"]').classList.add('active');
+// ---- Code block ----
+(function(){
+  var codeTabs={
+    curl:{label:'cURL',lines:[
+      '# Route any request through your ISP gateway',
+      'curl -x http://USER:PASS@gate.rola-ip.com:PORT \\',
+      '     "https://ipinfo.io/json"',
+      '',
+      '# Pin a country with a session token',
+      'curl -x http://USER-country-us-session-a1b2:PASS@gate.rola-ip.com:PORT \\',
+      '     "https://ipinfo.io/json"'
+    ]},
+    python:{label:'Python',lines:[
+      'import requests',
+      '',
+      'proxy = "http://USER:PASS@gate.rola-ip.com:PORT"',
+      'proxies = {"http": proxy, "https": proxy}',
+      '',
+      'r = requests.get("https://ipinfo.io/json", proxies=proxies)',
+      'print(r.json())  # {"ip": "...", "country": "US", ...}'
+    ]},
+    javascript:{label:'JavaScript',lines:[
+      'import axios from "axios";',
+      'import { HttpsProxyAgent } from "https-proxy-agent";',
+      '',
+      'const agent = new HttpsProxyAgent(',
+      '  "http://USER:PASS@gate.rola-ip.com:PORT"',
+      ');',
+      '',
+      'const { data } = await axios.get("https://ipinfo.io/json", { httpsAgent: agent });',
+      'console.log(data);'
+    ]},
+    go:{label:'Go',lines:[
+      'package main',
+      '',
+      'import ("net/http"; "net/url")',
+      '',
+      'func main() {',
+      '  proxyURL, _ := url.Parse("http://USER:PASS@gate.rola-ip.com:PORT")',
+      '  client := &http.Client{',
+      '    Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},',
+      '  }',
+      '  resp, _ := client.Get("https://ipinfo.io/json")',
+      '  defer resp.Body.Close()',
+      '}'
+    ]},
+    java:{label:'Java',lines:[
+      'System.setProperty("https.proxyHost", "gate.rola-ip.com");',
+      'System.setProperty("https.proxyPort", "PORT");',
+      '',
+      'Authenticator.setDefault(new Authenticator() {',
+      '  protected PasswordAuthentication getPasswordAuthentication() {',
+      '    return new PasswordAuthentication("USER", "PASS".toCharArray());',
+      '  }',
+      '});',
+      '',
+      'URL url = new URL("https://ipinfo.io/json");',
+      'HttpURLConnection conn = (HttpURLConnection) url.openConnection();'
+    ]},
+    php:{label:'PHP',lines:[
+      '$ch = curl_init("https://ipinfo.io/json");',
+      'curl_setopt($ch, CURLOPT_PROXY, "http://gate.rola-ip.com:PORT");',
+      'curl_setopt($ch, CURLOPT_PROXYUSERPWD, "USER:PASS");',
+      'curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);',
+      '$response = curl_exec($ch);',
+      'curl_close($ch);',
+      'echo $response;'
+    ]}
+  };
+  var activeTab='curl';
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function highlight(text){
+    if(!text)return'';
+    if(text.trim()[0]==='#'||text.trim().startsWith('//')){
+      return'<span style="color:rgba(255,255,255,0.35)">'+esc(text)+'</span>';
+    }
+    var pat=/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\b(?:import|from|const|let|var|return|for|if|func|defer|package|await|new|true|false|null)\b|\b(?:curl|requests|print|echo)\b|\b(?:log|get|post)\b|\b\d+\b)/g;
+    var res='',last=0,m;
+    while((m=pat.exec(text))!==null){
+      res+=esc(text.slice(last,m.index));
+      var t=m[0],c='#c478ff';
+      if(t[0]==='"'||t[0]==="'")c='#3fa4ff';
+      else if(/^(import|from|const|let|var|return|for|if|func|defer|package|await|new|true|false|null)$/.test(t))c='#ff32c6';
+      else if(/^(curl|requests|print|echo)$/.test(t))c='#ffac60';
+      else if(/^(log|get|post)$/.test(t))c='#1ac69c';
+      else if(/^\d+$/.test(t))c='#ff32c6';
+      res+='<span style="color:'+c+'">'+esc(t)+'</span>';
+      last=m.index+t.length;
+    }
+    return res+esc(text.slice(last));
+  }
+  function renderPane(tab){
+    return codeTabs[tab].lines.map(function(line,i){
+      return'<span class="th-ln">'+(i+1)+'</span><span class="th-lc">'+highlight(line)+'</span>';
+    }).join('');
+  }
+  var bar=document.getElementById('codeTabsBar');
+  var display=document.getElementById('codeDisplay');
+  var copyBtn=document.getElementById('copyBtn');
+  if(!bar||!display)return;
+  bar.innerHTML=Object.keys(codeTabs).map(function(k){
+    return'<button class="codetab'+(k===activeTab?' active':'')+'" data-tab="'+k+'">'+codeTabs[k].label+'</button>';
+  }).join('');
+  display.innerHTML=renderPane(activeTab);
+  bar.querySelectorAll('.codetab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      bar.querySelectorAll('.codetab').forEach(function(t){t.classList.remove('active');});
+      tab.classList.add('active');
+      activeTab=tab.dataset.tab;
+      display.innerHTML=renderPane(activeTab);
+    });
   });
-});
-
-// ---- Copy button ----
-const copyBtn = document.getElementById('copyBtn');
-copyBtn.addEventListener('click', ()=>{
-  const pane = document.querySelector('.codepane.active pre');
-  const text = pane ? pane.innerText : '';
-  navigator.clipboard.writeText(text).then(()=>{
-    copyBtn.classList.add('copied');
-    copyBtn.querySelector('span').textContent = 'Copied';
-    setTimeout(()=>{ copyBtn.classList.remove('copied'); copyBtn.querySelector('span').textContent='Copy'; }, 1800);
-  }).catch(()=>{});
-});
+  if(copyBtn){
+    copyBtn.addEventListener('click',function(){
+      var text=codeTabs[activeTab].lines.join('\n');
+      navigator.clipboard.writeText(text).then(function(){
+        copyBtn.classList.add('copied');
+        setTimeout(function(){copyBtn.classList.remove('copied');},1800);
+      }).catch(function(){});
+    });
+  }
+})();
 
 // ---- FAQ accordion ----
 document.querySelectorAll('.faq-item__q').forEach(q=>{
