@@ -974,15 +974,17 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   grid-template-columns:repeat(4,1fr)!important;
   gap:16px!important}
 #features .fcard{
+  position:relative!important;
   background:#fff!important;
   border:1px solid rgba(8,7,3,.08)!important;
   display:flex!important;
   flex-direction:column!important;
-  align-items:flex-start!important;
-  justify-content:flex-end!important;
+  align-items:stretch!important;
+  justify-content:flex-start!important;
   text-align:left!important;
-  padding:24px!important;
+  padding:0!important;
   border-radius:24px!important;
+  overflow:hidden!important;
   aspect-ratio:3/4!important;
   min-height:0!important;
   gap:0!important}
@@ -991,15 +993,30 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 #features .fcard:hover{
   background:#fff!important;
   border-color:rgba(8,7,3,.08)!important}
-#features .fcard__num{
-  display:block!important;
-  font-size:clamp(2.5rem,4vw,4rem)!important;
+#features .fcard__index{
+  position:absolute!important;
+  top:20px!important;left:24px!important;z-index:2!important;
+  font-size:1.5rem!important;
   font-weight:800!important;
   color:#080703!important;
-  letter-spacing:-.04em!important;
+  letter-spacing:-.02em!important;
   line-height:1!important}
-#features .fcard__illus{width:100%;flex:1;object-fit:contain;min-height:0;padding:16px 0}
-#features .fcard__bottom{display:flex!important;flex-direction:column!important;gap:6px!important}
+#features .fcard__illus{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  z-index:0!important;
+  padding:0!important}
+#features .fcard__bottom{
+  position:relative!important;
+  z-index:2!important;
+  margin-top:auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+  padding:24px!important}
 #features .fcard h3{
   display:block!important;
   color:#080703!important;
