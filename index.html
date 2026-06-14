@@ -8,14 +8,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="premium-styles.css?v=usecases-compact-1">
-<script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
 <!-- ====================== NAV ====================== -->
 <nav class="nav" id="nav">
   <div class="nav__inner">
-    <a href="#" class="logo">ROLA</a>
+    <a href="#" class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="none" aria-hidden="true"><g fill="#11A757" clip-path="url(#rola-logo)"><path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/><path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity=".4"/></g><defs><clipPath id="rola-logo"><path fill="#fff" d="M0 20V0h24v20z"/></clipPath></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="76" height="13" fill="none" aria-label="ROLA-IP" class="logo__wordmark"><path fill="#D4DADD" d="M2.7 12.24H0V.18h6.66q1.494 0 2.538.432 1.044.414 1.584 1.224t.54 1.962q0 .99-.378 1.692T9.81 6.624q-.756.414-1.89.522v.144q.81.216 1.206.648T9.864 9l1.746 3.24H8.478L6.822 9.108A3.2 3.2 0 0 0 6.3 8.37a1.47 1.47 0 0 0-.702-.378q-.414-.126-1.116-.126H2.7zm0-9.63v3.222h3.942q.954 0 1.404-.324.45-.342.45-1.296 0-.9-.45-1.242-.45-.36-1.404-.36zm17.053 9.81q-1.98 0-3.456-.756a5.5 5.5 0 0 1-2.25-2.16q-.774-1.404-.774-3.294t.774-3.276a5.35 5.35 0 0 1 2.25-2.16Q17.773 0 19.753 0q2.052 0 3.51.774a5.35 5.35 0 0 1 2.25 2.16q.792 1.386.792 3.276t-.792 3.294a5.5 5.5 0 0 1-2.25 2.16q-1.458.756-3.51.756m0-2.592q1.332 0 2.124-.342.81-.36 1.17-1.152.378-.792.378-2.124 0-1.35-.378-2.124a2.17 2.17 0 0 0-1.17-1.134q-.792-.36-2.124-.36-1.314 0-2.106.36a2.17 2.17 0 0 0-1.152 1.134q-.36.774-.36 2.124 0 1.332.36 2.124t1.152 1.152q.792.342 2.106.342m11.51 2.412h-2.7V.18h2.7zm7.181 0h-9.126V9.81h9.126zm4.381 0h-3.024L45.075.18h3.852l5.31 12.06h-3.096L47.83 4.518l-.738-1.872h-.198l-.738 1.872zm8.352-2.664h-8.496v-2.43h8.496zm11.327 2.664h-2.7V.18h2.7zm8.794-3.33h-5.364V6.48h5.076q1.134 0 1.656-.396.54-.414.54-1.548 0-1.098-.54-1.512-.522-.414-1.656-.414h-5.076V.18h5.364q1.404 0 2.43.522a3.63 3.63 0 0 1 1.584 1.476q.576.972.576 2.358t-.576 2.376a3.74 3.74 0 0 1-1.584 1.494q-1.026.504-2.43.504m-3.6 3.33h-2.7V.18h2.7z"/></svg></a>
     <div class="nav__links">
       <a href="#" class="active">Home</a>
       <a href="#features">Service <span class="nav__chev"></span></a>
@@ -36,7 +36,7 @@
   <a href="use-case.html">Use Cases</a>
   <a href="#integration">Docs</a>
   <a href="#faq">FAQ</a>
-  <a href="#" class="btn btn--secondary btn--block">Buy</a>
+  <a href="#" class="btn btn--secondary btn--block">Buy Now</a>
 </div>
 
 <!-- ====================== 1. HERO ====================== -->
@@ -63,11 +63,18 @@
         <a href="#pricing" class="btn btn--secondary">Start free trial</a>
         <a href="#" class="btn btn--ghost">Contact sales</a>
       </div>
+      <div class="hero__ratings" data-rise="5">
+        <span class="rating__logo rating__logo--trust"><img src="assets/ratings/trustpilot.svg" alt="Trustpilot" class="rating__logo-img"></span>
+        <span class="hero__ratings-sep"></span>
+        <span class="rating__logo rating__logo--g2"><img src="assets/ratings/g2.svg" alt="G2" class="rating__logo-img"></span>
+        <span class="hero__ratings-sep"></span>
+        <span class="rating__logo rating__logo--capterra"><img src="assets/ratings/capterra.svg" alt="Capterra" class="rating__logo-img"></span>
+      </div>
     </div>
 
     <!-- Layered product visual -->
     <div class="hero__visual" aria-hidden="true">
-      <div class="hero__placeholder"></div>
+      <div class="hero__placeholder"><img src="assets/illustrations/hero-visual.png" alt="" style="width:100%;height:100%;object-fit:contain;display:block"></div>
     </div>
   </div>
   <!-- Hero theme palette -->
@@ -79,56 +86,29 @@
   </div>
 </header>
 
-<!-- ====================== 2. TRUST BAR ====================== -->
-<section class="trustbar" data-screen-label="Trust Bar">
-  <div class="container trustbar__inner">
-    <div class="rating rating--trustpilot" data-reveal>
-      <div class="rating__brand">
-        <span class="rating__logo rating__logo--trust" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="20.5 248.5 600 147.3"><path d="M178.2 300.7h60.7V312H215v63.7h-13.1V312h-23.8zm58.1 20.7h11.2v10.5h.2c.4-1.5 1.1-2.9 2.1-4.3s2.2-2.7 3.7-3.8c1.4-1.2 3-2.1 4.8-2.8 1.7-.7 3.5-1.1 5.3-1.1 1.4 0 2.4.1 2.9.1.5.1 1.1.2 1.6.2v11.5c-.8-.2-1.7-.3-2.6-.4s-1.7-.2-2.6-.2c-2 0-3.9.4-5.7 1.2s-3.3 2-4.7 3.5c-1.3 1.6-2.4 3.5-3.2 5.8s-1.2 5-1.2 8v25.8h-12zm86.8 54.3h-11.8v-7.6h-.2c-1.5 2.8-3.7 4.9-6.6 6.6s-5.9 2.5-8.9 2.5c-7.1 0-12.3-1.7-15.5-5.3-3.2-3.5-4.8-8.9-4.8-16v-34.5h12v33.3c0 4.8.9 8.2 2.8 10.1 1.8 2 4.4 3 7.7 3 2.5 0 4.6-.4 6.3-1.2s3.1-1.8 4.1-3.1c1.1-1.3 1.8-2.9 2.3-4.7s.7-3.8.7-5.9v-31.5h12v54.3zm20.4-17.4c.4 3.5 1.7 5.9 4 7.4 2.3 1.4 5.1 2.1 8.3 2.1 1.1 0 2.4-.1 3.8-.3s2.8-.5 4-1c1.3-.5 2.3-1.2 3.1-2.2s1.2-2.2 1.1-3.7-.6-2.8-1.7-3.8-2.4-1.7-4-2.4c-1.6-.6-3.5-1.1-5.6-1.5s-4.2-.9-6.4-1.4-4.4-1.1-6.5-1.8-3.9-1.6-5.6-2.9c-1.6-1.2-3-2.7-3.9-4.6-1-1.9-1.5-4.1-1.5-6.9 0-3 .7-5.4 2.2-7.4 1.4-2 3.3-3.6 5.5-4.8s4.7-2.1 7.4-2.6 5.3-.7 7.7-.7c2.8 0 5.5.3 8 .9s4.9 1.5 6.9 2.9c2.1 1.3 3.8 3.1 5.1 5.2 1.4 2.1 2.2 4.7 2.6 7.7h-12.5c-.6-2.9-1.9-4.8-3.9-5.8-2.1-1-4.4-1.5-7.1-1.5-.8 0-1.9.1-3 .2-1.2.2-2.2.4-3.3.8-1 .4-1.9 1-2.6 1.7s-1.1 1.7-1.1 2.9c0 1.5.5 2.6 1.5 3.5s2.3 1.6 4 2.3c1.6.6 3.5 1.1 5.6 1.5s4.3.9 6.5 1.4 4.3 1.1 6.4 1.8 4 1.6 5.6 2.9c1.6 1.2 3 2.7 4 4.5s1.5 4.1 1.5 6.7c0 3.2-.7 5.9-2.2 8.2-1.5 2.2-3.4 4.1-5.7 5.5s-5 2.4-7.8 3.1c-2.9.6-5.7 1-8.5 1-3.4 0-6.6-.4-9.5-1.2s-5.5-2-7.6-3.5c-2.1-1.6-3.8-3.5-5-5.9-1.2-2.3-1.9-5.1-2-8.4h12.1v.1zm39.5-36.9h9.1V305h12v16.3h10.8v8.9h-10.8v29c0 1.3.1 2.3.2 3.3.1.9.4 1.7.7 2.3.4.6 1 1.1 1.7 1.4.8.3 1.8.5 3.2.5.8 0 1.7 0 2.5-.1s1.7-.2 2.5-.4v9.3c-1.3.2-2.6.3-3.9.4-1.3.2-2.5.2-3.9.2-3.2 0-5.7-.3-7.6-.9s-3.4-1.5-4.5-2.6c-1.1-1.2-1.8-2.6-2.2-4.3s-.6-3.8-.7-6v-32H383v-9.1zm40.3 0h11.3v7.4h.2c1.7-3.2 4-5.4 7-6.8s6.2-2.1 9.8-2.1c4.3 0 8 .7 11.2 2.3 3.2 1.5 5.8 3.5 7.9 6.2 2.1 2.6 3.7 5.7 4.7 9.2s1.6 7.3 1.6 11.2c0 3.7-.5 7.2-1.4 10.6-1 3.4-2.4 6.5-4.3 9.1s-4.3 4.7-7.3 6.3-6.4 2.4-10.4 2.4c-1.7 0-3.5-.2-5.2-.5s-3.4-.8-5-1.5-3.1-1.6-4.4-2.7c-1.4-1.1-2.5-2.4-3.4-3.8h-.2v27.1h-12v-74.4zm41.9 27.2c0-2.4-.3-4.8-1-7.1-.6-2.3-1.6-4.3-2.9-6.1s-2.9-3.2-4.7-4.3c-1.9-1.1-4.1-1.6-6.5-1.6-5 0-8.8 1.7-11.4 5.2-2.5 3.5-3.8 8.2-3.8 14 0 2.8.3 5.3 1 7.6s1.6 4.3 3 6c1.3 1.7 2.9 3 4.8 4s4 1.5 6.5 1.5c2.8 0 5-.6 6.9-1.7s3.4-2.6 4.7-4.3c1.2-1.8 2.1-3.8 2.6-6.1.5-2.4.8-4.7.8-7.1zm21.1-47.9h12V312h-12zm0 20.7h12v54.3h-12zm22.7-20.7h12v75h-12zm48.6 76.5c-4.3 0-8.2-.7-11.6-2.2s-6.2-3.4-8.6-5.9c-2.3-2.5-4.1-5.6-5.3-9.1s-1.9-7.4-1.9-11.5.6-7.9 1.9-11.4c1.2-3.5 3-6.5 5.3-9.1 2.3-2.5 5.2-4.5 8.6-5.9s7.3-2.2 11.6-2.2 8.2.7 11.6 2.2c3.4 1.4 6.2 3.4 8.6 5.9 2.3 2.5 4.1 5.6 5.3 9.1s1.9 7.3 1.9 11.4c0 4.2-.6 8-1.9 11.5s-3 6.5-5.3 9.1c-2.3 2.5-5.2 4.5-8.6 5.9s-7.2 2.2-11.6 2.2zm0-9.5c2.6 0 5-.6 6.9-1.7 2-1.1 3.5-2.6 4.8-4.4s2.2-3.9 2.8-6.1c.6-2.3.9-4.6.9-7 0-2.3-.3-4.6-.9-6.9s-1.5-4.3-2.8-6.1-2.9-3.2-4.8-4.3c-2-1.1-4.3-1.7-6.9-1.7s-5 .6-6.9 1.7c-2 1.1-3.5 2.6-4.8 4.3-1.3 1.8-2.2 3.8-2.8 6.1s-.9 4.6-.9 6.9c0 2.4.3 4.7.9 7s1.5 4.3 2.8 6.1 2.9 3.3 4.8 4.4c2 1.2 4.3 1.7 6.9 1.7zm31-46.3h9.1V305h12v16.3h10.8v8.9h-10.8v29c0 1.3.1 2.3.2 3.3.1.9.4 1.7.7 2.3.4.6 1 1.1 1.7 1.4.8.3 1.8.5 3.2.5.8 0 1.7 0 2.5-.1s1.7-.2 2.5-.4v9.3c-1.3.2-2.6.3-3.9.4-1.3.2-2.5.2-3.9.2-3.2 0-5.7-.3-7.6-.9s-3.4-1.5-4.5-2.6c-1.1-1.2-1.8-2.6-2.2-4.3s-.6-3.8-.7-6v-32h-9.1v-9.1z"/><path fill="#00b67a" d="M164.2 300.7h-54.9l-16.9-52.2-17 52.2-54.9-.1 44.4 32.3-17 52.2 44.4-32.3 44.4 32.3-16.9-52.2z"/><path fill="#005128" d="m123.6 344.7-3.8-11.8-27.4 19.9z"/></svg></span>
-      </div>
-      <div class="rating__score">
-        <span>★</span><span>★</span><span>★</span><span>★</span><span class="muted">★</span>
-      </div>
-    </div>
-    <div class="rating rating--g2" data-reveal data-delay="1">
-      <div class="rating__brand">
-        <span class="rating__logo rating__logo--g2" aria-hidden="true">
-          <svg fill="#FF492C" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>G2</title><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm.122 5.143c.45 0 .9.044 1.342.132l-1.342 2.806C9.962 8.08 8.203 9.84 8.203 12s1.76 3.92 3.92 3.92c.937 0 1.844-.338 2.553-.951l1.483 2.572A6.856 6.856 0 0 1 5.266 12a6.856 6.856 0 0 1 6.856-6.856Zm3.498.49a1.262 1.262 0 0 1 .026 0c.427 0 .792.113 1.101.34.31.229.466.546.466.946 0 .639-.36 1.03-1.035 1.376l-.377.191c-.403.204-.602.385-.657.706h2.05v.85h-3.101v-.144c0-.526.103-.96.314-1.306.211-.345.576-.65 1.102-.917l.242-.117c.427-.216.538-.401.538-.625 0-.266-.228-.458-.6-.458-.44 0-.773.228-1.004.694l-.592-.595c.13-.279.338-.502.619-.675a1.7 1.7 0 0 1 .908-.266Zm-2.094 5.388h3.394l1.697 2.937-1.697 2.94-1.697-2.94H11.83l1.696-2.937Z"/></svg>
-        </span>
-        <span>G2</span>
-      </div>
-      <div class="rating__score">
-        <span>★</span><span>★</span><span>★</span><span>★</span><span class="outline">☆</span>
-      </div>
-    </div>
-    <div class="rating rating--capterra" data-reveal data-delay="2">
-      <div class="rating__brand">
-        <span class="rating__logo rating__logo--capterra" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 20 20"><path fill="#FF9D28" d="m0 7.301 8.152.002h4.957v-4.96z"/><path fill="#68C5ED" d="M13.11 2.342v17.516L19.3 0z"/><path fill="#044D80" d="m13.11 7.304-4.958-.001 4.957 12.555z"/><path fill="#E54747" d="m0 7.301 9.423 3.223-1.271-3.222z"/></svg>
-        </span>
-        <span>Capterra</span>
-      </div>
-      <div class="rating__score">
-        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ====================== 3. CLIENT LOGOS ====================== -->
 <section class="logos" data-screen-label="Client Logos">
   <div class="marquee">
     <div class="marquee__track">
-      <span class="logo-ph">DataForge</span><span class="logo-ph">MarketLens</span>
-      <span class="logo-ph">Northstar</span><span class="logo-ph">CartPulse</span>
-      <span class="logo-ph">SignalBay</span><span class="logo-ph">AtlasIQ</span>
-      <span class="logo-ph">QueryGrid</span><span class="logo-ph">FetchOps</span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
     </div>
     <div class="marquee__track" aria-hidden="true">
-      <span class="logo-ph">DataForge</span><span class="logo-ph">MarketLens</span>
-      <span class="logo-ph">Northstar</span><span class="logo-ph">CartPulse</span>
-      <span class="logo-ph">SignalBay</span><span class="logo-ph">AtlasIQ</span>
-      <span class="logo-ph">QueryGrid</span><span class="logo-ph">FetchOps</span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
     </div>
   </div>
 </section>
@@ -136,30 +116,41 @@
 <!-- ====================== 4. CORE FEATURES ====================== -->
 <section class="section" id="features" data-screen-label="Core Features">
   <div class="container">
-    <div class="section-head center" data-reveal>
-      <div class="eyebrow">Why ROLA-IP</div>
-      <h2 class="h-section">Reliability engineered into every IP</h2>
+    <div class="features-head" data-reveal>
+      <div class="section-head">
+        <div class="eyebrow">Why ROLA-IP</div>
+        <h2 class="h-section">Everything you need<br>from a reliable ISP proxy</h2>
+      </div>
+      <p class="features-head__desc">High-success access, real ISP IPs, long sessions, and predictable pricing.</p>
     </div>
     <div class="features__grid">
       <div class="fcard" data-reveal>
-        <div class="fcard__icon" aria-hidden="true"></div>
-        <h3>High success rates</h3>
-        <p>Route requests through clean ISP inventory built for fewer retries and steadier completion.</p>
+        <span class="fcard__index">01</span>
+        <div class="fcard__bottom">
+          <h3>High success rates</h3>
+          <p>Well-known ASN, fewer blocks from target sites</p>
+        </div>
       </div>
       <div class="fcard" data-reveal data-delay="1">
-        <div class="fcard__icon" aria-hidden="true"></div>
-        <h3>Long &amp; persistent sessions</h3>
-        <p>Keep identity and routing stable across long-running workflows.</p>
+        <span class="fcard__index">02</span>
+        <div class="fcard__bottom">
+          <h3>Premium ASN origin</h3>
+          <p>Residential-grade real IPs</p>
+        </div>
       </div>
-      <div class="fcard" data-reveal data-delay="2">
-        <div class="fcard__icon" aria-hidden="true"></div>
-        <h3>Premium ASN &amp; IP quality</h3>
-        <p>Prioritize trusted residential ISP networks with measurable reputation signals.</p>
+      <div class="fcard fcard--tall" data-reveal data-delay="2">
+        <span class="fcard__index">03</span>
+        <div class="fcard__bottom">
+          <h3>Long &amp; unlimited sessions</h3>
+          <p>IP stays fixed, login state preserved</p>
+        </div>
       </div>
-      <div class="fcard" data-reveal data-delay="3">
-        <div class="fcard__icon" aria-hidden="true"></div>
-        <h3>Pay-per-IP, no hidden fees</h3>
-        <p>Predictable per-IP pricing with unlimited bandwidth included.</p>
+      <div class="fcard fcard--wide" data-reveal data-delay="3">
+        <span class="fcard__index">04</span>
+        <div class="fcard__bottom">
+          <h3>Pay-per-IP, no hidden fees</h3>
+          <p>Bandwidth included, no extra charges</p>
+        </div>
       </div>
     </div>
   </div>
@@ -170,46 +161,62 @@
   <div class="container">
     <div class="section-head center" data-reveal>
       <div class="eyebrow">Pricing</div>
-      <h2 class="h-section">Transparent, per-IP pricing</h2>
+      <h2 class="h-section">Buy Residential Proxies</h2>
+      <p class="section-sub">Rola IP offers flexible pricing options for easy scalability</p>
     </div>
     <div class="pricing__grid">
       <div class="pcard" data-reveal>
-        <span class="pcard__badge">Free trial</span>
-        <div class="pcard__name">Starter</div>
-        <div class="pcard__ips"><span class="pcard__ips-qty">25 IPs</span><span class="pcard__ips-sep"></span>For small teams and first production workloads</div>
-
-        <div class="pcard__price">$3.20<span class="u">/IP</span></div>
-        <div class="pcard__div"></div>
-        <a href="#" class="btn btn--ghost btn--lg btn--block">Buy</a>
+        <div class="pcard__info">
+          <span class="pcard__badge">Free trial</span>
+          <div class="pcard__name">Starter</div>
+          <div class="pcard__ips"><span class="pcard__ips-qty">25 IPs</span><span class="pcard__ips-sep"></span>For small teams and first production workloads</div>
+        </div>
+        <div class="pcard__pricing">
+          <div class="pcard__price">$3.20<span class="u">/IP</span></div>
+          <div class="pcard__billed">Billed monthly</div>
+        </div>
+        <a href="#" class="btn btn--ghost btn--lg btn--block">Buy Now</a>
       </div>
 
       <div class="pcard" data-reveal data-delay="1">
-        <span class="pcard__badge">Scale</span>
-        <div class="pcard__name">Advanced</div>
-        <div class="pcard__ips"><span class="pcard__ips-qty">100 IPs</span><span class="pcard__ips-sep"></span>For growing scraping and automation pipelines</div>
-        <div class="pcard__price">$2.75<span class="u">/IP</span></div>
-        <div class="pcard__div"></div>
-        <a href="#" class="btn btn--ghost btn--lg btn--block">Buy</a>
+        <div class="pcard__info">
+          <span class="pcard__badge">Scale</span>
+          <div class="pcard__name">Advanced</div>
+          <div class="pcard__ips"><span class="pcard__ips-qty">100 IPs</span><span class="pcard__ips-sep"></span>For growing scraping and automation pipelines</div>
+        </div>
+        <div class="pcard__pricing">
+          <div class="pcard__price">$2.75<span class="u">/IP</span></div>
+          <div class="pcard__billed">Billed monthly</div>
+        </div>
+        <a href="#" class="btn btn--ghost btn--lg btn--block">Buy Now</a>
       </div>
 
       <div class="pcard pcard--popular" data-reveal data-delay="2">
-        <span class="pcard__badge">Most popular</span>
-        <div class="pcard__name-row">
-          <div class="pcard__name">Premium</div>
-          <span class="pcard__clip">Most Popular</span>
+        <div class="pcard__info">
+          <span class="pcard__badge">Most popular</span>
+          <div class="pcard__name-row">
+            <div class="pcard__name">Premium</div>
+            <span class="pcard__clip">Most Popular</span>
+          </div>
+          <div class="pcard__ips"><span class="pcard__ips-qty">500 IPs</span><span class="pcard__ips-sep"></span>For high-volume teams that need steadier scale</div>
         </div>
-        <div class="pcard__ips"><span class="pcard__ips-qty">500 IPs</span><span class="pcard__ips-sep"></span>For high-volume teams that need steadier scale</div>
-        <div class="pcard__price">$2.10<span class="u">/IP</span></div>
-        <div class="pcard__div"></div>
-        <a href="#" class="btn btn--primary btn--lg btn--block">Buy</a>
+        <div class="pcard__pricing">
+          <div class="pcard__price">$2.10<span class="u">/IP</span></div>
+          <div class="pcard__billed">Billed monthly</div>
+        </div>
+        <a href="#" class="btn btn--primary btn--lg btn--block">Buy Now</a>
       </div>
 
       <div class="pcard" data-reveal data-delay="3">
-        <span class="pcard__badge">Custom</span>
-        <div class="pcard__name">Enterprise</div>
-        <div class="pcard__ips"><span class="pcard__ips-qty">1,000+ IPs</span><span class="pcard__ips-sep"></span>With custom allocation, SLA and infrastructure</div>
-        <div class="pcard__price">Custom</div>
-        <div class="pcard__div"></div>
+        <div class="pcard__info">
+          <span class="pcard__badge">Custom</span>
+          <div class="pcard__name">Enterprise</div>
+          <div class="pcard__ips"><span class="pcard__ips-qty">1,000+ IPs</span><span class="pcard__ips-sep"></span>With custom allocation, SLA and infrastructure</div>
+        </div>
+        <div class="pcard__pricing">
+          <div class="pcard__price">Custom</div>
+          <div class="pcard__billed">Tailored billing</div>
+        </div>
         <a href="#" class="btn btn--ghost btn--lg btn--block">Contact Sales</a>
       </div>
     </div>
@@ -235,11 +242,11 @@
             <span>Accepted payment methods</span>
           </div>
           <div class="payments__logos" aria-label="Supported payment methods">
-            <span class="paymark paymark--paypal"><img class="paymark__img" src="assets/payments/paypal.svg" alt="PayPal"></span>
-            <span class="paymark paymark--visa"><img class="paymark__img" src="assets/payments/visa.svg" alt="Visa"></span>
-            <span class="paymark paymark--amex"><img class="paymark__img" src="assets/payments/amex.svg" alt="American Express"></span>
-            <span class="paymark paymark--alipay"><img class="paymark__img" src="assets/payments/alipay.svg" alt="Alipay"></span>
-            <span class="paymark paymark--mastercard"><img class="paymark__img" src="assets/payments/mastercard.svg" alt="Mastercard"></span>
+            <span class="paymark paymark--mastercard"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#FF5F00" d="M10.198 8.758h3.607v6.482h-3.607z"/><path fill="#EB001B" d="M10.427 12a4.15 4.15 0 0 1 1.569-3.242 4.123 4.123 0 0 0-5.796.699 4.12 4.12 0 0 0 .71 5.784 4.11 4.11 0 0 0 5.097 0 4.12 4.12 0 0 1-1.58-3.242"/><path fill="#F79E1B" d="M18.673 12a4.12 4.12 0 0 1-6.665 3.24 4.13 4.13 0 0 0 0-6.482 4.11 4.11 0 0 1 5.784.699c.572.721.881 1.614.881 2.542"/></svg></span>
+            <span class="paymark paymark--visa"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#1434CB" d="m10.044 9.468-2.128 5.078H6.527L5.48 10.493c-.064-.249-.119-.34-.312-.446-.316-.172-.838-.332-1.296-.432l.03-.147h2.235c.285 0 .541.19.606.518l.554 2.938 1.366-3.456zM15.485 12.887c.006-1.34-1.853-1.414-1.84-2.013.004-.182.178-.376.557-.425a2.5 2.5 0 0 1 1.295.227l.23-1.077a3.6 3.6 0 0 0-1.228-.224c-1.299 0-2.213.69-2.22 1.678-.008.732.653 1.139 1.15 1.383.513.249.684.409.682.63-.004.341-.409.492-.785.498-.66.01-1.044-.179-1.35-.321l-.238 1.113c.308.14.874.263 1.46.269 1.381 0 2.284-.682 2.288-1.738M19.067 9.468h-1.12a.6.6 0 0 0-.56.372l-1.97 4.706h1.379l.273-.759h1.686l.159.758h1.214zm-1.62 3.279.692-1.906.397 1.906zM11.92 9.468l-1.085 5.078H9.52l1.086-5.078z"/></svg></span>
+            <span class="paymark paymark--usdt"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><circle cx="12" cy="12" r="5" fill="#50AF95"/><path fill="#fff" fill-rule="evenodd" d="M12.7 12.592c-.04.003-.241.015-.692.015-.358 0-.612-.011-.701-.015-1.384-.061-2.417-.302-2.417-.59 0-.289 1.033-.53 2.417-.591v.94c.09.007.35.022.707.022.43 0 .645-.017.684-.021v-.94c1.381.06 2.412.302 2.412.59 0 .287-1.03.528-2.412.59zm0-1.278v-.842h1.927V9.188H9.38v1.284h1.926v.842c-1.566.072-2.743.382-2.743.754 0 .371 1.177.681 2.743.754v2.698H12.7v-2.7c1.563-.072 2.739-.381 2.739-.753 0-.371-1.175-.681-2.739-.753" clip-rule="evenodd"/></svg></span>
+            <span class="paymark paymark--alipay"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#1677FF" d="M15.033 7.5H8.968c-.79 0-1.43.645-1.43 1.441v6.117c0 .796.64 1.441 1.43 1.441h6.065c.79 0 1.429-.645 1.429-1.441V8.942c0-.797-.64-1.442-1.429-1.442"/><path fill="#fff" d="M14.885 13.151c-.357-.12-.836-.305-1.37-.5a7.3 7.3 0 0 0 .745-1.897H12.5v-.639h2.155v-.357H12.5V8.693h-.88c-.154 0-.154.154-.154.154v.911h-2.18v.357h2.18v.64h-1.8v.355h3.49c-.127.445-.299.86-.502 1.24-1.133-.377-2.341-.683-3.1-.495-.485.121-.798.336-.982.562-.843 1.034-.238 2.606 1.542 2.606 1.053 0 2.067-.592 2.853-1.568 1.172.569 3.494 1.544 3.494 1.544v-1.39s-.292-.024-1.577-.458m-4.935 1.27c-1.389 0-1.799-1.102-1.114-1.706.23-.204.648-.304.871-.326.825-.082 1.588.235 2.49.679-.633.833-1.44 1.353-2.247 1.353"/></svg></span>
+            <span class="paymark paymark--wechat"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#00C800" d="M16.66 9.863 10.6 13.364a.356.356 0 0 1-.502-.161l-.978-2.162c-.066-.147.103-.288.236-.197l1.232.85c.117.081.266.095.396.037L16.3 9.37C15.35 8.239 13.779 7.5 12 7.5c-2.9 0-5.25 1.963-5.25 4.384 0 1.314.693 2.493 1.79 3.297 0 0 .216.146.168.363-.047.216-.256.95-.256.95s-.068.163.037.247c.104.085.204.017.255-.012l1.175-.67a.48.48 0 0 1 .366-.03l.062.017.022.006h.002a6.2 6.2 0 0 0 1.63.215c2.9 0 5.25-1.963 5.25-4.384 0-.729-.213-1.416-.59-2.02z"/></svg></span>
           </div>
         </div>
       </div>
@@ -249,77 +256,103 @@
 
 <!-- ====================== 6. GEO COVERAGE ====================== -->
 <section class="section" id="geo" data-screen-label="Geo Coverage">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <div class="eyebrow">Coverage</div>
-      <h2 class="h-section">Global proxy network</h2>
+  <div class="container geo__head-wrap" data-reveal>
+    <div class="geo-head">
+      <div class="section-head">
+        <div class="eyebrow">Coverage</div>
+        <h2 class="h-section">Meeting various global business needs</h2>
+      </div>
+      <p class="geo-head__desc">Covering 200+ countries worldwide, supporting various business and technical needs</p>
+    </div>
+  </div>
+  <div class="container geo__card-wrap">
+    <div class="geo__stats" data-reveal>
+      <div class="geo__stat"><span class="geo__stat-num">200+</span><span class="geo__stat-label">Countries covered</span></div>
+      <div class="geo__stat"><span class="geo__stat-num">40M+</span><span class="geo__stat-label">Residential IPs</span></div>
+      <div class="geo__stat"><span class="geo__stat-num">99.9%</span><span class="geo__stat-label">Uptime guarantee</span></div>
+      <div class="geo__stat"><span class="geo__stat-num">24/7</span><span class="geo__stat-label">Technical support</span></div>
     </div>
     <div class="geo__locations" data-reveal>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/us.svg" width="56" height="56" alt="USA"><div><h3>USA</h3><p>6,843,600 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/gb.svg" width="56" height="56" alt="United Kingdom"><div><h3>United Kingdom</h3><p>2,765,400 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/fr.svg" width="56" height="56" alt="France"><div><h3>France</h3><p>3,479,400 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/de.svg" width="56" height="56" alt="Germany"><div><h3>Germany</h3><p>1,110,960 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/br.svg" width="56" height="56" alt="Brazil"><div><h3>Brazil</h3><p>13,725,120 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/pk.svg" width="56" height="56" alt="Pakistan"><div><h3>Pakistan</h3><p>7,612,080 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/ru.svg" width="56" height="56" alt="Russia"><div><h3>Russia</h3><p>2,074,320 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/es.svg" width="56" height="56" alt="Spain"><div><h3>Spain</h3><p>785,040 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/ca.svg" width="56" height="56" alt="Canada"><div><h3>Canada</h3><p>1,948,760 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/it.svg" width="56" height="56" alt="Italy"><div><h3>Italy</h3><p>1,284,900 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://cdn.jsdelivr.net/gh/kapowaz/circle-flags@latest/flags/nl.svg" width="56" height="56" alt="Netherlands"><div><h3>Netherlands</h3><p>902,480 IPs</p></div></article>
-      <article class="geo-loc"><div class="geo-loc__more">200+</div><div><h3>More Countries</h3><p>195+ regions covered</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/us.png" width="48" height="32" alt="United States"><div><h3>United States / US</h3><p>6,843,600 IPs</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/hk.png" width="48" height="32" alt="Hong Kong"><div><h3>Hong Kong / HK</h3><p>1,245,300 IPs</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/jp.png" width="48" height="32" alt="Japan"><div><h3>Japan / JP</h3><p>2,340,800 IPs</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/fr.png" width="48" height="32" alt="France"><div><h3>France / FR</h3><p>3,479,400 IPs</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/pl.png" width="48" height="32" alt="Poland"><div><h3>Poland / PL</h3><p>892,600 IPs</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/gb.png" width="48" height="32" alt="United Kingdom"><div><h3>United Kingdom / GB</h3><p>2,765,400 IPs</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/sg.png" width="48" height="32" alt="Singapore"><div><h3>Singapore / SG</h3><p>1,128,500 IPs</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/de.png" width="48" height="32" alt="Germany"><div><h3>Germany / DE</h3><p>1,110,960 IPs</p></div></article>
+      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/kr.png" width="48" height="32" alt="South Korea"><div><h3>South Korea / KR</h3><p>1,567,200 IPs</p></div></article>
+    </div>
+    <div class="geo__globe-wrap" data-reveal>
+      <canvas id="cobe-globe" width="920" height="920" aria-label="Global proxy coverage map"></canvas>
     </div>
   </div>
 </section>
 
 <!-- ====================== 7. USE CASES ====================== -->
-<section class="section" id="use-cases" style="background:rgba(13,23,34,.5);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)" data-screen-label="Use Cases">
+<section class="section" id="use-cases" data-screen-label="Use Cases">
   <div class="container">
     <div class="section-head" data-reveal>
       <div class="eyebrow">Use Cases</div>
-      <h2 class="h-section">Built for every data-driven workflow</h2>
+      <h2 class="h-section">Built for every workflow that needs reliable IP access</h2>
+      <p class="section-sub">Use ROLA-IP to collect, verify, monitor, and automate across regions with stable ISP proxies.</p>
     </div>
     <div class="cases__grid">
       <div class="ucard" data-reveal>
         <div class="ucard__header">
-          <iconify-icon icon="solar:bag-5-bold-duotone" style="color:#6366F1;font-size:28px;flex-shrink:0"></iconify-icon>
-          <h3>E-commerce intelligence</h3>
+          <i data-lucide="megaphone" class="ucard__glyph" aria-hidden="true"></i>
+          <h3>Social Media Marketing</h3>
         </div>
-        <p>Track competitor pricing, monitor stock and buy-box changes, and audit listings across global marketplaces without rate limits or geo-blocks.</p>
+        <p>Complete social media automation tasks at scale without running into friction or access limits.</p>
       </div>
       <div class="ucard" data-reveal data-delay="1">
         <div class="ucard__header">
-          <iconify-icon icon="solar:target-bold-duotone" style="color:#F59E0B;font-size:28px;flex-shrink:0"></iconify-icon>
-          <h3>Ad verification</h3>
+          <i data-lucide="globe" class="ucard__glyph" aria-hidden="true"></i>
+          <h3>E-commerce Management</h3>
         </div>
-        <p>Confirm placements, detect ad fraud, and check creatives exactly as local users see them — across any target country or city.</p>
+        <p>Break through geographic barriers and reach the major online marketplaces around the world.</p>
       </div>
       <div class="ucard" data-reveal data-delay="2">
         <div class="ucard__header">
-          <iconify-icon icon="solar:chart-2-bold-duotone" style="color:#3B82F6;font-size:28px;flex-shrink:0"></iconify-icon>
-          <h3>Market research</h3>
+          <i data-lucide="database" class="ucard__glyph" aria-hidden="true"></i>
+          <h3>Data Collection</h3>
         </div>
-        <p>Aggregate pricing, sentiment, and competitive signals at scale from geo-restricted or language-specific sources with consistent, clean access.</p>
+        <p>Run large-scale web scraping while using reliable static residential proxies to avoid IP blocks and CAPTCHAs.</p>
       </div>
       <div class="ucard" data-reveal>
         <div class="ucard__header">
-          <iconify-icon icon="solar:shield-check-bold-duotone" style="color:#EF4444;font-size:28px;flex-shrink:0"></iconify-icon>
-          <h3>Cybersecurity</h3>
+          <i data-lucide="search" class="ucard__glyph" aria-hidden="true"></i>
+          <h3>Search Engine Optimization</h3>
         </div>
-        <p>Run threat intelligence, brand-protection sweeps, and phishing investigations from stable, attributable IPs that don't tip off targets.</p>
+        <p>Gather valuable search engine data, perform keyword analysis, and monitor rankings across locations.</p>
       </div>
       <div class="ucard" data-reveal data-delay="1">
         <div class="ucard__header">
-          <iconify-icon icon="solar:magnifer-bold-duotone" style="color:#8B5CF6;font-size:28px;flex-shrink:0"></iconify-icon>
-          <h3>SEO &amp; SERP monitoring</h3>
+          <i data-lucide="plane" class="ucard__glyph" aria-hidden="true"></i>
+          <h3>Price and Travel Aggregation</h3>
         </div>
-        <p>Track rankings, audit local search results, and benchmark competitor visibility region-by-region with accurate, un-personalized results.</p>
+        <p>Collect up-to-date pricing and inventory information from multiple travel and booking websites with ease.</p>
       </div>
       <div class="ucard" data-reveal data-delay="2">
         <div class="ucard__header">
-          <iconify-icon icon="solar:database-bold-duotone" style="color:#EC4899;font-size:28px;flex-shrink:0"></iconify-icon>
-          <h3>AI &amp; data collection</h3>
+          <i data-lucide="monitor-play" class="ucard__glyph" aria-hidden="true"></i>
+          <h3>Ad Technology</h3>
         </div>
-        <p>Build and refresh training datasets reliably at scale — collecting public web data without triggering CAPTCHAs, rate limits, or IP bans.</p>
+        <p>Pair static residential proxies with campaign testing to collect competitor insights and identify bot traffic.</p>
+      </div>
+      <div class="ucard" data-reveal>
+        <div class="ucard__header">
+          <i data-lucide="shield-check" class="ucard__glyph" aria-hidden="true"></i>
+          <h3>Brand Protection</h3>
+        </div>
+        <p>Detect trademark violations, report unauthorized use of your assets, and protect brand reputation.</p>
+      </div>
+      <div class="ucard" data-reveal data-delay="1">
+        <div class="ucard__header">
+          <i data-lucide="chart-column" class="ucard__glyph" aria-hidden="true"></i>
+          <h3>Market Research</h3>
+        </div>
+        <p>Retrieve regional data for actionable insight, monitor consumer behavior, and track competitor progress.</p>
       </div>
     </div>
   </div>
@@ -331,7 +364,16 @@
     <div class="integ__grid">
       <div class="section-head" data-reveal>
         <div class="eyebrow">Quick Start</div>
-        <h2 class="h-section">One endpoint.<br>Instant access.</h2>
+        <h2 class="h-section">Start proxying with one endpoint</h2>
+        <p class="section-sub">Route requests through ISP proxies using simple credentials, country targeting, and sticky sessions.</p>
+        <div class="integ__logos">
+          <div class="integ__logo-slot"><img src="assets/curl-logo.svg" alt="cURL" class="integ__logo-img"></div>
+          <div class="integ__logo-slot"><img src="assets/python-logo.svg" alt="Python" class="integ__logo-img"></div>
+          <div class="integ__logo-slot"><img src="assets/javascript-logo.svg" alt="JavaScript" class="integ__logo-img"></div>
+          <div class="integ__logo-slot"><img src="assets/go-logo.svg" alt="Go" class="integ__logo-img"></div>
+          <div class="integ__logo-slot"><img src="assets/java-logo.svg" alt="Java" class="integ__logo-img"></div>
+          <div class="integ__logo-slot"><img src="assets/php-logo.svg" alt="PHP" class="integ__logo-img"></div>
+        </div>
       </div>
       <div class="codepanel" data-reveal data-delay="1">
         <div class="codepanel__top">
@@ -354,54 +396,98 @@
   <div class="container">
     <div class="section-head center" data-reveal>
       <div class="eyebrow">Customer Stories</div>
-      <h2 class="h-section">Trusted where uptime is non-negotiable</h2>
-    </div>
-    <div class="tcards">
-      <div class="tcard tcard--featured" data-reveal>
-        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Verified data team</span></div>
-        <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
-        <div class="tcard__metric"><strong>52%</strong><span>fewer retries in week one</span></div>
-        <div class="tcard__author">
-          <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
-          <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead</div><div class="tcard__company">Northstar Analytics</div></div>
-        </div>
-      </div>
-      <div class="tcard" data-reveal data-delay="1">
-        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Growth engineering</span></div>
-        <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
-        <div class="tcard__author">
-          <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
-          <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth Engineering</div><div class="tcard__company">CartPulse</div></div>
-        </div>
-      </div>
-      <div class="tcard" data-reveal data-delay="2">
-        <div class="tcard__top"><span class="tcard__stars">★★★★★</span><span class="tcard__src">Infrastructure</span></div>
-        <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
-        <div class="tcard__author">
-          <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
-          <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager</div><div class="tcard__company">MarketLens</div></div>
-        </div>
-      </div>
+      <h2 class="h-section">Real results from real users.</h2>
     </div>
   </div>
+  <div class="tmarquee">
+      <div class="tmarquee__track">
+        <div class="tcard">
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
+            <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead, Northstar Analytics</div></div>
+          </div>
+          <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
+          <span class="tcard__stars">★★★★★</span>
+        </div>
+        <div class="tcard">
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
+            <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth, CartPulse</div></div>
+          </div>
+          <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
+          <span class="tcard__stars">★★★★★</span>
+        </div>
+        <div class="tcard">
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
+            <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager, MarketLens</div></div>
+          </div>
+          <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
+          <span class="tcard__stars">★★★★★</span>
+        </div>
+        <div class="tcard">
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="assets/testimonials/james-wong.jpg" alt="James Wong">
+            <div><div class="tcard__name">James Wong</div><div class="tcard__role">Senior Engineer, DataBridge</div></div>
+          </div>
+          <p class="tcard__quote">Switching to ROLA-IP was seamless. The geo-targeting works exactly as documented, and our success rate on restricted regions improved immediately.</p>
+          <span class="tcard__stars">★★★★★</span>
+        </div>
+      </div>
+      <div class="tmarquee__track" aria-hidden="true">
+        <div class="tcard">
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
+            <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead, Northstar Analytics</div></div>
+          </div>
+          <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
+          <span class="tcard__stars">★★★★★</span>
+        </div>
+        <div class="tcard">
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
+            <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth, CartPulse</div></div>
+          </div>
+          <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
+          <span class="tcard__stars">★★★★★</span>
+        </div>
+        <div class="tcard">
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
+            <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager, MarketLens</div></div>
+          </div>
+          <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
+          <span class="tcard__stars">★★★★★</span>
+        </div>
+        <div class="tcard">
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="assets/testimonials/james-wong.jpg" alt="James Wong">
+            <div><div class="tcard__name">James Wong</div><div class="tcard__role">Senior Engineer, DataBridge</div></div>
+          </div>
+          <p class="tcard__quote">Switching to ROLA-IP was seamless. The geo-targeting works exactly as documented, and our success rate on restricted regions improved immediately.</p>
+          <span class="tcard__stars">★★★★★</span>
+        </div>
+      </div>
+    </div>
 </section>
 
 <!-- ====================== 10. COMPLIANCE ====================== -->
 <section class="section" id="compliance" style="background:rgba(13,23,34,.5);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)" data-screen-label="Compliance">
   <div class="container">
-    <div class="compliance__grid">
-      <div class="compliance__copy" data-reveal>
-        <div class="eyebrow">Security &amp; Compliance</div>
-        <h2 class="h-section">Built to pass enterprise procurement review</h2>
-        <ul class="compliance__points">
-          <li><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15 5.3a1 1 0 010 1.4l-6.5 6.5a1 1 0 01-1.4 0L3.5 9.6a1 1 0 111.4-1.4l2.9 2.9 5.8-5.8a1 1 0 011.4 0z"/></svg>Ethically sourced, consent-based IP supply</li>
-          <li><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15 5.3a1 1 0 010 1.4l-6.5 6.5a1 1 0 01-1.4 0L3.5 9.6a1 1 0 111.4-1.4l2.9 2.9 5.8-5.8a1 1 0 011.4 0z"/></svg>Documented data-processing agreements (DPA)</li>
-          <li><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15 5.3a1 1 0 010 1.4l-6.5 6.5a1 1 0 01-1.4 0L3.5 9.6a1 1 0 111.4-1.4l2.9 2.9 5.8-5.8a1 1 0 011.4 0z"/></svg>KYC verification &amp; acceptable-use enforcement</li>
-          <li><svg viewBox="0 0 18 18" fill="currentColor"><path d="M15 5.3a1 1 0 010 1.4l-6.5 6.5a1 1 0 01-1.4 0L3.5 9.6a1 1 0 111.4-1.4l2.9 2.9 5.8-5.8a1 1 0 011.4 0z"/></svg>Security documentation available on request</li>
-        </ul>
-      </div>
-      <div class="badge-matrix badge-matrix--image" data-reveal>
-        <img src="g2-badges.png" alt="G2 Spring 2025 awards: Best Results, Best Usability, Best Support, Highest User Adoption, Grid Leader, and Fastest Implementation">
+    <div class="section-head center" data-reveal>
+      <div class="eyebrow">Security &amp; Compliance</div>
+      <h2 class="h-section">Safe, secure, and industry recognized</h2>
+    </div>
+    <div class="compliance__boxes" data-reveal>
+      <div class="compliance__box">
+        <div id="light-rays-bg" class="light-rays-bg"></div>
+        <div class="compliance__badges">
+          <img src="assets/badge-g2-europe-leader.svg" alt="G2 Europe Regional Leader">
+          <img src="assets/badge-g2-grid-leader.svg" alt="G2 Grid Leader">
+          <img src="assets/badge-g2-top50-security.svg" alt="G2 Top 50 Security Products">
+          <img src="assets/badge-iso-27001.svg" alt="ISO 27001">
+          <img src="assets/badge-iso-50001.svg" alt="ISO 50001">
+        </div>
       </div>
     </div>
   </div>
@@ -455,19 +541,15 @@
   </div>
 </section>
 
+<div class="site-bottom">
 <!-- ====================== 12. FINAL CTA ====================== -->
 <section class="finalcta" data-screen-label="Final CTA">
   <div class="container">
     <div class="finalcta__box" data-reveal>
-      <div class="finalcta__eyebrow">Ready when your pipeline is</div>
       <h2>Start routing through stable ISP proxies today</h2>
       <div class="finalcta__ctas">
-        <a href="#" class="btn btn--primary">Buy</a>
+        <a href="#" class="btn btn--primary">Start free trial</a>
         <a href="#" class="btn btn--ghost">Contact Sales</a>
-      </div>
-      <div class="finalcta__promise">
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.8 3.7 4 .6-2.9 2.8.7 4L8 10.3 4.4 12.2l.7-4L2.2 5.3l4-.6z"/></svg>
-        14-day money-back guarantee · No lock-in contracts · Cancel anytime
       </div>
     </div>
   </div>
@@ -477,11 +559,11 @@
 <footer class="footer">
   <div class="container">
     <div class="footer__grid">
-      <div class="footer__brand">
+      <div class="footer__brand" data-reveal>
         <a href="#" class="logo">ROLA</a>
         <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
       </div>
-      <div>
+      <div data-reveal data-delay="1">
         <h4>Product</h4>
         <ul>
           <li><a href="#features">ISP Proxies</a></li>
@@ -490,7 +572,7 @@
           <li><a href="#pricing">Free Trial</a></li>
         </ul>
       </div>
-      <div>
+      <div data-reveal data-delay="2">
         <h4>Developers</h4>
         <ul>
           <li><a href="#integration">Documentation</a></li>
@@ -499,7 +581,7 @@
           <li><a href="#">Status</a></li>
         </ul>
       </div>
-      <div>
+      <div data-reveal data-delay="3">
         <h4>Company</h4>
         <ul>
           <li><a href="#">About</a></li>
@@ -509,12 +591,13 @@
         </ul>
       </div>
     </div>
-    <div class="footer__bottom">
+    <div class="footer__bottom" data-reveal data-delay="4">
       <span>© 2026 ROLA-IP. All rights reserved.</span>
       <span>sales@rola-ip.com</span>
     </div>
   </div>
 </footer>
+</div>
 
 <script>
 // ---- Enable entrance animations only when the document is actually visible ----
@@ -731,6 +814,236 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     });
   });
 })();
+
+// ---- Lucide icons ----
+if (window.lucide && typeof window.lucide.createIcons === 'function') {
+  window.lucide.createIcons({
+    attrs: {
+      width: 40,
+      height: 40,
+      'stroke-width': 2.1
+    }
+  });
+}
+
+// ---- Marquee pause on logo hover ----
+(function(){
+  var tracks = document.querySelectorAll('.marquee__track');
+  document.querySelectorAll('.logo-ph').forEach(function(logo){
+    logo.addEventListener('mouseenter', function(){
+      tracks.forEach(function(t){ t.style.animationPlayState = 'paused'; });
+    });
+    logo.addEventListener('mouseleave', function(){
+      tracks.forEach(function(t){ t.style.animationPlayState = ''; });
+    });
+  });
+})();
+</script>
+<script type="module">
+import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@latest/+esm';
+
+const globeCanvas = document.getElementById('cobe-globe');
+if (globeCanvas) {
+  let globe;
+  let frame;
+  let phi = 0;
+
+
+  function rotateGlobe() {
+    phi += 0.003;
+    if (globe) globe.update({ phi });
+    frame = requestAnimationFrame(rotateGlobe);
+  }
+
+  function mountGlobe() {
+    if (globe) globe.destroy();
+    cancelAnimationFrame(frame);
+    frame = null;
+
+    const geoWrap = document.querySelector('.geo__globe-wrap') || globeCanvas.parentElement;
+    const rect = geoWrap.getBoundingClientRect();
+    const size = Math.max(320, Math.round((rect.width || 460) * 0.98));
+    globeCanvas.style.width = size + 'px';
+    globeCanvas.style.height = size + 'px';
+
+    // Pass size (not size*2) so COBE's internal DPR multiply gives size*dpr,
+    // not size*4 (the previous bug that caused 4x overdraw).
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    globe = createGlobe(globeCanvas, {
+      devicePixelRatio: dpr,
+      width: size,
+      height: size,
+      phi,
+      theta: 0.2,
+      dark: 0,
+      diffuse: 1.2,
+      mapSamples: 8000,
+      mapBrightness: 6,
+      mapBaseBrightness: 0,
+      baseColor: [1, 1, 1],
+      markerColor: [0.1, 0.66, 0.34],
+      glowColor: [1, 1, 1],
+    });
+
+    globe.update({ phi });
+    if (visible) frame = requestAnimationFrame(rotateGlobe);
+  }
+
+  // Pause rAF when globe is scrolled out of view, resume when back in view.
+  let visible = false;
+  const observer = new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    if (visible && !frame) frame = requestAnimationFrame(rotateGlobe);
+    if (!visible) { cancelAnimationFrame(frame); frame = null; }
+  }, { threshold: 0 });
+  observer.observe(globeCanvas);
+
+  mountGlobe();
+  window.addEventListener('resize', mountGlobe, { passive: true });
+}
+</script>
+
+<script type="module">
+import { Renderer, Program, Triangle, Mesh } from 'https://esm.sh/ogl';
+
+const hexToRgb = hex => {
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return m ? [parseInt(m[1],16)/255, parseInt(m[2],16)/255, parseInt(m[3],16)/255] : [1,1,1];
+};
+
+const getAnchorAndDir = (origin, w, h) => {
+  const o = 0.2;
+  switch(origin) {
+    case 'top-left':      return { anchor:[0,-o*h],       dir:[0,1] };
+    case 'top-right':     return { anchor:[w,-o*h],       dir:[0,1] };
+    case 'left':          return { anchor:[-o*w,.5*h],    dir:[1,0] };
+    case 'right':         return { anchor:[(1+o)*w,.5*h], dir:[-1,0] };
+    case 'bottom-left':   return { anchor:[0,(1+o)*h],    dir:[0,-1] };
+    case 'bottom-center': return { anchor:[.5*w,(1+o)*h], dir:[0,-1] };
+    case 'bottom-right':  return { anchor:[w,(1+o)*h],    dir:[0,-1] };
+    default:              return { anchor:[.5*w,-o*h],    dir:[0,1] };
+  }
+};
+
+const container = document.getElementById('light-rays-bg');
+if (container) {
+  const raysOrigin = 'top-center';
+  const raysColor  = '#ffffff';
+  const raysSpeed  = 1;
+  const lightSpread = 2.5;
+  const rayLength   = 4;
+  const pulsating   = false;
+  const fadeDistance = 1.5;
+  const saturation   = 1.0;
+  const mouseInfluence = 0.0;
+  const noiseAmount  = 0.0;
+  const distortion   = 0.0;
+
+  const mouse = { x:.5, y:.5 };
+  const smoothMouse = { x:.5, y:.5 };
+
+  const renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio,2), alpha:true });
+  const gl = renderer.gl;
+  gl.canvas.style.width  = '100%';
+  gl.canvas.style.height = '100%';
+  container.appendChild(gl.canvas);
+
+  const vert = `attribute vec2 position;varying vec2 vUv;void main(){vUv=position*.5+.5;gl_Position=vec4(position,0.,1.);}`;
+
+  const frag = `precision highp float;
+uniform float iTime;uniform vec2 iResolution;
+uniform vec2 rayPos;uniform vec2 rayDir;
+uniform vec3 raysColor;uniform float raysSpeed;uniform float lightSpread;
+uniform float rayLength;uniform float pulsating;uniform float fadeDistance;
+uniform float saturation;uniform vec2 mousePos;uniform float mouseInfluence;
+uniform float noiseAmount;uniform float distortion;
+varying vec2 vUv;
+float noise(vec2 st){return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);}
+float rayStrength(vec2 src,vec2 refDir,vec2 coord,float sA,float sB,float spd){
+  vec2 s2c=coord-src;vec2 dn=normalize(s2c);
+  float ca=dot(dn,refDir);
+  float da=ca+distortion*sin(iTime*2.+length(s2c)*.01)*.2;
+  float sf=pow(max(da,0.),1./max(lightSpread,.001));
+  float dist=length(s2c);
+  float mx=iResolution.x*rayLength;
+  float lf=clamp((mx-dist)/mx,0.,1.);
+  float ff=clamp((iResolution.x*fadeDistance-dist)/(iResolution.x*fadeDistance),.5,1.);
+  float pulse=pulsating>.5?(0.8+0.2*sin(iTime*spd*3.)):1.;
+  float bs=clamp((0.45+0.15*sin(da*sA+iTime*spd))+(0.3+0.2*cos(-da*sB+iTime*spd)),0.,1.);
+  return bs*lf*ff*sf*pulse;
+}
+void mainImage(out vec4 fc,in vec2 fragCoord){
+  vec2 coord=vec2(fragCoord.x,iResolution.y-fragCoord.y);
+  vec2 frd=rayDir;
+  if(mouseInfluence>0.){
+    vec2 mp=mousePos*iResolution.xy;
+    vec2 md=normalize(mp-rayPos);
+    frd=normalize(mix(rayDir,md,mouseInfluence));
+  }
+  vec4 r1=vec4(1.)*rayStrength(rayPos,frd,coord,36.2214,21.11349,1.5*raysSpeed);
+  vec4 r2=vec4(1.)*rayStrength(rayPos,frd,coord,22.3991,18.0234,1.1*raysSpeed);
+  fc=r1*.5+r2*.4;
+  if(noiseAmount>0.){float n=noise(coord*.01+iTime*.1);fc.rgb*=(1.-noiseAmount+noiseAmount*n);}
+  float bright=1.-(coord.y/iResolution.y);
+  fc.x*=0.1+bright*.8;fc.y*=0.3+bright*.6;fc.z*=0.5+bright*.5;
+  if(saturation!=1.){float g=dot(fc.rgb,vec3(0.299,0.587,0.114));fc.rgb=mix(vec3(g),fc.rgb,saturation);}
+  fc.rgb*=raysColor;
+}
+void main(){vec4 c;mainImage(c,gl_FragCoord.xy);gl_FragColor=c;}`;
+
+  const uniforms = {
+    iTime:         { value: 0 },
+    iResolution:   { value: [1,1] },
+    rayPos:        { value: [0,0] },
+    rayDir:        { value: [0,1] },
+    raysColor:     { value: hexToRgb(raysColor) },
+    raysSpeed:     { value: raysSpeed },
+    lightSpread:   { value: lightSpread },
+    rayLength:     { value: rayLength },
+    pulsating:     { value: pulsating ? 1.0 : 0.0 },
+    fadeDistance:  { value: fadeDistance },
+    saturation:    { value: saturation },
+    mousePos:      { value: [.5,.5] },
+    mouseInfluence:{ value: mouseInfluence },
+    noiseAmount:   { value: noiseAmount },
+    distortion:    { value: distortion }
+  };
+
+  const geometry = new Triangle(gl);
+  const program  = new Program(gl, { vertex:vert, fragment:frag, uniforms });
+  const mesh     = new Mesh(gl, { geometry, program });
+
+  const updateSize = () => {
+    renderer.dpr = Math.min(window.devicePixelRatio,2);
+    const w = container.clientWidth, h = container.clientHeight;
+    renderer.setSize(w,h);
+    const dpr = renderer.dpr;
+    uniforms.iResolution.value = [w*dpr, h*dpr];
+    const {anchor,dir} = getAnchorAndDir(raysOrigin, w*dpr, h*dpr);
+    uniforms.rayPos.value = anchor;
+    uniforms.rayDir.value = dir;
+  };
+
+  const loop = t => {
+    uniforms.iTime.value = t * 0.001;
+    const s = 0.92;
+    smoothMouse.x = smoothMouse.x*s + mouse.x*(1-s);
+    smoothMouse.y = smoothMouse.y*s + mouse.y*(1-s);
+    uniforms.mousePos.value = [smoothMouse.x, smoothMouse.y];
+    renderer.render({ scene: mesh });
+    requestAnimationFrame(loop);
+  };
+
+  window.addEventListener('resize', updateSize);
+  window.addEventListener('mousemove', e => {
+    const r = container.getBoundingClientRect();
+    mouse.x = (e.clientX-r.left)/r.width;
+    mouse.y = (e.clientY-r.top)/r.height;
+  });
+
+  updateSize();
+  requestAnimationFrame(loop);
+}
 </script>
 </body>
 </html>

@@ -61,8 +61,8 @@
 | `--text-lg` | 20 | Logo 文字、小卡片标题、Hero 副标题、部分 `h3` |
 | `--text-xl` | 24 | 中型标题（`.integ__info h3`）、大数字、引用计量值 |
 | `--text-2xl` | 32 | Featured 引用句（`.tcard--featured .tcard__quote`） |
-| `--text-3xl` | 36 | 定价价格（`.pcard__price`）、地理统计大数字 |
-| `--text-4xl` | 44 | Section `h2` 最大值、响应式地图 flag 字号 |
+| `--text-3xl` | 36 | 地理统计大数字 |
+| `--text-4xl` | 44 | Section `h2` 最大值、定价价格（`.pcard__price`）、响应式地图 flag 字号 |
 | `--text-display` | 52–68 | Hero `h1`（流式，随视口缩放） |
 
 ---
@@ -380,10 +380,10 @@
 | Nav | `.btn--primary` 绿 | — |
 | Hero | `.btn--secondary` 黑 | `.btn--ghost` 白 |
 | Mobile Nav | `.btn--secondary` 黑 | — |
-| Pricing Free / Pro | `.btn--ghost`（黑色实心覆盖） | — |
-| Pricing Popular | `.btn--primary` 绿 | — |
+| Pricing Free / Pro / Enterprise | `.btn--ghost`（卡片内覆盖为黑色实心 `#050505`，白色文字） | — |
+| Pricing Popular | `.btn--primary` 渐变橙黄（卡片内覆盖） | — |
 | Geo CTA | `.btn--primary` 绿，pill 圆角 | — |
-| Integration | `.btn--primary` 绿 | `.btn--ghost`（透明文字链接样式） |
+| Integration | `.btn--primary` 绿 | `.btn--ghost`（透明背景纯文字链接样式） |
 | Final CTA | `.btn--primary` 绿 | `.btn--ghost` 白 |
 
 ---
@@ -392,11 +392,11 @@
 
 | 区域 | 选择器 | 高度 | 备注 |
 |------|-------|------|------|
-| Hero CTA | `.hero__ctas .btn` | 48px | 字号升至 `--text-base` |
-| Pricing 卡片 | `.pcard .btn` | 36px | |
-| Geo CTA | `#geo .geo__cta .btn` | 48px | `border-radius: 999px`（pill） |
+| Hero CTA | `.hero__ctas .btn` | 48px | padding `0 24px`，字号 `--text-base`；secondary 字重 600 |
+| Pricing 卡片 | `.pcard .btn` | 48px | 字号 `--text-base`，字重 600 |
+| Geo CTA | `#geo .geo__cta .btn` | 48px | `border-radius: 999px`（pill），`min-width: 280px` |
 | Integration | `#integration .integ__quick .btn--primary` | 48px | `min-width: 192px` |
-| Final CTA | `.finalcta__ctas .btn` | 48px | 字号升至 `--text-base` |
+| Final CTA | `.finalcta__ctas .btn` | 48px | padding `0 24px`，字号 `--text-base`，字重 600 |
 
 ---
 
