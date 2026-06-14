@@ -243,7 +243,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
     rgba(255,248,255,.32) 50%,
     rgba(255,255,255,.74) 76%,
     #fff 100%)}
-.hero__grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 560px;
+.hero__grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 480px;
   gap:44px;align-items:center}
 .hero__text{padding-top:24px;min-width:0}
 .hero__rating{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.72);
@@ -374,7 +374,17 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   width:100%;aspect-ratio:1/1;border-radius:20px;
   background:none;
   backdrop-filter:none}
+/* Soft, clean drop shadow that follows the PNG silhouette */
+.hero__placeholder img{
+  filter:drop-shadow(0 24px 40px rgba(20, 6, 40, .28));}
 .anim .hero__visual{opacity:0;animation:rise 1s var(--ease) .35s forwards}
+/* Image entrance: scale + fade in, layered on top of the container's rise */
+.anim .hero__placeholder img{
+  transform-origin:center;
+  animation:heroImgIn 1.1s var(--ease) .45s both}
+@keyframes heroImgIn{
+  from{opacity:0;transform:scale(.9) translateY(12px)}
+  to{opacity:1;transform:scale(1) translateY(0)}}
 .hv-panel{position:absolute;border-radius:var(--radius);
   background:linear-gradient(160deg,rgba(19,33,46,.92),rgba(13,23,34,.82));
   border:1px solid var(--border);backdrop-filter:blur(8px);
