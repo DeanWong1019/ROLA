@@ -1390,67 +1390,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   .badge-matrix{grid-template-columns:1fr}
   .finalcta__box{padding:48px 0}
 }
-/* ── First feature card mesh background ── */
-#features .fcard:first-child{
-  border:none!important;
-  justify-content:flex-end!important;
-  background-color:hsl(210,56%,92%)!important;
-  background-image:url('assets/illustrations/fcard-mesh-1.png')!important;
-  background-size:cover!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important;
-  animation:none!important}
-#features .fcard:first-child .fcard__num,
-#features .fcard:first-child h3,
-#features .fcard:first-child p{color:#080703!important}
-#features .fcard .fcard__index{
-  position:absolute!important;
-  top:24px!important;
-  left:24px!important;
-  z-index:2!important;
-  font-size:var(--text-lg)!important;
-  font-weight:700!important;
-  color:#080703!important;
-  letter-spacing:.02em!important;
-  line-height:1!important}
-
-/* ── Second feature card mesh background ── */
-#features .fcard:nth-child(2){
-  border:none!important;
-  background-color:hsl(45,100%,60%)!important;
-  background-image:url('assets/illustrations/fcard-mesh-2.png')!important;
-  background-size:cover!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important}
-#features .fcard:nth-child(2) .fcard__num,
-#features .fcard:nth-child(2) h3,
-#features .fcard:nth-child(2) p{color:#080703!important}
-
-/* ── Third feature card mesh background ── */
-#features .fcard:nth-child(3){
-  border:none!important;
-  background-color:hsl(265,80%,72%)!important;
-  background-image:url('assets/illustrations/fcard-mesh-3.png')!important;
-  background-size:cover!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important}
-#features .fcard:nth-child(3) .fcard__num,
-#features .fcard:nth-child(3) h3,
-#features .fcard:nth-child(3) p,
-#features .fcard:nth-child(3) .fcard__index{color:#080703!important}
-
-/* ── Fourth feature card mesh background ── */
-#features .fcard:nth-child(4){
-  border:none!important;
-  background-color:hsl(340,75%,85%)!important;
-  background-image:url('assets/illustrations/fcard-mesh-4.png')!important;
-  background-size:cover!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important}
-#features .fcard:nth-child(4) .fcard__num,
-#features .fcard:nth-child(4) h3,
-#features .fcard:nth-child(4) p,
-#features .fcard:nth-child(4) .fcard__index{color:#080703!important}
+/* ── Feature card mesh backgrounds removed — simple Why ROLA-IP layout ── */
 
 @media print{
   .anim .hero [data-rise],.anim .hero__visual,.anim [data-reveal]{opacity:1!important;transform:none!important;animation:none!important}

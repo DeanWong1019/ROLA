@@ -38,10 +38,8 @@
   #features .fcard:nth-child(3){grid-column:unset!important;grid-row:unset!important;min-height:0!important}
   #features .fcard:nth-child(4){grid-column:unset!important;grid-row:unset!important}
   #features .fcard__index{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:32px;height:32px;border-radius:999px;
-    background:rgba(26,215,159,.13);color:#008D72;
-    font-size:var(--text-xs);font-weight:700;letter-spacing:.02em;margin-bottom:18px
+    color:#080703!important;
+    font-size:var(--text-base)!important;font-weight:700;letter-spacing:.02em;margin-bottom:18px
   }
   #features .fcard__illus{
     display:block;width:100%;flex:1;min-height:140px;object-fit:cover;
@@ -54,6 +52,30 @@
   #features .fcard p{
     margin:0;font-size:var(--text-sm);line-height:1.5;color:rgba(8,7,3,.52);text-align:left
   }
+  #features .fcard:first-child{
+    border:none!important;background-color:hsl(210,56%,92%)!important;
+    background-image:url('assets/illustrations/fcard-mesh-1.png')!important;
+    background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+  }
+  #features .fcard:first-child h3,#features .fcard:first-child p{color:#080703!important}
+  #features .fcard:nth-child(2){
+    border:none!important;background-color:hsl(45,100%,60%)!important;
+    background-image:url('assets/illustrations/fcard-mesh-2.png')!important;
+    background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+  }
+  #features .fcard:nth-child(2) h3,#features .fcard:nth-child(2) p{color:#080703!important}
+  #features .fcard:nth-child(3){
+    border:none!important;background-color:hsl(265,80%,72%)!important;
+    background-image:url('assets/illustrations/fcard-mesh-3.png')!important;
+    background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+  }
+  #features .fcard:nth-child(3) h3,#features .fcard:nth-child(3) p,#features .fcard:nth-child(3) .fcard__index{color:#080703!important}
+  #features .fcard:nth-child(4){
+    border:none!important;background-color:hsl(340,75%,85%)!important;
+    background-image:url('assets/illustrations/fcard-mesh-4.png')!important;
+    background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+  }
+  #features .fcard:nth-child(4) h3,#features .fcard:nth-child(4) p,#features .fcard:nth-child(4) .fcard__index{color:#080703!important}
   #features,#pricing,#geo,#use-cases,#integration,[data-screen-label="Testimonials"],#compliance,#faq{
     background:#fff
   }
