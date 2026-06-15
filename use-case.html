@@ -12,7 +12,7 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
   /* Hero layout: left-aligned, light background */
-  .hero{ background:#FAFAF9 !important }
+  .hero{ background:#FAFAF9 !important; padding-bottom:0 !important }
   .hero::before, .hero::after{ display:none !important }
   .hero__grid{ grid-template-columns:1fr; justify-items:start; text-align:left }
   .hero__text{ display:flex; flex-direction:column; align-items:flex-start; max-width:none; width:100% }
@@ -30,6 +30,7 @@
   }
   .hero__ratings-sep{ width:1px; height:36px; background:rgba(8,7,3,.18); flex-shrink:0 }
   .rating__logo-img{ height:24px; width:auto; display:block }
+  .logos--use-case{ padding:48px 0 24px; background:#FAFAF9 !important }
 
   /* Hero visual: dashboard preview on right side, below text */
   @keyframes rise-visual{
@@ -209,6 +210,32 @@
     </div>
   </div>
 </header>
+
+<!-- ====================== CLIENT LOGOS ====================== -->
+<section class="logos logos--use-case" data-screen-label="Client Logos">
+  <div class="marquee">
+    <div class="marquee__track">
+      <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
+    </div>
+    <div class="marquee__track" aria-hidden="true">
+      <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
+      <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
+    </div>
+  </div>
+</section>
 
 <!-- ====================== 2. SCRAPING CHALLENGES ====================== -->
 <section class="section" id="challenges">
@@ -627,6 +654,19 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
 }, {threshold:.12});
 document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+// ---- Marquee pause on logo hover ----
+(function(){
+  var tracks = document.querySelectorAll('.marquee__track');
+  document.querySelectorAll('.logo-ph').forEach(function(logo){
+    logo.addEventListener('mouseenter', function(){
+      tracks.forEach(function(t){ t.style.animationPlayState = 'paused'; });
+    });
+    logo.addEventListener('mouseleave', function(){
+      tracks.forEach(function(t){ t.style.animationPlayState = ''; });
+    });
+  });
+})();
 
 // ---- Code block ----
 (function(){
