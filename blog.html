@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — ROLA-IP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="premium-styles.css?v=blog-page-2">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* ── Nav light overrides ── */
+  .nav:not(.scrolled) .logo{color:#080703}
+  .nav:not(.scrolled) .logo__wordmark path{fill:#080703}
+  .nav:not(.scrolled) .nav__links a{color:rgba(8,7,3,.7)}
+  .nav:not(.scrolled) .nav__links a.active,
+  .nav:not(.scrolled) .nav__links a:hover{color:#080703}
+  .nav:not(.scrolled) .nav__login{color:#04130B;border-color:var(--green);background:var(--green)}
+  .nav:not(.scrolled) .hamburger span{background:#080703}
+  .section{background:#fff}
+
+  /* ── Blog page wrapper ── */
+  .blog-page{
+    padding-top:120px;
+    padding-bottom:0;
+    background:#fff
+  }
+
+  /* ── Page header ── */
+  .blog-header{
+    margin-bottom:var(--space-16);
+    padding-bottom:var(--space-12);
+    border-bottom:1px solid rgba(8,7,3,.08)
+  }
+  .blog-header h1{
+    margin:0 0 var(--space-5);
+    font-size:clamp(2.75rem,5.5vw,4.5rem);
+    font-weight:800;
+    line-height:1.02;
+    letter-spacing:-.04em;
+    color:#080703;
+    max-width:600px
+  }
+  .blog-header__sub{
+    margin:0 0 var(--space-10);
+    font-size:var(--text-md);
+    line-height:1.55;
+    color:rgba(8,7,3,.58);
+    max-width:480px
+  }
+  .blog-header__bottom{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:var(--space-10)
+  }
+  .blog-header__search{
+    flex-shrink:0;
+    width:320px
+  }
+  .blog-header__search-row{
+    display:flex;
+    align-items:center;
+    gap:var(--space-2);
+    height:44px;
+    padding:0 var(--space-5);
+    border-radius:999px;
+    background:rgba(8,7,3,.05);
+    border:none;
+    transition:background .2s var(--ease)
+  }
+  .blog-header__search-row:focus-within{
+    background:rgba(8,7,3,.08)
+  }
+  .blog-header__search-icon{
+    width:18px;height:18px;
+    flex-shrink:0;
+    color:rgba(8,7,3,.38)
+  }
+  .blog-header__search-input{
+    flex:1;min-width:0;
+    border:0;outline:0;background:transparent;
+    font-size:var(--text-sm);
+    font-weight:400;
+    color:#080703
+  }
+  .blog-header__search-input::placeholder{
+    color:rgba(8,7,3,.38)
+  }
+
+  /* ── Topic tags row ── */
+  .blog-topics{
+    display:flex;
+    align-items:center;
+    gap:var(--space-2);
+    flex-wrap:wrap
+  }
+  .topic-tag{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height:32px;
+    padding:0 var(--space-4);
+    border-radius:999px;
+    background:rgba(26,215,159,.13);
+    border:0;
+    font-size:var(--text-sm);
+    font-weight:600;
+    letter-spacing:-.01em;
+    text-transform:none;
+    color:#008D72;
+    cursor:pointer;
+    transition:all .15s var(--ease)
+  }
+  .topic-tag:hover{
+    background:rgba(26,215,159,.22)
+  }
+
+  /* ── Featured article ── */
+  .featured{
+    display:grid;
+    grid-template-columns:626px minmax(0,1fr);
+    gap:var(--space-10);
+    align-items:center;
+    margin-bottom:var(--space-16);
+    padding-bottom:var(--space-16);
+    border-bottom:1px solid rgba(8,7,3,.08)
+  }
+  .featured__media{
+    aspect-ratio:16/10;
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    position:relative;
+    background:#f0f0f0
+  }
+  .featured__media img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block
+  }
+  .featured__content{
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-4)
+  }
+  .featured h2{
+    margin:0;
+    font-size:clamp(1.75rem,3vw,var(--text-4xl));
+    font-weight:700;
+    line-height:1.08;
+    letter-spacing:-.03em;
+    color:#080703
+  }
+  .featured__excerpt{
+    margin:0;
+    max-width:520px;
+    font-size:var(--text-base);
+    line-height:1.65;
+    color:rgba(8,7,3,.58)
+  }
+  .featured__link{
+    display:inline-flex;
+    align-items:center;
+    gap:var(--space-2);
+    margin-top:var(--space-4);
+    font-size:var(--text-sm);
+    font-weight:600;
+    color:#080703;
+    transition:gap .2s var(--ease)
+  }
+  .featured__link:hover{gap:var(--space-3)}
+  .featured__link svg{width:16px;height:16px}
+
+  /* ── Blog grid ── */
+  .blog-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:var(--space-9) var(--space-7)
+  }
+
+  /* ── Blog card ── */
+  .blog-card{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    cursor:pointer;
+    transition:transform .25s var(--ease)
+  }
+  .blog-card:hover{transform:translateY(-4px)}
+  .blog-card__media{
+    aspect-ratio:16/10;
+    border-radius:var(--radius-lg);
+    position:relative;
+    overflow:hidden;
+    background:#f0f0f0;
+    transition:box-shadow .25s var(--ease)
+  }
+  .blog-card__media img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .4s var(--ease)
+  }
+  .blog-card:hover .blog-card__media img{
+    transform:scale(1.04)
+  }
+  .blog-card:hover .blog-card__media{
+    box-shadow:0 12px 32px -12px rgba(8,7,3,.18)
+  }
+
+  /* Card body */
+  .blog-card__tag{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:fit-content;
+    height:24px;
+    padding:0 var(--space-3);
+    margin-top:var(--space-3);
+    border-radius:999px;
+    background:rgba(26,215,159,.13);
+    border:0;
+    font-size:var(--text-xs);
+    font-weight:600;
+    letter-spacing:-.01em;
+    text-transform:none;
+    color:#008D72;
+    line-height:1
+  }
+  .blog-card h3{
+    margin:var(--space-2) 0 0;
+    font-size:var(--text-lg);
+    font-weight:700;
+    line-height:1.2;
+    letter-spacing:-.02em;
+    color:#080703;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden
+  }
+  .blog-card__excerpt{
+    margin:var(--space-2) 0 0;
+    font-size:var(--text-sm);
+    line-height:1.55;
+    color:rgba(8,7,3,.58);
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden
+  }
+
+  /* ── Site bottom ── */
+  .site-bottom{background:#071210!important}
+  .site-bottom::before{
+    background:
+      radial-gradient(130% 96% at 50% -6%,rgba(240,255,248,.98) 0%,rgba(180,255,220,.92) 16%,rgba(100,255,180,.8) 32%,rgba(26,215,159,.6) 50%,rgba(0,141,114,.28) 70%,rgba(7,18,16,0) 90%),
+      radial-gradient(900px 520px at 82% 92%,rgba(180,255,220,.09),rgba(180,255,220,0) 62%),
+      linear-gradient(0deg,#071210 0%,#0a1f1a 34%,rgba(14,40,32,.72) 52%,rgba(7,18,16,0) 78%)!important
+  }
+  .site-bottom::after{
+    background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.82) 22%,rgba(248,255,252,.42) 54%,rgba(248,255,252,0) 100%)!important
+  }
+
+  /* ── Responsive ── */
+  @media(max-width:1024px){
+    .blog-header__bottom{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:var(--space-8)
+    }
+    .blog-header__search{width:100%;max-width:400px}
+    .featured{
+      grid-template-columns:1fr;
+      gap:var(--space-6)
+    }
+    .blog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media(max-width:760px){
+    .blog-page{
+      padding-top:108px
+    }
+    .blog-header{
+      margin-bottom:var(--space-12);
+      padding-bottom:var(--space-8)
+    }
+    .blog-header__bottom{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:var(--space-6)
+    }
+    .blog-header h1{
+      font-size:clamp(2rem,8vw,2.75rem);
+      margin-bottom:var(--space-3)
+    }
+    .blog-header__search{max-width:100%}
+    .blog-topics{
+      flex-wrap:nowrap;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none
+    }
+    .blog-topics::-webkit-scrollbar{display:none}
+    .topic-tag{flex-shrink:0}
+    .featured{
+      margin-bottom:var(--space-12);
+      padding-bottom:var(--space-12)
+    }
+    .featured__media{
+      aspect-ratio:16/9
+    }
+    .blog-grid{
+      grid-template-columns:1fr;
+      gap:var(--space-8)
+    }
+    .blog-card__media{aspect-ratio:16/9}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="none" aria-hidden="true"><g fill="#11A757" clip-path="url(#rola-logo)"><path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/><path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity=".4"/></g><defs><clipPath id="rola-logo"><path fill="#fff" d="M0 20V0h24v20z"/></clipPath></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="76" height="13" fill="none" aria-label="ROLA-IP" class="logo__wordmark"><path fill="#D4DADD" d="M2.7 12.24H0V.18h6.66q1.494 0 2.538.432 1.044.414 1.584 1.224t.54 1.962q0 .99-.378 1.692T9.81 6.624q-.756.414-1.89.522v.144q.81.216 1.206.648T9.864 9l1.746 3.24H8.478L6.822 9.108A3.2 3.2 0 0 0 6.3 8.37a1.47 1.47 0 0 0-.702-.378q-.414-.126-1.116-.126H2.7zm0-9.63v3.222h3.942q.954 0 1.404-.324.45-.342.45-1.296 0-.9-.45-1.242-.45-.36-1.404-.36zm17.053 9.81q-1.98 0-3.456-.756a5.5 5.5 0 0 1-2.25-2.16q-.774-1.404-.774-3.294t.774-3.276a5.35 5.35 0 0 1 2.25-2.16Q17.773 0 19.753 0q2.052 0 3.51.774a5.35 5.35 0 0 1 2.25 2.16q.792 1.386.792 3.276t-.792 3.294a5.5 5.5 0 0 1-2.25 2.16q-1.458.756-3.51.756m0-2.592q1.332 0 2.124-.342.81-.36 1.17-1.152.378-.792.378-2.124 0-1.35-.378-2.124a2.17 2.17 0 0 0-1.17-1.134q-.792-.36-2.124-.36-1.314 0-2.106.36a2.17 2.17 0 0 0-1.152 1.134q-.36.774-.36 2.124 0 1.332.36 2.124t1.152 1.152q.792.342 2.106.342m11.51 2.412h-2.7V.18h2.7zm7.181 0h-9.126V9.81h9.126zm4.381 0h-3.024L45.075.18h3.852l5.31 12.06h-3.096L47.83 4.518l-.738-1.872h-.198l-.738 1.872zm8.352-2.664h-8.496v-2.43h8.496zm11.327 2.664h-2.7V.18h2.7zm8.794-3.33h-5.364V6.48h5.076q1.134 0 1.656-.396.54-.414.54-1.548 0-1.098-.54-1.512-.522-.414-1.656-.414h-5.076V.18h5.364q1.404 0 2.43.522a3.63 3.63 0 0 1 1.584 1.476q.576.972.576 2.358t-.576 2.376a3.74 3.74 0 0 1-1.584 1.494q-1.026.504-2.43.504m-3.6 3.33h-2.7V.18h2.7z"/></svg></a>
+    <div class="nav__links">
+      <a href="index.html">Proxies</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="use-case.html">Use Cases</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+    <div class="nav__actions">
+      <a href="#" class="nav__login">Register/Login</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Proxies</a>
+  <a href="index.html#features">Features</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="use-case.html">Use Cases</a>
+  <a href="blog.html" class="active">Blog</a>
+  <a href="index.html#integration">Docs</a>
+  <a href="pricing.html" class="btn btn--secondary btn--block">Start Free Trial</a>
+</div>
+
+<section class="blog-page" data-screen-label="Blog">
+  <div class="container">
+
+    <!-- Page header -->
+    <div class="blog-header" data-reveal>
+      <h1>Blog</h1>
+      <p class="blog-header__sub">Transform how you collect data, scale infrastructure, and build for the web.</p>
+      <div class="blog-header__bottom">
+        <div class="blog-topics">
+          <span class="topic-tag">Engineering</span>
+          <span class="topic-tag">Product</span>
+          <span class="topic-tag">Security</span>
+          <span class="topic-tag">Tutorials</span>
+          <span class="topic-tag">Case Studies</span>
+          <span class="topic-tag">Industry</span>
+          <span class="topic-tag">Inside ROLA</span>
+        </div>
+        <div class="blog-header__search">
+          <div class="blog-header__search-row">
+            <i data-lucide="search" class="blog-header__search-icon" aria-hidden="true"></i>
+            <input type="text" class="blog-header__search-input" placeholder="Search articles..." aria-label="Search articles">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured article -->
+    <article class="featured" data-reveal>
+      <div class="featured__media"><img src="assets/blog/featured-space.jpg" alt="Black hole simulation in deep space" loading="lazy"></div>
+      <div class="featured__content">
+        <h2>How an astrophysicist uses Codex to help simulate black holes</h2>
+        <p class="featured__excerpt">A closer look at how researchers are using AI tools to speed up exploration, reduce repetitive work, and stay focused on the science that matters.</p>
+        <a href="#" class="featured__link">Read article <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </article>
+
+    <!-- Blog grid -->
+    <div class="blog-grid">
+
+      <article class="blog-card" data-reveal>
+        <div class="blog-card__media"><img src="assets/blog/code-future.jpg" alt="Code editor on a dark screen" loading="lazy"></div>
+        <span class="blog-card__tag">Engineering</span>
+        <h3>Code is a message to the future</h3>
+        <p class="blog-card__excerpt">Why writing maintainable code matters more than writing clever code, and how to build systems your future self will thank you for.</p>
+      </article>
+
+      <article class="blog-card" data-reveal data-delay="1">
+        <div class="blog-card__media"><img src="assets/blog/audit-security.jpg" alt="Cybersecurity and data protection" loading="lazy"></div>
+        <span class="blog-card__tag">Security</span>
+        <h3>Audit trails are a feature, not a compliance tax</h3>
+        <p class="blog-card__excerpt">Reframing audit logging as a product differentiator rather than a regulatory burden, with practical patterns from production systems.</p>
+      </article>
+
+      <article class="blog-card" data-reveal data-delay="2">
+        <div class="blog-card__media"><img src="assets/blog/workspace-cloud.jpg" alt="Modern workspace with laptop" loading="lazy"></div>
+        <span class="blog-card__tag">Product</span>
+        <h3>One workspace for your site and your app. Or just the app.</h3>
+        <p class="blog-card__excerpt">How unified infrastructure reduces context-switching and helps teams ship faster without sacrificing reliability.</p>
+      </article>
+
+      <article class="blog-card" data-reveal>
+        <div class="blog-card__media"><img src="assets/blog/ai-fintech.jpg" alt="AI and fintech technology" loading="lazy"></div>
+        <span class="blog-card__tag">Case Studies</span>
+        <h3>How an AI-powered fintech startup built a website AI actually trusts</h3>
+        <p class="blog-card__excerpt">A deep dive into building structured data endpoints that make LLM-powered tools return accurate, verifiable results.</p>
+      </article>
+
+      <article class="blog-card" data-reveal data-delay="1">
+        <div class="blog-card__media"><img src="assets/blog/proxy-servers.jpg" alt="Server room with network infrastructure" loading="lazy"></div>
+        <span class="blog-card__tag">Tutorials</span>
+        <h3>Building resilient proxy pools: lessons from 10 billion requests</h3>
+        <p class="blog-card__excerpt">What we learned operating large-scale proxy infrastructure and the engineering decisions that made the biggest difference.</p>
+      </article>
+
+      <article class="blog-card" data-reveal data-delay="2">
+        <div class="blog-card__media"><img src="assets/blog/network-globe.jpg" alt="Global network connectivity" loading="lazy"></div>
+        <span class="blog-card__tag">Industry</span>
+        <h3>The state of residential proxies in 2026</h3>
+        <p class="blog-card__excerpt">Market trends, pricing shifts, and the technical innovations reshaping how teams approach data collection at scale.</p>
+      </article>
+
+      <article class="blog-card" data-reveal>
+        <div class="blog-card__media"><img src="assets/blog/dns-network.jpg" alt="DNS network infrastructure" loading="lazy"></div>
+        <span class="blog-card__tag">Engineering</span>
+        <h3>Why we migrated our DNS layer and cut latency by 40%</h3>
+        <p class="blog-card__excerpt">The technical story behind our DNS infrastructure overhaul, including benchmarks, rollback plans, and unexpected wins.</p>
+      </article>
+
+      <article class="blog-card" data-reveal data-delay="1">
+        <div class="blog-card__media"><img src="assets/blog/api-code.jpg" alt="API development and code" loading="lazy"></div>
+        <span class="blog-card__tag">Tutorials</span>
+        <h3>Rate limiting done right: a practical guide for API teams</h3>
+        <p class="blog-card__excerpt">How to implement fair, predictable rate limits that protect your service without frustrating legitimate users.</p>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+<div class="site-bottom">
+<section class="finalcta" data-screen-label="Final CTA">
+  <div class="container">
+    <div class="finalcta__box" data-reveal>
+      <h2>Start routing through stable ISP proxies today</h2>
+      <div class="finalcta__ctas">
+        <a href="pricing.html" class="btn btn--primary">Start free trial</a>
+        <a href="#" class="btn btn--ghost">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand" data-reveal>
+        <a href="index.html" class="logo">ROLA</a>
+        <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
+      </div>
+      <div data-reveal data-delay="1">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#features">ISP Proxies</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="index.html#geo">Locations</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div data-reveal data-delay="2">
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="index.html#integration">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">SDKs</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+      <div data-reveal data-delay="3">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact Sales</a></li>
+          <li><a href="index.html#compliance">Compliance</a></li>
+          <li><a href="#">Privacy &amp; Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom" data-reveal data-delay="4">
+      <span>&copy; 2026 ROLA-IP. All rights reserved.</span>
+      <span>sales@rola-ip.com</span>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+  function enable(){ if (document.visibilityState === 'visible') { document.documentElement.classList.add('anim'); } }
+  if (document.visibilityState === 'visible') { enable(); }
+  else { document.addEventListener('visibilitychange', function once(){ if(document.visibilityState === 'visible'){ enable(); document.removeEventListener('visibilitychange', once); } }); }
+})();
+
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+const burger = document.getElementById('hamburger');
+const mnav = document.getElementById('mobileNav');
+burger.addEventListener('click', () => {
+  const open = mnav.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mnav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  mnav.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+}));
+
+// Scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+// Smooth anchor scrolling
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#') return;
+    const el = document.querySelector(id);
+    if (el) {
+      e.preventDefault();
+      window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth'});
+    }
+  });
+});
+
+if (window.lucide && typeof window.lucide.createIcons === 'function') {
+  window.lucide.createIcons({
+    attrs: {
+      width: 24,
+      height: 24,
+      'stroke-width': 2
+    }
+  });
+}
+</script>
+</body>
+</html>

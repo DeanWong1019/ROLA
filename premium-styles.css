@@ -1231,7 +1231,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .finalcta{padding:70px 0 56px!important;background:transparent!important}
 .finalcta .container{max-width:var(--max-w)}
 .finalcta__box{
-  isolation:isolate;min-height:auto;padding:72px 44px!important;border-radius:0!important;
+  isolation:isolate;min-height:auto;padding:72px 0!important;border-radius:0!important;
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
   grid-template-rows:auto auto!important;
@@ -1388,7 +1388,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   .hv-success{right:0}.hv-mini{left:0}.hv-code{width:230px}
   .footer__grid{grid-template-columns:1fr}
   .badge-matrix{grid-template-columns:1fr}
-  .finalcta__box{padding:48px 24px}
+  .finalcta__box{padding:48px 0}
 }
 /* ── First feature card mesh background ── */
 #features .fcard:first-child{
