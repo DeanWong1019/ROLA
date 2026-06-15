@@ -56,18 +56,16 @@
   .challenges__grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-6) }
   @media (max-width:1024px){ .challenges__grid{ grid-template-columns:repeat(2,1fr) } }
   @media (max-width:640px){ .challenges__grid{ grid-template-columns:1fr } }
-  #challenges .fcard{ text-align:left !important; align-items:stretch !important; padding:var(--space-5) !important; cursor:default; background:transparent !important; border:1px solid rgba(8,7,3,.12) !important }
+  #challenges .fcard{ text-align:left !important; align-items:flex-start !important; padding:var(--space-6) !important; cursor:default; background:transparent !important; border:1px solid rgba(8,7,3,.12) !important }
   #challenges .fcard:hover{ transform:none !important; box-shadow:none !important; border-color:rgba(8,7,3,.12) !important; background:transparent !important }
-  #challenges .fcard h3{ text-align:left !important }
-  #challenges .fcard p{ text-align:left !important }
-  #challenges .fcard__media{
-    display:block; width:100%; aspect-ratio:4/3; height:auto;
-    background:rgba(8,7,3,.06);
-    border-radius:var(--radius-lg);
-    margin:0 0 var(--space-5) 0;
-    box-shadow:none;
+  #challenges .fcard h3{ text-align:left !important; margin-top:var(--space-4) }
+  #challenges .fcard p{ text-align:left !important; margin-top:var(--space-2) }
+  #challenges .fcard__icon{
+    display:flex; align-items:center; justify-content:center;
+    width:56px; height:56px; border-radius:var(--radius-md);
+    background:rgba(8,7,3,.04);
+    color:var(--green);
   }
-  #challenges .fcard__media::before{ display:none }
   #capabilities .ucard{ min-height:0; padding:var(--space-8) }
   #capabilities .ucard h3{ color:#080703 !important }
   #capabilities .ucard p{ color:rgba(8,7,3,.62) !important }
@@ -216,29 +214,37 @@
 <section class="section" id="challenges">
   <div class="container challenges__layout">
     <div class="section-head challenges__head" data-reveal>
-      <div class="eyebrow">Common Challenges</div>
-      <h2 class="h-section">Why scrapers fail — and how to fix it</h2>
+      <div class="eyebrow">Pain Points</div>
+      <h2 class="h-section">The biggest pain points in web scraping</h2>
     </div>
     <div class="challenges__grid">
       <div class="fcard" data-reveal>
-        <div class="fcard__media" aria-hidden="true"></div>
+        <div class="fcard__icon">
+          <iconify-icon icon="lucide:shield-off" width="32" height="32"></iconify-icon>
+        </div>
         <h3>Bot detection &amp; IP bans</h3>
-        <p>Automated traffic gets fingerprinted within seconds. Sites block entire IP ranges, kill sessions mid-crawl, and silently return junk data instead of errors.</p>
+        <p>Automated traffic gets flagged as bots within seconds. Target sites blacklist entire IP ranges, terminate sessions mid-crawl, and silently serve junk data instead of returning errors.</p>
       </div>
       <div class="fcard" data-reveal data-delay="1">
-        <div class="fcard__media" aria-hidden="true"></div>
+        <div class="fcard__icon">
+          <iconify-icon icon="lucide:globe-lock" width="32" height="32"></iconify-icon>
+        </div>
         <h3>Geo restrictions</h3>
-        <p>Prices, content, and search results differ by region. Scraping from a single location gives you an incomplete — and often wrong — picture of the market.</p>
-      </div>
-      <div class="fcard" data-reveal data-delay="1">
-        <div class="fcard__media" aria-hidden="true"></div>
-        <h3>CAPTCHAs &amp; rate limits</h3>
-        <p>WAFs and anti-bot layers slow pipelines to a crawl. CAPTCHA challenges and per-IP rate limits waste retries and inflate infrastructure cost.</p>
+        <p>Content, pricing, and search results vary by region. Scraping from a single location gives you an incomplete — and often inaccurate — view of the market.</p>
       </div>
       <div class="fcard" data-reveal data-delay="2">
-        <div class="fcard__media" aria-hidden="true"></div>
+        <div class="fcard__icon">
+          <iconify-icon icon="lucide:shield-alert" width="32" height="32"></iconify-icon>
+        </div>
+        <h3>CAPTCHAs &amp; rate limits</h3>
+        <p>WAFs and anti-bot systems throttle your pipeline. CAPTCHA challenges and per-IP rate limits burn through retries and drive up infrastructure costs.</p>
+      </div>
+      <div class="fcard" data-reveal data-delay="3">
+        <div class="fcard__icon">
+          <iconify-icon icon="lucide:wrench" width="32" height="32"></iconify-icon>
+        </div>
         <h3>High maintenance cost</h3>
-        <p>Managing proxy pools, rotation logic, and retry queues in-house drains engineering time — time better spent on the data your business actually needs.</p>
+        <p>Building and managing proxy rotation, retry logic, and IP pools in-house drains engineering time — time better spent on the data your business actually needs.</p>
       </div>
     </div>
   </div>
