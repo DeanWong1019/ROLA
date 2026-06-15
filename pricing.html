@@ -18,7 +18,17 @@
   .nav:not(.scrolled) .nav__login{color:#04130B;border-color:var(--green);background:var(--green)}
   .nav:not(.scrolled) .hamburger span{background:#080703}
   .section{background:#fff}
-  #pricing{margin-top:0;padding-top:140px}
+  #pricing{margin-top:0;padding-top:140px;position:relative;overflow:hidden;isolation:isolate}
+  #pricing::before{
+    content:"";display:block!important;position:absolute;z-index:0;top:-120px;left:-8%;right:-8%;height:420px;pointer-events:none;
+    background:
+      radial-gradient(520px 220px at 18% 38%,rgba(59,130,246,.24),rgba(59,130,246,0) 68%),
+      radial-gradient(540px 240px at 54% 8%,rgba(236,72,153,.20),rgba(236,72,153,0) 70%),
+      radial-gradient(500px 260px at 84% 32%,rgba(245,158,11,.22),rgba(245,158,11,0) 72%),
+      radial-gradient(420px 220px at 66% 58%,rgba(139,92,246,.16),rgba(139,92,246,0) 70%);
+    filter:blur(26px);opacity:.92
+  }
+  #pricing>.container{position:relative;z-index:1}
   .features-head{display:flex;align-items:flex-end;justify-content:space-between;gap:48px;margin-bottom:48px}
   .features-head .section-head{margin-bottom:0;max-width:580px;flex-shrink:0}
   .features-head__desc{flex:1;max-width:320px;color:rgba(8,7,3,.52);font-size:1.0625rem;line-height:1.55;padding-bottom:6px}
