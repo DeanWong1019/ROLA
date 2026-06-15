@@ -1,0 +1,335 @@
+(function(){
+  var zh = {
+    'ISP / Static Residential Proxies — ROLA-IP':'ISP / 静态住宅代理 — ROLA-IP',
+    'Pricing — ROLA-IP':'价格 — ROLA-IP',
+    'Blog — ROLA-IP':'博客 — ROLA-IP',
+    'Proxies':'代理',
+    'Pricing':'价格',
+    'Use Cases':'使用场景',
+    'Blog':'博客',
+    'Register/Login':'注册/登录',
+    'Home':'首页',
+    'Features':'功能',
+    'Coverage':'覆盖地区',
+    'Docs':'文档',
+    'FAQ':'常见问题',
+    'Buy Now':'立即购买',
+    'Start Free Trial':'开始免费试用',
+    'Start free trial':'开始免费试用',
+    'View pricing':'查看价格',
+    'View Pricing':'查看价格',
+    'Contact Sales':'联系销售',
+    'Learn more':'了解更多',
+    'Read more':'阅读更多',
+    'ISP / Static Residential Proxies':'ISP / 静态住宅代理',
+    'Stable ISP proxies with high success rates, per-IP billing, and no hidden fees.':'稳定的 ISP 代理，具备高成功率、按 IP 计费和无隐藏费用。',
+    'Success rate':'成功率',
+    'ISP IP pool':'ISP IP 池',
+    'Countries':'覆盖国家',
+    'Starting price':'起始价格',
+    'From $2.10/IP':'低至 $2.10/个 IP',
+    'Trusted by data teams worldwide':'受到全球数据团队信赖',
+    'Why ROLA-IP':'为什么选择 ROLA-IP',
+    'High-success access, real ISP IPs, long sessions, and predictable pricing.':'高成功率访问、真实 ISP IP、长会话和可预测价格。',
+    'High-success access':'高成功率访问',
+    'High success-rate access':'高成功率访问',
+    'Well-known ASN profile with fewer avoidable blocks on target sites.':'优质 ASN 画像，减少目标网站上可避免的封锁。',
+    'Premium ASN source':'优质 ASN 来源',
+    'Premium ISP network quality':'优质 ISP 网络质量',
+    'Residential-grade IP reputation across every subscription tier.':'每个订阅档位都具备住宅级 IP 信誉。',
+    'Long / unlimited sessions':'长时 / 无限会话',
+    'Sticky and long-lived sessions':'粘性与长时会话',
+    'Keep IP identity stable when workflows depend on persistent state.':'当工作流依赖持续状态时，保持 IP 身份稳定。',
+    'Pay-per-IP, no hidden fees':'按 IP 计费，无隐藏费用',
+    'Predictable pay-per-IP billing':'可预测的按 IP 计费',
+    'Unlimited bandwidth included, with no hidden overage charges.':'包含无限带宽，没有隐藏的超额费用。',
+    'Pricing':'价格',
+    'Rola IP offers flexible pricing options for easy scalability':'Rola IP 提供灵活价格方案，便于轻松扩展。',
+    'Starter':'入门版',
+    'Advanced':'进阶版',
+    'Premium':'高级版',
+    'Enterprise':'企业版',
+    '25 IPs':'25 个 IP',
+    '100 IPs':'100 个 IP',
+    '500 IPs':'500 个 IP',
+    '1,000+ IPs':'1,000+ 个 IP',
+    'Custom':'定制',
+    'Billed monthly':'按月计费',
+    'Tailored billing':'定制计费',
+    'Most Popular':'最受欢迎',
+    'For small teams and first production workloads':'适合小团队和首个生产工作负载',
+    'For growing scraping and automation pipelines':'适合增长中的抓取与自动化管线',
+    'For high-volume teams that need steadier scale':'适合需要稳定扩展的高流量团队',
+    'With custom allocation, SLA and infrastructure':'提供定制配额、SLA 和基础设施',
+    '24/7 Support':'24/7 支持',
+    'Accepted payment methods':'支持的付款方式',
+    'Buy Residential Proxies':'购买住宅代理',
+    'This first module is the same pricing block used on the homepage, so plan messaging stays consistent across the site.':'此模块沿用首页价格区块，确保全站套餐信息保持一致。',
+    'The same production-grade network behind every pricing tier':'每个价格档位背后都是同一套生产级网络',
+    'With each subscription you access':'每个订阅都包含',
+    '1.3M+ ISP IP pool':'1.3M+ ISP IP 池',
+    'HTTP(S) and SOCKS5 support':'支持 HTTP(S) 和 SOCKS5',
+    'Low-latency routing':'低延迟路由',
+    '99.9% uptime':'99.9% 在线率',
+    'Unlimited concurrent sessions':'无限并发会话',
+    'Country, city, and ASN targeting':'国家、城市和 ASN 定向',
+    'Rotating and sticky sessions':'轮换与粘性会话',
+    'Unlimited bandwidth':'无限带宽',
+    '24/7 tech support':'24/7 技术支持',
+    'Global Coverage':'全球覆盖',
+    'Enterprise-grade ISP proxies in the countries your workflows need most.':'企业级 ISP 代理，覆盖工作流最需要的国家和地区。',
+    'United States / US':'美国 / US',
+    '6,843,600 IPs':'6,843,600 个 IP',
+    'Hong Kong / HK':'中国香港 / HK',
+    '1,245,300 IPs':'1,245,300 个 IP',
+    'Japan / JP':'日本 / JP',
+    '2,340,800 IPs':'2,340,800 个 IP',
+    'France / FR':'法国 / FR',
+    '3,479,400 IPs':'3,479,400 个 IP',
+    'Poland / PL':'波兰 / PL',
+    '892,600 IPs':'892,600 个 IP',
+    'United Kingdom / GB':'英国 / GB',
+    '2,765,400 IPs':'2,765,400 个 IP',
+    'Singapore / SG':'新加坡 / SG',
+    '1,128,500 IPs':'1,128,500 个 IP',
+    'Germany / DE':'德国 / DE',
+    '1,110,960 IPs':'1,110,960 个 IP',
+    'South Korea / KR':'韩国 / KR',
+    '1,567,200 IPs':'1,567,200 个 IP',
+    'Integration':'集成',
+    'Quick Start':'快速开始',
+    'Start proxying with one endpoint':'一个端点即可开始代理',
+    'Route requests through ISP proxies using simple credentials, country targeting, and sticky sessions.':'使用简单凭据、国家定向和粘性会话，将请求路由到 ISP 代理。',
+    'Copy':'复制',
+    'Copied':'已复制',
+    'Built for every workflow that needs reliable IP access':'为每一种需要稳定 IP 访问的工作流而构建',
+    'Use ROLA-IP to collect, verify, monitor, and automate across regions with stable ISP proxies.':'使用 ROLA-IP 通过稳定 ISP 代理跨地区采集、验证、监控和自动化。',
+    'Social Media Marketing':'社交媒体营销',
+    'E-commerce Management':'电商运营管理',
+    'Data Collection':'数据采集',
+    'Search Engine Optimization':'搜索引擎优化',
+    'Price and Travel Aggregation':'价格与旅行聚合',
+    'Ad Technology':'广告技术',
+    'Brand Protection':'品牌保护',
+    'Market Research':'市场研究',
+    'Customer Stories':'客户故事',
+    'Real results from real users.':'真实用户的真实结果。',
+    'Security & Compliance':'安全与合规',
+    'Safe, secure, and industry recognized':'安全可靠，并获得行业认可',
+    'Questions, answered':'常见问题解答',
+    'Stop fighting bans. Start collecting at scale.':'停止和封禁对抗，开始规模化采集。',
+    'Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.':'面向数据团队的企业级 ISP 代理。稳定会话、透明按 IP 计费、全球覆盖。',
+    'Product':'产品',
+    'ISP Proxies':'ISP 代理',
+    'Locations':'节点位置',
+    'Free Trial':'免费试用',
+    'Developers':'开发者',
+    'Documentation':'文档',
+    'API Reference':'API 参考',
+    'SDKs':'SDK',
+    'Status':'状态',
+    'Company':'公司',
+    'About':'关于我们',
+    'Compliance':'合规',
+    'Privacy & Terms':'隐私与条款',
+    '© 2026 ROLA-IP. All rights reserved.':'© 2026 ROLA-IP. 保留所有权利。',
+    'Blog':'博客',
+    'Latest insights from ROLA-IP':'ROLA-IP 最新洞察',
+    'Technical guides, proxy strategy, and data collection insights for teams building reliable web automation.':'面向可靠网页自动化团队的技术指南、代理策略和数据采集洞察。',
+    'Featured':'精选',
+    'Proxy Infrastructure':'代理基础设施',
+    'Security':'安全',
+    'Engineering':'工程',
+    'Data Collection':'数据采集',
+    'Performance':'性能',
+    'News':'新闻',
+    'Market trends, pricing shifts, and the technical innovations reshaping how teams approach data collection at scale.':'市场趋势、价格变化，以及重塑团队大规模数据采集方式的技术创新。'
+    ,'IP pool size':'IP 池规模',
+    'From $2.10/IP':'低至 $2.10/IP',
+    'Contact sales':'联系销售',
+    'Reliability engineered into every IP':'每个 IP 都为稳定性而设计',
+    'Well-known ASN with fewer restrictions from target sites.':'优质 ASN，减少目标网站上的访问限制。',
+    'Residential-grade real IPs sourced from premium ASNs.':'来自优质 ASN 的住宅级真实 IP。',
+    'IPs never rotate mid-session — keeps your login state intact.':'IP 不会在会话中途轮换，登录状态保持稳定。',
+    'Bandwidth is never charged extra — pay only for the IPs you use.':'带宽不额外收费，只为你使用的 IP 付费。',
+    'Meeting various global business needs':'满足多样化的全球业务需求',
+    'Covering 200+ countries worldwide, supporting various business and technical needs':'覆盖全球 200+ 国家和地区，支持多种业务和技术需求。',
+    'Countries covered':'覆盖国家',
+    'Residential IPs':'住宅 IP',
+    'Uptime guarantee':'在线率保障',
+    'Technical support':'技术支持',
+    'Complete social media automation tasks at scale without running into friction or access limits.':'大规模完成社交媒体自动化任务，减少访问摩擦和限制。',
+    'Break through geographic barriers and reach the major online marketplaces around the world.':'突破地域限制，访问全球主要线上市场。',
+    'Run large-scale web scraping while using reliable static residential proxies to avoid IP blocks and CAPTCHAs.':'使用可靠的静态住宅代理运行大规模网页抓取，避免 IP 封锁和验证码。',
+    'Gather valuable search engine data, perform keyword analysis, and monitor rankings across locations.':'采集有价值的搜索引擎数据，进行关键词分析，并跨地区监控排名。',
+    'Collect up-to-date pricing and inventory information from multiple travel and booking websites with ease.':'轻松从多个旅行和预订网站采集最新价格与库存信息。',
+    'Pair static residential proxies with campaign testing to collect competitor insights and identify bot traffic.':'将静态住宅代理用于广告活动测试，采集竞品洞察并识别机器人流量。',
+    'Detect trademark violations, report unauthorized use of your assets, and protect brand reputation.':'发现商标侵权，报告未经授权的资产使用，并保护品牌声誉。',
+    'Retrieve regional data for actionable insight, monitor consumer behavior, and track competitor progress.':'获取区域数据形成可执行洞察，监控消费者行为，并追踪竞品动态。',
+    'Data Operations Lead, Northstar Analytics':'Northstar Analytics 数据运营负责人',
+    'Head of Growth, CartPulse':'CartPulse 增长负责人',
+    'Infrastructure Manager, MarketLens':'MarketLens 基础设施经理',
+    'Senior Engineer, DataBridge':'DataBridge 高级工程师',
+    'ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.':'使用 ROLA-IP 的第一周，我们的重试量就减少了一半以上。静态会话让采集管线更容易管理。',
+    'Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.':'从带宽计费转为按 IP 计费后，我们每月的代理支出终于变得可预测，财务也不再处理意外超额费用。',
+    'The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.':'API 当天下午就接入了我们的爬虫栈。上线前，他们的支持团队还帮我们调好了国家路由。',
+    'Switching to ROLA-IP was seamless. The geo-targeting works exactly as documented, and our success rate on restricted regions improved immediately.':'切换到 ROLA-IP 非常顺畅。地区定向和文档描述一致，受限地区的成功率立刻提升。',
+    'What is an ISP proxy?':'什么是 ISP 代理？',
+    'An ISP proxy — also called a static residential proxy — is an IP address hosted in a datacenter but registered to a real Internet Service Provider. Target sites see it as a legitimate residential connection, so you get the trust profile of a home IP combined with datacenter-grade speed and stability.':'ISP 代理也叫静态住宅代理，是托管在数据中心、但注册到真实互联网服务提供商的 IP 地址。目标网站会把它识别为合法住宅连接，因此你可以同时获得家庭 IP 的信任画像和数据中心级速度与稳定性。',
+    'How are ISP proxies different from rotating residential proxies?':'ISP 代理和轮换住宅代理有什么区别？',
+    'Rotating residential proxies pull a different IP from a shared pool on each request and are usually billed by bandwidth (per GB). ISP proxies give you a fixed, dedicated IP that stays the same until you change it, billed per-IP with unlimited bandwidth. They\'re the better fit when you need persistent identity, stable sessions, and predictable cost.':'轮换住宅代理会在每次请求时从共享池中分配不同 IP，通常按带宽（GB）计费。ISP 代理提供固定专属 IP，在你更换前保持不变，按 IP 计费并包含无限带宽。它更适合需要持久身份、稳定会话和可预测成本的场景。',
+    'Do you offer a free trial?':'你们提供免费试用吗？',
+    'Yes. You can test the network on a 7-day free trial before committing — no credit card required to start. Trial accounts include 5 ISP IPs and dashboard access.':'提供。你可以先免费试用 7 天，无需信用卡。试用账户包含 5 个 ISP IP 和控制台访问权限。',
+    'How does per-IP billing work?':'按 IP 计费如何运作？',
+    'You pay a flat monthly price for each IP in your plan. Bandwidth is unlimited and included — there are no per-GB charges, no overage fees, and no hidden line items. Your monthly cost is the same whether you send one request or millions.':'套餐内每个 IP 都按固定月费计费。带宽无限且已包含，没有按 GB 收费、超额费用或隐藏项目。无论发送一次请求还是数百万次请求，月成本都保持一致。',
+    'Which regions and locations do you support?':'支持哪些地区和位置？',
+    'We offer ISP proxies across 85+ countries, with the deepest pools in the US, UK, Germany, Canada, and other major markets. Country-level targeting is available everywhere; city-level targeting is available in 210 metro areas.':'我们在 85+ 国家提供 ISP 代理，并在美国、英国、德国、加拿大等主要市场拥有更深 IP 池。所有地区支持国家级定向，210 个都市区域支持城市级定向。',
+    'How long can a session last?':'会话可以持续多久？',
+    'ISP proxies are static by design — you keep the same IP for the full duration of your subscription with no forced rotation. This makes them ideal for authenticated sessions, account management, and long-running collection jobs.':'ISP 代理天生是静态的。在整个订阅周期内，你会保持同一个 IP，不会被强制轮换。因此它非常适合登录会话、账号管理和长时间采集任务。',
+    'Are there any target-site restrictions?':'目标网站访问有限制吗？',
+    'Our proxies can access most publicly available websites. All usage must comply with our Acceptable Use Policy, which prohibits illegal activity, credential abuse, spam, payment fraud, and attacks on third-party services.':'我们的代理可以访问大多数公开网站。所有使用都必须遵守可接受使用政策，禁止非法活动、凭据滥用、垃圾信息、支付欺诈以及攻击第三方服务。',
+    'What authentication methods are supported?':'支持哪些认证方式？',
+    'Both username/password authentication and IP whitelisting are supported. You can configure either (or both) from the dashboard and switch at any time.':'支持用户名/密码认证和 IP 白名单。你可以在控制台配置其中一种或同时配置，并随时切换。',
+    'Is the service compliant for enterprise procurement?':'服务是否满足企业采购合规要求？',
+    'Yes. We align with GDPR and CCPA, source all IPs ethically through consent-based ISP partnerships, and can provide a DPA, ISO 27001 documentation, SOC 2 Type II report access, and security audit details on request.':'是的。我们遵循 GDPR 和 CCPA，通过基于授权的 ISP 合作伙伴以合规方式获取 IP，并可按需提供 DPA、ISO 27001 文档、SOC 2 Type II 报告访问和安全审计资料。',
+    'Start routing through stable ISP proxies today':'今天就开始使用稳定 ISP 代理路由流量',
+    'Why These Plans Work':'为什么这些套餐有效',
+    'You scale IP volume by plan, but the core proxy quality, session control, and billing clarity stay consistent.':'你可以按套餐扩展 IP 数量，但核心代理质量、会话控制和清晰计费始终一致。',
+    'You pay a flat monthly price for each IP in your plan. Bandwidth is unlimited and included, so your bill does not fluctuate with request volume.':'套餐内每个 IP 都按固定月费计费，带宽无限且已包含，因此账单不会随请求量波动。',
+    'Is there a free trial?':'有免费试用吗？',
+    'Yes. You can test the network on a 7-day free trial before committing, with trial access designed to validate success rates and geo targeting.':'有。你可以先免费试用 7 天，用试用权限验证成功率和地区定向能力。',
+    'Can I upgrade between plans later?':'之后可以升级套餐吗？',
+    'Yes. Teams commonly start on smaller plans and move into larger allocations or enterprise pricing as their production workloads grow.':'可以。团队通常从小套餐开始，随着生产工作负载增长，再升级到更大配额或企业价格方案。',
+    'What is included in enterprise pricing?':'企业价格包含什么？',
+    'Enterprise plans cover larger IP pools, tailored billing arrangements, SLA support, and infrastructure adjustments for higher-volume environments.':'企业套餐包含更大的 IP 池、定制计费安排、SLA 支持，以及面向高流量环境的基础设施调整。',
+    'Pick a plan and start routing through stable ISP proxies today':'选择套餐，今天就开始使用稳定 ISP 代理路由流量',
+    'See pricing':'查看价格',
+    'Transform how you collect data, scale infrastructure, and build for the web.':'改变你采集数据、扩展基础设施和构建 Web 产品的方式。',
+    'Tutorials':'教程',
+    'Case Studies':'案例研究',
+    'Industry':'行业',
+    'Inside ROLA':'ROLA 动态',
+    'How an astrophysicist uses Codex to help simulate black holes':'天体物理学家如何使用 Codex 辅助模拟黑洞',
+    'A closer look at how researchers are using AI tools to speed up exploration, reduce repetitive work, and stay focused on the science that matters.':'深入了解研究人员如何使用 AI 工具加速探索、减少重复工作，并专注于真正重要的科学问题。',
+    'Read article':'阅读文章',
+    'Code is a message to the future':'代码是写给未来的信息',
+    'Why writing maintainable code matters more than writing clever code, and how to build systems your future self will thank you for.':'为什么可维护代码比聪明代码更重要，以及如何构建未来的你会感谢自己的系统。',
+    'Audit trails are a feature, not a compliance tax':'审计日志是一项功能，而不是合规负担',
+    'Reframing audit logging as a product differentiator rather than a regulatory burden, with practical patterns from production systems.':'把审计日志重新理解为产品差异化能力，而不是监管负担，并结合生产系统中的实用模式。',
+    'One workspace for your site and your app. Or just the app.':'一个工作区管理网站和应用，也可以只管理应用',
+    'How unified infrastructure reduces context-switching and helps teams ship faster without sacrificing reliability.':'统一基础设施如何减少上下文切换，并帮助团队在不牺牲可靠性的情况下更快发布。',
+    'How an AI-powered fintech startup built a website AI actually trusts':'一家 AI 金融科技创业公司如何构建 AI 真正信任的网站',
+    'A deep dive into building structured data endpoints that make LLM-powered tools return accurate, verifiable results.':'深入解析如何构建结构化数据端点，让 LLM 工具返回准确且可验证的结果。',
+    'Building resilient proxy pools: lessons from 10 billion requests':'构建高韧性代理池：来自 100 亿次请求的经验',
+    'What we learned operating large-scale proxy infrastructure and the engineering decisions that made the biggest difference.':'我们在运营大规模代理基础设施中学到的经验，以及最关键的工程决策。',
+    'The state of residential proxies in 2026':'2026 年住宅代理现状',
+    'Why we migrated our DNS layer and cut latency by 40%':'为什么我们迁移 DNS 层并将延迟降低 40%',
+    'The technical story behind our DNS infrastructure overhaul, including benchmarks, rollback plans, and unexpected wins.':'DNS 基础设施重构背后的技术故事，包括基准测试、回滚计划和意外收获。',
+    'Rate limiting done right: a practical guide for API teams':'正确实现速率限制：面向 API 团队的实用指南',
+    'How to implement fair, predictable rate limits that protect your service without frustrating legitimate users.':'如何实现公平、可预测的速率限制，在保护服务的同时不影响正常用户。'
+  };
+
+  function pageName(){
+    var path = location.pathname.split('/').pop() || 'index.html';
+    return path;
+  }
+
+  function localizedHref(lang){
+    var url = new URL(location.href);
+    url.searchParams.set('lang', lang);
+    return url.pathname.split('/').pop() + url.search + url.hash;
+  }
+
+  function ensureLanguageSwitch(){
+    document.querySelectorAll('.nav__actions').forEach(function(actions){
+      if (actions.querySelector('.nav__lang')) return;
+      var wrap = document.createElement('div');
+      wrap.className = 'nav__lang';
+      wrap.setAttribute('aria-label', 'Language switch');
+      wrap.innerHTML = '<a href="' + localizedHref('en') + '" data-lang-option="en">EN</a><span>/</span><a href="' + localizedHref('zh') + '" data-lang-option="zh">中文</a>';
+      actions.insertBefore(wrap, actions.firstChild);
+    });
+    document.querySelectorAll('.mobile-nav').forEach(function(menu){
+      if (menu.querySelector('[data-lang-option="zh"]')) return;
+      var en = document.createElement('a');
+      en.href = localizedHref('en');
+      en.setAttribute('data-lang-option', 'en');
+      en.textContent = 'EN';
+      var link = document.createElement('a');
+      link.href = localizedHref('zh');
+      link.setAttribute('data-lang-option', 'zh');
+      link.textContent = '中文';
+      var cta = menu.querySelector('.btn');
+      menu.insertBefore(en, cta || null);
+      menu.insertBefore(link, cta || null);
+    });
+  }
+
+  function applyLanguage(lang){
+    var dict = lang === 'zh' ? zh : {};
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    if (!document._enTitle) document._enTitle = document.title;
+    document.title = lang === 'zh' && zh[document._enTitle] ? zh[document._enTitle] : document._enTitle;
+    document.querySelectorAll('[data-lang-option]').forEach(function(link){
+      link.classList.toggle('active', link.getAttribute('data-lang-option') === lang);
+      link.href = localizedHref(link.getAttribute('data-lang-option'));
+    });
+    var skipTags = {SCRIPT:1,STYLE:1,SVG:1,PATH:1,DEFS:1,CLIPPATH:1,PRE:1,CODE:1};
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode:function(node){
+        if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var parent = node.parentElement;
+        if (!parent || skipTags[parent.tagName] || parent.closest('.th-code')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function(node){
+      if (!node._enText) node._enText = node.nodeValue;
+      var base = node._enText.trim();
+      var leading = node._enText.match(/^\s*/)[0];
+      var trailing = node._enText.match(/\s*$/)[0];
+      node.nodeValue = lang === 'zh' && dict[base] ? leading + dict[base] + trailing : node._enText;
+    });
+    document.querySelectorAll('[alt],[aria-label]').forEach(function(el){
+      ['alt','aria-label'].forEach(function(attr){
+        if (!el.hasAttribute(attr)) return;
+        var key = '_en_' + attr;
+        if (!el[key]) el[key] = el.getAttribute(attr);
+        var base = el[key];
+        el.setAttribute(attr, lang === 'zh' && dict[base] ? dict[base] : base);
+      });
+    });
+    document.querySelectorAll('a[href]').forEach(function(link){
+      if (link.hasAttribute('data-lang-option')) return;
+      var raw = link.getAttribute('href');
+      if (!raw || raw === '#' || raw.indexOf('mailto:') === 0 || raw.indexOf('tel:') === 0) return;
+      var url;
+      try { url = new URL(raw, location.href); } catch(e) { return; }
+      if (url.origin !== location.origin) return;
+      if (!/\.html$/.test(url.pathname) && raw.charAt(0) !== '#') return;
+      url.searchParams.set('lang', lang);
+      link.setAttribute('href', url.pathname.split('/').pop() + url.search + url.hash);
+    });
+  }
+
+  function init(){
+    ensureLanguageSwitch();
+    var lang = new URLSearchParams(location.search).get('lang') === 'zh' ? 'zh' : 'en';
+    applyLanguage(lang);
+    document.querySelectorAll('[data-lang-option]').forEach(function(link){
+      link.addEventListener('click', function(event){
+        event.preventDefault();
+        var next = link.getAttribute('data-lang-option');
+        var url = new URL(location.href);
+        url.searchParams.set('lang', next);
+        history.replaceState(null, '', url);
+        applyLanguage(next);
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();

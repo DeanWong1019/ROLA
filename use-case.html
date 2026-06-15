@@ -23,6 +23,10 @@
   .hstat__l{ color:rgba(8,7,3,.6) }
   .nav:not(.scrolled) .nav__links a{ color:#080703 }
   .nav:not(.scrolled) .nav__links a:hover{ color:rgba(8,7,3,.7) }
+  .nav:not(.scrolled) .nav__lang{ color:rgba(8,7,3,.36) }
+  .nav:not(.scrolled) .nav__lang a{ color:rgba(8,7,3,.7) }
+  .nav:not(.scrolled) .nav__lang a.active,
+  .nav:not(.scrolled) .nav__lang a:hover{ color:#080703 }
 
   /* Hero ratings: compact, left-aligned */
   .hero__ratings{
@@ -31,6 +35,17 @@
   .hero__ratings-sep{ width:1px; height:36px; background:rgba(8,7,3,.18); flex-shrink:0 }
   .rating__logo-img{ height:24px; width:auto; display:block }
   .logos--use-case{ padding:48px 0; background:#FAFAF9 !important }
+  html[lang="zh-CN"] #integration .section-head,
+  html[lang="zh-CN"] #integration .h-section,
+  html[lang="zh-CN"] #integration .section-sub{
+    text-align:left!important;
+    margin-left:0!important;
+    margin-right:0!important
+  }
+  html[lang="zh-CN"] #integration .h-section{
+    letter-spacing:0!important;
+    text-wrap:balance
+  }
 
   /* Hero visual: dashboard preview on right side, below text */
   @keyframes rise-visual{
@@ -158,6 +173,9 @@
       <a href="blog.html">Blog</a>
     </div>
     <div class="nav__actions">
+      <div class="nav__lang" aria-label="Language switch">
+        <a href="use-case.html?lang=en" data-lang-option="en" class="active">EN</a><span>/</span><a href="use-case.html?lang=zh" data-lang-option="zh">中文</a>
+      </div>
       <a href="#" class="nav__login">Register/Login</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -170,6 +188,8 @@
   <a href="use-case.html" class="active">Use Cases</a>
   <a href="blog.html">Blog</a>
   <a href="index.html#integration">Docs</a>
+  <a href="use-case.html?lang=en" data-lang-option="en">EN</a>
+  <a href="use-case.html?lang=zh" data-lang-option="zh">中文</a>
   <a href="#" class="btn btn--secondary btn--block">Start Free Trial</a>
 </div>
 
@@ -654,6 +674,181 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
 }, {threshold:.12});
 document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+// ---- In-page language switch ----
+const translations = {
+  zh: {
+    'Use Cases — ROLA-IP':'使用场景 — ROLA-IP',
+    'Proxies':'代理',
+    'Pricing':'价格',
+    'Use Cases':'使用场景',
+    'Blog':'博客',
+    'Register/Login':'注册/登录',
+    'Home':'首页',
+    'Features':'功能',
+    'Docs':'文档',
+    'Start Free Trial':'开始免费试用',
+    'Scale web scraping & data collection without getting blocked':'扩展网页抓取和数据采集，不再被封锁拖慢',
+    'Bypass blocks and CAPTCHAs, reach any region, and collect public data at any scale — with clean ISP IPs built for production workloads.':'绕过封锁和验证码，访问任意地区，以面向生产环境的纯净 ISP IP 大规模采集公开数据。',
+    'ISP IP pool':'ISP IP 池',
+    'Success rate':'成功率',
+    'Countries covered':'覆盖国家',
+    'Start free trial':'开始免费试用',
+    'View pricing':'查看价格',
+    'Pain Points':'痛点',
+    'The biggest pain points in web scraping':'网页抓取中最常见的核心痛点',
+    'Bot detection & IP bans':'机器人识别与 IP 封禁',
+    'Automated traffic gets flagged as bots within seconds. Target sites blacklist entire IP ranges, terminate sessions mid-crawl, and silently serve junk data instead of returning errors.':'自动化流量会在几秒内被识别为机器人。目标网站会拉黑整个 IP 段、中途终止会话，甚至悄悄返回无效数据而不是报错。',
+    'Geo restrictions':'地区限制',
+    'Content, pricing, and search results vary by region. Scraping from a single location gives you an incomplete — and often inaccurate — view of the market.':'内容、价格和搜索结果会因地区而异。只从单一位置抓取，会得到不完整且常常不准确的市场视图。',
+    'CAPTCHAs & rate limits':'验证码与速率限制',
+    'WAFs and anti-bot systems throttle your pipeline. CAPTCHA challenges and per-IP rate limits burn through retries and drive up infrastructure costs.':'WAF 和反机器人系统会限制你的采集流程。验证码挑战和单 IP 限速会消耗重试次数，并推高基础设施成本。',
+    'High maintenance cost':'高维护成本',
+    'Building and managing proxy rotation, retry logic, and IP pools in-house drains engineering time — time better spent on the data your business actually needs.':'自建并维护代理轮换、重试逻辑和 IP 池会消耗大量工程时间，而这些时间本应投入到业务真正需要的数据上。',
+    'Why ROLA-IP':'为什么选择 ROLA-IP',
+    'Reliability engineered into every IP':'每个 IP 都为稳定性而设计',
+    'High-success access, real ISP IPs, long sessions, and predictable pricing.':'高成功率访问、真实 ISP IP、长会话，以及可预测的价格。',
+    'High success-rate access':'高成功率访问',
+    'Well-known ASN profile with fewer avoidable blocks on target sites.':'优质 ASN 画像，减少目标网站上可避免的封锁。',
+    'Premium ISP network quality':'优质 ISP 网络质量',
+    'Residential-grade IP reputation across every subscription tier.':'每个订阅档位都具备住宅级 IP 信誉。',
+    'Sticky and long-lived sessions':'粘性与长时会话',
+    'Keep IP identity stable when workflows depend on persistent state.':'当工作流依赖持续状态时，保持 IP 身份稳定。',
+    'Predictable pay-per-IP billing':'可预测的按 IP 计费',
+    'Unlimited bandwidth included, with no hidden overage charges.':'包含无限带宽，没有隐藏的超额费用。',
+    'Quick Start':'快速开始',
+    'Start proxying with one endpoint':'一个端点即可开始代理',
+    'Route requests through ISP proxies using simple credentials, country targeting, and sticky sessions.':'使用简单凭据、国家定向和粘性会话，将请求路由到 ISP 代理。',
+    'Copy':'复制',
+    'Copied':'已复制',
+    'Built for every workflow that needs reliable IP access':'为每一种需要稳定 IP 访问的工作流而构建',
+    'Use ROLA-IP to collect, verify, monitor, and automate across regions with stable ISP proxies.':'使用 ROLA-IP 通过稳定 ISP 代理跨地区采集、验证、监控和自动化。',
+    'Social Media Marketing':'社交媒体营销',
+    'Complete social media automation tasks at scale without running into friction or access limits.':'大规模完成社交媒体自动化任务，减少访问摩擦和限制。',
+    'E-commerce Management':'电商运营管理',
+    'Break through geographic barriers and reach the major online marketplaces around the world.':'突破地域限制，访问全球主要线上市场。',
+    'Data Collection':'数据采集',
+    'Run large-scale web scraping while using reliable static residential proxies to avoid IP blocks and CAPTCHAs.':'使用可靠的静态住宅代理运行大规模网页抓取，避免 IP 封锁和验证码。',
+    'Search Engine Optimization':'搜索引擎优化',
+    'Gather valuable search engine data, perform keyword analysis, and monitor rankings across locations.':'采集有价值的搜索引擎数据，进行关键词分析，并跨地区监控排名。',
+    'Price and Travel Aggregation':'价格与旅行聚合',
+    'Collect up-to-date pricing and inventory information from multiple travel and booking websites with ease.':'轻松从多个旅行和预订网站采集最新价格与库存信息。',
+    'Ad Technology':'广告技术',
+    'Pair static residential proxies with campaign testing to collect competitor insights and identify bot traffic.':'将静态住宅代理用于广告活动测试，采集竞品洞察并识别机器人流量。',
+    'Brand Protection':'品牌保护',
+    'Detect trademark violations, report unauthorized use of your assets, and protect brand reputation.':'发现商标侵权，报告未经授权的资产使用，并保护品牌声誉。',
+    'Market Research':'市场研究',
+    'Retrieve regional data for actionable insight, monitor consumer behavior, and track competitor progress.':'获取区域数据形成可执行洞察，监控消费者行为，并追踪竞品动态。',
+    'Customer Stories':'客户故事',
+    'Real results from real users.':'真实用户的真实结果。',
+    'Data Operations Lead, Northstar Analytics':'Northstar Analytics 数据运营负责人',
+    'Head of Growth, CartPulse':'CartPulse 增长负责人',
+    'Infrastructure Manager, MarketLens':'MarketLens 基础设施经理',
+    'Senior Engineer, DataBridge':'DataBridge 高级工程师',
+    'ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.':'使用 ROLA-IP 的第一周，我们的重试量就减少了一半以上。静态会话让采集管线更容易管理。',
+    'Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.':'从带宽计费转为按 IP 计费后，我们每月的代理支出终于变得可预测，财务也不再处理意外超额费用。',
+    'The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.':'API 当天下午就接入了我们的爬虫栈。上线前，他们的支持团队还帮我们调好了国家路由。',
+    'Switching to ROLA-IP was seamless. The geo-targeting works exactly as documented, and our success rate on restricted regions improved immediately.':'切换到 ROLA-IP 非常顺畅。地区定向和文档描述一致，受限地区的成功率立刻提升。',
+    'Security & Compliance':'安全与合规',
+    'Safe, secure, and industry recognized':'安全可靠，并获得行业认可',
+    'FAQ':'常见问题',
+    'Questions, answered':'常见问题解答',
+    'Is web scraping legal?':'网页抓取合法吗？',
+    'Scraping publicly available data is generally legal in most jurisdictions, particularly after the hiQ v. LinkedIn ruling affirmed access to public information. However, legality depends on what data is collected, how it\'s used, and the target site\'s terms. We recommend reviewing applicable laws and consulting legal counsel for your specific use case. ROLA-IP IPs may only be used to access data you\'re authorized to collect.':'在多数司法辖区，抓取公开可访问数据通常是合法的，尤其是在 hiQ v. LinkedIn 案确认公开信息访问权之后。不过，是否合法仍取决于采集的数据类型、使用方式以及目标网站条款。建议根据具体场景审阅适用法律并咨询法律顾问。ROLA-IP 的 IP 只能用于访问你有权采集的数据。',
+    'Which type of proxy is best for web scraping?':'哪种代理最适合网页抓取？',
+    'It depends on your target. ISP proxies (static residential) are the best all-rounder — they look like real residential connections but offer datacenter-level stability and speed. They\'re ideal for e-commerce, SERP monitoring, and data pipelines that need persistent sessions. For high-volume, low-sensitivity targets, datacenter proxies offer maximum speed. For hyper-restricted targets or mobile-specific content, mobile proxies give the deepest cover.':'这取决于你的目标网站。ISP 代理（静态住宅代理）是更均衡的选择，看起来像真实住宅连接，同时具备数据中心级别的稳定性和速度。它们适合电商、SERP 监控，以及需要持久会话的数据管线。对高量低敏目标，数据中心代理速度更快；对高度受限或移动端内容，移动代理隐蔽性更强。',
+    'Can I target a specific country or city?':'可以定向到特定国家或城市吗？',
+    'Yes. Country-level targeting is available across all 195+ supported locations. City-level targeting is available in 210+ metro areas. You set the target inline in your proxy credentials — no separate config file needed. ASN-level targeting is also available for scenarios where you need to appear on a specific network.':'可以。所有 195+ 支持地区都可进行国家级定向，210+ 都市区域支持城市级定向。你可以直接在代理凭据中设置目标，无需单独配置文件。对于需要指定网络身份的场景，也支持 ASN 级定向。',
+    'Does ROLA-IP work with Scrapy, Puppeteer, and Selenium?':'ROLA-IP 支持 Scrapy、Puppeteer 和 Selenium 吗？',
+    'Yes. Any tool that supports standard HTTP/HTTPS proxy configuration will work — including Scrapy, Puppeteer, Playwright, Selenium, Cheerio, and Octoparse. Just point the tool\'s proxy setting to your ROLA-IP gateway URL with your credentials. Our docs include copy-paste snippets for each framework.':'支持。任何支持标准 HTTP/HTTPS 代理配置的工具都可以使用，包括 Scrapy、Puppeteer、Playwright、Selenium、Cheerio 和 Octoparse。只需将工具的代理设置指向带凭据的 ROLA-IP 网关地址即可。我们的文档提供各框架的可复制代码片段。',
+    'My scraper got blocked — what should I do?':'爬虫被封了怎么办？',
+    'First, switch to rotating mode so each request uses a fresh IP. Second, add realistic request headers (User-Agent, Accept-Language, Referer) to reduce fingerprint signals. Third, lower your request rate and add randomized delays. If blocks persist on a specific target, contact our support team — we can help tune your session strategy or recommend a different proxy type for that site.':'首先切换到轮换模式，让每个请求使用新的 IP。其次添加真实的请求头（User-Agent、Accept-Language、Referer）以减少指纹信号。第三，降低请求频率并加入随机延迟。如果某个目标仍持续封锁，请联系支持团队，我们可以帮你调优会话策略或推荐更适合该站点的代理类型。',
+    'Do you support JavaScript-rendered pages?':'支持 JavaScript 渲染页面吗？',
+    'ROLA-IP provides the proxy infrastructure — for JS rendering you\'ll pair it with a headless browser like Puppeteer or Playwright. Route the browser\'s traffic through your ROLA-IP gateway and you get both JS execution and residential IP coverage. Our docs show exactly how to configure this.':'ROLA-IP 提供代理基础设施。对于 JS 渲染，你可以搭配 Puppeteer 或 Playwright 等无头浏览器使用。将浏览器流量通过 ROLA-IP 网关路由，即可同时获得 JS 执行能力和住宅 IP 覆盖。文档中提供了具体配置方式。',
+    'Is there a free trial?':'有免费试用吗？',
+    'Yes. You can test the network on a 7-day free trial — no credit card required. Trial accounts include 5 ISP IPs and full dashboard access so you can validate success rates and geo-targeting before committing to a plan.':'有。你可以免费试用 7 天，无需信用卡。试用账户包含 5 个 ISP IP 和完整控制台访问权限，便于你在购买前验证成功率和地区定向能力。',
+    'How is pricing calculated for scraping workloads?':'网页抓取场景如何计费？',
+    'ROLA-IP charges per IP, not per GB. You pay a flat monthly price for each IP in your plan, and bandwidth is unlimited. This makes costs completely predictable regardless of how many requests your pipeline sends — ideal for high-volume scraping jobs where bandwidth-based billing would be unpredictable.':'ROLA-IP 按 IP 计费，而不是按 GB 计费。每个套餐中的 IP 都有固定月费，并包含无限带宽。因此无论你的管线发送多少请求，成本都完全可预测，非常适合高量抓取任务。',
+    'Stop fighting bans. Start collecting at scale.':'停止和封禁对抗，开始规模化采集。',
+    'View Pricing':'查看价格',
+    'Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.':'面向数据团队的企业级 ISP 代理。稳定会话、透明按 IP 计费、全球覆盖。',
+    'Product':'产品',
+    'ISP Proxies':'ISP 代理',
+    'Locations':'节点位置',
+    'Free Trial':'免费试用',
+    'Developers':'开发者',
+    'Documentation':'文档',
+    'API Reference':'API 参考',
+    'SDKs':'SDK',
+    'Status':'状态',
+    'Company':'公司',
+    'About':'关于我们',
+    'Contact Sales':'联系销售',
+    'Compliance':'合规',
+    'Privacy & Terms':'隐私与条款',
+    '© 2026 ROLA-IP. All rights reserved.':'© 2026 ROLA-IP. 保留所有权利。'
+  }
+};
+
+function applyLanguage(lang){
+  var dict = translations[lang] || {};
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  document.title = lang === 'zh' ? '使用场景 — ROLA-IP' : 'Use Cases — ROLA-IP';
+  document.querySelectorAll('[data-lang-option]').forEach(function(link){
+    link.classList.toggle('active', link.getAttribute('data-lang-option') === lang);
+  });
+  var skipTags = {SCRIPT:1,STYLE:1,SVG:1,PATH:1,DEFS:1,CLIPPATH:1};
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode:function(node){
+      if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      if (skipTags[node.parentElement.tagName]) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  var nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(function(node){
+    if (!node._enText) node._enText = node.nodeValue;
+    var base = node._enText.trim();
+    var leading = node._enText.match(/^\s*/)[0];
+    var trailing = node._enText.match(/\s*$/)[0];
+    node.nodeValue = lang === 'zh' && dict[base] ? leading + dict[base] + trailing : node._enText;
+  });
+  document.querySelectorAll('[alt],[aria-label]').forEach(function(el){
+    ['alt','aria-label'].forEach(function(attr){
+      if (!el.hasAttribute(attr)) return;
+      var key = '_en_' + attr;
+      if (!el[key]) el[key] = el.getAttribute(attr);
+      var base = el[key];
+      el.setAttribute(attr, lang === 'zh' && dict[base] ? dict[base] : base);
+    });
+  });
+  document.querySelectorAll('a[href]').forEach(function(link){
+    if (link.hasAttribute('data-lang-option')) return;
+    var raw = link.getAttribute('href');
+    if (!raw || raw === '#' || raw.indexOf('mailto:') === 0 || raw.indexOf('tel:') === 0) return;
+    var url;
+    try { url = new URL(raw, location.href); } catch(e) { return; }
+    if (url.origin !== location.origin) return;
+    if (!/\.html$/.test(url.pathname) && raw.charAt(0) !== '#') return;
+    url.searchParams.set('lang', lang);
+    link.setAttribute('href', url.pathname.split('/').pop() + url.search + url.hash);
+  });
+}
+
+var currentLang = new URLSearchParams(window.location.search).get('lang') === 'zh' ? 'zh' : 'en';
+applyLanguage(currentLang);
+document.querySelectorAll('[data-lang-option]').forEach(function(link){
+  link.addEventListener('click', function(event){
+    event.preventDefault();
+    currentLang = link.getAttribute('data-lang-option');
+    var url = new URL(window.location.href);
+    url.searchParams.set('lang', currentLang);
+    history.replaceState(null, '', url);
+    applyLanguage(currentLang);
+    if (typeof renderCode === 'function') renderCode();
+  });
+});
 
 // ---- Marquee pause on logo hover ----
 (function(){

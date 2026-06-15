@@ -195,6 +195,12 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .nav__chev{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
   transform:rotate(45deg) translateY(-2px);opacity:.95}
 .nav__actions{display:flex;align-items:center;gap:16px}
+.nav__lang{display:inline-flex;align-items:center;gap:8px;font-size:var(--text-sm);font-weight:700;color:rgba(244,248,245,.62)}
+.nav__lang a{color:rgba(244,248,245,.78);transition:color .15s}
+.nav__lang a.active,.nav__lang a:hover{color:#fff}
+.nav.scrolled .nav__lang{color:rgba(8,7,3,.36)}
+.nav.scrolled .nav__lang a{color:rgba(8,7,3,.56)}
+.nav.scrolled .nav__lang a.active,.nav.scrolled .nav__lang a:hover{color:#080703}
 .nav__login{font-size:var(--text-sm);font-weight:600;color:rgba(244,248,245,.9);
   padding:8px 16px;border:1px solid rgba(255,255,255,.2);border-radius:8px;
   background:var(--green);color:#04130B;border-color:var(--green);box-shadow:none}
