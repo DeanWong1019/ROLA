@@ -33,6 +33,7 @@
 
   /* ── Page header ── */
   .blog-header{
+    display:none;
     margin-bottom:var(--space-16);
     padding-bottom:var(--space-12);
     border-bottom:1px solid rgba(8,7,3,.08)
@@ -58,6 +59,16 @@
     align-items:flex-end;
     justify-content:space-between;
     gap:var(--space-10)
+  }
+  .blog-filter{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:var(--space-10);
+    margin-bottom:var(--space-12);
+    padding-top:var(--space-6);
+    padding-bottom:var(--space-6);
+    border-bottom:1px solid rgba(8,7,3,.08)
   }
   .blog-header__search{
     flex-shrink:0;
@@ -127,9 +138,8 @@
     grid-template-columns:626px minmax(0,1fr);
     gap:var(--space-10);
     align-items:center;
-    margin-bottom:var(--space-16);
-    padding-bottom:var(--space-16);
-    border-bottom:1px solid rgba(8,7,3,.08)
+    margin-bottom:80px;
+    padding-bottom:0
   }
   .featured__media{
     aspect-ratio:16/10;
@@ -166,15 +176,20 @@
   .featured__link{
     display:inline-flex;
     align-items:center;
-    gap:var(--space-2);
+    align-self:flex-start;
     margin-top:var(--space-4);
+    height:40px;
+    padding:0 16px;
+    border-radius:var(--radius-sm);
+    background:#080703;
+    border:1px solid #080703;
     font-size:var(--text-sm);
     font-weight:600;
-    color:#080703;
-    transition:gap .2s var(--ease)
+    color:#fff;
+    text-decoration:none;
+    transition:background .2s var(--ease)
   }
-  .featured__link:hover{gap:var(--space-3)}
-  .featured__link svg{width:16px;height:16px}
+  .featured__link:hover{background:#1B180B;border-color:#1B180B}
 
   /* ── Blog grid ── */
   .blog-grid{
@@ -354,27 +369,10 @@
 <section class="blog-page" data-screen-label="Blog">
   <div class="container">
 
-    <!-- Page header -->
+    <!-- Page header (hidden) -->
     <div class="blog-header" data-reveal>
       <h1>Blog</h1>
       <p class="blog-header__sub">Transform how you collect data, scale infrastructure, and build for the web.</p>
-      <div class="blog-header__bottom">
-        <div class="blog-topics">
-          <span class="topic-tag">Engineering</span>
-          <span class="topic-tag">Product</span>
-          <span class="topic-tag">Security</span>
-          <span class="topic-tag">Tutorials</span>
-          <span class="topic-tag">Case Studies</span>
-          <span class="topic-tag">Industry</span>
-          <span class="topic-tag">Inside ROLA</span>
-        </div>
-        <div class="blog-header__search">
-          <div class="blog-header__search-row">
-            <i data-lucide="search" class="blog-header__search-icon" aria-hidden="true"></i>
-            <input type="text" class="blog-header__search-input" placeholder="Search articles..." aria-label="Search articles">
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Featured article -->
@@ -383,9 +381,28 @@
       <div class="featured__content">
         <h2>How an astrophysicist uses Codex to help simulate black holes</h2>
         <p class="featured__excerpt">A closer look at how researchers are using AI tools to speed up exploration, reduce repetitive work, and stay focused on the science that matters.</p>
-        <a href="#" class="featured__link">Read article <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        <a href="#" class="featured__link">Read article</a>
       </div>
     </article>
+
+    <!-- Filter bar: topics + search -->
+    <div class="blog-filter" data-reveal>
+      <div class="blog-topics">
+        <span class="topic-tag">Engineering</span>
+        <span class="topic-tag">Product</span>
+        <span class="topic-tag">Security</span>
+        <span class="topic-tag">Tutorials</span>
+        <span class="topic-tag">Case Studies</span>
+        <span class="topic-tag">Industry</span>
+        <span class="topic-tag">Inside ROLA</span>
+      </div>
+      <div class="blog-header__search">
+        <div class="blog-header__search-row">
+          <i data-lucide="search" class="blog-header__search-icon" aria-hidden="true"></i>
+          <input type="text" class="blog-header__search-input" placeholder="Search articles..." aria-label="Search articles">
+        </div>
+      </div>
+    </div>
 
     <!-- Blog grid -->
     <div class="blog-grid">
