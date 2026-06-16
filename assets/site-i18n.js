@@ -13,6 +13,7 @@
     'Coverage':'覆盖地区',
     'Docs':'文档',
     'FAQ':'常见问题',
+    'FAQs':'常见问题',
     'Buy Now':'立即购买',
     'Start Free Trial':'开始免费试用',
     'Start free trial':'开始免费试用',
@@ -226,7 +227,24 @@
     'Why we migrated our DNS layer and cut latency by 40%':'为什么我们迁移 DNS 层并将延迟降低 40%',
     'The technical story behind our DNS infrastructure overhaul, including benchmarks, rollback plans, and unexpected wins.':'DNS 基础设施重构背后的技术故事，包括基准测试、回滚计划和意外收获。',
     'Rate limiting done right: a practical guide for API teams':'正确实现速率限制：面向 API 团队的实用指南',
-    'How to implement fair, predictable rate limits that protect your service without frustrating legitimate users.':'如何实现公平、可预测的速率限制，在保护服务的同时不影响正常用户。'
+    'How to implement fair, predictable rate limits that protect your service without frustrating legitimate users.':'如何实现公平、可预测的速率限制，在保护服务的同时不影响正常用户。',
+    'FAQ — ROLA-IP':'常见问题 — ROLA-IP',
+    'Quick answers to common questions about ROLA-IP proxies, pricing, coverage, and setup.':'关于 ROLA-IP 代理、价格、覆盖范围和设置的常见问题快速解答。',
+    'Is web scraping legal?':'网络爬虫合法吗？',
+    'Scraping publicly available data is generally legal in most jurisdictions, particularly after the hiQ v. LinkedIn ruling affirmed access to public information. However, legality depends on what data is collected, how it\'s used, and the target site\'s terms. We recommend reviewing applicable laws and consulting legal counsel for your specific use case. ROLA-IP IPs may only be used to access data you\'re authorized to collect.':'抓取公开数据在大多数司法管辖区是合法的，尤其是 hiQ v. LinkedIn 案确认了对公开信息的访问权。但合法性取决于抓取的数据内容、用途以及目标网站的服务条款。建议查阅适用法律并咨询法律顾问。ROLA-IP 的 IP 仅可用于访问您有权收集的数据。',
+    'Which type of proxy is best for web scraping?':'哪种代理最适合爬虫？',
+    'It depends on your target. ISP proxies (static residential) are the best all-rounder — they look like real residential connections but offer datacenter-level stability and speed. They\'re ideal for e-commerce, SERP monitoring, and data pipelines that need persistent sessions. For high-volume, low-sensitivity targets, datacenter proxies offer maximum speed. For hyper-restricted targets or mobile-specific content, mobile proxies give the deepest cover.':'取决于目标网站。ISP 代理（静态住宅）是最佳全能选手——看起来像真实的住宅连接，但具备数据中心级别的稳定性和速度，适合电商、SERP 监控和需要持久会话的数据管道。大流量、低敏感目标适合数据中心代理；高度受限目标或移动端内容适合移动代理。',
+    'Can I target a specific country or city?':'可以定位到特定国家或城市吗？',
+    'Yes. Country-level targeting is available across all 195+ supported locations. City-level targeting is available in 210+ metro areas. You set the target inline in your proxy credentials — no separate config file needed. ASN-level targeting is also available for scenarios where you need to appear on a specific network.':'可以。国家级定位覆盖全部 195+ 个支持地区，城市级定位覆盖 210+ 个城市。直接在代理凭证中设置目标位置，无需额外配置文件。还支持 ASN 级定位，适用于需要出现在特定网络的场景。',
+    'Does ROLA-IP work with Scrapy, Puppeteer, and Selenium?':'支持 Scrapy、Puppeteer、Selenium 吗？',
+    'Yes. Any tool that supports standard HTTP/HTTPS proxy configuration will work — including Scrapy, Puppeteer, Playwright, Selenium, Cheerio, and Octoparse. Just point the tool\'s proxy setting to your ROLA-IP gateway URL with your credentials. Our docs include copy-paste snippets for each framework.':'支持。任何兼容标准 HTTP/HTTPS 代理配置的工具都可以使用，包括 Scrapy、Puppeteer、Playwright、Selenium、Cheerio 和 Octoparse。只需将工具的代理设置指向你的 ROLA-IP 网关地址和凭证即可。文档中有各框架的即用代码片段。',
+    'My scraper got blocked — what should I do?':'爬虫被封了怎么办？',
+    'First, switch to rotating mode so each request uses a fresh IP. Second, add realistic request headers (User-Agent, Accept-Language, Referer) to reduce fingerprint signals. Third, lower your request rate and add randomized delays. If blocks persist on a specific target, contact our support team — we can help tune your session strategy or recommend a different proxy type for that site.':'第一步，切换到轮询模式，让每个请求使用新的 IP。第二步，添加真实的请求头（User-Agent、Accept-Language、Referer）减少指纹信号。第三步，降低请求频率并加入随机延迟。如果特定目标仍然被封，联系我们的客服团队——我们可以帮你优化会话策略或推荐更合适的代理类型。',
+    'Do you support JavaScript-rendered pages?':'支持 JS 渲染页面吗？',
+    'ROLA-IP provides the proxy infrastructure — for JS rendering you\'ll pair it with a headless browser like Puppeteer or Playwright. Route the browser\'s traffic through your ROLA-IP gateway and you get both JS execution and residential IP coverage. Our docs show exactly how to configure this.':'ROLA-IP 提供代理基础设施——JS 渲染需要配合 Puppeteer 或 Playwright 等无头浏览器使用。将浏览器流量通过 ROLA-IP 网关路由，即可同时获得 JS 执行和住宅 IP 覆盖。文档中有详细的配置说明。',
+    'Yes. You can test the network on a 7-day free trial — no credit card required. Trial accounts include 5 ISP IPs and full dashboard access so you can validate success rates and geo-targeting before committing to a plan.':'有。提供 7 天免费试用，无需信用卡。试用账户包含 5 个 ISP IP 和完整的后台管理权限，可以在购买套餐前验证成功率和地理定位效果。',
+    'How is pricing calculated for scraping workloads?':'爬虫费用怎么算？',
+    'ROLA-IP charges per IP, not per GB. You pay a flat monthly price for each IP in your plan, and bandwidth is unlimited. This makes costs completely predictable regardless of how many requests your pipeline sends — ideal for high-volume scraping jobs where bandwidth-based billing would be unpredictable.':'ROLA-IP 按 IP 数量收费，不按流量（GB）计费。每个 IP 月付固定价格，带宽不限。无论你的数据管道发送多少请求，费用都完全可预测——非常适合大流量爬虫场景，避免了按流量计费的不确定性。'
   };
 
   function pageName(){
