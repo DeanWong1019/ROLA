@@ -241,7 +241,11 @@
     'ROLA-IP provides the proxy infrastructure — for JS rendering you\'ll pair it with a headless browser like Puppeteer or Playwright. Route the browser\'s traffic through your ROLA-IP gateway and you get both JS execution and residential IP coverage. Our docs show exactly how to configure this.':'ROLA-IP 提供代理基础设施——JS 渲染需要配合 Puppeteer 或 Playwright 等无头浏览器使用。将浏览器流量通过 ROLA-IP 网关路由，即可同时获得 JS 执行和住宅 IP 覆盖。文档中有详细的配置说明。',
     'Yes. You can test the network on a 7-day free trial — no credit card required. Trial accounts include 5 ISP IPs and full dashboard access so you can validate success rates and geo-targeting before committing to a plan.':'有。提供 7 天免费试用，无需信用卡。试用账户包含 5 个 ISP IP 和完整的后台管理权限，可以在购买套餐前验证成功率和地理定位效果。',
     'How is pricing calculated for scraping workloads?':'爬虫费用怎么算？',
-    'ROLA-IP charges per IP, not per GB. You pay a flat monthly price for each IP in your plan, and bandwidth is unlimited. This makes costs completely predictable regardless of how many requests your pipeline sends — ideal for high-volume scraping jobs where bandwidth-based billing would be unpredictable.':'ROLA-IP 按 IP 数量收费，不按流量（GB）计费。每个 IP 月付固定价格，带宽不限。无论你的数据管道发送多少请求，费用都完全可预测——非常适合大流量爬虫场景，避免了按流量计费的不确定性。'
+    'ROLA-IP charges per IP, not per GB. You pay a flat monthly price for each IP in your plan, and bandwidth is unlimited. This makes costs completely predictable regardless of how many requests your pipeline sends — ideal for high-volume scraping jobs where bandwidth-based billing would be unpredictable.':'ROLA-IP 按 IP 数量收费，不按流量（GB）计费。每个 IP 月付固定价格，带宽不限。无论你的数据管道发送多少请求，费用都完全可预测——非常适合大流量爬虫场景，避免了按流量计费的不确定性。',
+    'Free trial':'免费试用',
+    'Most popular':'最受欢迎',
+    'Scale':'扩展版',
+    '/IP':'/个 IP'
   };
 
   function pageName(){
