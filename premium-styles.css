@@ -3,8 +3,34 @@
    ISP / Static Residential Proxies
    ============================================================ */
 
+/* ── Alibaba PuHuiTi 3 — CJK characters only ── */
+@font-face{
+  font-family:'Alibaba PuHuiTi 3';
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+  src:url('https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-55-regular/AlibabaPuHuiTi-3-55-Regular.woff2') format('woff2');
+  unicode-range:U+4E00-9FFF,U+3400-4DBF,U+20000-2A6DF,U+F900-FAFF,U+3000-303F,U+FF00-FFEF,U+FE30-FE4F
+}
+@font-face{
+  font-family:'Alibaba PuHuiTi 3';
+  font-weight:500 600;
+  font-style:normal;
+  font-display:swap;
+  src:url('https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-65-medium/AlibabaPuHuiTi-3-65-Medium.woff2') format('woff2');
+  unicode-range:U+4E00-9FFF,U+3400-4DBF,U+20000-2A6DF,U+F900-FAFF,U+3000-303F,U+FF00-FFEF,U+FE30-FE4F
+}
+@font-face{
+  font-family:'Alibaba PuHuiTi 3';
+  font-weight:700 800;
+  font-style:normal;
+  font-display:swap;
+  src:url('https://cdn.jsdelivr.net/npm/alibabapuhuiti-3-85-bold/AlibabaPuHuiTi-3-85-Bold.woff2') format('woff2');
+  unicode-range:U+4E00-9FFF,U+3400-4DBF,U+20000-2A6DF,U+F900-FAFF,U+3000-303F,U+FF00-FFEF,U+FE30-FE4F
+}
+
 :root{
-  --font-sans:'Inter';
+  --font-sans:'Inter','Alibaba PuHuiTi 3',sans-serif;
   --font-mono:'Inter';
 
   /* Surfaces */
