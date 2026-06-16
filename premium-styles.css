@@ -840,7 +840,11 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .light-rays-bg{position:absolute;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen}
 .light-rays-bg canvas{display:block;width:100%!important;height:100%!important}
 .compliance__badges{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;width:100%;margin-top:60px}
-.compliance__badges img{height:120px;width:auto;object-fit:contain}
+.compliance__badges img{height:120px;width:auto;object-fit:contain;
+  filter:
+    drop-shadow(0 0 1px rgba(255,255,255,.45))
+    drop-shadow(0 0 1px rgba(255,255,255,.45))
+    drop-shadow(0 0 4px rgba(255,255,255,.08))}
 .compliance__grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 .compliance__copy h2{margin-bottom:16px}
 .compliance__copy p{font-size:1rem;color:var(--body);line-height:1.68;margin-bottom:16px}
