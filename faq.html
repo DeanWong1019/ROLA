@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — ROLA-IP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="premium-styles.css?v=blog-page-2">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* ── Nav light overrides ── */
+  .nav:not(.scrolled) .logo{color:#080703}
+  .nav:not(.scrolled) .logo__wordmark path{fill:#080703}
+  .nav:not(.scrolled) .nav__links a{color:rgba(8,7,3,.7)}
+  .nav:not(.scrolled) .nav__links a.active,
+  .nav:not(.scrolled) .nav__links a:hover{color:#080703}
+  .nav:not(.scrolled) .nav__lang{color:rgba(8,7,3,.36)}
+  .nav:not(.scrolled) .nav__lang a{color:rgba(8,7,3,.7)}
+  .nav:not(.scrolled) .nav__lang a.active,
+  .nav:not(.scrolled) .nav__lang a:hover{color:#080703}
+  .nav:not(.scrolled) .nav__login{color:#04130B;border-color:var(--green);background:var(--green)}
+  .nav:not(.scrolled) .hamburger span{background:#080703}
+  .section{background:#fff}
+
+  /* ── Blog page wrapper ── */
+  .blog-page{
+    padding-top:152px;
+    padding-bottom:72px;
+    background:#fff
+  }
+
+  /* ── Page header ── */
+  .blog-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:var(--space-10);
+    margin-bottom:0;
+    padding-bottom:0;
+  }
+  .faq__layout{
+    display:grid;
+    grid-template-columns:1fr 840px;
+    gap:var(--space-16);
+    align-items:start;
+  }
+  .faq__layout .blog-header{
+    padding-top:0;
+  }
+  .faq__layout .faq__wrap{ max-width:840px; margin:0 }
+  @media(max-width:1024px){
+    .faq__layout{ grid-template-columns:1fr; gap:var(--space-10) }
+    .faq__layout .blog-header{ position:static }
+  }
+  .blog-header__copy{min-width:0}
+  .blog-header h1{
+    margin:0 0 var(--space-5);
+    font-size:clamp(2rem,3.5vw,2.75rem);
+    font-weight:800;
+    line-height:1.08;
+    letter-spacing:-.03em;
+    color:#080703;
+    max-width:600px
+  }
+  .blog-header__sub{
+    margin:0;
+    font-size:var(--text-md);
+    line-height:1.55;
+    color:rgba(8,7,3,.58);
+    max-width:480px
+  }
+  .blog-header__bottom{
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-end;
+    gap:var(--space-10)
+  }
+  .blog-header__search{
+    flex-shrink:0;
+    width:320px
+  }
+  .blog-header__search-row{
+    display:flex;
+    align-items:center;
+    gap:var(--space-2);
+    height:44px;
+    padding:0 var(--space-5);
+    border-radius:999px;
+    background:rgba(8,7,3,.05);
+    border:none;
+    transition:background .2s var(--ease)
+  }
+  .blog-header__search-row:focus-within{
+    background:rgba(8,7,3,.08)
+  }
+  .blog-header__search-icon{
+    width:18px;height:18px;
+    flex-shrink:0;
+    color:rgba(8,7,3,.38)
+  }
+  .blog-header__search-input{
+    flex:1;min-width:0;
+    border:0;outline:0;background:transparent;
+    font-size:var(--text-sm);
+    font-weight:400;
+    color:#080703
+  }
+  .blog-header__search-input::placeholder{
+    color:rgba(8,7,3,.38)
+  }
+
+  /* ── Topic tags row ── */
+  .blog-topics{
+    display:flex;
+    align-items:center;
+    gap:var(--space-2);
+    flex-wrap:wrap
+  }
+  .topic-tag{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height:32px;
+    padding:0 var(--space-4);
+    border-radius:999px;
+    background:rgba(26,215,159,.13);
+    border:0;
+    font-size:var(--text-sm);
+    font-weight:600;
+    letter-spacing:-.01em;
+    text-transform:none;
+    color:#008D72;
+    cursor:pointer;
+    transition:all .15s var(--ease)
+  }
+  .topic-tag:hover{
+    background:rgba(26,215,159,.22)
+  }
+
+  /* ── Site bottom ── */
+  .site-bottom{
+    margin-top:-1px;
+    background:#071210!important
+  }
+  .site-bottom::before{
+    background:
+      radial-gradient(130% 96% at 50% -6%,rgba(240,255,248,.98) 0%,rgba(180,255,220,.92) 16%,rgba(100,255,180,.8) 32%,rgba(26,215,159,.6) 50%,rgba(0,141,114,.28) 70%,rgba(7,18,16,0) 90%),
+      radial-gradient(900px 520px at 82% 92%,rgba(180,255,220,.09),rgba(180,255,220,0) 62%),
+      linear-gradient(0deg,#071210 0%,#0a1f1a 34%,rgba(14,40,32,.72) 52%,rgba(7,18,16,0) 78%)!important
+  }
+  .site-bottom::after{
+    top:-2px!important;
+    height:260px!important;
+    background:linear-gradient(180deg,#fff 0%,#fff 12%,rgba(255,255,255,.86) 28%,rgba(248,255,252,.48) 62%,rgba(248,255,252,0) 100%)!important
+  }
+  /* ── Responsive ── */
+  @media(max-width:1024px){
+    .blog-header{
+      display:block
+    }
+    .blog-header__bottom{
+      margin-top:var(--space-8);
+      flex-direction:column;
+      align-items:flex-start;
+      gap:var(--space-8)
+    }
+    .blog-header__search{width:100%;max-width:400px}
+  }
+  @media(max-width:760px){
+    .blog-page{
+      padding-top:100px;
+      padding-bottom:64px
+    }
+    .faq__layout{
+      gap:var(--space-8)
+    }
+    .blog-header{
+      margin-bottom:var(--space-8)
+    }
+    .blog-header h1{
+      font-size:clamp(1.75rem,7vw,2.25rem);
+      margin-bottom:var(--space-3)
+    }
+    .blog-header__sub{
+      font-size:var(--text-base)
+    }
+  }
+  @media(max-width:480px){
+    .blog-page{
+      padding-top:88px;
+      padding-bottom:56px
+    }
+    .blog-header h1{
+      font-size:1.75rem;
+      letter-spacing:-.02em
+    }
+    .blog-header__sub{
+      font-size:var(--text-sm);
+      max-width:100%
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="none" aria-hidden="true"><g fill="#11A757" clip-path="url(#rola-logo)"><path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/><path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity=".4"/></g><defs><clipPath id="rola-logo"><path fill="#fff" d="M0 20V0h24v20z"/></clipPath></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="76" height="13" fill="none" aria-label="ROLA-IP" class="logo__wordmark"><path fill="#D4DADD" d="M2.7 12.24H0V.18h6.66q1.494 0 2.538.432 1.044.414 1.584 1.224t.54 1.962q0 .99-.378 1.692T9.81 6.624q-.756.414-1.89.522v.144q.81.216 1.206.648T9.864 9l1.746 3.24H8.478L6.822 9.108A3.2 3.2 0 0 0 6.3 8.37a1.47 1.47 0 0 0-.702-.378q-.414-.126-1.116-.126H2.7zm0-9.63v3.222h3.942q.954 0 1.404-.324.45-.342.45-1.296 0-.9-.45-1.242-.45-.36-1.404-.36zm17.053 9.81q-1.98 0-3.456-.756a5.5 5.5 0 0 1-2.25-2.16q-.774-1.404-.774-3.294t.774-3.276a5.35 5.35 0 0 1 2.25-2.16Q17.773 0 19.753 0q2.052 0 3.51.774a5.35 5.35 0 0 1 2.25 2.16q.792 1.386.792 3.276t-.792 3.294a5.5 5.5 0 0 1-2.25 2.16q-1.458.756-3.51.756m0-2.592q1.332 0 2.124-.342.81-.36 1.17-1.152.378-.792.378-2.124 0-1.35-.378-2.124a2.17 2.17 0 0 0-1.17-1.134q-.792-.36-2.124-.36-1.314 0-2.106.36a2.17 2.17 0 0 0-1.152 1.134q-.36.774-.36 2.124 0 1.332.36 2.124t1.152 1.152q.792.342 2.106.342m11.51 2.412h-2.7V.18h2.7zm7.181 0h-9.126V9.81h9.126zm4.381 0h-3.024L45.075.18h3.852l5.31 12.06h-3.096L47.83 4.518l-.738-1.872h-.198l-.738 1.872zm8.352-2.664h-8.496v-2.43h8.496zm11.327 2.664h-2.7V.18h2.7zm8.794-3.33h-5.364V6.48h5.076q1.134 0 1.656-.396.54-.414.54-1.548 0-1.098-.54-1.512-.522-.414-1.656-.414h-5.076V.18h5.364q1.404 0 2.43.522a3.63 3.63 0 0 1 1.584 1.476q.576.972.576 2.358t-.576 2.376a3.74 3.74 0 0 1-1.584 1.494q-1.026.504-2.43.504m-3.6 3.33h-2.7V.18h2.7z"/></svg></a>
+    <div class="nav__links">
+      <a href="index.html">Proxies</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="use-case.html">Use Cases</a>
+      <a href="blog.html">Blog</a>
+      <a href="faq.html" class="active">FAQ</a>
+    </div>
+    <div class="nav__actions">
+      <a href="#" class="nav__login">Register/Login</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Proxies</a>
+  <a href="index.html#features">Features</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="use-case.html">Use Cases</a>
+  <a href="blog.html">Blog</a>
+  <a href="faq.html" class="active">FAQ</a>
+  <a href="index.html#integration">Docs</a>
+  <a href="pricing.html" class="btn btn--secondary btn--block">Start Free Trial</a>
+</div>
+
+<section class="blog-page" data-screen-label="FAQ">
+  <div class="container">
+
+    <div class="faq__layout" data-reveal>
+      <!-- Page header -->
+      <div class="blog-header">
+        <div class="blog-header__copy">
+          <h1>Answers to your questions</h1>
+          <p class="blog-header__sub">Quick answers to common questions about ROLA-IP proxies, pricing, coverage, and setup.</p>
+        </div>
+      </div>
+
+      <div class="faq__wrap">
+      <div class="faq-item">
+        <button class="faq-item__q">Is web scraping legal?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Scraping publicly available data is generally legal in most jurisdictions, particularly after the hiQ v. LinkedIn ruling affirmed access to public information. However, legality depends on what data is collected, how it's used, and the target site's terms. We recommend reviewing applicable laws and consulting legal counsel for your specific use case. ROLA-IP IPs may only be used to access data you're authorized to collect.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Which type of proxy is best for web scraping?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>It depends on your target. ISP proxies (static residential) are the best all-rounder — they look like real residential connections but offer datacenter-level stability and speed. They're ideal for e-commerce, SERP monitoring, and data pipelines that need persistent sessions. For high-volume, low-sensitivity targets, datacenter proxies offer maximum speed. For hyper-restricted targets or mobile-specific content, mobile proxies give the deepest cover.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Can I target a specific country or city?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Yes. Country-level targeting is available across all 195+ supported locations. City-level targeting is available in 210+ metro areas. You set the target inline in your proxy credentials — no separate config file needed. ASN-level targeting is also available for scenarios where you need to appear on a specific network.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Does ROLA-IP work with Scrapy, Puppeteer, and Selenium?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Yes. Any tool that supports standard HTTP/HTTPS proxy configuration will work — including Scrapy, Puppeteer, Playwright, Selenium, Cheerio, and Octoparse. Just point the tool's proxy setting to your ROLA-IP gateway URL with your credentials. Our docs include copy-paste snippets for each framework.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">My scraper got blocked — what should I do?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>First, switch to rotating mode so each request uses a fresh IP. Second, add realistic request headers (User-Agent, Accept-Language, Referer) to reduce fingerprint signals. Third, lower your request rate and add randomized delays. If blocks persist on a specific target, contact our support team — we can help tune your session strategy or recommend a different proxy type for that site.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Do you support JavaScript-rendered pages?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>ROLA-IP provides the proxy infrastructure — for JS rendering you'll pair it with a headless browser like Puppeteer or Playwright. Route the browser's traffic through your ROLA-IP gateway and you get both JS execution and residential IP coverage. Our docs show exactly how to configure this.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">Is there a free trial?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>Yes. You can test the network on a 7-day free trial — no credit card required. Trial accounts include 5 ISP IPs and full dashboard access so you can validate success rates and geo-targeting before committing to a plan.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">How is pricing calculated for scraping workloads?<span class="faq-item__ic"></span></button>
+        <div class="faq-item__a"><p>ROLA-IP charges per IP, not per GB. You pay a flat monthly price for each IP in your plan, and bandwidth is unlimited. This makes costs completely predictable regardless of how many requests your pipeline sends — ideal for high-volume scraping jobs where bandwidth-based billing would be unpredictable.</p></div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</section>
+<div class="site-bottom">
+<section class="finalcta" data-screen-label="Final CTA">
+  <div class="container">
+    <div class="finalcta__box" data-reveal>
+      <h2>Start routing through stable ISP proxies today</h2>
+      <div class="finalcta__ctas">
+        <a href="pricing.html" class="btn btn--primary">Start free trial</a>
+        <a href="#" class="btn btn--ghost">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand" data-reveal>
+        <a href="index.html" class="logo">ROLA</a>
+        <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
+      </div>
+      <div data-reveal data-delay="1">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#features">ISP Proxies</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="index.html#geo">Locations</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div data-reveal data-delay="2">
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="index.html#integration">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">SDKs</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+      <div data-reveal data-delay="3">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact Sales</a></li>
+          <li><a href="index.html#compliance">Compliance</a></li>
+          <li><a href="#">Privacy &amp; Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom" data-reveal data-delay="4">
+      <span>&copy; 2026 ROLA-IP. All rights reserved.</span>
+      <span>sales@rola-ip.com</span>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+  function enable(){ if (document.visibilityState === 'visible') { document.documentElement.classList.add('anim'); } }
+  if (document.visibilityState === 'visible') { enable(); }
+  else { document.addEventListener('visibilitychange', function once(){ if(document.visibilityState === 'visible'){ enable(); document.removeEventListener('visibilitychange', once); } }); }
+})();
+
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+const burger = document.getElementById('hamburger');
+const mnav = document.getElementById('mobileNav');
+burger.addEventListener('click', () => {
+  const open = mnav.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mnav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  mnav.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+}));
+
+// Scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+// Smooth anchor scrolling
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#') return;
+    const el = document.querySelector(id);
+    if (el) {
+      e.preventDefault();
+      window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth'});
+    }
+  });
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-item__q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-item__a').style.maxHeight = null;
+    });
+    if (!open) {
+      item.classList.add('open');
+      const a = item.querySelector('.faq-item__a');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+if (window.lucide && typeof window.lucide.createIcons === 'function') {
+  window.lucide.createIcons({
+    attrs: {
+      width: 24,
+      height: 24,
+      'stroke-width': 2
+    }
+  });
+}
+</script>
+<script src="assets/site-i18n.js"></script>
+</body>
+</html>
