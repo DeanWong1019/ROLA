@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#CCF5E8"/>
+  <circle cx="200" cy="120" r="40" fill="none" stroke="#1ad79f" stroke-width="2" opacity=".5"/>
+  <circle cx="400" cy="180" r="55" fill="none" stroke="#1ad79f" stroke-width="2" opacity=".6"/>
+  <circle cx="600" cy="100" r="35" fill="none" stroke="#1ad79f" stroke-width="2" opacity=".4"/>
+  <circle cx="300" cy="320" r="48" fill="none" stroke="#1ad79f" stroke-width="2" opacity=".5"/>
+  <circle cx="550" cy="350" r="30" fill="none" stroke="#1ad79f" stroke-width="2" opacity=".4"/>
+  <line x1="200" y1="120" x2="400" y2="180" stroke="#1ad79f" stroke-width="1.5" opacity=".3"/>
+  <line x1="400" y1="180" x2="600" y2="100" stroke="#1ad79f" stroke-width="1.5" opacity=".3"/>
+  <line x1="400" y1="180" x2="300" y2="320" stroke="#1ad79f" stroke-width="1.5" opacity=".3"/>
+  <line x1="300" y1="320" x2="550" y2="350" stroke="#1ad79f" stroke-width="1.5" opacity=".3"/>
+  <circle cx="200" cy="120" r="6" fill="#1ad79f" opacity=".7"/>
+  <circle cx="400" cy="180" r="6" fill="#1ad79f" opacity=".8"/>
+  <circle cx="600" cy="100" r="6" fill="#1ad79f" opacity=".6"/>
+  <circle cx="300" cy="320" r="6" fill="#1ad79f" opacity=".7"/>
+  <circle cx="550" cy="350" r="6" fill="#1ad79f" opacity=".6"/>
+</svg>
