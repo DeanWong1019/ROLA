@@ -134,7 +134,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
   height:40px;padding:0 16px;
-  font-size:var(--text-sm);font-weight:500;
+  font-size:var(--text-sm);font-weight:500;line-height:1;
   border-radius:8px;border:1px solid transparent;
   transition:background .15s var(--ease),color .15s var(--ease),
              border-color .15s var(--ease);
@@ -189,7 +189,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .logo__mark::after{content:'';position:absolute;inset:8px;border-radius:4px;
   border:1.5px solid rgba(4,19,11,.55)}
 .nav__links{display:flex;align-items:center;gap:44px}
-.nav__links a{display:inline-flex;align-items:center;gap:8px;font-size:var(--text-sm);font-weight:600;color:rgba(244,248,245,.88);transition:color .15s}
+.nav__links a{display:inline-flex;align-items:center;gap:8px;font-size:var(--text-sm);font-weight:600;line-height:1;color:rgba(244,248,245,.88);transition:color .15s}
 .nav.scrolled .nav__links a{color:rgba(8,7,3,.7)}
 .nav.scrolled .nav__links a.active,.nav.scrolled .nav__links a:hover{color:#080703}
 .nav__chev{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
@@ -201,9 +201,12 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .nav.scrolled .nav__lang{color:rgba(8,7,3,.36)}
 .nav.scrolled .nav__lang a{color:rgba(8,7,3,.56)}
 .nav.scrolled .nav__lang a.active,.nav.scrolled .nav__lang a:hover{color:#080703}
-.nav__login{font-size:var(--text-sm);font-weight:600;color:rgba(244,248,245,.9);
-  padding:8px 16px;border:1px solid rgba(255,255,255,.2);border-radius:8px;
-  background:var(--green);color:#04130B;border-color:var(--green);box-shadow:none}
+.nav__login{display:inline-flex;align-items:center;justify-content:center;
+  height:36px;padding:0 16px;line-height:1;
+  font-size:var(--text-sm);font-weight:600;color:rgba(244,248,245,.9);
+  border:1px solid rgba(255,255,255,.2);border-radius:8px;
+  background:var(--green);color:#04130B;border-color:var(--green);box-shadow:none;
+  white-space:nowrap}
 .nav__login:hover{background:var(--green-2);border-color:var(--green-2);color:#04130B}
 .nav.scrolled .nav__login{color:#04130B;border-color:var(--green);background:var(--green);box-shadow:none}
 .nav.scrolled .nav__login:hover{color:#04130B;border-color:var(--green-2);background:var(--green-2)}
@@ -1409,6 +1412,11 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 
 /* ── Chinese (zh-CN) line-height overrides ── */
 html[lang="zh-CN"] body{line-height:1.8}
+html[lang="zh-CN"] .btn,
+html[lang="zh-CN"] .nav__login,
+html[lang="zh-CN"] .nav__links a,
+html[lang="zh-CN"] .lang-btn,
+html[lang="zh-CN"] [class*="btn"]{line-height:1!important}
 html[lang="zh-CN"] p{line-height:1.8}
 html[lang="zh-CN"] li{line-height:1.8}
 html[lang="zh-CN"] .section-sub{line-height:1.85}
