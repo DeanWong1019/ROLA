@@ -1370,7 +1370,8 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   .footer__grid{grid-template-columns:1fr 1fr;gap:36px}
 }
 @media(max-width:760px){
-  :root{--px:20px}
+  :root{--px:16px}
+  .container{padding:0 16px}
   .finalcta__ctas .btn{width:auto;max-width:none}
   .section{padding:70px 0}
   .nav__links,.nav__login{display:none}
@@ -1412,6 +1413,10 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   .geo__metrics{gap:24px}
   .trustbar .sep{display:none}
   .trustbar__inner{justify-content:flex-start;gap:16px}
+  /* FAQ mobile */
+  .faq-item__q{padding:18px 16px;font-size:var(--text-sm)}
+  .faq-item__a p{padding:0 16px 18px}
+  .faq-item{margin-bottom:10px}
 }
 @media(max-width:440px){
   .hero h1{font-size:clamp(2.25rem,12vw,3rem);line-height:1.02}
