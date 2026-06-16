@@ -10,7 +10,11 @@
 <link rel="stylesheet" href="premium-styles.css?v=blog-page-2">
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
+  /* ── White page base ── */
+  html,body{background:#fff}
+
   /* ── Nav light overrides ── */
+  .nav:not(.scrolled){background:rgba(255,255,255,.92);backdrop-filter:blur(16px) saturate(140%)}
   .nav:not(.scrolled) .logo{color:#080703}
   .nav:not(.scrolled) .logo__wordmark path{fill:#080703}
   .nav:not(.scrolled) .nav__links a{color:rgba(8,7,3,.7)}
