@@ -571,7 +571,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   color:#080703}
 .features-head{display:flex;align-items:flex-end;justify-content:space-between;gap:48px;margin-bottom:48px}
 #features .features-head .section-head{margin-bottom:0;max-width:580px;flex-shrink:0}
-.features-head__desc{flex:1;max-width:320px;color:rgba(8,7,3,.52);font-size:1.0625rem;line-height:1.55;padding-bottom:6px}
+.features-head__desc{flex:1;max-width:320px;color:rgba(8,7,3,.52);font-size:1.0625rem;line-height:1.55}
 #features .section-head{max-width:760px;margin-bottom:48px}
 #features .eyebrow{padding:8px 16px;border-radius:999px;background:#fff;border:1px solid rgba(8,7,3,.08);
   box-shadow:0 6px 18px rgba(8,7,3,.08);color:rgba(8,7,3,.58);font-size:var(--text-xs);
@@ -824,7 +824,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .tcard__avatar{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:block;object-fit:cover;
   background:#f3f4f3;border:2px solid #fff;box-shadow:0 0 0 1px rgba(8,7,3,.06)}
 .tcard__name{font-size:0.9375rem;font-weight:700;color:#080703;letter-spacing:-.01em}
-.tcard__role{font-size:var(--text-sm);color:rgba(8,7,3,.5);margin-top:2px;font-weight:400}
+.tcard__role{font-size:var(--text-sm);color:rgba(8,7,3,.5);font-weight:400}
 .tcard__company{font-size:var(--text-xs);color:rgba(8,7,3,.38);margin-top:1px;font-weight:500}
 
 /* ============================================================
@@ -985,6 +985,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 #features .section-sub,#pricing .section-sub,#geo .section-sub,#use-cases .section-sub,
 #integration .section-sub,[data-screen-label="Testimonials"] .section-sub,#faq .section-sub{
   max-width:620px;margin:16px auto 0;font-size:var(--text-md);line-height:1.65}
+#integration .section-sub{margin-left:0}
 #features .h-section,#pricing .h-section,#geo .h-section{color:#080703}
 #features .section-sub,#pricing .section-sub,#geo .section-sub{color:rgba(8,7,3,.58)}
 #use-cases .h-section,#integration .h-section,[data-screen-label="Testimonials"] .h-section,#compliance .h-section,#faq .h-section,
@@ -1124,7 +1125,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 #geo{padding:70px 0!important}
 .geo-head{display:flex;align-items:flex-end;justify-content:space-between;gap:48px}
 .geo-head .section-head{margin-bottom:0!important;max-width:580px;flex-shrink:0}
-.geo-head__desc{flex:1;max-width:320px;color:rgba(8,7,3,.52);font-size:1.0625rem;line-height:1.55;padding-bottom:6px}
+.geo-head__desc{flex:1;max-width:320px;color:rgba(8,7,3,.52);font-size:1.0625rem;line-height:1.55}
 .geo__card-wrap{display:flex;gap:0;align-items:center;align-content:flex-start;justify-content:space-between;flex-wrap:wrap}
 .geo__stats{position:relative;z-index:1;flex:0 0 auto;display:grid;grid-template-columns:auto auto;gap:32px 48px;align-content:start}
 .geo__stat{display:flex;flex-direction:column;gap:10px}
