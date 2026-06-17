@@ -248,11 +248,6 @@
     '/IP':'/个 IP'
   };
 
-  function pageName(){
-    var path = location.pathname.split('/').pop() || 'index.html';
-    return path;
-  }
-
   function localizedHref(lang){
     var url = new URL(location.href);
     url.searchParams.set('lang', lang);
