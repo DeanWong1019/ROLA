@@ -304,25 +304,33 @@
 
   /* ── Responsive ── */
   @media(max-width:1024px){
+    .blog-filter{
+      align-items:flex-start;
+      gap:var(--space-6)
+    }
     .blog-header__bottom{
       flex-direction:column;
       align-items:flex-start;
       gap:var(--space-8)
     }
-    .blog-header__search{width:100%;max-width:400px}
+    .blog-header__search{width:100%;max-width:420px}
     .featured{
       grid-template-columns:1fr;
-      gap:var(--space-6)
+      gap:var(--space-6);
+      max-width:760px
     }
     .blog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
   @media(max-width:760px){
     .blog-page{
-      padding-top:108px
+      padding-top:104px;
+      padding-bottom:72px
     }
     .blog-header{
-      margin-bottom:var(--space-12);
-      padding-bottom:var(--space-8)
+      display:block;
+      margin-bottom:var(--space-8);
+      padding-bottom:0;
+      border-bottom:0
     }
     .blog-header__bottom{
       flex-direction:column;
@@ -333,27 +341,104 @@
       font-size:clamp(2rem,8vw,2.75rem);
       margin-bottom:var(--space-3)
     }
-    .blog-header__search{max-width:100%}
+    .blog-header__sub{
+      margin-bottom:0;
+      font-size:var(--text-base);
+      line-height:1.65
+    }
+    .blog-filter{
+      flex-direction:column;
+      align-items:stretch;
+      gap:var(--space-4);
+      margin-bottom:var(--space-8);
+      padding-top:0;
+      padding-bottom:var(--space-5)
+    }
+    .blog-header__search{
+      width:100%;
+      max-width:100%
+    }
+    .blog-header__search-row{
+      height:48px;
+      padding:0 var(--space-4)
+    }
     .blog-topics{
       flex-wrap:nowrap;
       overflow-x:auto;
+      margin:0 -16px;
+      padding:0 16px 2px;
       -webkit-overflow-scrolling:touch;
       scrollbar-width:none
     }
     .blog-topics::-webkit-scrollbar{display:none}
-    .topic-tag{flex-shrink:0}
+    .topic-tag{
+      flex-shrink:0;
+      height:34px
+    }
     .featured{
-      margin-bottom:var(--space-12);
-      padding-bottom:var(--space-12)
+      gap:var(--space-5);
+      margin-bottom:var(--space-10);
+      padding-bottom:0
     }
     .featured__media{
-      aspect-ratio:16/9
+      aspect-ratio:16/10;
+      border-radius:var(--radius)
+    }
+    .featured__content{
+      gap:var(--space-3)
+    }
+    .featured h2{
+      font-size:clamp(1.5rem,7vw,2rem);
+      line-height:1.12
+    }
+    .featured__excerpt{
+      font-size:var(--text-sm);
+      line-height:1.65
+    }
+    .featured__link{
+      width:100%;
+      justify-content:center;
+      margin-top:var(--space-2);
+      height:44px
     }
     .blog-grid{
       grid-template-columns:1fr;
-      gap:var(--space-8)
+      gap:var(--space-10)
     }
-    .blog-card__media{aspect-ratio:16/9}
+    .blog-card{
+      cursor:default;
+      transition:none
+    }
+    .blog-card:hover{transform:none}
+    .blog-card:hover .blog-card__media img{transform:none}
+    .blog-card:hover .blog-card__media{box-shadow:none}
+    .blog-card__media{
+      aspect-ratio:16/10;
+      border-radius:var(--radius)
+    }
+    .blog-card__tag{
+      margin-top:var(--space-3);
+      height:30px;
+      padding:0 var(--space-3);
+      font-size:var(--text-xs)
+    }
+    .blog-card h3{
+      font-size:var(--text-md);
+      line-height:1.35
+    }
+    .blog-card__author{
+      min-width:0;
+      flex-wrap:nowrap
+    }
+    .blog-card__name,
+    .blog-card__date{
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap
+    }
+    .blog-card__name{max-width:42%}
+    .blog-card__date{max-width:38%}
   }
 </style>
 </head>
@@ -367,7 +452,7 @@
       <a href="pricing.html">Pricing</a>
       <a href="use-case.html">Use Cases</a>
       <a href="blog.html" class="active">Blog</a>
-      <a href="faq.html">FAQ</a>
+      <a href="faq.html">FAQs</a>
     </div>
     <div class="nav__actions">
       <a href="#" class="nav__login">Register/Login</a>
@@ -381,7 +466,7 @@
   <a href="pricing.html">Pricing</a>
   <a href="use-case.html">Use Cases</a>
   <a href="blog.html" class="active">Blog</a>
-  <a href="faq.html">FAQ</a>
+  <a href="faq.html">FAQs</a>
   <a href="index.html#integration">Docs</a>
   <a href="pricing.html" class="btn btn--secondary btn--block">Start Free Trial</a>
 </div>
@@ -554,7 +639,7 @@
           <li><a href="pricing.html">Pricing</a></li>
           <li><a href="index.html#geo">Locations</a></li>
           <li><a href="blog.html">Blog</a></li>
-          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="faq.html">FAQs</a></li>
         </ul>
       </div>
       <div data-reveal data-delay="2">

@@ -226,7 +226,7 @@
     'Rotating proxies 101: a step-by-step integration guide':'代理轮换入门：逐步集成指南',
     'How proxy intelligence is transforming web data collection in 2026':'2026 年代理智能如何改变网页数据采集',
     'From smart rotation algorithms to real-time IP scoring, the technology behind modern proxy networks is evolving faster than ever. Here\'s what\'s changing and why it matters.':'从智能轮换算法到实时 IP 评分，现代代理网络背后的技术正以前所未有的速度进化。以下是正在发生的变化及其意义。',
-    'FAQ — ROLA-IP':'常见问题 — ROLA-IP',
+    'FAQs — ROLA-IP':'常见问题 — ROLA-IP',
     'Is web scraping legal?':'网络爬虫合法吗？',
     'Scraping publicly available data is generally legal in most jurisdictions, particularly after the hiQ v. LinkedIn ruling affirmed access to public information. However, legality depends on what data is collected, how it\'s used, and the target site\'s terms. We recommend reviewing applicable laws and consulting legal counsel for your specific use case. ROLA-IP IPs may only be used to access data you\'re authorized to collect.':'抓取公开数据在大多数司法管辖区是合法的，尤其是 hiQ v. LinkedIn 案确认了对公开信息的访问权。但合法性取决于抓取的数据内容、用途以及目标网站的服务条款。建议查阅适用法律并咨询法律顾问。ROLA-IP 的 IP 仅可用于访问您有权收集的数据。',
     'Which type of proxy is best for web scraping?':'哪种代理最适合爬虫？',
