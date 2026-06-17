@@ -71,6 +71,7 @@
 
 <!-- ====================== 1. HERO ====================== -->
 <header class="hero" data-screen-label="Hero" data-theme="pink">
+  <canvas class="hero__chars" aria-hidden="true"></canvas>
   <div class="container hero__grid">
     <div class="hero__text">
       <h1 data-rise="1">ISP / Static Residential Proxies</h1>
@@ -859,6 +860,63 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       hero.setAttribute('data-theme', btn.dataset.color);
     });
   });
+})();
+
+// ---- Hero character field ----
+(function(){
+  var CHARS = '0123456789'.split('');
+  var COLOR = 'rgba(255,255,255,0.28)';
+  var canvas = document.querySelector('.hero__chars');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var hero = document.querySelector('.hero');
+  var COL_W = 20, ROW_H = 24, SZ = 13;
+  var cells = [];
+
+  function build(){
+    var dpr = window.devicePixelRatio || 1;
+    var w = hero.offsetWidth, h = hero.offsetHeight;
+    canvas.width  = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var cols = Math.ceil(w / COL_W) + 1;
+    var rows = Math.ceil(h / ROW_H) + 1;
+    cells = [];
+    for (var r = 0; r < rows; r++)
+      for (var c = 0; c < cols; c++)
+        cells.push({
+          x: c * COL_W,
+          y: r * ROW_H + ROW_H,
+          ch: CHARS[Math.floor(Math.random() * CHARS.length)],
+          spd: Math.random() * 6.0 + 3.0,
+          t: Math.random() * 180
+        });
+  }
+
+  var last = 0;
+  function draw(now){
+    requestAnimationFrame(draw);
+    var dt = Math.min(now - last, 50);
+    last = now;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = SZ + 'px "Courier New",monospace';
+    ctx.fillStyle = COLOR;
+    for (var i = 0; i < cells.length; i++){
+      var cell = cells[i];
+      cell.t += dt * cell.spd * 0.026;
+      if (cell.t >= 100){
+        cell.t = 0;
+        cell.ch = CHARS[Math.floor(Math.random() * CHARS.length)];
+      }
+      ctx.fillText(cell.ch, cell.x, cell.y);
+    }
+  }
+
+  build();
+  window.addEventListener('resize', build);
+  requestAnimationFrame(draw);
 })();
 
 // ---- Lucide icons ----
