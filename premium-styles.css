@@ -249,6 +249,30 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
    Nav
    ============================================================ */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .3s var(--ease),border-color .3s var(--ease),backdrop-filter .3s var(--ease)}
+.nav--light:not(.scrolled){background:var(--color-bg-white-elevated);backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%)}
+.nav--light:not(.scrolled) .logo{color:var(--color-text-primary)}
+.nav--light:not(.scrolled) .logo__wordmark path{fill:var(--color-text-primary)}
+.nav--light:not(.scrolled) .nav__links a{color:var(--color-text-secondary)}
+.nav--light:not(.scrolled) .nav__links a.active,
+.nav--light:not(.scrolled) .nav__links a:hover{color:var(--color-text-primary)}
+.nav--light:not(.scrolled) .nav__lang{color:var(--color-text-muted)}
+.nav--light:not(.scrolled) .nav__lang a{color:var(--color-text-secondary)}
+.nav--light:not(.scrolled) .nav__lang a.active,
+.nav--light:not(.scrolled) .nav__lang a:hover{color:var(--color-text-primary)}
+.nav--light:not(.scrolled) .nav__login{color:var(--color-text-on-brand);border-color:var(--color-brand);background:var(--color-brand)}
+.nav--light:not(.scrolled) .hamburger span{background:var(--color-text-primary)}
+.nav--transparent-dark:not(.scrolled) .logo{color:var(--color-text-primary)}
+.nav--transparent-dark:not(.scrolled) .logo__wordmark path{fill:var(--color-text-primary)}
+.nav--transparent-dark:not(.scrolled) .nav__links a{color:var(--color-text-secondary)}
+.nav--transparent-dark:not(.scrolled) .nav__links a.active,
+.nav--transparent-dark:not(.scrolled) .nav__links a:hover{color:var(--color-text-primary)}
+.nav--transparent-dark:not(.scrolled) .nav__lang{color:var(--color-text-muted)}
+.nav--transparent-dark:not(.scrolled) .nav__lang a{color:var(--color-text-secondary)}
+.nav--transparent-dark:not(.scrolled) .nav__lang a.active,
+.nav--transparent-dark:not(.scrolled) .nav__lang a:hover{color:var(--color-text-primary)}
+.nav--transparent-dark:not(.scrolled) .nav__login{color:var(--color-text-on-brand);border-color:var(--color-brand);background:var(--color-brand)}
+.nav--transparent-dark:not(.scrolled) .hamburger span{background:var(--color-text-primary)}
 .nav.scrolled{background:var(--color-bg-white-elevated);backdrop-filter:blur(16px) saturate(140%);
   -webkit-backdrop-filter:blur(16px) saturate(140%);border-bottom:1px solid rgba(8,7,3,.08)}
 .nav__inner{display:flex;align-items:center;justify-content:space-between;height:72px;
