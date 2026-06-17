@@ -1086,8 +1086,10 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 #features .fcard:nth-child(3){grid-column:unset!important;grid-row:unset!important;min-height:0!important}
 #features .fcard:nth-child(4){grid-column:unset!important;grid-row:unset!important}
 #features .fcard:hover{
-  background:#fff!important;
-  border-color:rgba(8,7,3,.08)!important}
+  transform:none!important;
+  background:var(--color-bg-light-2)!important;
+  border-color:transparent!important;
+  box-shadow:none!important}
 #features .fcard__index{
   position:absolute!important;
   top:20px!important;left:24px!important;z-index:2!important;
