@@ -36,8 +36,21 @@
   }
   .faq__layout .blog-header{
     padding-top:0;
+    position:sticky;
+    top:104px;
   }
   .faq__layout .faq__wrap{ max-width:840px; margin:0 }
+  .faq-group{margin-bottom:var(--space-8)}
+  .faq-group:last-child{margin-bottom:0}
+  .faq-group__title{
+    margin:0 0 var(--space-4);
+    font-size:var(--text-sm);
+    font-weight:600;
+    line-height:1;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--color-text-tertiary)
+  }
   @media(max-width:1024px){
     .faq__layout{ grid-template-columns:1fr; gap:var(--space-10) }
     .faq__layout .blog-header{ position:static }
@@ -58,6 +71,41 @@
     line-height:1.55;
     color:var(--color-text-secondary);
     max-width:480px
+  }
+  .faq-anchor-nav{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:var(--space-1);
+    margin-top:var(--space-8);
+    padding-left:0;
+  }
+  .faq-anchor-nav a{
+    display:flex;
+    align-items:center;
+    min-height:34px;
+    padding-left:var(--space-4);
+    border-left:2px solid var(--color-border-light);
+    color:var(--color-text-muted);
+    font-size:var(--text-sm);
+    font-weight:500;
+    line-height:1.25;
+    text-decoration:none;
+    transition:color .18s var(--ease),border-color .18s var(--ease),transform .18s var(--ease)
+  }
+  .faq-anchor-nav a:hover{
+    color:var(--color-text-primary);
+    border-left-color:var(--color-brand-primary);
+    transform:translateX(2px)
+  }
+  .faq-anchor-nav a.is-active{
+    color:var(--color-text-primary);
+    border-left-color:var(--color-brand-primary)
+  }
+  .faq-anchor-nav a:focus-visible{
+    outline:2px solid var(--color-brand-primary);
+    outline-offset:4px;
+    border-left-color:var(--color-brand-primary)
   }
   .blog-header__bottom{
     display:flex;
@@ -148,6 +196,32 @@
     .blog-header{
       display:block
     }
+    .faq-anchor-nav{
+      flex-direction:row;
+      align-items:center;
+      gap:var(--space-4);
+      overflow-x:auto;
+      margin-top:var(--space-6);
+      padding-bottom:var(--space-2);
+      -webkit-overflow-scrolling:touch
+    }
+    .faq-anchor-nav a{
+      flex:0 0 auto;
+      min-height:30px;
+      padding:0 0 var(--space-1);
+      border-left:0;
+      border-bottom:2px solid var(--color-border-light);
+      white-space:nowrap
+    }
+    .faq-anchor-nav a:hover{
+      border-left-color:transparent;
+      border-bottom-color:var(--color-brand-primary);
+      transform:none
+    }
+    .faq-anchor-nav a.is-active{
+      border-left-color:transparent;
+      border-bottom-color:var(--color-brand-primary)
+    }
     .blog-header__bottom{
       margin-top:var(--space-8);
       flex-direction:column;
@@ -205,43 +279,106 @@
         <div class="blog-header__copy">
           <h1>FAQs</h1>
           <p class="blog-header__sub">Quick answers to common questions about ROLA-IP proxies, pricing, coverage, and setup.</p>
+          <nav class="faq-anchor-nav" aria-label="FAQ sections">
+            <a href="#faq-basics">Proxy Basics</a>
+            <a href="#faq-coverage">Coverage &amp; Targeting</a>
+            <a href="#faq-performance">Sessions &amp; Performance</a>
+            <a href="#faq-integration">Integration</a>
+            <a href="#faq-pricing">Pricing &amp; Trial</a>
+            <a href="#faq-compliance">Compliance &amp; Restrictions</a>
+          </nav>
         </div>
       </div>
 
       <div class="faq__wrap">
-      <div class="faq-item">
-        <button class="faq-item__q">Is web scraping legal?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Scraping publicly available data is generally legal in most jurisdictions, particularly after the hiQ v. LinkedIn ruling affirmed access to public information. However, legality depends on what data is collected, how it's used, and the target site's terms. We recommend reviewing applicable laws and consulting legal counsel for your specific use case. ROLA-IP IPs may only be used to access data you're authorized to collect.</p></div>
+        <section class="faq-group" aria-labelledby="faq-basics">
+          <h2 class="faq-group__title" id="faq-basics">Proxy Basics</h2>
+          <div class="faq-item">
+            <button class="faq-item__q">What is an ISP proxy?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>An ISP proxy — also called a static residential proxy — is an IP address hosted in a datacenter but registered to a real Internet Service Provider. Target sites see it as a legitimate residential connection, so you get the trust profile of a home IP combined with datacenter-grade speed and stability.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">How are ISP proxies different from rotating residential proxies?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Rotating residential proxies pull a different IP from a shared pool on each request and are usually billed by bandwidth (per GB). ISP proxies give you a fixed, dedicated IP that stays the same until you change it, billed per-IP with unlimited bandwidth. They're the better fit when you need persistent identity, stable sessions, and predictable cost.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">Which type of proxy is best for web scraping?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>It depends on your target. ISP proxies (static residential) are the best all-rounder — they look like real residential connections but offer datacenter-level stability and speed. They're ideal for e-commerce, SERP monitoring, and data pipelines that need persistent sessions. For high-volume, low-sensitivity targets, datacenter proxies offer maximum speed. For hyper-restricted targets or mobile-specific content, mobile proxies give the deepest cover.</p></div>
+          </div>
+        </section>
+
+        <section class="faq-group" aria-labelledby="faq-coverage">
+          <h2 class="faq-group__title" id="faq-coverage">Coverage &amp; Targeting</h2>
+          <div class="faq-item">
+            <button class="faq-item__q">Which regions and locations do you support?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>We offer ISP proxies across 85+ countries, with the deepest pools in the US, UK, Germany, Canada, and other major markets. Country-level targeting is available everywhere; city-level targeting is available in 210 metro areas.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">Can I target a specific country or city?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Yes. Country-level targeting is available across all 195+ supported locations. City-level targeting is available in 210+ metro areas. You set the target inline in your proxy credentials — no separate config file needed. ASN-level targeting is also available for scenarios where you need to appear on a specific network.</p></div>
+          </div>
+        </section>
+
+        <section class="faq-group" aria-labelledby="faq-performance">
+          <h2 class="faq-group__title" id="faq-performance">Sessions &amp; Performance</h2>
+          <div class="faq-item">
+            <button class="faq-item__q">How long can a session last?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>ISP proxies are static by design — you keep the same IP for the full duration of your subscription with no forced rotation. This makes them ideal for authenticated sessions, account management, and long-running collection jobs.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">My scraper got blocked — what should I do?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>First, switch to rotating mode so each request uses a fresh IP. Second, add realistic request headers (User-Agent, Accept-Language, Referer) to reduce fingerprint signals. Third, lower your request rate and add randomized delays. If blocks persist on a specific target, contact our support team — we can help tune your session strategy or recommend a different proxy type for that site.</p></div>
+          </div>
+        </section>
+
+        <section class="faq-group" aria-labelledby="faq-integration">
+          <h2 class="faq-group__title" id="faq-integration">Integration</h2>
+          <div class="faq-item">
+            <button class="faq-item__q">Does ROLA-IP work with Scrapy, Puppeteer, and Selenium?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Yes. Any tool that supports standard HTTP/HTTPS proxy configuration will work — including Scrapy, Puppeteer, Playwright, Selenium, Cheerio, and Octoparse. Just point the tool's proxy setting to your ROLA-IP gateway URL with your credentials. Our docs include copy-paste snippets for each framework.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">Do you support JavaScript-rendered pages?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>ROLA-IP provides the proxy infrastructure — for JS rendering you'll pair it with a headless browser like Puppeteer or Playwright. Route the browser's traffic through your ROLA-IP gateway and you get both JS execution and residential IP coverage. Our docs show exactly how to configure this.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">What authentication methods are supported?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Both username/password authentication and IP whitelisting are supported. You can configure either (or both) from the dashboard and switch at any time.</p></div>
+          </div>
+        </section>
+
+        <section class="faq-group" aria-labelledby="faq-pricing">
+          <h2 class="faq-group__title" id="faq-pricing">Pricing &amp; Trial</h2>
+          <div class="faq-item">
+            <button class="faq-item__q">Do you offer a free trial?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Yes. You can test the network on a 7-day free trial before committing — no credit card required to start. Trial accounts include 5 ISP IPs and dashboard access.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">How does per-IP billing work?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>You pay a flat monthly price for each IP in your plan. Bandwidth is unlimited and included — there are no per-GB charges, no overage fees, and no hidden line items. Your monthly cost is the same whether you send one request or millions.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">Can I upgrade between plans later?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Yes. Teams commonly start on smaller plans and move into larger allocations or enterprise pricing as their production workloads grow.</p></div>
+          </div>
+        </section>
+
+        <section class="faq-group" aria-labelledby="faq-compliance">
+          <h2 class="faq-group__title" id="faq-compliance">Compliance &amp; Restrictions</h2>
+          <div class="faq-item">
+            <button class="faq-item__q">Is web scraping legal?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Scraping publicly available data is generally legal in most jurisdictions, particularly after the hiQ v. LinkedIn ruling affirmed access to public information. However, legality depends on what data is collected, how it's used, and the target site's terms. We recommend reviewing applicable laws and consulting legal counsel for your specific use case. ROLA-IP IPs may only be used to access data you're authorized to collect.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">Are there any target-site restrictions?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Our proxies can access most publicly available websites. All usage must comply with our Acceptable Use Policy, which prohibits illegal activity, credential abuse, spam, payment fraud, and attacks on third-party services.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q">Is the service compliant for enterprise procurement?<span class="faq-item__ic"></span></button>
+            <div class="faq-item__a"><p>Yes. We align with GDPR and CCPA, source all IPs ethically through consent-based ISP partnerships, and can provide a DPA, ISO 27001 documentation, SOC 2 Type II report access, and security audit details on request.</p></div>
+          </div>
+        </section>
       </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Which type of proxy is best for web scraping?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>It depends on your target. ISP proxies (static residential) are the best all-rounder — they look like real residential connections but offer datacenter-level stability and speed. They're ideal for e-commerce, SERP monitoring, and data pipelines that need persistent sessions. For high-volume, low-sensitivity targets, datacenter proxies offer maximum speed. For hyper-restricted targets or mobile-specific content, mobile proxies give the deepest cover.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Can I target a specific country or city?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Yes. Country-level targeting is available across all 195+ supported locations. City-level targeting is available in 210+ metro areas. You set the target inline in your proxy credentials — no separate config file needed. ASN-level targeting is also available for scenarios where you need to appear on a specific network.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Does ROLA-IP work with Scrapy, Puppeteer, and Selenium?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Yes. Any tool that supports standard HTTP/HTTPS proxy configuration will work — including Scrapy, Puppeteer, Playwright, Selenium, Cheerio, and Octoparse. Just point the tool's proxy setting to your ROLA-IP gateway URL with your credentials. Our docs include copy-paste snippets for each framework.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">My scraper got blocked — what should I do?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>First, switch to rotating mode so each request uses a fresh IP. Second, add realistic request headers (User-Agent, Accept-Language, Referer) to reduce fingerprint signals. Third, lower your request rate and add randomized delays. If blocks persist on a specific target, contact our support team — we can help tune your session strategy or recommend a different proxy type for that site.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Do you support JavaScript-rendered pages?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>ROLA-IP provides the proxy infrastructure — for JS rendering you'll pair it with a headless browser like Puppeteer or Playwright. Route the browser's traffic through your ROLA-IP gateway and you get both JS execution and residential IP coverage. Our docs show exactly how to configure this.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Is there a free trial?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Yes. You can test the network on a 7-day free trial — no credit card required. Trial accounts include 5 ISP IPs and full dashboard access so you can validate success rates and geo-targeting before committing to a plan.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">How is pricing calculated for scraping workloads?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>ROLA-IP charges per IP, not per GB. You pay a flat monthly price for each IP in your plan, and bandwidth is unlimited. This makes costs completely predictable regardless of how many requests your pipeline sends — ideal for high-volume scraping jobs where bandwidth-based billing would be unpredictable.</p></div>
-      </div>
-    </div>
     </div>
 
   </div>
@@ -361,6 +498,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
+
+// FAQ section location
+const faqAnchors = Array.from(document.querySelectorAll('.faq-anchor-nav a[href^="#"]'));
+const faqGroups = faqAnchors
+  .map(a => document.querySelector(a.getAttribute('href')))
+  .filter(Boolean);
+const setActiveFaqAnchor = id => {
+  faqAnchors.forEach(a => {
+    const active = a.getAttribute('href') === '#' + id;
+    a.classList.toggle('is-active', active);
+    if (active) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  });
+};
+if (faqGroups.length) {
+  setActiveFaqAnchor(faqGroups[0].id);
+  const faqSectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) setActiveFaqAnchor(entry.target.id);
+    });
+  }, {rootMargin:'-28% 0px -58% 0px', threshold:0});
+  faqGroups.forEach(group => faqSectionObserver.observe(group));
+}
 
 // FAQ accordion
 document.querySelectorAll('.faq-item__q').forEach(q => {
