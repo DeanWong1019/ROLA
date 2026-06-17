@@ -122,6 +122,7 @@
     'Questions, answered':'常见问题解答',
     'Stop fighting bans. Start collecting at scale.':'停止和封禁对抗，开始规模化采集。',
     'Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.':'面向数据团队的企业级 ISP 代理。稳定会话、透明按 IP 计费、全球覆盖。',
+    'Get an AI summary of Rola IP':'获取 Rola IP 的 AI 摘要',
     'Product':'产品',
     'ISP Proxies':'ISP 代理',
     'Locations':'节点位置',
@@ -328,10 +329,31 @@
     });
   }
 
+  function initFooterBottomReveal(){
+    var items = Array.prototype.slice.call(document.querySelectorAll('.footer__bottom--reveal'));
+    if (!items.length) return;
+    function show(el){ el.classList.add('footer__bottom--in'); }
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(show);
+      return;
+    }
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          show(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.01, rootMargin:'0px 0px 8% 0px'});
+    items.forEach(function(el){ observer.observe(el); });
+    setTimeout(function(){ items.forEach(show); }, 3000);
+  }
+
   function init(){
     ensureLanguageSwitch();
     var lang = new URLSearchParams(location.search).get('lang') === 'zh' ? 'zh' : 'en';
     applyLanguage(lang);
+    initFooterBottomReveal();
     document.querySelectorAll('[data-lang-option]').forEach(function(link){
       link.addEventListener('click', function(event){
         event.preventDefault();

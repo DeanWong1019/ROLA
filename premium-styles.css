@@ -925,6 +925,8 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .footer ul a:hover{color:var(--green-2)}
 .footer__bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
   padding-top:24px;border-top:1px solid var(--border-soft);font-size:var(--text-sm);color:var(--muted)}
+.anim .footer__bottom--reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease) .32s,transform .7s var(--ease) .32s}
+.anim .footer__bottom--reveal.footer__bottom--in{opacity:1;transform:none}
 
 /* Match non-hero modules to the hero's calmer 700-weight hierarchy. */
 #features .h-section,#pricing .h-section,#geo .h-section,#use-cases .h-section,
