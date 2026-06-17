@@ -12,55 +12,55 @@
 <style>
   .features-head{display:flex;align-items:flex-end;justify-content:space-between;gap:48px;margin-bottom:48px}
   .features-head .section-head{margin-bottom:0;max-width:580px;flex-shrink:0}
-  .features-head__desc{flex:1;max-width:320px;color:rgba(8,7,3,.52);font-size:1.0625rem;line-height:1.55;padding-bottom:6px}
-  #features .eyebrow{padding:8px 16px;border-radius:999px;background:#fff;border:1px solid rgba(8,7,3,.08);font-size:var(--text-sm);font-weight:600;letter-spacing:-.01em;text-transform:none;color:#008D72;margin-bottom:8px}
+  .features-head__desc{flex:1;max-width:320px;color:var(--color-text-tertiary);font-size:1.0625rem;line-height:1.55;padding-bottom:6px}
+  #features .eyebrow{padding:8px 16px;border-radius:999px;background:var(--color-bg-white);border:1px solid var(--color-border-light);font-size:var(--text-sm);font-weight:600;letter-spacing:-.01em;text-transform:none;color:var(--color-brand-strong);margin-bottom:8px}
   #features .eyebrow::before{display:none}
-  #features .h-section{color:#080703;font-size:clamp(2rem,3.5vw,var(--text-4xl));font-weight:700;line-height:1.1;letter-spacing:-.025em}
+  #features .h-section{color:var(--color-text-primary);font-size:clamp(2rem,3.5vw,var(--text-4xl));font-weight:700;line-height:1.1;letter-spacing:-.025em}
   .features__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;grid-auto-rows:auto}
   #features .features__grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-auto-rows:auto!important;gap:24px!important}
   #features .fcard{
     position:relative;display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;
-    min-height:260px;padding:24px;border-radius:20px;background:#F8F8F6;border:none!important;
+    min-height:260px;padding:24px;border-radius:20px;background:var(--color-bg-light-2);border:none!important;
     overflow:hidden;box-shadow:none
   }
-  #features .fcard:hover{transform:translateY(-4px);background:#fff;box-shadow:0 16px 40px -24px rgba(8,7,3,.16);border-color:transparent!important}
+  #features .fcard:hover{transform:translateY(-4px);background:var(--color-bg-white);box-shadow:0 16px 40px -24px rgba(8,7,3,.16);border-color:transparent!important}
   #features .fcard:nth-child(3){grid-column:unset!important;grid-row:unset!important;min-height:0!important}
   #features .fcard:nth-child(4){grid-column:unset!important;grid-row:unset!important}
   #features .fcard__index{
-    color:#080703!important;
+    color:var(--color-text-primary)!important;
     font-size:var(--text-base)!important;font-weight:700;letter-spacing:.02em;margin-bottom:18px
   }
   #features .fcard__illus{
     display:block;width:100%;flex:1;min-height:140px;object-fit:cover;
-    border-radius:16px;background:rgba(8,7,3,.04);margin-bottom:18px
+    border-radius:16px;background:var(--color-surface-light-subtle);margin-bottom:18px
   }
   #features .fcard__bottom{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-  #features .fcard h3{margin:0;font-size:var(--text-base);font-weight:700;line-height:1.15;letter-spacing:-.02em;color:#080703}
-  #features .fcard p{margin:0;font-size:var(--text-sm);line-height:1.5;color:rgba(8,7,3,.52);text-align:left}
+  #features .fcard h3{margin:0;font-size:var(--text-base);font-weight:700;line-height:1.15;letter-spacing:-.02em;color:var(--color-text-primary)}
+  #features .fcard p{margin:0;font-size:var(--text-sm);line-height:1.5;color:var(--color-text-tertiary);text-align:left}
   #features .fcard:first-child{
     border:none;background-color:hsl(210,56%,92%)!important;
     background-image:url('assets/illustrations/fcard-mesh-1.png')!important;
     background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
   }
-  #features .fcard:first-child h3,#features .fcard:first-child p{color:#080703!important}
+  #features .fcard:first-child h3,#features .fcard:first-child p{color:var(--color-text-primary)!important}
   #features .fcard:nth-child(2){
     border:none;background-color:hsl(45,100%,60%)!important;
     background-image:url('assets/illustrations/fcard-mesh-2.png')!important;
     background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
   }
-  #features .fcard:nth-child(2) h3,#features .fcard:nth-child(2) p{color:#080703!important}
+  #features .fcard:nth-child(2) h3,#features .fcard:nth-child(2) p{color:var(--color-text-primary)!important}
   #features .fcard:nth-child(3){
     border:none;background-color:hsl(265,80%,72%)!important;
     background-image:url('assets/illustrations/fcard-mesh-3.png')!important;
     background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
   }
-  #features .fcard:nth-child(3) h3,#features .fcard:nth-child(3) p,#features .fcard:nth-child(3) .fcard__index{color:#080703!important}
+  #features .fcard:nth-child(3) h3,#features .fcard:nth-child(3) p,#features .fcard:nth-child(3) .fcard__index{color:var(--color-text-primary)!important}
   #features .fcard:nth-child(4){
     border:none;background-color:hsl(340,75%,85%)!important;
     background-image:url('assets/illustrations/fcard-mesh-4.png')!important;
     background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
   }
-  #features .fcard:nth-child(4) h3,#features .fcard:nth-child(4) p,#features .fcard:nth-child(4) .fcard__index{color:#080703!important}
+  #features .fcard:nth-child(4) h3,#features .fcard:nth-child(4) p,#features .fcard:nth-child(4) .fcard__index{color:var(--color-text-primary)!important}
 </style>
 </head>
 <body>
@@ -530,7 +530,7 @@
 </section>
 
 <!-- ====================== 10. COMPLIANCE ====================== -->
-<section class="section" id="compliance" style="background:rgba(13,23,34,.5);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)" data-screen-label="Compliance">
+<section class="section" id="compliance" style="background:var(--color-surface-dark-overlay);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)" data-screen-label="Compliance">
   <div class="container">
     <div class="section-head center" data-reveal>
       <div class="eyebrow">Security &amp; Compliance</div>

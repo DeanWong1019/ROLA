@@ -11,24 +11,24 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
   /* ── Nav light overrides ── */
-  .nav:not(.scrolled) .logo{color:#080703}
-  .nav:not(.scrolled) .logo__wordmark path{fill:#080703}
-  .nav:not(.scrolled) .nav__links a{color:rgba(8,7,3,.7)}
+  .nav:not(.scrolled) .logo{color:var(--color-text-primary)}
+  .nav:not(.scrolled) .logo__wordmark path{fill:var(--color-text-primary)}
+  .nav:not(.scrolled) .nav__links a{color:var(--color-text-secondary)}
   .nav:not(.scrolled) .nav__links a.active,
-  .nav:not(.scrolled) .nav__links a:hover{color:#080703}
-  .nav:not(.scrolled) .nav__lang{color:rgba(8,7,3,.36)}
-  .nav:not(.scrolled) .nav__lang a{color:rgba(8,7,3,.7)}
+  .nav:not(.scrolled) .nav__links a:hover{color:var(--color-text-primary)}
+  .nav:not(.scrolled) .nav__lang{color:var(--color-text-muted)}
+  .nav:not(.scrolled) .nav__lang a{color:var(--color-text-secondary)}
   .nav:not(.scrolled) .nav__lang a.active,
-  .nav:not(.scrolled) .nav__lang a:hover{color:#080703}
-  .nav:not(.scrolled) .nav__login{color:#04130B;border-color:var(--green);background:var(--green)}
-  .nav:not(.scrolled) .hamburger span{background:#080703}
-  .section{background:#fff}
+  .nav:not(.scrolled) .nav__lang a:hover{color:var(--color-text-primary)}
+  .nav:not(.scrolled) .nav__login{color:var(--color-text-on-brand);border-color:var(--color-brand);background:var(--color-brand)}
+  .nav:not(.scrolled) .hamburger span{background:var(--color-text-primary)}
+  .section{background:var(--color-bg-white)}
 
   /* ── Blog page wrapper ── */
   .blog-page{
     padding-top:152px;
     padding-bottom:72px;
-    background:#fff
+    background:var(--color-bg-white)
   }
 
   /* ── Page header ── */
@@ -61,14 +61,14 @@
     font-weight:800;
     line-height:1.08;
     letter-spacing:-.03em;
-    color:#080703;
+    color:var(--color-text-primary);
     max-width:600px
   }
   .blog-header__sub{
     margin:0;
     font-size:var(--text-md);
     line-height:1.55;
-    color:rgba(8,7,3,.58);
+    color:var(--color-text-secondary);
     max-width:480px
   }
   .blog-header__bottom{
@@ -88,27 +88,27 @@
     height:44px;
     padding:0 var(--space-5);
     border-radius:999px;
-    background:rgba(8,7,3,.05);
+    background:var(--color-surface-light-subtle);
     border:none;
     transition:background .2s var(--ease)
   }
   .blog-header__search-row:focus-within{
-    background:rgba(8,7,3,.08)
+    background:var(--color-border-light)
   }
   .blog-header__search-icon{
     width:18px;height:18px;
     flex-shrink:0;
-    color:rgba(8,7,3,.38)
+    color:var(--color-text-faint)
   }
   .blog-header__search-input{
     flex:1;min-width:0;
     border:0;outline:0;background:transparent;
     font-size:var(--text-sm);
     font-weight:400;
-    color:#080703
+    color:var(--color-text-primary)
   }
   .blog-header__search-input::placeholder{
-    color:rgba(8,7,3,.38)
+    color:var(--color-text-faint)
   }
 
   /* ── Topic tags row ── */
@@ -125,30 +125,30 @@
     height:32px;
     padding:0 var(--space-4);
     border-radius:999px;
-    background:rgba(26,215,159,.13);
+    background:var(--color-brand-soft);
     border:0;
     font-size:var(--text-sm);
     font-weight:600;
     letter-spacing:-.01em;
     text-transform:none;
-    color:#008D72;
+    color:var(--color-brand-strong);
     cursor:pointer;
     transition:all .15s var(--ease)
   }
   .topic-tag:hover{
-    background:rgba(26,215,159,.22)
+    background:var(--color-brand-soft)
   }
 
   /* ── Site bottom ── */
   .site-bottom{
     margin-top:-1px;
-    background:#071210!important
+    background:var(--color-bg-dark-cta)!important
   }
   .site-bottom::before{
     background:
       radial-gradient(130% 96% at 50% -6%,rgba(240,255,248,.98) 0%,rgba(180,255,220,.92) 16%,rgba(100,255,180,.8) 32%,rgba(26,215,159,.6) 50%,rgba(0,141,114,.28) 70%,rgba(7,18,16,0) 90%),
       radial-gradient(900px 520px at 82% 92%,rgba(180,255,220,.09),rgba(180,255,220,0) 62%),
-      linear-gradient(0deg,#071210 0%,#0a1f1a 34%,rgba(14,40,32,.72) 52%,rgba(7,18,16,0) 78%)!important
+      linear-gradient(0deg,var(--color-bg-dark-cta) 0%,#0a1f1a 34%,rgba(14,40,32,.72) 52%,rgba(7,18,16,0) 78%)!important
   }
   .site-bottom::after{
     top:-2px!important;

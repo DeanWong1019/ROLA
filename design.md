@@ -172,33 +172,100 @@
 
 ---
 
-## 6. 文字颜色语义
+## 6. Color System（颜色规范）
 
-### 深色背景区域（Hero、Dark Section）
+颜色通过语义 token 管理，新增 UI 样式优先使用 `--color-*` 变量。旧变量（如 `--green`、`--heading`）保留为兼容别名，不作为新增样式的首选。
 
-| CSS 变量 | 值 | 用途 |
-|----------|----|------|
-| `--heading` | `#F4F8F5` | 主标题、关键文字 |
-| `--body` | `#9BA9A3` | 正文、描述文字 |
-| `--muted` | `#6B776F` | 辅助、占位、时间戳 |
-| `--icon` | `#C5D0CB` | 图标默认色 |
-
-### 浅色背景区域（Features、Pricing、Geo 等）
-
-| 颜色值 | 用途 |
-|--------|------|
-| `#080703` | 主标题（近纯黑） |
-| `rgba(8,7,3,.58)` | 正文 |
-| `rgba(8,7,3,.48)` | 次级说明、元数据 |
-| `#fff` | Dark 卡片（Popular 定价、Final CTA）上的文字 |
-
-### 强调色
+### 6.1 Brand / Accent
 
 | CSS 变量 | 值 | 用途 |
 |----------|----|------|
-| `--green` | `#1AD79F` | Active 状态、CTA、图标描边 |
-| `--green-2` | `#5EE8C0` | Hover 强调、链接 |
-| `#008D72` | — | eyebrow 标签文字（配浅绿背景） |
+| `--color-brand` | `#1AD79F` | 主品牌色、Primary CTA、active 状态、关键图标 |
+| `--color-brand-hover` | `#5EE8C0` | Primary hover、强调链接 hover |
+| `--color-brand-strong` | `#008D72` | 浅色背景上的 eyebrow 文字、深绿强调文字 |
+| `--color-brand-support` | `#39C6B4` | 辅助强调、代码/图形中的品牌系补充色 |
+| `--color-brand-ink` | `#04130B` | 品牌绿色按钮上的文字 |
+| `--color-brand-soft` | `rgba(26,215,159,.13)` | 浅绿标签背景、轻量 active 背景 |
+| `--color-brand-glow` | `rgba(46,212,122,.38)` | 品牌光晕、装饰性阴影 |
+
+### 6.2 Background / Surface
+
+| CSS 变量 | 值 | 用途 |
+|----------|----|------|
+| `--color-bg-dark` | `#07111A` | 默认深色页面背景 |
+| `--color-bg-dark-2` | `#0D1722` | 深色次级背景 |
+| `--color-bg-dark-cta` | `#071210` | Final CTA / 底部深绿背景 |
+| `--color-bg-light` | `#FAFAF9` | 浅色 Hero、浅暖页面背景 |
+| `--color-bg-light-2` | `#F8F8F6` | 浅色卡片、轻量模块背景 |
+| `--color-bg-muted` | `#F4F4F1` | Pricing、分隔型浅色区块 |
+| `--color-bg-white` | `#fff` | 白色页面区块、白色卡片 |
+| `--color-bg-white-elevated` | `rgba(255,255,255,.92)` | 浅色背景下的半透明导航面 |
+| `--color-surface-light-subtle` | `rgba(8,7,3,.05)` | 浅色背景上的搜索框、轻量控件底色 |
+| `--color-surface-light-hover` | `rgba(8,7,3,.08)` | 浅色背景上的 hover / focus 控件底色 |
+| `--color-surface-dark` | `#101C28` | 深色卡片面 |
+| `--color-surface-dark-2` | `#13212E` | 深色卡片 hover / 次级面 |
+| `--color-surface-dark-overlay` | `rgba(13,23,34,.5)` | 深色半透明区块面，例如 Compliance |
+| `--color-surface-dark-card` | `rgba(255,255,255,.022)` | 深色背景上的透明卡片 |
+| `--color-surface-dark-card-hover` | `rgba(255,255,255,.045)` | 深色透明卡片 hover |
+
+### 6.3 Text
+
+| CSS 变量 | 值 | 用途 |
+|----------|----|------|
+| `--color-text-primary` | `#080703` | 浅色背景主标题、关键正文 |
+| `--color-text-secondary` | `rgba(8,7,3,.58)` | 浅色背景正文、说明 |
+| `--color-text-tertiary` | `rgba(8,7,3,.48)` | 浅色背景元数据、次级说明 |
+| `--color-text-subtle` | `rgba(8,7,3,.42)` | 浅色背景弱标签、低优先级元信息 |
+| `--color-text-faint` | `rgba(8,7,3,.38)` | 浅色背景 placeholder、弱图标 |
+| `--color-text-muted` | `rgba(8,7,3,.36)` | 浅色背景弱化状态、分隔信息 |
+| `--color-text-on-dark` | `#F4F8F5` | 深色背景主标题、关键文字 |
+| `--color-text-on-dark-secondary` | `#9BA9A3` | 深色背景正文、说明 |
+| `--color-text-on-dark-tertiary` | `#6B776F` | 深色背景辅助、占位、时间戳 |
+| `--color-text-on-brand` | `#04130B` | 品牌色按钮上的文字 |
+| `--color-text-inverse` | `#fff` | 深色卡片、深色 CTA 上的白字 |
+| `--color-icon-on-dark` | `#C5D0CB` | 深色背景默认图标 |
+
+### 6.4 Border
+
+| CSS 变量 | 值 | 用途 |
+|----------|----|------|
+| `--color-border-light` | `rgba(8,7,3,.08)` | 浅色背景默认边框 |
+| `--color-border-light-strong` | `rgba(8,7,3,.12)` | 浅色背景强调边框、hover 边框 |
+| `--color-border-dark` | `rgba(255,255,255,.085)` | 深色背景默认边框 |
+| `--color-border-dark-soft` | `rgba(255,255,255,.05)` | 深色背景弱分隔线 |
+| `--color-border-dark-strong` | `rgba(255,255,255,.16)` | 深色背景强调边框 |
+
+### 6.5 Component Tokens
+
+| CSS 变量 | 值 | 用途 |
+|----------|----|------|
+| `--color-button-secondary` | `#080703` | Secondary 按钮背景 |
+| `--color-button-secondary-hover` | `#1B180B` | Secondary 按钮 hover |
+| `--color-button-dark` | `#050505` | 深色卡片内黑色按钮 |
+| `--color-button-dark-hover` | `#171717` | 深色卡片内黑色按钮 hover |
+
+### 6.6 兼容别名
+
+| Legacy 变量 | 指向 |
+|-------------|------|
+| `--green` | `--color-brand` |
+| `--green-2` | `--color-brand-hover` |
+| `--heading` | `--color-text-on-dark` |
+| `--body` | `--color-text-on-dark-secondary` |
+| `--muted` | `--color-text-on-dark-tertiary` |
+| `--icon` | `--color-icon-on-dark` |
+| `--border` | `--color-border-dark` |
+| `--border-soft` | `--color-border-dark-soft` |
+| `--border-strong` | `--color-border-dark-strong` |
+
+### 6.7 使用规则
+
+1. 新增 UI 颜色必须优先使用 `--color-*` 变量；只有一次性插画、渐变、代码高亮、品牌徽章可保留硬编码色。
+2. 浅色背景主文案使用 `--color-text-primary / secondary / tertiary / muted`，不要直接写 `#080703` 或 `rgba(8,7,3,...)`。
+3. 深色背景主文案使用 `--color-text-on-dark / on-dark-secondary / on-dark-tertiary`。
+4. 边框使用 `--color-border-light*` 或 `--color-border-dark*`，不要直接写 white/black alpha。
+5. 按钮颜色必须通过按钮组件 token 或已有按钮变体控制，不在上下文里临时覆盖 primary 语义。
+6. 装饰渐变、主题 swatch、插画 mesh、语法高亮属于 decorative colors，可硬编码，但应避免用于正文 UI 状态。
 
 ---
 
