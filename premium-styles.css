@@ -883,8 +883,41 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
    ============================================================ */
 .footer{border-top:1px solid var(--border-soft);padding:64px 0 36px;background:rgba(7,17,26,.6)}
 .footer__grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer__brand{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  min-height:100%
+}
 .footer__brand .logo{margin-bottom:16px}
 .footer__desc{font-size:var(--text-sm);color:var(--muted);line-height:1.6;max-width:280px}
+.footer__brand-copy{display:flex;flex-direction:column;align-items:flex-start}
+.footer-ai-summary{
+  display:inline-flex;
+  align-items:center;
+  gap:18px;
+  min-height:40px;
+  margin-top:40px;
+  color:var(--muted);
+  font-size:var(--text-sm);
+  font-weight:400;
+  line-height:1;
+  white-space:nowrap
+}
+.footer-ai-summary__icons{display:inline-flex;align-items:center;gap:14px;flex-shrink:0}
+.footer-ai-summary__icon{
+  display:block;
+  width:18px;
+  height:18px;
+  flex-shrink:0;
+  object-fit:contain;
+  filter:brightness(0) invert(1);
+  opacity:.58;
+  transition:opacity .2s
+}
+.footer-ai-summary__icon:hover,
+.footer-ai-summary__icon:focus-visible{opacity:1}
 .footer h4{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;
   color:var(--body);margin-bottom:16px}
 .footer ul{display:flex;flex-direction:column;gap:12px}
@@ -1297,7 +1330,7 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   border-top:0!important}
 .footer__grid{padding-top:0!important}
 .footer .logo{color:#fff!important}
-.footer__desc,.footer ul a,.footer__bottom{
+.footer__desc,.footer-ai-summary,.footer ul a,.footer__bottom{
   color:rgba(255,255,255,.58)!important}
 .footer h4{
   color:rgba(255,255,255,.7)!important}
@@ -1398,6 +1431,20 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   .hero__ctas .btn{width:100%}
   .hero__visual{height:400px}
   .footer__grid{grid-template-columns:1fr}
+  .footer__brand{
+    justify-content:flex-start;
+    min-height:0
+  }
+  .footer-ai-summary{
+    width:100%;
+    max-width:100%;
+    justify-content:space-between;
+    gap:14px;
+    margin-top:36px;
+    font-size:var(--text-sm);
+    white-space:normal
+  }
+  .footer-ai-summary__icons{gap:12px}
   .badge-matrix{grid-template-columns:1fr}
   .finalcta__box{padding:48px 0}
 }
