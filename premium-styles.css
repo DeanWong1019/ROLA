@@ -870,12 +870,15 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .faq-item__q{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;
   padding:24px 24px;text-align:left;font-size:var(--text-base);font-weight:600;color:var(--heading)}
 .faq-item__q:hover{color:var(--green)}
-.faq-item__ic{width:22px;height:22px;flex-shrink:0;position:relative;transition:transform .3s var(--ease)}
-.faq-item__ic::before,.faq-item__ic::after{content:'';position:absolute;background:#000;border-radius:2px;
-  top:50%;left:50%;transform:translate(-50%,-50%)}
-.faq-item__ic::before{width:13px;height:2px}
-.faq-item__ic::after{width:2px;height:13px;transition:transform .3s var(--ease)}
-.faq-item.open .faq-item__ic::after{transform:translate(-50%,-50%) scaleY(0)}
+.faq-item__ic{width:22px;height:22px;flex-shrink:0;position:relative;color:currentColor;
+  transition:transform .38s cubic-bezier(.2,.8,.2,1),color .2s var(--ease)}
+.faq-item__ic::before,.faq-item__ic::after{content:'';position:absolute;background:currentColor;border-radius:999px;
+  top:50%;left:50%;width:14px;height:2px;transform-origin:center;
+  transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .22s var(--ease)}
+.faq-item__ic::before{transform:translate(-50%,-50%)}
+.faq-item__ic::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq-item.open .faq-item__ic{transform:rotate(180deg)}
+.faq-item.open .faq-item__ic::after{opacity:0;transform:translate(-50%,-50%) rotate(90deg) scaleX(.2)}
 .faq-item__a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
 .faq-item__a p{padding:0 24px 24px;font-size:var(--text-base);color:var(--body);line-height:1.7;
   opacity:0;transition:opacity .4s var(--ease) .1s}
