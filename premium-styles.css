@@ -944,7 +944,8 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
   object-fit:contain;
   filter:brightness(0) invert(1);
   opacity:.58;
-  transition:opacity .2s
+  transition:opacity .2s;
+  cursor:pointer
 }
 .footer-ai-summary__icon:hover,
 .footer-ai-summary__icon:focus-visible{opacity:1}
