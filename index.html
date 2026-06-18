@@ -865,6 +865,18 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 // ---- Hero character field ----
 (function(){
   var CHARS = '@%#0123456789'.split('');
+  function makeChar(){
+    return CHARS[Math.floor(Math.random() * CHARS.length)];
+  }
+  function makeCell(x, y){
+    return {
+      x: x,
+      y: y,
+      ch: makeChar(),
+      spd: Math.random() * 12.0 + 6.0,
+      t: Math.random() * 180
+    };
+  }
   var COLOR = 'rgba(255,255,255,0.28)';
   var canvas = document.querySelector('.hero__chars');
   if (!canvas) return;
@@ -886,13 +898,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     cells = [];
     for (var r = 0; r < rows; r++)
       for (var c = 0; c < cols; c++)
-        cells.push({
-          x: c * COL_W,
-          y: r * ROW_H + ROW_H,
-          ch: CHARS[Math.floor(Math.random() * CHARS.length)],
-          spd: Math.random() * 24.0 + 12.0,
-          t: Math.random() * 180
-        });
+        cells.push(makeCell(c * COL_W, r * ROW_H + ROW_H));
   }
 
   var last = 0;
@@ -908,7 +914,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       cell.t += dt * cell.spd * 0.026;
       if (cell.t >= 100){
         cell.t = 0;
-        cell.ch = CHARS[Math.floor(Math.random() * CHARS.length)];
+        cell.ch = makeChar();
       }
       ctx.fillText(cell.ch, cell.x, cell.y);
     }
