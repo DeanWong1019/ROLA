@@ -1070,6 +1070,8 @@ void main(){vec4 c;mainImage(c,gl_FragCoord.xy);gl_FragColor=c;}`;
     uniforms.rayDir.value = dir;
   };
 
+  let frame, visible = false;
+
   const loop = t => {
     uniforms.iTime.value = t * 0.001;
     const s = 0.92;
@@ -1077,8 +1079,16 @@ void main(){vec4 c;mainImage(c,gl_FragCoord.xy);gl_FragColor=c;}`;
     smoothMouse.y = smoothMouse.y*s + mouse.y*(1-s);
     uniforms.mousePos.value = [smoothMouse.x, smoothMouse.y];
     renderer.render({ scene: mesh });
-    requestAnimationFrame(loop);
+    if (visible) frame = requestAnimationFrame(loop);
   };
+
+  // Pause rAF when light rays are scrolled out of view, resume when back in view.
+  const raysObserver = new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    if (visible && !frame) frame = requestAnimationFrame(loop);
+    if (!visible) { cancelAnimationFrame(frame); frame = null; }
+  }, { threshold: 0 });
+  raysObserver.observe(container);
 
   window.addEventListener('resize', updateSize);
   window.addEventListener('mousemove', e => {
@@ -1088,6 +1098,7 @@ void main(){vec4 c;mainImage(c,gl_FragCoord.xy);gl_FragColor=c;}`;
   });
 
   updateSize();
+  visible = true;
   requestAnimationFrame(loop);
 }
 </script>
