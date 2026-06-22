@@ -216,6 +216,7 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+<<<<<<< HEAD
     canvas.addEventListener("wheel", (e) => {
       if (!converged) return;
       e.preventDefault();
@@ -248,5 +249,40 @@
       }
     })();
   </script>
+=======
+  let frame, visible = false;
+
+  const loop = t => {
+    uniforms.iTime.value = t * 0.001;
+    const s = 0.92;
+    smoothMouse.x = smoothMouse.x*s + mouse.x*(1-s);
+    smoothMouse.y = smoothMouse.y*s + mouse.y*(1-s);
+    uniforms.mousePos.value = [smoothMouse.x, smoothMouse.y];
+    renderer.render({ scene: mesh });
+    if (visible) frame = requestAnimationFrame(loop);
+  };
+
+  // Pause rAF when light rays are scrolled out of view, resume when back in view.
+  const raysObserver = new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    if (visible && !frame) frame = requestAnimationFrame(loop);
+    if (!visible) { cancelAnimationFrame(frame); frame = null; }
+  }, { threshold: 0 });
+  raysObserver.observe(container);
+
+  window.addEventListener('resize', updateSize);
+  window.addEventListener('mousemove', e => {
+    const r = container.getBoundingClientRect();
+    mouse.x = (e.clientX-r.left)/r.width;
+    mouse.y = (e.clientY-r.top)/r.height;
+  });
+
+  updateSize();
+  visible = true;
+  requestAnimationFrame(loop);
+}
+</script>
+<script src="assets/site-i18n.js"></script>
+>>>>>>> 5ee8f0c832130ab88cb9a6c59614b51b592faf01
 </body>
 </html>
