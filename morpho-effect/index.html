@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morpho Cloud Shader — Extracted</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    #canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .ui {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .title {
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 2px 40px rgba(0,0,40,0.18);
+      margin-bottom: 0.3em;
+    }
+
+    .subtitle {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.02em;
+      margin-bottom: 3rem;
+    }
+
+    .presets {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      pointer-events: all;
+    }
+
+    .preset-btn {
+      padding: 0.45rem 1rem;
+      border-radius: 2rem;
+      border: 1.5px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.18s, border-color 0.18s, transform 0.12s;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .preset-btn:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-1px);
+    }
+    .preset-btn.active {
+      background: rgba(255,255,255,0.25);
+      border-color: rgba(255,255,255,0.7);
+      color: #fff;
+    }
+
+    .corner-label {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.06em;
+      pointer-events: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <div class="ui">
+    <div class="title">Morpho</div>
+    <div class="subtitle">WebGL Cloud Shader — Extracted &amp; Ported</div>
+    <div class="presets">
+      <button class="preset-btn active" data-preset="backgroundShaderLight">Background Light</button>
+      <button class="preset-btn" data-preset="backgroundShaderLightBig">Background Light Big</button>
+      <button class="preset-btn" data-preset="backgroundShader">Background Dark</button>
+      <button class="preset-btn" data-preset="buttonShader">Button</button>
+      <button class="preset-btn" data-preset="textShader">Text Dark</button>
+      <button class="preset-btn" data-preset="textLightShader">Text Light</button>
+    </div>
+  </div>
+
+  <div class="corner-label">morpho.org / extracted shader</div>
+
+  <script>
+    // ─── GLSL Library Functions ───────────────────────────────────────────────
+
+    const GLSL_HASH = `
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+      }
+    `;
+
+    const GLSL_NOISE = `
+      float noise(vec2 coord, float scale) {
+        vec2 scaledCoord = coord * scale / resolution;
+        float noiseValue = fract(sin(dot(scaledCoord, vec2(12.9898, 78.233))) * 43758.5453123);
+        return smoothstep(0.2, 0.8, noiseValue);
+      }
+    `;
+
+    const GLSL_SNOISE = `
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec2 mod289v(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+      float snoise(vec2 v) {
+        const vec4 C = vec4(
+          0.211324865405187,
+          0.366025403784439,
+          -0.577350269189626,
+          0.024390243902439
+        );
+        vec2 i  = floor(v + dot(v, C.yy));
+        vec2 x0 = v - i + dot(i, C.xx);
+        vec2 i1;
+        i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+        vec4 x12 = x0.xyxy + C.xxzz;
+        x12.xy -= i1;
+        i = mod289v(i);
+        vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+        m = m*m;
+        m = m*m;
+        vec3 x = 2.0 * fract(p * C.www) - 1.0;
+        vec3 h = abs(x) - 0.5;
+        vec3 ox = floor(x + 0.5);
+        vec3 a0 = x - ox;
+        m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+        vec3 g;
+        g.x  = a0.x  * x0.x  + h.x  * x0.y;
+        g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+        return 130.0 * dot(m, g);
+      }
+    `;
+
+    const GLSL_SIMPLE_CLOUD = `
+      float simpleCloudPattern(vec2 uv, float t) {
+        t = t * cloudSpeed;
+        float wave1 = sin((uv.x * 1.22 - uv.y * 0.85) * cloudFrequency * 0.451 + t) * cloudAmplitude;
+        float wave2 = sin((uv.x * 0.76 + uv.y * 1.52) * cloudFrequency * 0.621 + t) * cloudAmplitude;
+        float wave3 = sin((uv.x * 0.81 - uv.y * 0.93) * cloudFrequency * 0.221 + t) * cloudAmplitude;
+        float wave4 = sin((uv.x * 0.32 + uv.y * 0.53) * cloudFrequency * 0.539 + t) * cloudAmplitude;
+        float wave5 = sin((uv.x * 1.36 - uv.y * 0.62) * cloudFrequency * 0.917 + t) * cloudAmplitude;
+        float wave6 = sin((uv.x * 0.68 + uv.y * 1.21) * cloudFrequency * 0.891 + t) * cloudAmplitude;
+        float total = wave1 + wave2 + wave3 + wave4 + wave5 + wave6;
+        return total * 0.5 + 0.5;
+      }
+    `;
+
+    const GLSL_COMPLEX_CLOUD = `
+      float complexCloudPattern(vec2 uv, float t) {
+        float o = 0.0;
+        uv *= cloudFrequency;
+        t *= cloudSpeed;
+        float a = 0.0;
+        vec2 vel = vec2(t * 0.1);
+        o += snoise(uv + vel) * 0.25 + 0.25;
+        a = snoise(uv * vec2(cos(t * 0.15), sin(t * 0.1)) * 0.1) * 3.1415;
+        vel = vec2(cos(a), sin(a));
+        o += snoise(uv + vel) * 0.25 + 0.25;
+        o = fract(o);
+        return o * cloudAmplitude;
+      }
+    `;
+
+    // ─── Uniform declarations per shader ────────────────────────────────────
+
+    const UNIFORMS_BASE = `
+      precision mediump float;
+      uniform float time;
+      uniform float density;
+      uniform vec2 resolution;
+      uniform vec3 color1;
+      uniform vec3 color2;
+      uniform float cloudFrequency;
+      uniform float cloudAmplitude;
+      uniform float cloudSpeed;
+    `;
+
+    // ─── Fragment Shader Variants ─────────────────────────────────────────────
+
+    // Shader Y: simple cloud, with noise grain
+    const FRAG_SIMPLE_NOISE = `
+      ${UNIFORMS_BASE}
+      uniform float noiseFactor;
+      ${GLSL_NOISE}
+      ${GLSL_SIMPLE_CLOUD}
+      void main() {
+        vec2 uv = gl_FragCoord.xy / 1024.0 / density;
+        float cloudValue = simpleCloudPattern(uv, time);
+        vec3 color = mix(color1, color2, cloudValue);
+        color += noise(gl_FragCoord.xy, 1.215) * noiseFactor;
+        color -= noise(gl_FragCoord.xy, 5.431) * noiseFactor;
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    // Shader X: complex simplex cloud, with noise grain
+    const FRAG_COMPLEX_NOISE = `
+      ${UNIFORMS_BASE}
+      uniform float noiseFactor;
+      ${GLSL_NOISE}
+      ${GLSL_SNOISE}
+      ${GLSL_COMPLEX_CLOUD}
+      void main() {
+        vec2 uv = gl_FragCoord.xy / 1024.0 / density;
+        float cloudValue = complexCloudPattern(uv, time);
+        vec3 color = mix(color1, color2, cloudValue);
+        color += noise(gl_FragCoord.xy, 1.215) * noiseFactor;
+        color -= noise(gl_FragCoord.xy, 5.431) * noiseFactor;
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    // Shader W: simple cloud with color offset, no noise grain
+    const FRAG_SIMPLE_OFFSET = `
+      ${UNIFORMS_BASE}
+      uniform float colorOffset;
+      ${GLSL_SIMPLE_CLOUD}
+      void main() {
+        vec2 uv = gl_FragCoord.xy / 1024.0 / density;
+        float cloudValue = simpleCloudPattern(uv, time);
+        vec3 color = mix(color1, color2, cloudValue + colorOffset);
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    // Shader B: 4-channel complex cloud blend with noise grain
+    const FRAG_COMPLEX_BLEND = `
+      ${UNIFORMS_BASE}
+      uniform float noiseFactor;
+      uniform float colorBlendFactor;
+      uniform float colorBlendOffset;
+      ${GLSL_NOISE}
+      ${GLSL_SNOISE}
+      ${GLSL_COMPLEX_CLOUD}
+      void main() {
+        vec2 uv = gl_FragCoord.xy / 1024.0 / density;
+        vec4 weights = vec4(
+          complexCloudPattern(uv * 1.09, +time * 0.82) - 0.1,
+          complexCloudPattern(uv * 1.41, -time * 1.39) - 0.1,
+          complexCloudPattern(uv * 0.75, +time * 0.63) - 0.1,
+          complexCloudPattern(uv * 2.18, -time * 0.99) - 0.1
+        );
+        weights *= colorBlendFactor;
+        weights += colorBlendOffset;
+        vec3 color = (
+            weights.r * color1
+          + weights.g * color2
+          + weights.b * color1
+          + weights.a * color2
+        );
+        color += noise(gl_FragCoord.xy, 1.215) * noiseFactor;
+        color -= noise(gl_FragCoord.xy, 5.431) * noiseFactor;
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    // ─── Vertex Shader ────────────────────────────────────────────────────────
+
+    const VERT = `
+      attribute vec4 position;
+      void main() {
+        gl_Position = position;
+      }
+    `;
+
+    // ─── Color Palettes (from morpho.org source) ──────────────────────────────
+
+    function hex(h) {
+      const s = h.startsWith('#') ? h.slice(1) : h;
+      return [
+        parseInt(s.slice(0, 2), 16) / 255,
+        parseInt(s.slice(2, 4), 16) / 255,
+        parseInt(s.slice(4, 6), 16) / 255,
+      ];
+    }
+
+    const COLORS = {
+      button:     ['#3380E5', '#2659BF'],
+      background: ['#66CCFF', '#1A4DCC'],
+      text:       ['#66CCFF', '#3366E5'],
+      textLight:  ['#92B9FF', '#2973FF'],
+      light:      ['#d2ddff', '#7098ff'],
+    };
+
+    // ─── Preset Configs ───────────────────────────────────────────────────────
+
+    const PRESETS = {
+      backgroundShaderLight: {
+        frag: FRAG_COMPLEX_BLEND,
+        color1: COLORS.light[0],
+        color2: COLORS.light[1],
+        cloudFrequency:  2.2,
+        cloudAmplitude:  2.2,
+        cloudSpeed:      1.4,
+        noiseFactor:     0.035,
+        colorBlendFactor: 0.11,
+        colorBlendOffset: 0.16,
+      },
+      backgroundShaderLightBig: {
+        frag: FRAG_COMPLEX_BLEND,
+        color1: COLORS.light[0],
+        color2: COLORS.light[1],
+        cloudFrequency:  1.6,
+        cloudAmplitude:  2.2,
+        cloudSpeed:      1.6,
+        noiseFactor:     0.035,
+        colorBlendFactor: 0.11,
+        colorBlendOffset: 0.16,
+      },
+      backgroundShader: {
+        frag: FRAG_COMPLEX_NOISE,
+        color1: COLORS.background[0],
+        color2: COLORS.background[1],
+        cloudFrequency: 1.95,
+        cloudAmplitude: 1.58,
+        cloudSpeed:     1.42,
+        noiseFactor:    0.04,
+      },
+      buttonShader: {
+        frag: FRAG_SIMPLE_NOISE,
+        color1: COLORS.button[0],
+        color2: COLORS.button[1],
+        cloudFrequency: 50,
+        cloudAmplitude: 0.41,
+        cloudSpeed:     1.8,
+        noiseFactor:    0.032,
+      },
+      textShader: {
+        frag: FRAG_SIMPLE_OFFSET,
+        color1: COLORS.text[0],
+        color2: COLORS.text[1],
+        colorOffset:    0,
+        cloudFrequency: 90,
+        cloudAmplitude: 0.5,
+        cloudSpeed:     -3,
+      },
+      textLightShader: {
+        frag: FRAG_SIMPLE_OFFSET,
+        color1: COLORS.textLight[0],
+        color2: COLORS.textLight[1],
+        colorOffset:    -0.2,
+        cloudFrequency: 100,
+        cloudAmplitude: 0.4,
+        cloudSpeed:     2.5,
+      },
+    };
+
+    // ─── WebGL Engine ─────────────────────────────────────────────────────────
+
+    const canvas = document.getElementById('canvas');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    let gl, program, unifLocs, rafId;
+    let startTime = performance.now() / 1000;
+    let currentPreset = null;
+
+    function compileShader(src, type) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error('Shader error:', gl.getShaderInfoLog(s));
+        gl.deleteShader(s);
+        return null;
+      }
+      return s;
+    }
+
+    function buildProgram(vertSrc, fragSrc) {
+      const vs = compileShader(vertSrc, gl.VERTEX_SHADER);
+      const fs = compileShader(fragSrc, gl.FRAGMENT_SHADER);
+      if (!vs || !fs) return null;
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs);
+      gl.attachShader(prog, fs);
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        console.error('Link error:', gl.getProgramInfoLog(prog));
+        return null;
+      }
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
+      return prog;
+    }
+
+    function initGL() {
+      gl = canvas.getContext('webgl', { antialias: dpr < 1.5 });
+      if (!gl) { alert('WebGL not supported'); return false; }
+
+      // Full-screen quad (2 triangles)
+      const quad = new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+      return true;
+    }
+
+    function loadPreset(name) {
+      const cfg = PRESETS[name];
+      if (!cfg) return;
+      currentPreset = name;
+
+      if (program) gl.deleteProgram(program);
+      program = buildProgram(VERT, cfg.frag);
+      if (!program) return;
+
+      gl.useProgram(program);
+
+      // Bind vertex attrib
+      const posLoc = gl.getAttribLocation(program, 'position');
+      gl.enableVertexAttribArray(posLoc);
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+      // Cache uniform locations
+      unifLocs = {
+        time:             gl.getUniformLocation(program, 'time'),
+        density:          gl.getUniformLocation(program, 'density'),
+        resolution:       gl.getUniformLocation(program, 'resolution'),
+        color1:           gl.getUniformLocation(program, 'color1'),
+        color2:           gl.getUniformLocation(program, 'color2'),
+        cloudFrequency:   gl.getUniformLocation(program, 'cloudFrequency'),
+        cloudAmplitude:   gl.getUniformLocation(program, 'cloudAmplitude'),
+        cloudSpeed:       gl.getUniformLocation(program, 'cloudSpeed'),
+        noiseFactor:      gl.getUniformLocation(program, 'noiseFactor'),
+        colorOffset:      gl.getUniformLocation(program, 'colorOffset'),
+        colorBlendFactor: gl.getUniformLocation(program, 'colorBlendFactor'),
+        colorBlendOffset: gl.getUniformLocation(program, 'colorBlendOffset'),
+      };
+
+      // Set static uniforms
+      const c1 = hex(cfg.color1);
+      const c2 = hex(cfg.color2);
+      gl.uniform1f(unifLocs.density,          dpr);
+      gl.uniform3f(unifLocs.color1,           c1[0], c1[1], c1[2]);
+      gl.uniform3f(unifLocs.color2,           c2[0], c2[1], c2[2]);
+      gl.uniform1f(unifLocs.cloudFrequency,   cfg.cloudFrequency);
+      gl.uniform1f(unifLocs.cloudAmplitude,   cfg.cloudAmplitude);
+      gl.uniform1f(unifLocs.cloudSpeed,       cfg.cloudSpeed);
+      if (unifLocs.noiseFactor)      gl.uniform1f(unifLocs.noiseFactor,      cfg.noiseFactor      ?? 0);
+      if (unifLocs.colorOffset)      gl.uniform1f(unifLocs.colorOffset,      cfg.colorOffset      ?? 0);
+      if (unifLocs.colorBlendFactor) gl.uniform1f(unifLocs.colorBlendFactor, cfg.colorBlendFactor ?? 0);
+      if (unifLocs.colorBlendOffset) gl.uniform1f(unifLocs.colorBlendOffset, cfg.colorBlendOffset ?? 0);
+
+      resize();
+    }
+
+    function resize() {
+      const w = Math.round(canvas.clientWidth  * dpr);
+      const h = Math.round(canvas.clientHeight * dpr);
+      canvas.width  = w;
+      canvas.height = h;
+      if (gl && unifLocs) {
+        gl.viewport(0, 0, w, h);
+        gl.uniform2f(unifLocs.resolution, w, h);
+      }
+    }
+
+    function render(now) {
+      rafId = requestAnimationFrame(render);
+      const t = now / 1000 - startTime;
+      gl.uniform1f(unifLocs.time, t);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
+
+    // ─── Init ─────────────────────────────────────────────────────────────────
+
+    if (initGL()) {
+      loadPreset('backgroundShaderLight');
+      requestAnimationFrame(render);
+    }
+
+    window.addEventListener('resize', resize);
+
+    // ─── Preset buttons ───────────────────────────────────────────────────────
+
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        loadPreset(btn.dataset.preset);
+      });
+    });
+  </script>
+</body>
+</html>

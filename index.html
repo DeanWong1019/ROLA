@@ -1,1096 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ISP / Static Residential Proxies — ROLA-IP</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="premium-styles.css?v=usecases-compact-1">
-<script src="https://unpkg.com/lucide@latest"></script>
-<style>
-  .features-head{display:flex;align-items:flex-end;justify-content:space-between;gap:48px;margin-bottom:48px}
-  .features-head .section-head{margin-bottom:0;max-width:580px;flex-shrink:0}
-  .features-head__desc{flex:1;max-width:320px;color:var(--color-text-tertiary);font-size:1.0625rem;line-height:1.55}
-  #features .eyebrow{padding:8px 16px;border-radius:999px;background:var(--color-bg-white);border:1px solid var(--color-border-light);font-size:var(--text-sm);font-weight:600;letter-spacing:-.01em;text-transform:none;color:var(--color-brand-strong);margin-bottom:8px}
-  #features .eyebrow::before{display:none}
-  #features .h-section{color:var(--color-text-primary);font-size:clamp(2rem,3.5vw,var(--text-4xl));font-weight:700;line-height:1.1;letter-spacing:-.025em}
-  .features__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;grid-auto-rows:auto}
-  #features .features__grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-auto-rows:auto!important;gap:24px!important}
-  #features .fcard{
-    position:relative;display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;
-    min-height:260px;padding:24px;border-radius:20px;background:var(--color-bg-light-2);border:none!important;
-    overflow:hidden;box-shadow:none;cursor:default;transition:none
-  }
-  #features .fcard:hover{transform:none;box-shadow:none;border-color:transparent!important}
-  #features .fcard:nth-child(3){grid-column:unset!important;grid-row:unset!important;min-height:0!important}
-  #features .fcard:nth-child(4){grid-column:unset!important;grid-row:unset!important}
-  #features .fcard__index{
-    color:var(--color-text-primary)!important;
-    font-size:var(--text-base)!important;font-weight:700;letter-spacing:.02em;margin-bottom:18px
-  }
-  #features .fcard__illus{
-    display:block;width:100%;flex:1;min-height:140px;object-fit:cover;
-    border-radius:16px;background:var(--color-surface-light-subtle);margin-bottom:18px
-  }
-  #features .fcard__bottom{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-  #features .fcard h3{margin:0;font-size:var(--text-base);font-weight:700;line-height:1.15;letter-spacing:-.02em;color:var(--color-text-primary)}
-  #features .fcard p{margin:0;font-size:var(--text-sm);line-height:1.5;color:var(--color-text-tertiary);text-align:left}
-  #features .fcard:first-child{
-    border:none;background-color:hsl(210,56%,92%)!important;
-    background-image:url('assets/illustrations/fcard-mesh-1.png')!important;
-    background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
-  }
-  #features .fcard:first-child h3,#features .fcard:first-child p{color:var(--color-text-primary)!important}
-  #features .fcard:nth-child(2){
-    border:none;background-color:hsl(45,100%,60%)!important;
-    background-image:url('assets/illustrations/fcard-mesh-2.png')!important;
-    background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
-  }
-  #features .fcard:nth-child(2) h3,#features .fcard:nth-child(2) p{color:var(--color-text-primary)!important}
-  #features .fcard:nth-child(3){
-    border:none;background-color:hsl(265,80%,72%)!important;
-    background-image:url('assets/illustrations/fcard-mesh-3.png')!important;
-    background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
-  }
-  #features .fcard:nth-child(3) h3,#features .fcard:nth-child(3) p,#features .fcard:nth-child(3) .fcard__index{color:var(--color-text-primary)!important}
-  #features .fcard:nth-child(4){
-    border:none;background-color:hsl(340,75%,85%)!important;
-    background-image:url('assets/illustrations/fcard-mesh-4.png')!important;
-    background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
-  }
-  #features .fcard:nth-child(4) h3,#features .fcard:nth-child(4) p,#features .fcard:nth-child(4) .fcard__index{color:var(--color-text-primary)!important}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROLA-IP</title>
+  <link rel="stylesheet" href="premium-styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; background: #000 !important; overflow: hidden; }
+    body::before, body::after { display: none !important; }
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js"
+      }
+    }
+  </script>
 </head>
 <body>
+  <div data-site-nav data-active="home"></div>
+  <script src="assets/site-nav.js"></script>
+  <canvas id="canvas"></canvas>
 
-<!-- ====================== NAV ====================== -->
-<div data-site-nav data-active="proxies"></div>
-<script src="assets/site-nav.js"></script>
+  <script type="module">
+    import * as THREE from "three";
 
-<!-- ====================== 1. HERO ====================== -->
-<header class="hero" data-screen-label="Hero" data-theme="pink">
-  <div class="container hero__grid">
-    <div class="hero__text">
-      <h1 data-rise="1">ISP / Static Residential Proxies</h1>
-      <p class="hero__sub" data-rise="2">Stable ISP proxies with high success rates, per-IP billing, and no hidden fees.</p>
-      <div class="hero__stats" data-rise="3">
-        <div class="hstat">
-          <div class="hstat__v">99.9%</div>
-          <div class="hstat__l">Success rate</div>
-        </div>
-        <div class="hstat">
-          <div class="hstat__v">1.3M+</div>
-          <div class="hstat__l">IP pool size</div>
-        </div>
-        <div class="hstat">
-          <div class="hstat__v">From $2.10/IP</div>
-          <div class="hstat__l">Starting price</div>
-        </div>
-      </div>
-      <div class="hero__ctas" data-rise="4">
-        <a href="pricing.html" class="btn btn--secondary">Start free trial</a>
-        <a href="#" class="btn btn--ghost">Contact sales</a>
-      </div>
-      <div class="hero__ratings" data-rise="5">
-        <span class="rating__logo rating__logo--trust"><img src="assets/ratings/trustpilot.svg" alt="Trustpilot" class="rating__logo-img"></span>
-        <span class="hero__ratings-sep"></span>
-        <span class="rating__logo rating__logo--g2"><img src="assets/ratings/g2.svg" alt="G2" class="rating__logo-img"></span>
-        <span class="hero__ratings-sep"></span>
-        <span class="rating__logo rating__logo--capterra"><img src="assets/ratings/capterra.svg" alt="Capterra" class="rating__logo-img"></span>
-      </div>
-    </div>
-
-    <!-- Layered product visual -->
-    <div class="hero__visual" aria-hidden="true">
-      <div class="hero__placeholder"><img src="assets/illustrations/hero-visual.png" alt="" style="width:100%;height:100%;object-fit:contain;display:block"></div>
-    </div>
-  </div>
-  <!-- Hero theme palette -->
-  <div class="hero__palette" role="group" aria-label="Background theme">
-    <button class="hero__swatch active" data-color="pink"  aria-label="Pink theme"></button>
-    <button class="hero__swatch"        data-color="yellow" aria-label="Yellow theme"></button>
-    <button class="hero__swatch"        data-color="blue"  aria-label="Blue theme"></button>
-    <button class="hero__swatch"        data-color="red"   aria-label="Red theme"></button>
-  </div>
-</header>
-
-
-<!-- ====================== 3. CLIENT LOGOS ====================== -->
-<section class="logos" data-screen-label="Client Logos">
-  <div class="marquee">
-    <div class="marquee__track">
-      <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
-    </div>
-    <div class="marquee__track" aria-hidden="true">
-      <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
-      <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== 3. FEATURES ====================== -->
-<section class="section" id="features" data-screen-label="Core Features">
-  <div class="container">
-    <div class="features-head" data-reveal>
-      <div class="section-head">
-        <div class="eyebrow">Why ROLA-IP</div>
-        <h2 class="h-section">Reliability engineered into every IP</h2>
-      </div>
-      <p class="features-head__desc">High-success access, real ISP IPs, long sessions, and predictable pricing.</p>
-    </div>
-    <div class="features__grid">
-      <div class="fcard" data-reveal>
-        <span class="fcard__index">01</span>
-        <img class="fcard__illus" src="assets/illustrations/fcard-mesh-1.webp" alt="" loading="lazy">
-        <div class="fcard__bottom">
-          <h3>High-success access</h3>
-          <p>Well-known ASN with fewer restrictions from target sites.</p>
-        </div>
-      </div>
-      <div class="fcard" data-reveal data-delay="1">
-        <span class="fcard__index">02</span>
-        <img class="fcard__illus" src="assets/illustrations/fcard-mesh-2.webp" alt="" loading="lazy">
-        <div class="fcard__bottom">
-          <h3>Premium ASN source</h3>
-          <p>Residential-grade real IPs sourced from premium ASNs.</p>
-        </div>
-      </div>
-      <div class="fcard fcard--tall" data-reveal data-delay="2">
-        <span class="fcard__index">03</span>
-        <img class="fcard__illus" src="assets/illustrations/fcard-mesh-3.webp" alt="" loading="lazy">
-        <div class="fcard__bottom">
-          <h3>Long / unlimited sessions</h3>
-          <p>IPs never rotate mid-session — keeps your login state intact.</p>
-        </div>
-      </div>
-      <div class="fcard fcard--wide" data-reveal data-delay="3">
-        <span class="fcard__index">04</span>
-        <img class="fcard__illus" src="assets/illustrations/fcard-mesh-4.webp" alt="" loading="lazy">
-        <div class="fcard__bottom">
-          <h3>Pay-per-IP, no hidden fees</h3>
-          <p>Bandwidth is never charged extra — pay only for the IPs you use.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== 4. PRICING ====================== -->
-<section class="section" id="pricing" data-screen-label="Pricing">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <div class="eyebrow">Pricing</div>
-      <h2 class="h-section">Buy Residential Proxies</h2>
-      <p class="section-sub">ROLA IP offers flexible pricing options for easy scalability</p>
-    </div>
-    <div class="pricing__grid">
-      <div class="pcard" data-reveal>
-        <div class="pcard__info">
-          <span class="pcard__badge">Free trial</span>
-          <div class="pcard__name">Starter</div>
-          <div class="pcard__ips"><span class="pcard__ips-qty">25 IPs</span><span class="pcard__ips-sep"></span>For small teams and first production workloads</div>
-        </div>
-        <div class="pcard__pricing">
-          <div class="pcard__price">$3.20<span class="u">/IP</span></div>
-          <div class="pcard__billed">Billed monthly</div>
-        </div>
-        <a href="#" class="btn btn--ghost btn--lg btn--block">Buy Now</a>
-      </div>
-
-      <div class="pcard" data-reveal data-delay="1">
-        <div class="pcard__info">
-          <span class="pcard__badge">Scale</span>
-          <div class="pcard__name">Advanced</div>
-          <div class="pcard__ips"><span class="pcard__ips-qty">100 IPs</span><span class="pcard__ips-sep"></span>For growing scraping and automation pipelines</div>
-        </div>
-        <div class="pcard__pricing">
-          <div class="pcard__price">$2.75<span class="u">/IP</span></div>
-          <div class="pcard__billed">Billed monthly</div>
-        </div>
-        <a href="#" class="btn btn--ghost btn--lg btn--block">Buy Now</a>
-      </div>
-
-      <div class="pcard pcard--popular" data-reveal data-delay="2">
-        <div class="pcard__info">
-          <span class="pcard__badge">Most popular</span>
-          <div class="pcard__name-row">
-            <div class="pcard__name">Premium</div>
-            <span class="pcard__clip">Most Popular</span>
-          </div>
-          <div class="pcard__ips"><span class="pcard__ips-qty">500 IPs</span><span class="pcard__ips-sep"></span>For high-volume teams that need steadier scale</div>
-        </div>
-        <div class="pcard__pricing">
-          <div class="pcard__price">$2.10<span class="u">/IP</span></div>
-          <div class="pcard__billed">Billed monthly</div>
-        </div>
-        <a href="#" class="btn btn--primary btn--lg btn--block">Buy Now</a>
-      </div>
-
-      <div class="pcard" data-reveal data-delay="3">
-        <div class="pcard__info">
-          <span class="pcard__badge">Custom</span>
-          <div class="pcard__name">Enterprise</div>
-          <div class="pcard__ips"><span class="pcard__ips-qty">1,000+ IPs</span><span class="pcard__ips-sep"></span>With custom allocation, SLA and infrastructure</div>
-        </div>
-        <div class="pcard__pricing">
-          <div class="pcard__price">Custom</div>
-          <div class="pcard__billed">Tailored billing</div>
-        </div>
-        <a href="#" class="btn btn--ghost btn--lg btn--block">Contact Sales</a>
-      </div>
-    </div>
-    <div class="pricing__note pricing__payments" data-reveal>
-      <div class="payments__row">
-        <div class="payments__item">
-          <div class="payments__copy">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5zm-18 0a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z"/></svg>
-            <span>24/7 Support</span>
-          </div>
-        </div>
-        <div class="payments__sep"></div>
-        <div class="payments__item">
-          <div class="payments__copy">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
-            <span>Free Trial</span>
-          </div>
-        </div>
-        <div class="payments__sep"></div>
-        <div class="payments__item">
-          <div class="payments__copy">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.3 8.3-8 9-4.7-.7-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-5"/></svg>
-            <span>Accepted payment methods</span>
-          </div>
-          <div class="payments__logos" aria-label="Supported payment methods">
-            <span class="paymark paymark--mastercard"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#FF5F00" d="M10.198 8.758h3.607v6.482h-3.607z"/><path fill="#EB001B" d="M10.427 12a4.15 4.15 0 0 1 1.569-3.242 4.123 4.123 0 0 0-5.796.699 4.12 4.12 0 0 0 .71 5.784 4.11 4.11 0 0 0 5.097 0 4.12 4.12 0 0 1-1.58-3.242"/><path fill="#F79E1B" d="M18.673 12a4.12 4.12 0 0 1-6.665 3.24 4.13 4.13 0 0 0 0-6.482 4.11 4.11 0 0 1 5.784.699c.572.721.881 1.614.881 2.542"/></svg></span>
-            <span class="paymark paymark--visa"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#1434CB" d="m10.044 9.468-2.128 5.078H6.527L5.48 10.493c-.064-.249-.119-.34-.312-.446-.316-.172-.838-.332-1.296-.432l.03-.147h2.235c.285 0 .541.19.606.518l.554 2.938 1.366-3.456zM15.485 12.887c.006-1.34-1.853-1.414-1.84-2.013.004-.182.178-.376.557-.425a2.5 2.5 0 0 1 1.295.227l.23-1.077a3.6 3.6 0 0 0-1.228-.224c-1.299 0-2.213.69-2.22 1.678-.008.732.653 1.139 1.15 1.383.513.249.684.409.682.63-.004.341-.409.492-.785.498-.66.01-1.044-.179-1.35-.321l-.238 1.113c.308.14.874.263 1.46.269 1.381 0 2.284-.682 2.288-1.738M19.067 9.468h-1.12a.6.6 0 0 0-.56.372l-1.97 4.706h1.379l.273-.759h1.686l.159.758h1.214zm-1.62 3.279.692-1.906.397 1.906zM11.92 9.468l-1.085 5.078H9.52l1.086-5.078z"/></svg></span>
-            <span class="paymark paymark--usdt"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><circle cx="12" cy="12" r="5" fill="#50AF95"/><path fill="#fff" fill-rule="evenodd" d="M12.7 12.592c-.04.003-.241.015-.692.015-.358 0-.612-.011-.701-.015-1.384-.061-2.417-.302-2.417-.59 0-.289 1.033-.53 2.417-.591v.94c.09.007.35.022.707.022.43 0 .645-.017.684-.021v-.94c1.381.06 2.412.302 2.412.59 0 .287-1.03.528-2.412.59zm0-1.278v-.842h1.927V9.188H9.38v1.284h1.926v.842c-1.566.072-2.743.382-2.743.754 0 .371 1.177.681 2.743.754v2.698H12.7v-2.7c1.563-.072 2.739-.381 2.739-.753 0-.371-1.175-.681-2.739-.753" clip-rule="evenodd"/></svg></span>
-            <span class="paymark paymark--alipay"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#1677FF" d="M15.033 7.5H8.968c-.79 0-1.43.645-1.43 1.441v6.117c0 .796.64 1.441 1.43 1.441h6.065c.79 0 1.429-.645 1.429-1.441V8.942c0-.797-.64-1.442-1.429-1.442"/><path fill="#fff" d="M14.885 13.151c-.357-.12-.836-.305-1.37-.5a7.3 7.3 0 0 0 .745-1.897H12.5v-.639h2.155v-.357H12.5V8.693h-.88c-.154 0-.154.154-.154.154v.911h-2.18v.357h2.18v.64h-1.8v.355h3.49c-.127.445-.299.86-.502 1.24-1.133-.377-2.341-.683-3.1-.495-.485.121-.798.336-.982.562-.843 1.034-.238 2.606 1.542 2.606 1.053 0 2.067-.592 2.853-1.568 1.172.569 3.494 1.544 3.494 1.544v-1.39s-.292-.024-1.577-.458m-4.935 1.27c-1.389 0-1.799-1.102-1.114-1.706.23-.204.648-.304.871-.326.825-.082 1.588.235 2.49.679-.633.833-1.44 1.353-2.247 1.353"/></svg></span>
-            <span class="paymark paymark--wechat"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#00C800" d="M16.66 9.863 10.6 13.364a.356.356 0 0 1-.502-.161l-.978-2.162c-.066-.147.103-.288.236-.197l1.232.85c.117.081.266.095.396.037L16.3 9.37C15.35 8.239 13.779 7.5 12 7.5c-2.9 0-5.25 1.963-5.25 4.384 0 1.314.693 2.493 1.79 3.297 0 0 .216.146.168.363-.047.216-.256.95-.256.95s-.068.163.037.247c.104.085.204.017.255-.012l1.175-.67a.48.48 0 0 1 .366-.03l.062.017.022.006h.002a6.2 6.2 0 0 0 1.63.215c2.9 0 5.25-1.963 5.25-4.384 0-.729-.213-1.416-.59-2.02z"/></svg></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== 6. GEO COVERAGE ====================== -->
-<section class="section" id="geo" data-screen-label="Geo Coverage">
-  <div class="container geo__head-wrap" data-reveal>
-    <div class="geo-head">
-      <div class="section-head">
-        <div class="eyebrow">Coverage</div>
-        <h2 class="h-section">Meeting various global business needs</h2>
-      </div>
-      <p class="geo-head__desc">Covering 200+ countries worldwide, supporting various business and technical needs</p>
-    </div>
-  </div>
-  <div class="container geo__card-wrap">
-    <div class="geo__stats" data-reveal>
-      <div class="geo__stat"><span class="geo__stat-num">200+</span><span class="geo__stat-label">Countries covered</span></div>
-      <div class="geo__stat"><span class="geo__stat-num">40M+</span><span class="geo__stat-label">Residential IPs</span></div>
-      <div class="geo__stat"><span class="geo__stat-num">99.9%</span><span class="geo__stat-label">Uptime guarantee</span></div>
-      <div class="geo__stat"><span class="geo__stat-num">24/7</span><span class="geo__stat-label">Technical support</span></div>
-    </div>
-    <div class="geo__locations" data-reveal>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/us.png" width="48" height="32" alt="United States"><div><h3>United States / US</h3><p>6,843,600 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/hk.png" width="48" height="32" alt="Hong Kong"><div><h3>Hong Kong / HK</h3><p>1,245,300 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/jp.png" width="48" height="32" alt="Japan"><div><h3>Japan / JP</h3><p>2,340,800 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/fr.png" width="48" height="32" alt="France"><div><h3>France / FR</h3><p>3,479,400 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/pl.png" width="48" height="32" alt="Poland"><div><h3>Poland / PL</h3><p>892,600 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/gb.png" width="48" height="32" alt="United Kingdom"><div><h3>United Kingdom / GB</h3><p>2,765,400 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/sg.png" width="48" height="32" alt="Singapore"><div><h3>Singapore / SG</h3><p>1,128,500 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/de.png" width="48" height="32" alt="Germany"><div><h3>Germany / DE</h3><p>1,110,960 IPs</p></div></article>
-      <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/kr.png" width="48" height="32" alt="South Korea"><div><h3>South Korea / KR</h3><p>1,567,200 IPs</p></div></article>
-    </div>
-    <div class="geo__globe-wrap" data-reveal>
-      <canvas id="cobe-globe" width="920" height="920" aria-label="Global proxy coverage map"></canvas>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== 7. USE CASES ====================== -->
-<section class="section" id="use-cases" data-screen-label="Use Cases">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <div class="eyebrow">Use Cases</div>
-      <h2 class="h-section">Built for every workflow that needs reliable IP access</h2>
-      <p class="section-sub">Use ROLA-IP to collect, verify, monitor, and automate across regions with stable ISP proxies.</p>
-    </div>
-    <div class="cases__grid">
-      <div class="ucard" data-reveal>
-        <div class="ucard__header">
-          <i data-lucide="megaphone" class="ucard__glyph" aria-hidden="true"></i>
-          <h3>Social Media Marketing</h3>
-        </div>
-        <p>Complete social media automation tasks at scale without running into friction or access limits.</p>
-      </div>
-      <div class="ucard" data-reveal data-delay="1">
-        <div class="ucard__header">
-          <i data-lucide="globe" class="ucard__glyph" aria-hidden="true"></i>
-          <h3>E-commerce Management</h3>
-        </div>
-        <p>Break through geographic barriers and reach the major online marketplaces around the world.</p>
-      </div>
-      <div class="ucard" data-reveal data-delay="2">
-        <div class="ucard__header">
-          <i data-lucide="database" class="ucard__glyph" aria-hidden="true"></i>
-          <h3>Data Collection</h3>
-        </div>
-        <p>Run large-scale web scraping while using reliable static residential proxies to avoid IP blocks and CAPTCHAs.</p>
-      </div>
-      <div class="ucard" data-reveal>
-        <div class="ucard__header">
-          <i data-lucide="search" class="ucard__glyph" aria-hidden="true"></i>
-          <h3>Search Engine Optimization</h3>
-        </div>
-        <p>Gather valuable search engine data, perform keyword analysis, and monitor rankings across locations.</p>
-      </div>
-      <div class="ucard" data-reveal data-delay="1">
-        <div class="ucard__header">
-          <i data-lucide="plane" class="ucard__glyph" aria-hidden="true"></i>
-          <h3>Price and Travel Aggregation</h3>
-        </div>
-        <p>Collect up-to-date pricing and inventory information from multiple travel and booking websites with ease.</p>
-      </div>
-      <div class="ucard" data-reveal data-delay="2">
-        <div class="ucard__header">
-          <i data-lucide="monitor-play" class="ucard__glyph" aria-hidden="true"></i>
-          <h3>Ad Technology</h3>
-        </div>
-        <p>Pair static residential proxies with campaign testing to collect competitor insights and identify bot traffic.</p>
-      </div>
-      <div class="ucard" data-reveal>
-        <div class="ucard__header">
-          <i data-lucide="shield-check" class="ucard__glyph" aria-hidden="true"></i>
-          <h3>Brand Protection</h3>
-        </div>
-        <p>Detect trademark violations, report unauthorized use of your assets, and protect brand reputation.</p>
-      </div>
-      <div class="ucard" data-reveal data-delay="1">
-        <div class="ucard__header">
-          <i data-lucide="chart-column" class="ucard__glyph" aria-hidden="true"></i>
-          <h3>Market Research</h3>
-        </div>
-        <p>Retrieve regional data for actionable insight, monitor consumer behavior, and track competitor progress.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== 8. INTEGRATION ====================== -->
-<section class="section" id="integration" data-screen-label="Integration">
-  <div class="container">
-    <div class="integ__grid">
-      <div class="section-head" data-reveal>
-        <div class="eyebrow">Quick Start</div>
-        <h2 class="h-section">Start proxying with one endpoint</h2>
-        <p class="section-sub">Route requests through ISP proxies using simple credentials, country targeting, and sticky sessions.</p>
-        <div class="integ__logos">
-          <div class="integ__logo-slot"><img src="assets/curl-logo.svg" alt="cURL" class="integ__logo-img"></div>
-          <div class="integ__logo-slot"><img src="assets/python-logo.svg" alt="Python" class="integ__logo-img"></div>
-          <div class="integ__logo-slot"><img src="assets/javascript-logo.svg" alt="JavaScript" class="integ__logo-img"></div>
-          <div class="integ__logo-slot"><img src="assets/go-logo.svg" alt="Go" class="integ__logo-img"></div>
-          <div class="integ__logo-slot"><img src="assets/java-logo.svg" alt="Java" class="integ__logo-img"></div>
-          <div class="integ__logo-slot"><img src="assets/php-logo.svg" alt="PHP" class="integ__logo-img"></div>
-        </div>
-      </div>
-      <div class="codepanel" data-reveal data-delay="1">
-        <div class="codepanel__top">
-          <div class="codetabs" id="codeTabsBar"></div>
-          <button class="copybtn" id="copyBtn" aria-label="Copy code">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 10V3.5A1.5 1.5 0 014.5 2H11"/></svg>
-            <span>Copy</span>
-          </button>
-        </div>
-        <div class="codebody">
-          <div class="th-code" id="codeDisplay"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== 9. TESTIMONIALS ====================== -->
-<section class="section" data-screen-label="Testimonials">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <div class="eyebrow">Customer Stories</div>
-      <h2 class="h-section">Real results from real users.</h2>
-    </div>
-  </div>
-  <div class="tmarquee">
-      <div class="tmarquee__track">
-        <div class="tcard">
-          <div class="tcard__author">
-            <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
-            <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead, Northstar Analytics</div></div>
-          </div>
-          <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
-          <span class="tcard__stars">★★★★★</span>
-        </div>
-        <div class="tcard">
-          <div class="tcard__author">
-            <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
-            <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth, CartPulse</div></div>
-          </div>
-          <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
-          <span class="tcard__stars">★★★★★</span>
-        </div>
-        <div class="tcard">
-          <div class="tcard__author">
-            <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
-            <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager, MarketLens</div></div>
-          </div>
-          <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
-          <span class="tcard__stars">★★★★★</span>
-        </div>
-        <div class="tcard">
-          <div class="tcard__author">
-            <img class="tcard__avatar" src="assets/testimonials/james-wong.jpg" alt="James Wong">
-            <div><div class="tcard__name">James Wong</div><div class="tcard__role">Senior Engineer, DataBridge</div></div>
-          </div>
-          <p class="tcard__quote">Switching to ROLA-IP was seamless. The geo-targeting works exactly as documented, and our success rate on restricted regions improved immediately.</p>
-          <span class="tcard__stars">★★★★★</span>
-        </div>
-      </div>
-      <div class="tmarquee__track" aria-hidden="true">
-        <div class="tcard">
-          <div class="tcard__author">
-            <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
-            <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead, Northstar Analytics</div></div>
-          </div>
-          <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
-          <span class="tcard__stars">★★★★★</span>
-        </div>
-        <div class="tcard">
-          <div class="tcard__author">
-            <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
-            <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth, CartPulse</div></div>
-          </div>
-          <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
-          <span class="tcard__stars">★★★★★</span>
-        </div>
-        <div class="tcard">
-          <div class="tcard__author">
-            <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
-            <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager, MarketLens</div></div>
-          </div>
-          <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
-          <span class="tcard__stars">★★★★★</span>
-        </div>
-        <div class="tcard">
-          <div class="tcard__author">
-            <img class="tcard__avatar" src="assets/testimonials/james-wong.jpg" alt="James Wong">
-            <div><div class="tcard__name">James Wong</div><div class="tcard__role">Senior Engineer, DataBridge</div></div>
-          </div>
-          <p class="tcard__quote">Switching to ROLA-IP was seamless. The geo-targeting works exactly as documented, and our success rate on restricted regions improved immediately.</p>
-          <span class="tcard__stars">★★★★★</span>
-        </div>
-      </div>
-    </div>
-</section>
-
-<!-- ====================== 10. COMPLIANCE ====================== -->
-<section class="section" id="compliance" style="background:var(--color-surface-dark-overlay);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)" data-screen-label="Compliance">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <div class="eyebrow">Security &amp; Compliance</div>
-      <h2 class="h-section">Safe, secure, and industry recognized</h2>
-    </div>
-    <div class="compliance__boxes" data-reveal>
-      <div class="compliance__box">
-        <div id="light-rays-bg" class="light-rays-bg"></div>
-        <div class="compliance__badges">
-          <img src="assets/badge-g2-europe-leader.svg" alt="G2 Europe Regional Leader">
-          <img src="assets/badge-g2-grid-leader.svg" alt="G2 Grid Leader">
-          <img src="assets/badge-g2-top50-security.svg" alt="G2 Top 50 Security Products">
-          <img src="assets/badge-iso-27001.svg" alt="ISO 27001">
-          <img src="assets/badge-iso-50001.svg" alt="ISO 50001">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== 11. FAQ ====================== -->
-<section class="section" id="faq" data-screen-label="FAQs">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <div class="eyebrow">FAQs</div>
-      <h2 class="h-section">Questions, answered</h2>
-    </div>
-    <div class="faq__wrap" data-reveal>
-      <div class="faq-item">
-        <button class="faq-item__q">What is an ISP proxy?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>An ISP proxy — also called a static residential proxy — is an IP address hosted in a datacenter but registered to a real Internet Service Provider. Target sites see it as a legitimate residential connection, so you get the trust profile of a home IP combined with datacenter-grade speed and stability.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">How are ISP proxies different from rotating residential proxies?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Rotating residential proxies pull a different IP from a shared pool on each request and are usually billed by bandwidth (per GB). ISP proxies give you a fixed, dedicated IP that stays the same until you change it, billed per-IP with unlimited bandwidth. They're the better fit when you need persistent identity, stable sessions, and predictable cost.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Do you offer a free trial?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Yes. You can test the network on a 7-day free trial before committing — no credit card required to start. Trial accounts include 5 ISP IPs and dashboard access.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">How does per-IP billing work?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>You pay a flat monthly price for each IP in your plan. Bandwidth is unlimited and included — there are no per-GB charges, no overage fees, and no hidden line items. Your monthly cost is the same whether you send one request or millions.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Which regions and locations do you support?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>We offer ISP proxies across 85+ countries, with the deepest pools in the US, UK, Germany, Canada, and other major markets. Country-level targeting is available everywhere; city-level targeting is available in 210 metro areas.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">How long can a session last?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>ISP proxies are static by design — you keep the same IP for the full duration of your subscription with no forced rotation. This makes them ideal for authenticated sessions, account management, and long-running collection jobs.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Are there any target-site restrictions?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Our proxies can access most publicly available websites. All usage must comply with our Acceptable Use Policy, which prohibits illegal activity, credential abuse, spam, payment fraud, and attacks on third-party services.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">What authentication methods are supported?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Both username/password authentication and IP whitelisting are supported. You can configure either (or both) from the dashboard and switch at any time.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-item__q">Is the service compliant for enterprise procurement?<span class="faq-item__ic"></span></button>
-        <div class="faq-item__a"><p>Yes. We align with GDPR and CCPA, source all IPs ethically through consent-based ISP partnerships, and can provide a DPA, ISO 27001 documentation, SOC 2 Type II report access, and security audit details on request.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="site-bottom">
-<!-- ====================== 12. FINAL CTA ====================== -->
-<section class="finalcta" data-screen-label="Final CTA">
-  <div class="container">
-    <div class="finalcta__box" data-reveal>
-      <h2>Start routing through stable ISP proxies today</h2>
-      <div class="finalcta__ctas">
-        <a href="#" class="btn btn--primary">Start free trial</a>
-        <a href="#" class="btn btn--ghost">Contact Sales</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== FOOTER ====================== -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer__grid">
-      <div class="footer__brand" data-reveal>
-        <div class="footer__brand-copy">
-          <a href="#" class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="none" aria-hidden="true"><g fill="#11A757" clip-path="url(#rola-logo)"><path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/><path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity=".4"/></g><defs><clipPath id="rola-logo"><path fill="#fff" d="M0 20V0h24v20z"/></clipPath></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="76" height="13" fill="none" aria-label="ROLA-IP" class="logo__wordmark"><path fill="#D4DADD" d="M2.7 12.24H0V.18h6.66q1.494 0 2.538.432 1.044.414 1.584 1.224t.54 1.962q0 .99-.378 1.692T9.81 6.624q-.756.414-1.89.522v.144q.81.216 1.206.648T9.864 9l1.746 3.24H8.478L6.822 9.108A3.2 3.2 0 0 0 6.3 8.37a1.47 1.47 0 0 0-.702-.378q-.414-.126-1.116-.126H2.7zm0-9.63v3.222h3.942q.954 0 1.404-.324.45-.342.45-1.296 0-.9-.45-1.242-.45-.36-1.404-.36zm17.053 9.81q-1.98 0-3.456-.756a5.5 5.5 0 0 1-2.25-2.16q-.774-1.404-.774-3.294t.774-3.276a5.35 5.35 0 0 1 2.25-2.16Q17.773 0 19.753 0q2.052 0 3.51.774a5.35 5.35 0 0 1 2.25 2.16q.792 1.386.792 3.276t-.792 3.294a5.5 5.5 0 0 1-2.25 2.16q-1.458.756-3.51.756m0-2.592q1.332 0 2.124-.342.81-.36 1.17-1.152.378-.792.378-2.124 0-1.35-.378-2.124a2.17 2.17 0 0 0-1.17-1.134q-.792-.36-2.124-.36-1.314 0-2.106.36a2.17 2.17 0 0 0-1.152 1.134q-.36.774-.36 2.124 0 1.332.36 2.124t1.152 1.152q.792.342 2.106.342m11.51 2.412h-2.7V.18h2.7zm7.181 0h-9.126V9.81h9.126zm4.381 0h-3.024L45.075.18h3.852l5.31 12.06h-3.096L47.83 4.518l-.738-1.872h-.198l-.738 1.872zm8.352-2.664h-8.496v-2.43h8.496zm11.327 2.664h-2.7V.18h2.7zm8.794-3.33h-5.364V6.48h5.076q1.134 0 1.656-.396.54-.414.54-1.548 0-1.098-.54-1.512-.522-.414-1.656-.414h-5.076V.18h5.364q1.404 0 2.43.522a3.63 3.63 0 0 1 1.584 1.476q.576.972.576 2.358t-.576 2.376a3.74 3.74 0 0 1-1.584 1.494q-1.026.504-2.43.504m-3.6 3.33h-2.7V.18h2.7z"/></svg></a>
-          <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
-        </div>
-        <div class="footer-ai-summary" aria-label="Get an AI summary of ROLA IP">
-          <span>Get an AI summary of ROLA IP</span>
-          <span class="footer-ai-summary__icons" aria-hidden="true">
-            <img class="footer-ai-summary__icon" src="assets/ai/openai-chatgpt.svg" alt="">
-            <img class="footer-ai-summary__icon" src="assets/ai/claude.svg" alt="">
-            <img class="footer-ai-summary__icon" src="assets/ai/perplexity.svg" alt="">
-          </span>
-        </div>
-      </div>
-      <div data-reveal data-delay="1">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#features">ISP Proxies</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="#geo">Locations</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="faq.html">FAQs</a></li>
-          <li><a href="pricing.html">Free Trial</a></li>
-        </ul>
-      </div>
-      <div data-reveal data-delay="2">
-        <h4>Developers</h4>
-        <ul>
-          <li><a href="#integration">Documentation</a></li>
-          <li><a href="#">API Reference</a></li>
-          <li><a href="#">SDKs</a></li>
-          <li><a href="#">Status</a></li>
-        </ul>
-      </div>
-      <div data-reveal data-delay="3">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact Sales</a></li>
-          <li><a href="#compliance">Compliance</a></li>
-          <li><a href="#">Privacy &amp; Terms</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer__bottom footer__bottom--reveal">
-      <span>© 2026 ROLA-IP. All rights reserved.</span>
-      <span>sales@rola-ip.com</span>
-    </div>
-  </div>
-</footer>
-</div>
-
-<script>
-// ---- Enable entrance animations only when the document is actually visible ----
-// (preview/export iframes render hidden, which pauses CSS animations at opacity:0;
-//  leaving .anim off keeps all content visible in those contexts.)
-(function(){
-  function enable(){ if (document.visibilityState === 'visible') { document.documentElement.classList.add('anim'); } }
-  if (document.visibilityState === 'visible') { enable(); }
-  else { document.addEventListener('visibilitychange', function once(){ if(document.visibilityState==='visible'){ enable(); document.removeEventListener('visibilitychange', once); } }); }
-  // Safety net: if animations get paused (hidden tab, slow render) and never complete,
-  // force the visible end-state so content can never get stuck invisible.
-  setTimeout(function(){
-    document.querySelectorAll('.hero [data-rise], .hero__visual').forEach(function(el){
-      el.style.opacity = '1'; el.style.transform = 'none';
-    });
-  }, 2600);
-})();
-
-// ---- Sticky nav ----
-const nav = document.getElementById('nav');
-const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
-window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
-
-// ---- Mobile nav ----
-const burger = document.getElementById('hamburger');
-const mnav = document.getElementById('mobileNav');
-burger.addEventListener('click', () => {
-  const open = mnav.classList.toggle('open');
-  burger.classList.toggle('open', open);
-  document.body.style.overflow = open ? 'hidden' : '';
-});
-mnav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  mnav.classList.remove('open'); burger.classList.remove('open'); document.body.style.overflow='';
-}));
-
-// ---- Scroll reveal ----
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-}, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
-document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
-
-// ---- Count-up ----
-function countUp(el){
-  const raw = el.getAttribute('data-count');
-  const num = parseFloat(String(raw).replace(/[^0-9.]/g,''));
-  if (isNaN(num)) return;
-  const suffix = el.getAttribute('data-suffix') || '';
-  const dur = 1400, start = performance.now();
-  const dec = (String(raw).split('.')[1]||'').length;
-  function tick(t){
-    const p = Math.min((t-start)/dur, 1);
-    const eased = 1 - Math.pow(1-p, 3);
-    el.textContent = (num*eased).toFixed(dec) + suffix;
-    if (p<1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-const countIO = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); countIO.unobserve(e.target);} });
-},{threshold:.6});
-document.querySelectorAll('[data-count]').forEach(el=>countIO.observe(el));
-
-// ---- Code block ----
-(function(){
-  var codeTabs={
-    curl:{label:'cURL',lines:[
-      '# Route any request through your ISP gateway',
-      'curl -x http://USER:PASS@gate.rola-ip.com:PORT \\',
-      '     "https://ipinfo.io/json"',
-      '',
-      '# Pin a country with a session token',
-      'curl -x http://USER-country-us-session-a1b2:PASS@gate.rola-ip.com:PORT \\',
-      '     "https://ipinfo.io/json"'
-    ]},
-    python:{label:'Python',lines:[
-      'import requests',
-      '',
-      'proxy = "http://USER:PASS@gate.rola-ip.com:PORT"',
-      'proxies = {"http": proxy, "https": proxy}',
-      '',
-      'r = requests.get("https://ipinfo.io/json", proxies=proxies)',
-      'print(r.json())  # {"ip": "...", "country": "US", ...}'
-    ]},
-    javascript:{label:'JavaScript',lines:[
-      'import axios from "axios";',
-      'import { HttpsProxyAgent } from "https-proxy-agent";',
-      '',
-      'const agent = new HttpsProxyAgent(',
-      '  "http://USER:PASS@gate.rola-ip.com:PORT"',
-      ');',
-      '',
-      'const { data } = await axios.get("https://ipinfo.io/json", { httpsAgent: agent });',
-      'console.log(data);'
-    ]},
-    go:{label:'Go',lines:[
-      'package main',
-      '',
-      'import ("net/http"; "net/url")',
-      '',
-      'func main() {',
-      '  proxyURL, _ := url.Parse("http://USER:PASS@gate.rola-ip.com:PORT")',
-      '  client := &http.Client{',
-      '    Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},',
-      '  }',
-      '  resp, _ := client.Get("https://ipinfo.io/json")',
-      '  defer resp.Body.Close()',
-      '}'
-    ]},
-    java:{label:'Java',lines:[
-      'System.setProperty("https.proxyHost", "gate.rola-ip.com");',
-      'System.setProperty("https.proxyPort", "PORT");',
-      '',
-      'Authenticator.setDefault(new Authenticator() {',
-      '  protected PasswordAuthentication getPasswordAuthentication() {',
-      '    return new PasswordAuthentication("USER", "PASS".toCharArray());',
-      '  }',
-      '});',
-      '',
-      'URL url = new URL("https://ipinfo.io/json");',
-      'HttpURLConnection conn = (HttpURLConnection) url.openConnection();'
-    ]},
-    php:{label:'PHP',lines:[
-      '$ch = curl_init("https://ipinfo.io/json");',
-      'curl_setopt($ch, CURLOPT_PROXY, "http://gate.rola-ip.com:PORT");',
-      'curl_setopt($ch, CURLOPT_PROXYUSERPWD, "USER:PASS");',
-      'curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);',
-      '$response = curl_exec($ch);',
-      'curl_close($ch);',
-      'echo $response;'
-    ]}
-  };
-  var activeTab='curl';
-  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-  function highlight(text){
-    if(!text)return'';
-    if(text.trim()[0]==='#'||text.trim().startsWith('//')){
-      return'<span style="color:rgba(255,255,255,0.35)">'+esc(text)+'</span>';
+    function fibonacciSphere(count, radius) {
+      const out = new Float32Array(count * 3);
+      const phi = Math.PI * (3 - Math.sqrt(5));
+      for (let i = 0; i < count; i++) {
+        const y = 1 - (i / (count - 1)) * 2;
+        const r = Math.sqrt(1 - y * y);
+        const theta = phi * i;
+        out[i * 3]     = Math.cos(theta) * r * radius;
+        out[i * 3 + 1] = y * radius;
+        out[i * 3 + 2] = Math.sin(theta) * r * radius;
+      }
+      return out;
     }
-    var pat=/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\b(?:import|from|const|let|var|return|for|if|func|defer|package|await|new|true|false|null)\b|\b(?:curl|requests|print|echo)\b|\b(?:log|get|post)\b|\b\d+\b)/g;
-    var res='',last=0,m;
-    while((m=pat.exec(text))!==null){
-      res+=esc(text.slice(last,m.index));
-      var t=m[0],c='#c478ff';
-      if(t[0]==='"'||t[0]==="'")c='#3fa4ff';
-      else if(/^(import|from|const|let|var|return|for|if|func|defer|package|await|new|true|false|null)$/.test(t))c='#ff32c6';
-      else if(/^(curl|requests|print|echo)$/.test(t))c='#ffac60';
-      else if(/^(log|get|post)$/.test(t))c='#1ac69c';
-      else if(/^\d+$/.test(t))c='#ff32c6';
-      res+='<span style="color:'+c+'">'+esc(t)+'</span>';
-      last=m.index+t.length;
+
+    function easeOutCubic(t) {
+      return 1 - (1 - t) ** 3;
     }
-    return res+esc(text.slice(last));
-  }
-  function renderPane(tab){
-    return codeTabs[tab].lines.map(function(line,i){
-      return'<span class="th-ln">'+(i+1)+'</span><span class="th-lc">'+highlight(line)+'</span>';
-    }).join('');
-  }
-  var bar=document.getElementById('codeTabsBar');
-  var display=document.getElementById('codeDisplay');
-  var copyBtn=document.getElementById('copyBtn');
-  if(!bar||!display)return;
-  bar.innerHTML=Object.keys(codeTabs).map(function(k){
-    return'<button class="codetab'+(k===activeTab?' active':'')+'" data-tab="'+k+'">'+codeTabs[k].label+'</button>';
-  }).join('');
-  display.innerHTML=renderPane(activeTab);
-  bar.querySelectorAll('.codetab').forEach(function(tab){
-    tab.addEventListener('click',function(){
-      bar.querySelectorAll('.codetab').forEach(function(t){t.classList.remove('active');});
-      tab.classList.add('active');
-      activeTab=tab.dataset.tab;
-      display.innerHTML=renderPane(activeTab);
-    });
-  });
-  if(copyBtn){
-    copyBtn.addEventListener('click',function(){
-      var text=codeTabs[activeTab].lines.join('\n');
-      navigator.clipboard.writeText(text).then(function(){
-        copyBtn.classList.add('copied');
-        setTimeout(function(){copyBtn.classList.remove('copied');},1800);
-      }).catch(function(){});
-    });
-  }
-})();
 
-// ---- FAQ accordion ----
-document.querySelectorAll('.faq-item__q').forEach(q=>{
-  q.addEventListener('click', ()=>{
-    const item = q.parentElement;
-    const open = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-item__a').style.maxHeight=null; });
-    if(!open){ item.classList.add('open'); const a=item.querySelector('.faq-item__a'); a.style.maxHeight=a.scrollHeight+'px'; }
-  });
-});
-
-// ---- Smooth anchor scroll ----
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
-    const id=a.getAttribute('href'); if(id==='#')return;
-    const el=document.querySelector(id);
-    if(el){ e.preventDefault(); window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-72, behavior:'smooth'}); }
-  });
-});
-
-
-// ---- Hero palette switcher ----
-(function(){
-  var hero = document.querySelector('.hero');
-  document.querySelectorAll('.hero__swatch').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.hero__swatch').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      hero.setAttribute('data-theme', btn.dataset.color);
-    });
-  });
-})();
-
-// ---- Lucide icons ----
-if (window.lucide && typeof window.lucide.createIcons === 'function') {
-  window.lucide.createIcons({
-    attrs: {
-      width: 40,
-      height: 40,
-      'stroke-width': 2.1
+    function createCircleTexture() {
+      const size = 128;
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      const c = size / 2;
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      ctx.arc(c, c, c, 0, Math.PI * 2);
+      ctx.fill();
+      return new THREE.CanvasTexture(canvas);
     }
-  });
-}
 
-// ---- Marquee pause on logo hover ----
-(function(){
-  var tracks = document.querySelectorAll('.marquee__track');
-  document.querySelectorAll('.logo-ph').forEach(function(logo){
-    logo.addEventListener('mouseenter', function(){
-      tracks.forEach(function(t){ t.style.animationPlayState = 'paused'; });
+    const canvas = document.getElementById("canvas");
+    const COUNT = 2200;
+    const RADIUS = 2;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 7;
+
+    const targetPos = fibonacciSphere(COUNT, RADIUS);
+
+    const startPos = new Float32Array(COUNT * 3);
+    for (let i = 0; i < COUNT; i++) {
+      const i3 = i * 3;
+      const nx = targetPos[i3]     / RADIUS;
+      const ny = targetPos[i3 + 1] / RADIUS;
+      const nz = targetPos[i3 + 2] / RADIUS;
+      const dist = 8 + Math.random() * 10;
+      startPos[i3]     = nx * dist;
+      startPos[i3 + 1] = ny * dist;
+      startPos[i3 + 2] = nz * dist;
+    }
+
+    const DRIFT_CHANCE = 0.7;
+    const driftActive = new Uint8Array(COUNT);
+    const driftPhase  = new Float32Array(COUNT * 3);
+    const driftFreq   = new Float32Array(COUNT * 3);
+    const driftAmp    = new Float32Array(COUNT);
+
+    for (let i = 0; i < COUNT; i++) {
+      driftActive[i] = Math.random() < DRIFT_CHANCE ? 1 : 0;
+      for (let j = 0; j < 3; j++) {
+        driftPhase[i * 3 + j] = Math.random() * Math.PI * 2;
+        driftFreq[i * 3 + j]  = 0.15 + Math.random() * 0.3;
+      }
+      driftAmp[i] = 0.05 + Math.random() * 0.1;
+    }
+
+    const targetAlpha = new Float32Array(COUNT);
+    for (let i = 0; i < COUNT; i++) {
+      targetAlpha[i] = 0.2 + Math.random() * 0.6;
+    }
+
+    const livePos = startPos.slice();
+    const geometry = new THREE.BufferGeometry();
+    const posAttr = new THREE.BufferAttribute(livePos, 3);
+    posAttr.setUsage(THREE.DynamicDrawUsage);
+    geometry.setAttribute("position", posAttr);
+    geometry.setAttribute("aTargetAlpha", new THREE.BufferAttribute(targetAlpha, 1));
+
+    const circleMap = createCircleTexture();
+    const material = new THREE.PointsMaterial({
+      map: circleMap,
+      color: 0xffffff,
+      size: 0.03,
+      transparent: true,
+      opacity: 0,
+      alphaTest: 0.01,
+      sizeAttenuation: true,
+      depthWrite: false,
     });
-    logo.addEventListener('mouseleave', function(){
-      tracks.forEach(function(t){ t.style.animationPlayState = ''; });
+
+    const alphaBlendUniform = { value: 0 };
+    material.onBeforeCompile = (shader) => {
+      shader.uniforms.uAlphaBlend = alphaBlendUniform;
+      shader.vertexShader = shader.vertexShader.replace(
+        "void main() {",
+        "attribute float aTargetAlpha;\nvarying float vTargetAlpha;\nvoid main() {\n  vTargetAlpha = aTargetAlpha;"
+      );
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "void main() {",
+        "uniform float uAlphaBlend;\nvarying float vTargetAlpha;\nvoid main() {"
+      );
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <premultiplied_alpha_fragment>",
+        "gl_FragColor.a *= mix(1.0, vTargetAlpha, uAlphaBlend);\n#include <premultiplied_alpha_fragment>"
+      );
+    };
+
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    const startTime = performance.now();
+    const FADE_END   = 0.4;
+    const CONV_START = 0.2;
+    const CONV_END   = 3.0;
+    const ROT_START  = 1.5;
+    const INITIAL_Z  = camera.position.z;
+    const BASE_SIZE  = 0.03;
+
+    let targetZ   = INITIAL_Z;
+    let converged = false;
+    let rafId;
+
+    function animate() {
+      rafId = requestAnimationFrame(animate);
+      const t = (performance.now() - startTime) / 1000;
+
+      material.opacity = Math.min(t / FADE_END, 1) * 0.85;
+
+      const raw = Math.min(Math.max((t - CONV_START) / (CONV_END - CONV_START), 0), 1);
+      const p = easeOutCubic(raw);
+      const driftWeight = p;
+
+      for (let i = 0; i < COUNT; i++) {
+        const i3 = i * 3;
+        livePos[i3]     = startPos[i3]     * (1 - p) + targetPos[i3]     * p;
+        livePos[i3 + 1] = startPos[i3 + 1] * (1 - p) + targetPos[i3 + 1] * p;
+        livePos[i3 + 2] = startPos[i3 + 2] * (1 - p) + targetPos[i3 + 2] * p;
+        if (driftActive[i] && driftWeight > 0) {
+          const a = driftAmp[i] * driftWeight;
+          livePos[i3]     += a * Math.sin(t * driftFreq[i3]     + driftPhase[i3]);
+          livePos[i3 + 1] += a * Math.sin(t * driftFreq[i3 + 1] + driftPhase[i3 + 1]);
+          livePos[i3 + 2] += a * Math.sin(t * driftFreq[i3 + 2] + driftPhase[i3 + 2]);
+        }
+      }
+      posAttr.needsUpdate = true;
+
+      if (t > ROT_START) {
+        const rt = t - ROT_START;
+        points.rotation.y = rt * 0.12;
+        points.rotation.x = Math.sin(rt * 0.07) * 0.1;
+      }
+
+      if (raw >= 1) converged = true;
+      if (converged) {
+        camera.position.z += (targetZ - camera.position.z) * 0.08;
+        material.size = BASE_SIZE * (camera.position.z / INITIAL_Z);
+
+        const MIN_Z = 1.5;
+        const blend = camera.position.z <= INITIAL_Z
+          ? 1 - (camera.position.z - MIN_Z) / (INITIAL_Z - MIN_Z)
+          : 0;
+        alphaBlendUniform.value = Math.max(0, Math.min(1, blend));
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     });
-  });
-})();
-</script>
-<script type="module">
-import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@latest/+esm';
 
-const globeCanvas = document.getElementById('cobe-globe');
-if (globeCanvas) {
-  let globe;
-  let frame;
-  let phi = 0;
+    canvas.addEventListener("wheel", (e) => {
+      if (!converged) return;
+      e.preventDefault();
+      targetZ = Math.max(1.5, Math.min(INITIAL_Z, targetZ - e.deltaY * 0.005));
+    }, { passive: false });
+  </script>
 
-
-  function rotateGlobe() {
-    phi += 0.003;
-    if (globe) globe.update({ phi });
-    frame = requestAnimationFrame(rotateGlobe);
-  }
-
-  function mountGlobe() {
-    if (globe) globe.destroy();
-    cancelAnimationFrame(frame);
-    frame = null;
-
-    const geoWrap = document.querySelector('.geo__globe-wrap') || globeCanvas.parentElement;
-    const rect = geoWrap.getBoundingClientRect();
-    const size = Math.max(320, Math.round((rect.width || 460) * 0.98));
-    globeCanvas.style.width = size + 'px';
-    globeCanvas.style.height = size + 'px';
-
-    // Pass size (not size*2) so COBE's internal DPR multiply gives size*dpr,
-    // not size*4 (the previous bug that caused 4x overdraw).
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    globe = createGlobe(globeCanvas, {
-      devicePixelRatio: dpr,
-      width: size,
-      height: size,
-      phi,
-      theta: 0.2,
-      dark: 0,
-      diffuse: 1.2,
-      mapSamples: 8000,
-      mapBrightness: 6,
-      mapBaseBrightness: 0,
-      baseColor: [1, 1, 1],
-      markerColor: [0.1, 0.66, 0.34],
-      glowColor: [1, 1, 1],
-    });
-
-    globe.update({ phi });
-    if (visible) frame = requestAnimationFrame(rotateGlobe);
-  }
-
-  // Pause rAF when globe is scrolled out of view, resume when back in view.
-  let visible = false;
-  const observer = new IntersectionObserver(entries => {
-    visible = entries[0].isIntersecting;
-    if (visible && !frame) frame = requestAnimationFrame(rotateGlobe);
-    if (!visible) { cancelAnimationFrame(frame); frame = null; }
-  }, { threshold: 0 });
-  observer.observe(globeCanvas);
-
-  mountGlobe();
-  window.addEventListener('resize', mountGlobe, { passive: true });
-}
-</script>
-
-<script type="module">
-import { Renderer, Program, Triangle, Mesh } from 'https://esm.sh/ogl';
-
-const hexToRgb = hex => {
-  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return m ? [parseInt(m[1],16)/255, parseInt(m[2],16)/255, parseInt(m[3],16)/255] : [1,1,1];
-};
-
-const getAnchorAndDir = (origin, w, h) => {
-  const o = 0.2;
-  switch(origin) {
-    case 'top-left':      return { anchor:[0,-o*h],       dir:[0,1] };
-    case 'top-right':     return { anchor:[w,-o*h],       dir:[0,1] };
-    case 'left':          return { anchor:[-o*w,.5*h],    dir:[1,0] };
-    case 'right':         return { anchor:[(1+o)*w,.5*h], dir:[-1,0] };
-    case 'bottom-left':   return { anchor:[0,(1+o)*h],    dir:[0,-1] };
-    case 'bottom-center': return { anchor:[.5*w,(1+o)*h], dir:[0,-1] };
-    case 'bottom-right':  return { anchor:[w,(1+o)*h],    dir:[0,-1] };
-    default:              return { anchor:[.5*w,-o*h],    dir:[0,1] };
-  }
-};
-
-const container = document.getElementById('light-rays-bg');
-if (container) {
-  const raysOrigin = 'top-center';
-  const raysColor  = '#ffffff';
-  const raysSpeed  = 1;
-  const lightSpread = 2.5;
-  const rayLength   = 4;
-  const pulsating   = false;
-  const fadeDistance = 1.5;
-  const saturation   = 1.0;
-  const mouseInfluence = 0.0;
-  const noiseAmount  = 0.0;
-  const distortion   = 0.0;
-
-  const mouse = { x:.5, y:.5 };
-  const smoothMouse = { x:.5, y:.5 };
-
-  const renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio,2), alpha:true });
-  const gl = renderer.gl;
-  gl.canvas.style.width  = '100%';
-  gl.canvas.style.height = '100%';
-  container.appendChild(gl.canvas);
-
-  const vert = `attribute vec2 position;varying vec2 vUv;void main(){vUv=position*.5+.5;gl_Position=vec4(position,0.,1.);}`;
-
-  const frag = `precision highp float;
-uniform float iTime;uniform vec2 iResolution;
-uniform vec2 rayPos;uniform vec2 rayDir;
-uniform vec3 raysColor;uniform float raysSpeed;uniform float lightSpread;
-uniform float rayLength;uniform float pulsating;uniform float fadeDistance;
-uniform float saturation;uniform vec2 mousePos;uniform float mouseInfluence;
-uniform float noiseAmount;uniform float distortion;
-varying vec2 vUv;
-float noise(vec2 st){return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);}
-float rayStrength(vec2 src,vec2 refDir,vec2 coord,float sA,float sB,float spd){
-  vec2 s2c=coord-src;vec2 dn=normalize(s2c);
-  float ca=dot(dn,refDir);
-  float da=ca+distortion*sin(iTime*2.+length(s2c)*.01)*.2;
-  float sf=pow(max(da,0.),1./max(lightSpread,.001));
-  float dist=length(s2c);
-  float mx=iResolution.x*rayLength;
-  float lf=clamp((mx-dist)/mx,0.,1.);
-  float ff=clamp((iResolution.x*fadeDistance-dist)/(iResolution.x*fadeDistance),.5,1.);
-  float pulse=pulsating>.5?(0.8+0.2*sin(iTime*spd*3.)):1.;
-  float bs=clamp((0.45+0.15*sin(da*sA+iTime*spd))+(0.3+0.2*cos(-da*sB+iTime*spd)),0.,1.);
-  return bs*lf*ff*sf*pulse;
-}
-void mainImage(out vec4 fc,in vec2 fragCoord){
-  vec2 coord=vec2(fragCoord.x,iResolution.y-fragCoord.y);
-  vec2 frd=rayDir;
-  if(mouseInfluence>0.){
-    vec2 mp=mousePos*iResolution.xy;
-    vec2 md=normalize(mp-rayPos);
-    frd=normalize(mix(rayDir,md,mouseInfluence));
-  }
-  vec4 r1=vec4(1.)*rayStrength(rayPos,frd,coord,36.2214,21.11349,1.5*raysSpeed);
-  vec4 r2=vec4(1.)*rayStrength(rayPos,frd,coord,22.3991,18.0234,1.1*raysSpeed);
-  fc=r1*.5+r2*.4;
-  if(noiseAmount>0.){float n=noise(coord*.01+iTime*.1);fc.rgb*=(1.-noiseAmount+noiseAmount*n);}
-  float bright=1.-(coord.y/iResolution.y);
-  fc.x*=0.1+bright*.8;fc.y*=0.3+bright*.6;fc.z*=0.5+bright*.5;
-  if(saturation!=1.){float g=dot(fc.rgb,vec3(0.299,0.587,0.114));fc.rgb=mix(vec3(g),fc.rgb,saturation);}
-  fc.rgb*=raysColor;
-}
-void main(){vec4 c;mainImage(c,gl_FragCoord.xy);gl_FragColor=c;}`;
-
-  const uniforms = {
-    iTime:         { value: 0 },
-    iResolution:   { value: [1,1] },
-    rayPos:        { value: [0,0] },
-    rayDir:        { value: [0,1] },
-    raysColor:     { value: hexToRgb(raysColor) },
-    raysSpeed:     { value: raysSpeed },
-    lightSpread:   { value: lightSpread },
-    rayLength:     { value: rayLength },
-    pulsating:     { value: pulsating ? 1.0 : 0.0 },
-    fadeDistance:  { value: fadeDistance },
-    saturation:    { value: saturation },
-    mousePos:      { value: [.5,.5] },
-    mouseInfluence:{ value: mouseInfluence },
-    noiseAmount:   { value: noiseAmount },
-    distortion:    { value: distortion }
-  };
-
-  const geometry = new Triangle(gl);
-  const program  = new Program(gl, { vertex:vert, fragment:frag, uniforms });
-  const mesh     = new Mesh(gl, { geometry, program });
-
-  const updateSize = () => {
-    renderer.dpr = Math.min(window.devicePixelRatio,2);
-    const w = container.clientWidth, h = container.clientHeight;
-    renderer.setSize(w,h);
-    const dpr = renderer.dpr;
-    uniforms.iResolution.value = [w*dpr, h*dpr];
-    const {anchor,dir} = getAnchorAndDir(raysOrigin, w*dpr, h*dpr);
-    uniforms.rayPos.value = anchor;
-    uniforms.rayDir.value = dir;
-  };
-
-  const loop = t => {
-    uniforms.iTime.value = t * 0.001;
-    const s = 0.92;
-    smoothMouse.x = smoothMouse.x*s + mouse.x*(1-s);
-    smoothMouse.y = smoothMouse.y*s + mouse.y*(1-s);
-    uniforms.mousePos.value = [smoothMouse.x, smoothMouse.y];
-    renderer.render({ scene: mesh });
-    requestAnimationFrame(loop);
-  };
-
-  window.addEventListener('resize', updateSize);
-  window.addEventListener('mousemove', e => {
-    const r = container.getBoundingClientRect();
-    mouse.x = (e.clientX-r.left)/r.width;
-    mouse.y = (e.clientY-r.top)/r.height;
-  });
-
-  updateSize();
-  requestAnimationFrame(loop);
-}
-</script>
-<script src="assets/site-i18n.js"></script>
+  <script src="assets/site-i18n.js"></script>
+  <script>
+    (function(){
+      var nav = document.getElementById('nav');
+      if (nav) {
+        var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 12); };
+        window.addEventListener('scroll', onScroll, {passive:true});
+        onScroll();
+      }
+      var burger = document.getElementById('hamburger');
+      var mnav = document.getElementById('mobileNav');
+      if (burger && mnav) {
+        burger.addEventListener('click', function(){
+          var open = mnav.classList.toggle('open');
+          burger.classList.toggle('open', open);
+        });
+        mnav.querySelectorAll('a').forEach(function(a){
+          a.addEventListener('click', function(){
+            mnav.classList.remove('open');
+            burger.classList.remove('open');
+          });
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
