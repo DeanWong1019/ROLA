@@ -11,8 +11,31 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #000; height: 100dvh; overflow: hidden; }
-    #gl-container { position: fixed; inset: 0; z-index: 0; }
+    #gl-container { position: fixed; inset: 0; z-index: 1; }
     #gl-container canvas { width: 100% !important; height: 100% !important; }
+    .home-gradient {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(760px 460px at 82% 12%,
+          rgba(26, 215, 159, .09) 0%,
+          rgba(26, 215, 159, .04) 38%,
+          rgba(26, 215, 159, 0) 72%),
+        radial-gradient(130% 96% at 50% 106%,
+          rgba(26, 215, 159, .12) 0%,
+          rgba(26, 215, 159, .07) 26%,
+          rgba(8, 58, 40, .09) 48%,
+          rgba(0, 0, 0, 0) 76%),
+        radial-gradient(900px 520px at 18% 8%,
+          rgba(94, 232, 192, .12),
+          rgba(94, 232, 192, 0) 62%),
+        linear-gradient(180deg,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(4, 22, 16, .28) 58%,
+          rgba(0, 0, 0, .84) 100%);
+    }
 
     .home-hero-text {
       position: fixed;
@@ -233,6 +256,7 @@
 </head>
 <body>
   <div id="gl-container"></div>
+  <div class="home-gradient" aria-hidden="true"></div>
 
   <div data-site-nav data-active="home"></div>
   <script src="assets/site-nav.js"></script>
@@ -697,10 +721,10 @@ function makeBrandCanvas(label, color, texture, src, flag, circleFlag = false) {
 }
 
 // ─── OGL Setup ────────────────────────────────────────────────────────────────
-const renderer = new Renderer({ dpr: Math.min(devicePixelRatio, 2), antialias: false, alpha: false, webgl2: true });
+const renderer = new Renderer({ dpr: Math.min(devicePixelRatio, 2), antialias: false, alpha: true, webgl2: true });
 const gl = renderer.gl;
 document.getElementById('gl-container').appendChild(gl.canvas);
-gl.clearColor(0, 0, 0, 1);
+gl.clearColor(0, 0, 0, 0);
 
 const camera = new Camera(gl);
 // Slight elevation so the equatorial plane is seen at an angle (not edge-on),
