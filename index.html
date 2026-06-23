@@ -70,6 +70,18 @@
       letter-spacing: -0.025em;
       color: var(--color-text-on-dark, #F4F8F5);
     }
+    .scroll-cue {
+      position: fixed;
+      left: max(32px, calc((100vw - 1280px) / 2));
+      bottom: 48px;
+      z-index: 5;
+      font-size: var(--text-lg, 1.25rem);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+      color: var(--color-text-on-dark-secondary, #9BA9A3);
+      pointer-events: none;
+    }
     .orbit-copy {
       position: fixed;
       left: 50%;
@@ -124,20 +136,23 @@
     }
     .home-hero-eyebrow,
     .home-hero-h1,
-    .home-stat {
+    .home-stat,
+    .scroll-cue {
       opacity: 0;
       transform: translateY(22px);
     }
     .anim .nav                    { animation: rise .7s  var(--ease, cubic-bezier(.22,.61,.36,1)) 0s    forwards; }
     .anim .home-hero-eyebrow      { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .14s  forwards; }
     .anim .home-hero-h1           { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .28s  forwards; }
+    .anim .scroll-cue             { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .42s  forwards; }
     .anim .home-stat:nth-child(1) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .42s  forwards; }
     .anim .home-stat:nth-child(2) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .54s  forwards; }
 
     .anim .nav,
     .anim .home-hero-eyebrow,
     .anim .home-hero-h1,
-    .anim .home-stat {
+    .anim .home-stat,
+    .anim .scroll-cue {
       transition:
         opacity .46s var(--ease, cubic-bezier(.22,.61,.36,1)),
         transform .58s var(--ease, cubic-bezier(.22,.61,.36,1)),
@@ -147,14 +162,16 @@
     .home-ui-exiting .nav,
     .home-ui-exiting .home-hero-eyebrow,
     .home-ui-exiting .home-hero-h1,
-    .home-ui-exiting .home-stat {
+    .home-ui-exiting .home-stat,
+    .home-ui-exiting .scroll-cue {
       pointer-events: none;
       animation: none !important;
     }
     .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .nav,
     .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .home-hero-eyebrow,
     .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .home-hero-h1,
-    .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .home-stat {
+    .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .home-stat,
+    .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .scroll-cue {
       opacity: 1;
       transform: none;
       filter: none;
@@ -163,12 +180,14 @@
     .home-ui-returning .nav,
     .home-ui-returning .home-hero-eyebrow,
     .home-ui-returning .home-hero-h1,
-    .home-ui-returning .home-stat {
+    .home-ui-returning .home-stat,
+    .home-ui-returning .scroll-cue {
       opacity: 0;
     }
     .home-ui-returning .nav                    { animation: rise .7s  var(--ease, cubic-bezier(.22,.61,.36,1)) 0s    forwards !important; }
     .home-ui-returning .home-hero-eyebrow      { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .14s  forwards !important; }
     .home-ui-returning .home-hero-h1           { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .28s  forwards !important; }
+    .home-ui-returning .scroll-cue             { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .42s  forwards !important; }
     .home-ui-returning .home-stat:nth-child(1) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .42s  forwards !important; }
     .home-ui-returning .home-stat:nth-child(2) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .54s  forwards !important; }
     .home-ui-exiting .nav {
@@ -179,6 +198,9 @@
     }
     .home-ui-exiting .home-hero-h1 {
       animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .08s both !important;
+    }
+    .home-ui-exiting .scroll-cue {
+      animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .12s both !important;
     }
     .home-ui-exiting .home-stat:nth-child(1) {
       animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .12s both !important;
@@ -200,6 +222,7 @@
       .home-hero-h1 { font-size: clamp(1.5rem, 8vw, 2rem); }
       .home-stats { padding: 0 16px 32px; gap: var(--space-8, 32px); }
       .home-stat__value { font-size: var(--text-2xl, 2rem); }
+      .scroll-cue { left: 16px; bottom: 32px; }
       .orbit-copy { transform: translate(-50%, -36%); }
       .orbit-copy.is-visible { transform: translate(-50%, -36%); }
     }
@@ -218,6 +241,8 @@
     <p class="home-hero-eyebrow">POWERING THE BEST TEAM</p>
     <h1 class="home-hero-h1">Reliable Data Collection Solutions For Personal &amp; Business</h1>
   </div>
+
+  <p class="scroll-cue">Scroll to explore</p>
 
   <div class="home-stats">
     <div class="home-stat">
@@ -914,6 +939,7 @@ ORBIT_LAYERS.forEach((count, layerIdx) => {
       curR: baseR,   // damped current radius (for retract effect)
       curScale: 0,
       focus: layerIdx === 0 ? 1 : 0,
+      focusVelocity: 0,
     });
   }
 });
@@ -946,7 +972,11 @@ function updateBrands(dt, scrollProg, activeSegment) {
     b.prog.uniforms.opacity.value = alpha;
 
     const targetFocus = b.layerIdx === activeSegment ? 1 : 0;
-    b.focus += (targetFocus - b.focus) * Math.min(1, 0.12 * dt);
+    const focusStiffness = 0.055;
+    const focusDamping = 0.78;
+    b.focusVelocity += (targetFocus - b.focus) * focusStiffness * dt;
+    b.focusVelocity *= Math.pow(focusDamping, dt);
+    b.focus = limitRange(0, b.focus + b.focusVelocity * dt, 1);
     b.prog.uniforms.focus.value = b.focus;
   });
 }
@@ -1065,7 +1095,7 @@ let homeUiReturnTimer = null;
 let homeUiReturnLock = false;
 
 function clearHomeUiInlineStyles() {
-  document.querySelectorAll('#nav,.home-hero-eyebrow,.home-hero-h1,.home-stat').forEach(el => {
+  document.querySelectorAll('#nav,.home-hero-eyebrow,.home-hero-h1,.home-stat,.scroll-cue').forEach(el => {
     el.style.opacity = '';
     el.style.transform = '';
     el.style.filter = '';
@@ -1254,7 +1284,7 @@ requestAnimationFrame(loop);
     // Safety net: if WebGL stalls, force elements visible after 5s
     setTimeout(function(){
       if (document.documentElement.classList.contains('home-ui-exiting')) return;
-      document.querySelectorAll('#nav,.home-hero-eyebrow,.home-hero-h1,.home-stat').forEach(function(el){
+      document.querySelectorAll('#nav,.home-hero-eyebrow,.home-hero-h1,.home-stat,.scroll-cue').forEach(function(el){
         el.style.opacity='1'; el.style.transform='none';
       });
     }, 5000);
