@@ -4,12 +4,208 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROLA-IP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="premium-styles.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #000; height: 100dvh; overflow: hidden; }
     #gl-container { position: fixed; inset: 0; z-index: 0; }
     #gl-container canvas { width: 100% !important; height: 100% !important; }
+
+    .home-hero-text {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 64px 0 0;
+      pointer-events: none;
+    }
+    .home-hero-eyebrow {
+      font-size: var(--text-sm, 0.875rem);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-on-dark-secondary, #9BA9A3);
+      margin-bottom: var(--space-4, 16px);
+    }
+    .home-hero-h1 {
+      font-size: clamp(2rem, 3vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--color-text-on-dark, #F4F8F5);
+      max-width: 720px;
+      margin-bottom: var(--space-8, 32px);
+    }
+
+    .home-stats {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 0 48px;
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-12, 48px);
+      pointer-events: none;
+    }
+    .home-stat__label {
+      font-size: var(--text-sm, 0.875rem);
+      font-weight: 400;
+      color: var(--color-text-on-dark-secondary, #9BA9A3);
+      margin-bottom: var(--space-1, 4px);
+    }
+    .home-stat__value {
+      font-size: var(--text-2xl, 2rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      color: var(--color-text-on-dark, #F4F8F5);
+    }
+    .orbit-copy {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 4;
+      width: min(640px, calc(100vw - 40px));
+      transform: translate(-50%, -42%);
+      opacity: 0;
+      pointer-events: none;
+      text-align: center;
+      transition:
+        opacity .58s var(--ease, cubic-bezier(.22,.61,.36,1)),
+        transform .72s var(--ease, cubic-bezier(.22,.61,.36,1));
+      will-change: opacity, transform;
+    }
+    .orbit-copy.is-visible {
+      opacity: 1;
+      transform: translate(-50%, -42%);
+    }
+    .orbit-copy__stat {
+      text-align: center;
+    }
+    .orbit-copy__stat-label {
+      font-size: clamp(1.125rem, 1.55vw, 1.5rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--color-text-on-dark-secondary, #9BA9A3);
+      margin-bottom: 14px;
+    }
+    .orbit-copy__stat-value {
+      font-size: clamp(3rem, 4.8vw, 5.25rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      color: var(--color-text-on-dark, #F4F8F5);
+    }
+    .orbit-copy__stat-label,
+    .orbit-copy__stat-value {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    .orbit-copy.is-visible .orbit-copy__stat-label {
+      animation: rise .62s var(--ease, cubic-bezier(.22,.61,.36,1)) .06s forwards;
+    }
+    .orbit-copy.is-visible .orbit-copy__stat-value {
+      animation: rise .68s var(--ease, cubic-bezier(.22,.61,.36,1)) .16s forwards;
+    }
+    /* Hidden by default — revealed after sphere forms (see WebGL loop) */
+    .nav {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+    .home-hero-eyebrow,
+    .home-hero-h1,
+    .home-stat {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    .anim .nav                    { animation: rise .7s  var(--ease, cubic-bezier(.22,.61,.36,1)) 0s    forwards; }
+    .anim .home-hero-eyebrow      { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .14s  forwards; }
+    .anim .home-hero-h1           { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .28s  forwards; }
+    .anim .home-stat:nth-child(1) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .42s  forwards; }
+    .anim .home-stat:nth-child(2) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .54s  forwards; }
+
+    .anim .nav,
+    .anim .home-hero-eyebrow,
+    .anim .home-hero-h1,
+    .anim .home-stat {
+      transition:
+        opacity .46s var(--ease, cubic-bezier(.22,.61,.36,1)),
+        transform .58s var(--ease, cubic-bezier(.22,.61,.36,1)),
+        filter .46s var(--ease, cubic-bezier(.22,.61,.36,1));
+      will-change: opacity, transform, filter;
+    }
+    .home-ui-exiting .nav,
+    .home-ui-exiting .home-hero-eyebrow,
+    .home-ui-exiting .home-hero-h1,
+    .home-ui-exiting .home-stat {
+      pointer-events: none;
+      animation: none !important;
+    }
+    .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .nav,
+    .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .home-hero-eyebrow,
+    .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .home-hero-h1,
+    .home-ui-presented:not(.home-ui-exiting):not(.home-ui-returning) .home-stat {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      animation: none;
+    }
+    .home-ui-returning .nav,
+    .home-ui-returning .home-hero-eyebrow,
+    .home-ui-returning .home-hero-h1,
+    .home-ui-returning .home-stat {
+      opacity: 0;
+    }
+    .home-ui-returning .nav                    { animation: rise .7s  var(--ease, cubic-bezier(.22,.61,.36,1)) 0s    forwards !important; }
+    .home-ui-returning .home-hero-eyebrow      { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .14s  forwards !important; }
+    .home-ui-returning .home-hero-h1           { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .28s  forwards !important; }
+    .home-ui-returning .home-stat:nth-child(1) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .42s  forwards !important; }
+    .home-ui-returning .home-stat:nth-child(2) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .54s  forwards !important; }
+    .home-ui-exiting .nav {
+      animation: homeNavExit .38s var(--ease, cubic-bezier(.22,.61,.36,1)) 0s both !important;
+    }
+    .home-ui-exiting .home-hero-eyebrow {
+      animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .04s both !important;
+    }
+    .home-ui-exiting .home-hero-h1 {
+      animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .08s both !important;
+    }
+    .home-ui-exiting .home-stat:nth-child(1) {
+      animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .12s both !important;
+    }
+    .home-ui-exiting .home-stat:nth-child(2) {
+      animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .16s both !important;
+    }
+    @keyframes homeNavExit {
+      from { opacity: 1; transform: none; }
+      to   { opacity: 0; transform: translateY(-16px); }
+    }
+    @keyframes homeContentExit {
+      from { opacity: 1; transform: none; }
+      to   { opacity: 0; transform: translateY(-22px); }
+    }
+
+    @media (max-width: 760px) {
+      .home-hero-text { padding: 48px 16px 0; }
+      .home-hero-h1 { font-size: clamp(1.5rem, 8vw, 2rem); }
+      .home-stats { padding: 0 16px 32px; gap: var(--space-8, 32px); }
+      .home-stat__value { font-size: var(--text-2xl, 2rem); }
+      .orbit-copy { transform: translate(-50%, -36%); }
+      .orbit-copy.is-visible { transform: translate(-50%, -36%); }
+    }
+    @media (max-width: 440px) {
+      .home-hero-text { padding: 32px 16px 0; }
+    }
   </style>
 </head>
 <body>
@@ -17,6 +213,29 @@
 
   <div data-site-nav data-active="home"></div>
   <script src="assets/site-nav.js"></script>
+
+  <div class="home-hero-text">
+    <p class="home-hero-eyebrow">POWERING THE BEST TEAM</p>
+    <h1 class="home-hero-h1">Reliable Data Collection Solutions For Personal &amp; Business</h1>
+  </div>
+
+  <div class="home-stats">
+    <div class="home-stat">
+      <p class="home-stat__label">Supported Countries</p>
+      <p class="home-stat__value">265</p>
+    </div>
+    <div class="home-stat">
+      <p class="home-stat__label">IPs Amounts</p>
+      <p class="home-stat__value">89,723,782,097</p>
+    </div>
+  </div>
+
+  <section class="orbit-copy" aria-hidden="true">
+    <div class="orbit-copy__stat">
+      <p class="orbit-copy__stat-label">Supported Countries</p>
+      <p class="orbit-copy__stat-value">265</p>
+    </div>
+  </section>
 
   <script type="module">
 // ─── OGL via CDN ──────────────────────────────────────────────────────────────
@@ -29,6 +248,10 @@ const randomBoolean  = (p = 0.5) => Math.random() < p;
 const randomSign     = () => Math.random() > 0.5 ? 1 : -1;
 const limitRange     = (min, v, max) => Math.max(min, Math.min(v, max));
 const distPts        = (a, b) => Math.sqrt((b.x-a.x)**2 + (b.y-a.y)**2);
+const smoothstep     = (a, b, v) => {
+  const t = limitRange(0, (v - a) / (b - a), 1);
+  return t * t * (3 - 2 * t);
+};
 
 // Skewed random: ai(min, max, skew=-0.25, a=10)
 function ai(min, max, skew = 0, a = 10) {
@@ -120,6 +343,9 @@ const float centerAlphaScaleY             = 1.7;
 const float centerParticlesBrightnessDist = 0.4;
 const float centerParticlesBrightnessPow  = 2.4;
 const float centerParticlesWhiteFactor    = 1.2;
+const float topPoleSoftenStart            = 0.86;
+const float topPoleSoftenEnd              = 0.98;
+const float zoomParticleSizeMin           = 0.72;
 
 ${GLSL_SNOISE}
 ${GLSL_COMPLEX_CLOUD}
@@ -137,14 +363,17 @@ void main(){
   // Point size with depth
   float psBase = (basePointSize + clipPos.z * distancePointSizeMultiplier) * pointSize;
   vec3  ndc    = clipPos.xyz / clipPos.w;
+  float topPole = smoothstep(topPoleSoftenStart, topPoleSoftenEnd, -pos.z);
+  float poleSize = mix(1.0, 0.42, topPole);
+  float zoomSize = mix(zoomParticleSizeMin, 1.0, lessDotAlpha);
 
   if(hasMouseMoved){
     float md  = distance(ndc.xy, mousePosition);
     float prx = 1.0 - smoothstep(0.0, mouseInfluenceRadius, md);
     float sm  = position.y < 0.0 ? 1.0 : (1.0 + prx * mouseSizeBoost);
-    gl_PointSize = psBase * sm;
+    gl_PointSize = psBase * sm * poleSize * zoomSize;
   } else {
-    gl_PointSize = psBase;
+    gl_PointSize = psBase * poleSize * zoomSize;
   }
 
   // Cloud color (using pos in object space)
@@ -157,6 +386,7 @@ void main(){
   w *= colorBlendFactor;
   w += colorBlendOffset;
   vec3 color = w.x * blueColor1 + w.y * blueColor2 + w.z * blueColor3;
+  color *= mix(1.0, 0.72, topPole);
 
   // Alpha: depth-based
   float farAlpha = clamp(farAlphaBase - clipPos.z * farAlphaMultiplier, 0.0, 1.0);
@@ -255,6 +485,192 @@ void main(){
   fragColor = vec4(tex.rgb, alpha);
 }`;
 
+// ─── Brand logo shader ────────────────────────────────────────────────────────
+const BRAND_FRAG = `#version 300 es
+precision highp float;
+in  vec2 vUv;
+out vec4 fragColor;
+uniform sampler2D textureMap;
+uniform float opacity;
+uniform float focus;
+void main(){
+  vec4 tex = texture(textureMap, vUv);
+  float alpha = tex.a * opacity;
+  if(alpha <= 0.01) discard;
+  float gray = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+  vec3 inactive = vec3(gray * 0.62 + 0.12);
+  vec3 color = mix(inactive, tex.rgb, focus);
+  fragColor = vec4(color, alpha * mix(0.48, 1.0, focus));
+}`;
+
+// Brand data: first 32 entries are used by the two visible orbit rings.
+// Local assets are drawn into canvas textures so the whole orbit remains WebGL.
+const BRAND_DATA = [
+  // ring 0 — 12 flags
+  { label: 'US', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/us.svg', flag: 'us', circleFlag: true, color: '#3c7cff' },
+  { label: 'UK', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/gb.svg', flag: 'uk', circleFlag: true, color: '#315bc7' },
+  { label: 'Germany', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/de.svg', flag: 'de', circleFlag: true, color: '#f1c232' },
+  { label: 'France', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/fr.svg', flag: 'fr', circleFlag: true, color: '#315bc7' },
+  { label: 'Japan', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/jp.svg', flag: 'jp', circleFlag: true, color: '#d02f44' },
+  { label: 'Canada', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/ca.svg', flag: 'ca', circleFlag: true, color: '#e0313f' },
+  { label: 'Brazil', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/br.svg', flag: 'br', circleFlag: true, color: '#26a269' },
+  { label: 'India', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/in.svg', flag: 'in', circleFlag: true, color: '#ff8f2d' },
+  { label: 'Australia', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/au.svg', flag: 'au', circleFlag: true, color: '#315bc7' },
+  { label: 'Singapore', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/sg.svg', flag: 'sg', circleFlag: true, color: '#e0313f' },
+  { label: 'South Korea', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/kr.svg', flag: 'kr', circleFlag: true, color: '#315bc7' },
+  { label: 'Netherlands', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/nl.svg', flag: 'nl', circleFlag: true, color: '#ef4b4b' },
+  // ring 1 — 20 logos
+  { label: 'Client A', src: 'assets/clients/logoipsum-426.svg', color: '#52ffa8' },
+  { label: 'Client B', src: 'assets/clients/logoipsum-380.svg', color: '#58a6ff' },
+  { label: 'Client C', src: 'assets/clients/logoipsum-418.svg', color: '#f4f8f5' },
+  { label: 'Client D', src: 'assets/clients/logoipsum-430.svg', color: '#7dffdf' },
+  { label: 'Client E', src: 'assets/clients/logoipsum-360.svg', color: '#80a9ff' },
+  { label: 'Client F', src: 'assets/clients/logoipsum-367.svg', color: '#f6fff9' },
+  { label: 'Client G', src: 'assets/clients/logoipsum-414.svg', color: '#47e7c2' },
+  { label: 'Client H', src: 'assets/clients/logoipsum-402.svg', color: '#99f7c8' },
+  { label: 'ISO 27001', src: 'assets/badge-iso-27001.svg', color: '#1ad79f' },
+  { label: 'ISO 50001', src: 'assets/badge-iso-50001.svg', color: '#5ee8c0' },
+  { label: 'Grid Leader', src: 'assets/badge-g2-grid-leader.svg', color: '#ff7448' },
+  { label: 'Security', src: 'assets/badge-g2-top50-security.svg', color: '#ff9a47' },
+  // ring 2 — 15 logos
+  { label: 'PHP', src: 'assets/php-logo.svg', color: '#8993be' },
+  { label: 'Java', src: 'assets/java-logo.svg', color: '#f89820' },
+  { label: 'cURL', src: 'assets/curl-logo.svg', color: '#f7f7f7' },
+  { label: 'OpenAI', src: 'assets/ai/openai-chatgpt.svg', color: '#12d99f' },
+  { label: 'Perplexity', src: 'assets/ai/perplexity.svg', color: '#20c8d9' },
+  { label: 'Client A', src: 'assets/clients/logoipsum-426.svg', color: '#52ffa8' },
+  { label: 'Client B', src: 'assets/clients/logoipsum-380.svg', color: '#58a6ff' },
+  { label: 'Client C', src: 'assets/clients/logoipsum-418.svg', color: '#f4f8f5' },
+  { label: 'Client D', src: 'assets/clients/logoipsum-430.svg', color: '#7dffdf' },
+  { label: 'Client E', src: 'assets/clients/logoipsum-360.svg', color: '#80a9ff' },
+  { label: 'Client F', src: 'assets/clients/logoipsum-367.svg', color: '#f6fff9' },
+  { label: 'Client G', src: 'assets/clients/logoipsum-414.svg', color: '#47e7c2' },
+  { label: 'Trustpilot', src: 'assets/ratings/trustpilot.svg', color: '#00b67a' },
+  { label: 'Capterra', src: 'assets/ratings/capterra.svg', color: '#2879ff' },
+  { label: 'G2', src: 'assets/ratings/g2.svg', color: '#ff6b3d' },
+];
+
+function makeBrandCanvas(label, color, texture, src, flag, circleFlag = false) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 192;
+  const ctx = c.getContext('2d');
+
+  function paintBase() {
+    ctx.clearRect(0, 0, 192, 192);
+    ctx.beginPath();
+    ctx.arc(96, 96, 73, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(246, 251, 249, 0.96)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(96, 96, 73, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.82)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  function paintFallback() {
+    paintBase();
+    const initials = label.split(/\s+/).map(part => part[0]).join('').slice(0, 3).toUpperCase();
+    const fs = initials.length > 2 ? 34 : initials.length > 1 ? 42 : 54;
+    ctx.font = `800 ${fs}px Inter,sans-serif`;
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(initials, 96, 98);
+    if (texture) {
+      texture.image = c;
+      texture.needsUpdate = true;
+    }
+  }
+
+  paintFallback();
+
+  if (flag && !src) {
+    paintFlag(flag);
+    if (texture) {
+      texture.image = c;
+      texture.needsUpdate = true;
+    }
+    return c;
+  }
+
+  if (src && texture) {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      if (!circleFlag) paintBase();
+      const maxW = circleFlag ? 146 : 104;
+      const maxH = circleFlag ? 146 : 64;
+      const ratio = Math.min(maxW / img.width, maxH / img.height, 1.2);
+      const w = img.width * ratio;
+      const h = img.height * ratio;
+      ctx.drawImage(img, 96 - w / 2, 96 - h / 2, w, h);
+      texture.image = c;
+      texture.needsUpdate = true;
+    };
+    img.onerror = paintFallback;
+    img.src = src;
+  }
+
+  return c;
+
+  function paintFlag(flag) {
+    paintBase();
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(96, 96, 54, 0, Math.PI * 2);
+    ctx.clip();
+
+    const x = 42, y = 62, w = 108, h = 68;
+    const stripe = (yy, hh, fill) => { ctx.fillStyle = fill; ctx.fillRect(x, y + yy, w, hh); };
+    const vstripe = (xx, ww, fill) => { ctx.fillStyle = fill; ctx.fillRect(x + xx, y, ww, h); };
+
+    if (flag === 'us') {
+      ctx.fillStyle = '#fff'; ctx.fillRect(x, y, w, h);
+      for (let i = 0; i < 7; i++) stripe(i * h / 7, h / 14, '#bf2438');
+      ctx.fillStyle = '#243a7a'; ctx.fillRect(x, y, 46, 37);
+      ctx.fillStyle = '#fff';
+      for (let row = 0; row < 4; row++) for (let col = 0; col < 5; col++) {
+        ctx.beginPath(); ctx.arc(x + 7 + col * 8, y + 6 + row * 8, 1.25, 0, Math.PI * 2); ctx.fill();
+      }
+    } else if (flag === 'uk') {
+      ctx.fillStyle = '#12327d'; ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 17;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + w, y + h); ctx.moveTo(x + w, y); ctx.lineTo(x, y + h); ctx.stroke();
+      ctx.strokeStyle = '#c8102e'; ctx.lineWidth = 8; ctx.stroke();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 22;
+      ctx.beginPath(); ctx.moveTo(x + w / 2, y); ctx.lineTo(x + w / 2, y + h); ctx.moveTo(x, y + h / 2); ctx.lineTo(x + w, y + h / 2); ctx.stroke();
+      ctx.strokeStyle = '#c8102e'; ctx.lineWidth = 12; ctx.stroke();
+    } else if (flag === 'de') {
+      stripe(0, h / 3, '#111'); stripe(h / 3, h / 3, '#dd0000'); stripe(2 * h / 3, h / 3, '#ffce00');
+    } else if (flag === 'fr') {
+      vstripe(0, w / 3, '#244aa5'); vstripe(w / 3, w / 3, '#fff'); vstripe(2 * w / 3, w / 3, '#ed2939');
+    } else if (flag === 'jp') {
+      ctx.fillStyle = '#fff'; ctx.fillRect(x, y, w, h);
+      ctx.fillStyle = '#bc002d'; ctx.beginPath(); ctx.arc(x + w / 2, y + h / 2, 20, 0, Math.PI * 2); ctx.fill();
+    } else if (flag === 'ca') {
+      vstripe(0, 28, '#d52b1e'); vstripe(28, 52, '#fff'); vstripe(80, 28, '#d52b1e');
+      ctx.fillStyle = '#d52b1e'; ctx.beginPath(); ctx.moveTo(96, 78); ctx.lineTo(106, 106); ctx.lineTo(96, 100); ctx.lineTo(86, 106); ctx.closePath(); ctx.fill();
+    } else if (flag === 'br') {
+      ctx.fillStyle = '#229e45'; ctx.fillRect(x, y, w, h);
+      ctx.fillStyle = '#f8df1f'; ctx.beginPath(); ctx.moveTo(96, y + 8); ctx.lineTo(x + w - 12, 96); ctx.lineTo(96, y + h - 8); ctx.lineTo(x + 12, 96); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#263a8b'; ctx.beginPath(); ctx.arc(96, 96, 20, 0, Math.PI * 2); ctx.fill();
+    } else if (flag === 'in') {
+      stripe(0, h / 3, '#ff9933'); stripe(h / 3, h / 3, '#fff'); stripe(2 * h / 3, h / 3, '#138808');
+      ctx.strokeStyle = '#1a4ba0'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(96, 96, 11, 0, Math.PI * 2); ctx.stroke();
+    } else {
+      ctx.fillStyle = '#12327d'; ctx.fillRect(x, y, w, h);
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x + 31, y + 23, 13, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#12327d'; ctx.beginPath(); ctx.arc(x + 36, y + 23, 13, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff';
+      for (const [sx, sy, r] of [[78, 24, 3], [89, 35, 2.4], [70, 44, 2.4], [84, 51, 2.8], [59, 33, 2]]) {
+        ctx.beginPath(); ctx.arc(x + sx, y + sy, r, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+}
+
 // ─── OGL Setup ────────────────────────────────────────────────────────────────
 const renderer = new Renderer({ dpr: Math.min(devicePixelRatio, 2), antialias: false, alpha: false, webgl2: true });
 const gl = renderer.gl;
@@ -268,6 +684,8 @@ camera.position.set(0, 1.15, 4.35);
 camera.perspective({ fov: 50, far: 200, near: 0.1, aspect: gl.canvas.width / gl.canvas.height });
 
 const scene = new Transform();
+const brandScene = new Transform();
+brandScene.setParent(scene);
 
 // ─── Particle System ──────────────────────────────────────────────────────────
 const NUM = 12000;
@@ -431,11 +849,116 @@ const logoMesh = new Mesh(gl, {
 });
 logoMesh.setParent(scene);
 
-// Logo opacity is driven by scroll (down = dissolve out, up = re-form)
-let scrollProgress = 0;          // 0 = fully shown, 1 = fully dissolved away
+// ─── Brand orbit rings ───────────────────────────────────────────────────────
+const ORBIT_LAYERS    = [12, 20];     // logos per ring
+const ORBIT_R_START   = 0.52;         // inner ring radius
+const ORBIT_R_END     = 1.18;         // outer ring radius
+const ORBIT_SPEED     = 0.001;        // revolution speed (slow, like Morpho)
+const ORBIT_SIZE      = 0.092;        // logo quad world size
+const ORBIT_R_DECAY   = 0.055;        // effective radius decay per layer
+const ORBIT_SCALE_DEC   = 0.16;  // outer rings scale down
+const ORBIT_INNER_R_SCALE = 0.78;  // inner ring orbit radius
+const ORBIT_OUTER_R_SCALE = 0.86;  // outer ring orbit radius
+const ORBIT_ALPHA_DEC   = 0.05;  // outer rings slightly less opaque
+const ORBIT_RETRACT     = 0.12;  // rings retract toward center when zoomed in
+const ORBIT_RETRACT_SPD = 20;    // damping speed for retract
+
+let brandT = 0;
+const brandObjects = [];
+let bdIdx = 0;
+
+ORBIT_LAYERS.forEach((count, layerIdx) => {
+  // Morpho formula: frac = layerIdx / totalLayers (NOT length-1)
+  const frac   = layerIdx / ORBIT_LAYERS.length;
+  const baseRRaw = ORBIT_R_START + frac * (ORBIT_R_END - ORBIT_R_START);
+  const baseR  = layerIdx === 0 ? baseRRaw * ORBIT_INNER_R_SCALE : baseRRaw * ORBIT_OUTER_R_SCALE;
+  const dir    = layerIdx % 2 === 0 ? 1 : -1;  // alternate CW / CCW
+
+  for (let i = 0; i < count; i++) {
+    if (bdIdx >= BRAND_DATA.length) break;
+    const data = BRAND_DATA[bdIdx++];
+    const phi  = (i / count) * Math.PI * 2;
+
+    const tex = new Texture(gl, {
+      generateMipmaps: false, minFilter: gl.LINEAR, magFilter: gl.LINEAR,
+      wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE,
+    });
+    tex.image       = makeBrandCanvas(data.label, data.color, tex, data.src, data.flag, data.circleFlag);
+    tex.needsUpdate = true;
+
+    const prog = new Program(gl, {
+      vertex:   LOGO_VERT,
+      fragment: BRAND_FRAG,
+      uniforms: {
+        modelViewMatrix:  { value: new Float32Array(16) },
+        projectionMatrix: { value: new Float32Array(16) },
+        textureMap: { value: tex },
+        opacity:    { value: 0 },
+        focus:      { value: layerIdx === 0 ? 1 : 0 },
+      },
+      transparent: true,
+      depthWrite: false,
+      depthTest:  false,
+    });
+    prog.blendFunc = { src: gl.SRC_ALPHA, dst: gl.ONE_MINUS_SRC_ALPHA };
+
+    const plane = new Mesh(gl, {
+      geometry: new Plane(gl, { width: ORBIT_SIZE, height: ORBIT_SIZE }),
+      program: prog,
+    });
+    plane.setParent(brandScene);
+    plane.scale.set(0.00001);
+
+    brandObjects.push({
+      plane, prog, phi, baseR, dir, layerIdx,
+      curR: baseR,   // damped current radius (for retract effect)
+      curScale: 0,
+      focus: layerIdx === 0 ? 1 : 0,
+    });
+  }
+});
+
+function updateBrands(dt, scrollProg, activeSegment) {
+  brandT += ORBIT_SPEED * dt;
+  // Morpho formula: k = limitRange(0, -1 + 2*scrollProg, 1)  →  k starts at scrollProg=0.5
+  const k = limitRange(0, -1 + 2 * scrollProg, 1);
+
+  brandObjects.forEach((b, i) => {
+    // Retract rings toward center as zoom progresses (brandRetractFactor=0.4)
+    const retractedR = b.baseR * (1 - k * ORBIT_RETRACT);
+    b.curR -= (b.curR - retractedR) / (ORBIT_RETRACT_SPD / dt);
+
+    const angle = b.phi + brandT * b.dir;
+    // Apply circle radius decay per layer (brandCircleRadiusDecay=0.13)
+    const effR  = b.curR * (1 - b.layerIdx * ORBIT_R_DECAY);
+
+    b.plane.position.x = Math.sin(angle) * effR;
+    b.plane.position.y = Math.cos(angle) * effR;
+    b.plane.position.z = 0.05 + i * 0.0008;
+
+    // Scale grows with k; outer layers scale down (brandLayerScaleDecay=0.28)
+    const scaleK = k > 0.005 ? k * (1 - b.layerIdx * ORBIT_SCALE_DEC) : 0;
+    b.curScale  += (scaleK - b.curScale) * Math.min(1, 0.08 * dt);
+    b.plane.scale.set(Math.max(0.00001, b.curScale));
+
+    // Opacity: outer layers slightly less opaque (brandLayerOpacityDecay=0.04)
+    const alpha = limitRange(0, k * (1 - b.layerIdx * ORBIT_ALPHA_DEC), 1);
+    b.prog.uniforms.opacity.value = alpha;
+
+    const targetFocus = b.layerIdx === activeSegment ? 1 : 0;
+    b.focus += (targetFocus - b.focus) * Math.min(1, 0.12 * dt);
+    b.prog.uniforms.focus.value = b.focus;
+  });
+}
+
+// Logo/camera progress is damped toward the wheel target for a softer zoom.
+let scrollProgress = 0;          // damped value used for camera/rendering
+let scrollTarget   = 0;          // direct wheel intent
+let scrollVelocity = 0;
 let logoOpacity    = 1;
 window.addEventListener('wheel', e => {
-  scrollProgress = limitRange(0, scrollProgress + e.deltaY * 0.0015, 1);
+  if (e.deltaY > 0) homeUiReturnLock = false;
+  scrollTarget = limitRange(0, scrollTarget + e.deltaY * 0.0012, 2);
 }, { passive: true });
 
 // ─── Mouse interaction ────────────────────────────────────────────────────────
@@ -497,7 +1020,7 @@ function updateParticles(dt, frame) {
     const pz   = Math.cos(pol) * p.r;
 
     // Mouse proximity → push particles
-    if (mouseMoved && py > -0.15) {
+    if (mouseMoved && py > -0.15 && pz > -0.82) {
       const sc = projectToScreen(px, py, pz);
       if (sc) {
         const facing = 1 + Math.min(0, py / 0.15);
@@ -526,11 +1049,102 @@ function updateParticles(dt, frame) {
   geometry.attributes.position.needsUpdate = true;
 }
 
+// ─── UI elements for scroll-driven exit ──────────────────────────────────────
+const rootEl = document.documentElement;
+const orbitCopyEl = document.querySelector('.orbit-copy');
+const orbitCopyLabelEl = document.querySelector('.orbit-copy__stat-label');
+const orbitCopyValueEl = document.querySelector('.orbit-copy__stat-value');
+const ORBIT_COPY_STATES = [
+  { label: 'Supported Countries', value: '265' },
+  { label: 'Support Services', value: '10,000' },
+];
+let activeOrbitSegment = 0;
+let renderedOrbitSegment = -1;
+let homeUiWasExiting = false;
+let homeUiReturnTimer = null;
+let homeUiReturnLock = false;
+
+function clearHomeUiInlineStyles() {
+  document.querySelectorAll('#nav,.home-hero-eyebrow,.home-hero-h1,.home-stat').forEach(el => {
+    el.style.opacity = '';
+    el.style.transform = '';
+    el.style.filter = '';
+  });
+}
+
+function resetOrbitCopyTextAnimation() {
+  if (!orbitCopyLabelEl || !orbitCopyValueEl) return;
+  orbitCopyLabelEl.style.animation = 'none';
+  orbitCopyValueEl.style.animation = 'none';
+  orbitCopyLabelEl.offsetHeight;
+  orbitCopyValueEl.offsetHeight;
+  orbitCopyLabelEl.style.animation = '';
+  orbitCopyValueEl.style.animation = '';
+}
+
+function showOrbitCopySegment(segment) {
+  if (!orbitCopyEl || !orbitCopyLabelEl || !orbitCopyValueEl) return;
+  const nextState = ORBIT_COPY_STATES[segment];
+  renderedOrbitSegment = segment;
+  orbitCopyEl.classList.remove('is-visible');
+  orbitCopyLabelEl.textContent = nextState.label;
+  orbitCopyValueEl.textContent = nextState.value;
+  resetOrbitCopyTextAnimation();
+  requestAnimationFrame(() => orbitCopyEl.classList.add('is-visible'));
+}
+
+function hideOrbitCopy() {
+  if (!orbitCopyEl) return;
+  orbitCopyEl.classList.remove('is-visible');
+  renderedOrbitSegment = -1;
+}
+
+function replayHomeUiEntrance() {
+  clearHomeUiInlineStyles();
+  scrollTarget = 0;
+  scrollProgress = 0;
+  scrollVelocity = 0;
+  homeUiReturnLock = true;
+  rootEl.classList.remove('home-ui-returning');
+  // Keep the exit state during the reflow so presented styles cannot flash in.
+  rootEl.offsetHeight;
+  rootEl.classList.add('home-ui-returning');
+  rootEl.classList.remove('home-ui-exiting');
+  clearTimeout(homeUiReturnTimer);
+  homeUiReturnTimer = setTimeout(() => {
+    rootEl.classList.remove('home-ui-returning');
+  }, 1500);
+}
+
+function syncHomeUiExit() {
+  const uiScroll = Math.max(scrollTarget, scrollProgress);
+  if (homeUiReturnLock && uiScroll < 0.12) {
+    rootEl.classList.remove('home-ui-exiting');
+    return;
+  }
+  if (uiScroll > 0.035) {
+    homeUiWasExiting = true;
+    rootEl.classList.remove('home-ui-returning');
+    rootEl.classList.add('home-ui-exiting');
+  } else if (scrollTarget < 0.008 && scrollProgress < 0.008) {
+    if (homeUiWasExiting) {
+      homeUiWasExiting = false;
+      replayHomeUiEntrance();
+    } else {
+      rootEl.classList.remove('home-ui-exiting');
+    }
+  }
+}
+
 // ─── Animation Loop ───────────────────────────────────────────────────────────
 const TARGET_MS = 1000 / 60;
-let startMs   = null;
-let lastMs    = null;
-let frameAccum = 0;
+let startMs     = null;
+let lastMs      = null;
+let frameAccum  = 0;
+let textReady   = false;
+let textVisible = false;
+let uiPresented = false;
+let orbitCopyRevealFrames = 0;
 
 function loop(nowMs) {
   requestAnimationFrame(loop);
@@ -542,6 +1156,18 @@ function loop(nowMs) {
   const dt = limitRange(0.1, elapsed / TARGET_MS, 3);
   frameAccum += dt;
 
+  const spring = 0.105;
+  const damping = 0.68;
+  scrollVelocity += (scrollTarget - scrollProgress) * spring * dt;
+  scrollVelocity *= Math.pow(damping, dt);
+  scrollProgress = limitRange(0, scrollProgress + scrollVelocity * dt, 2);
+  if ((scrollProgress === 0 && scrollVelocity < 0) || (scrollProgress === 2 && scrollVelocity > 0)) {
+    scrollVelocity = 0;
+  }
+  const sceneProgress = limitRange(0, scrollProgress, 1);
+  const zoomProgress = sceneProgress * sceneProgress * (3 - 2 * sceneProgress);
+  activeOrbitSegment = scrollProgress < 1.9 ? 0 : 1;
+
   // Smooth mouse
   const c = 14 / dt;
   smooth.x -= (smooth.x - mouse.x) / c;
@@ -552,39 +1178,71 @@ function loop(nowMs) {
   // up close enough that the sphere overflows the screen edges. baseY also
   // eases to 0 so the camera faces the sphere head-on and it stays centred.
   const baseZ = 4.35, nearZ = 1.2;
-  const targetZ = baseZ - (baseZ - nearZ) * scrollProgress;
-  const baseY   = 1.15 * (1 - scrollProgress);
+  const targetZ = baseZ - (baseZ - nearZ) * zoomProgress;
+  const baseY   = 1.15 * (1 - zoomProgress);
 
   // Camera gently follows mouse, drifting around its base position.
   // Fade the follow out as we zoom in (scrollProgress → 1) so the enlarged
   // sphere stays put instead of swaying with the mouse (which feels dizzying).
   const cc     = 8 / dt;
-  const follow = 0.7 * (1 - scrollProgress);
+  const follow = 0.7 * (1 - zoomProgress);
   camera.position.x -= (camera.position.x - (0     - smooth.x * follow)) / cc;
   camera.position.y -= (camera.position.y - (baseY + smooth.y * follow)) / cc;
   camera.position.z -= (camera.position.z - targetZ)                     / cc;
 
-  camera.lookAt(new Vec3(0, 0, 0));
+  // lookAt Y eases from 0.4 → 0 as scroll progresses, centering the sphere
+  const lookY = 0.4 * Math.max(0, 1 - zoomProgress * 2.5);
+  camera.lookAt(new Vec3(0, lookY, 0));
 
   // Update particle shader uniforms
   program.uniforms.time.value          = (nowMs - startMs) / 1000;
   program.uniforms.mousePosition.value = [2 * smooth.x, -2 * smooth.y];
   program.uniforms.hasMouseMoved.value = mouseMoved;
   // Scroll thins particles out (morpho's lessDotAlpha), matching the logo dissolve
-  program.uniforms.lessDotAlpha.value  = limitRange(0, 1 - 0.8 * scrollProgress, 1);
+  program.uniforms.lessDotAlpha.value  = limitRange(0, 1 - 1.15 * zoomProgress, 1);
 
   // Drive butterfly logo: intro dissolve via ever-growing counter, exit via opacity
-  logoOpacity -= (logoOpacity - (1 - scrollProgress)) / (8 / dt);
+  logoOpacity -= (logoOpacity - (1 - zoomProgress)) / (8 / dt);
   logoProgram.uniforms.opacity.value  = logoOpacity;
   logoProgram.uniforms.dissolve.value = frameAccum;
   logoProgram.uniforms.frame.value    = frameAccum;
 
   updateParticles(dt, frameAccum);
+  updateBrands(dt, sceneProgress, activeOrbitSegment);
 
-  // Manually set additive blend before draw
+  // Trigger text entrance once sphere has fully formed (~100 frames ≈ 1.7s at 60fps)
+  if (!textReady && frameAccum > 100) {
+    textReady   = true;
+    textVisible = true;
+    rootEl.classList.add('anim');
+  }
+  if (!uiPresented && frameAccum > 155) {
+    uiPresented = true;
+    rootEl.classList.add('home-ui-presented');
+  }
+
+  // As the sphere expands, the entire homepage UI performs one staged exit.
+  if (textVisible) syncHomeUiExit();
+  if (orbitCopyEl) {
+    if (sceneProgress > 0.62) {
+      orbitCopyRevealFrames += dt;
+    } else {
+      orbitCopyRevealFrames = 0;
+    }
+
+    const copyReady = orbitCopyRevealFrames > 8;
+    if (copyReady) {
+      if (activeOrbitSegment !== renderedOrbitSegment) {
+        showOrbitCopySegment(activeOrbitSegment);
+      }
+    } else if (sceneProgress < 0.82) {
+      hideOrbitCopy();
+    }
+  }
+
+  // All objects in one pass — OGL applies per-program blendFunc per object
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-
   renderer.render({ scene, camera });
 }
 
@@ -592,6 +1250,15 @@ requestAnimationFrame(loop);
   </script>
 
   <script src="assets/site-i18n.js"></script>
+  <script>
+    // Safety net: if WebGL stalls, force elements visible after 5s
+    setTimeout(function(){
+      if (document.documentElement.classList.contains('home-ui-exiting')) return;
+      document.querySelectorAll('#nav,.home-hero-eyebrow,.home-hero-h1,.home-stat').forEach(function(el){
+        el.style.opacity='1'; el.style.transform='none';
+      });
+    }, 5000);
+  </script>
   <script>
     (function(){
       var nav = document.getElementById('nav');
