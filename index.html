@@ -11,13 +11,38 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #000; height: 100dvh; overflow: hidden; }
-    #gl-container { position: fixed; inset: 0; z-index: 1; }
+    html {
+      --home-cover-progress: 0;
+      --home-cover-wash: 0;
+      --home-cover-content-opacity: 0;
+      --home-cover-content-y: 48vh;
+      --home-hero-opacity: 1;
+    }
+    #gl-container {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      opacity: var(--home-hero-opacity);
+      filter: blur(calc(var(--home-cover-wash) * 4px));
+      transform: scale(calc(1 + var(--home-cover-wash) * 0.018));
+      transform-origin: center;
+      transition:
+        opacity .12s linear,
+        filter .12s linear,
+        transform .12s linear;
+      will-change: opacity, filter, transform;
+    }
     #gl-container canvas { width: 100% !important; height: 100% !important; }
     .home-gradient {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
+      opacity: var(--home-hero-opacity);
+      filter: blur(calc(var(--home-cover-wash) * 5px));
+      transition:
+        opacity .12s linear,
+        filter .12s linear;
       background:
         radial-gradient(760px 460px at 82% 12%,
           rgba(26, 215, 159, .09) 0%,
@@ -231,6 +256,45 @@
     .home-ui-exiting .home-stat:nth-child(2) {
       animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .16s both !important;
     }
+    .home-cover {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background:
+        radial-gradient(110% 80% at 50% 0%,
+          rgba(255, 255, 255, .72) 0%,
+          rgba(250, 253, 251, .92) 48%,
+          rgba(255, 255, 255, 1) 100%),
+        linear-gradient(180deg, #fbfdfc 0%, #fff 100%);
+      opacity: var(--home-cover-progress);
+      backdrop-filter: blur(calc(var(--home-cover-wash) * 14px)) saturate(calc(1 - var(--home-cover-wash) * .18));
+      transition: opacity .12s linear;
+      will-change: opacity, backdrop-filter;
+      pointer-events: none;
+    }
+    .home-cover-visible .home-cover {
+      pointer-events: auto;
+    }
+    .home-cover-complete.home-ui-exiting .nav {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+      background: var(--color-bg-white-elevated, rgba(255,255,255,.92));
+      backdrop-filter: blur(16px) saturate(140%);
+      border-bottom: 1px solid var(--color-border-light, rgba(8,7,3,.08));
+    }
+    .home-cover-complete .nav .logo,
+    .home-cover-complete .nav__links a,
+    .home-cover-complete .nav__lang,
+    .home-cover-complete .nav__lang a {
+      color: var(--color-text-primary, #080703);
+    }
+    .home-cover-complete .nav .logo__wordmark path {
+      fill: var(--color-text-primary, #080703);
+    }
+    .home-cover-complete .hamburger span {
+      background: var(--color-text-primary, #080703);
+    }
     @keyframes homeNavExit {
       from { opacity: 1; transform: none; }
       to   { opacity: 0; transform: translateY(-16px); }
@@ -238,6 +302,338 @@
     @keyframes homeContentExit {
       from { opacity: 1; transform: none; }
       to   { opacity: 0; transform: translateY(-22px); }
+    }
+
+    /* ─── Built-for-scale section (lives on the risen white cover) ─────────── */
+    .home-cover__scroll {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;                 /* locked until the cover fully rises */
+      scrollbar-gutter: stable both-edges;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(8,7,3,.18) rgba(8,7,3,.06);
+      opacity: var(--home-cover-content-opacity);
+      transform: translate3d(0, var(--home-cover-content-y), 0);
+      transition: none;
+      will-change: opacity, transform;
+      backface-visibility: hidden;
+      contain: paint;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .home-cover-scrollable .home-cover__scroll { overflow-y: auto; }
+    .home-cover__scroll::-webkit-scrollbar { width: 10px; }
+
+    /* ─── Logo marquee inside the white cover — slides up during transition ─── */
+    .home-cover-logos {
+      position: absolute;
+      bottom: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(80px);
+      transition:
+        opacity .7s var(--ease, cubic-bezier(.22,.61,.36,1)) .15s,
+        transform .8s var(--ease, cubic-bezier(.22,.61,.36,1)) .15s;
+    }
+    .home-cover-complete .home-cover-logos {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .home-cover-logos__title {
+      font-size: var(--text-sm, 0.875rem);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: rgba(8,7,3,.48);
+      margin-bottom: 28px;
+    }
+    .home-cover-logos .marquee {
+      --max-w: 100%;
+    }
+
+    /* ─── Content modules slide up from the bottom as user scrolls ─── */
+    .home-cover__scroll .anim [data-reveal] {
+      transform: translateY(100px);
+    }
+    .home-cover__scroll [data-reveal] {
+      transition: opacity .8s var(--ease, cubic-bezier(.22,.61,.36,1)),
+                  transform .9s var(--ease, cubic-bezier(.22,.61,.36,1));
+    }
+    .home-cover__scroll #features [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* ─── Features cards — mesh backgrounds ─── */
+    #features .eyebrow{padding:8px 16px;border-radius:999px;background:var(--color-bg-white);border:1px solid var(--color-border-light);font-size:var(--text-sm);font-weight:600;letter-spacing:-.01em;text-transform:none;color:var(--color-brand-strong);margin-bottom:8px}
+    #features .eyebrow::before{display:none}
+    #features .h-section{color:var(--color-text-primary);font-size:clamp(2rem,3.5vw,var(--text-4xl));font-weight:700;line-height:1.1;letter-spacing:-.025em}
+    .features-head{display:flex;align-items:flex-end;justify-content:space-between;gap:48px;margin-bottom:48px}
+    .features-head .section-head{margin-bottom:0;max-width:580px;flex-shrink:0}
+    .features-head__desc{flex:1;max-width:320px;color:var(--color-text-tertiary);font-size:1.0625rem;line-height:1.55}
+    .features__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;grid-auto-rows:auto}
+    #features .features__grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-auto-rows:auto!important;gap:24px!important}
+    #features .fcard{
+      position:relative;display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;
+      min-height:260px;padding:24px;border-radius:20px;background:var(--color-bg-light-2);border:none!important;
+      overflow:hidden;box-shadow:none;cursor:default;transition:none
+    }
+    #features .fcard:hover{transform:none;box-shadow:none;border-color:transparent!important}
+    #features .fcard:nth-child(3){grid-column:unset!important;grid-row:unset!important;min-height:0!important}
+    #features .fcard:nth-child(4){grid-column:unset!important;grid-row:unset!important}
+    #features .fcard__index{
+      color:var(--color-text-primary)!important;
+      font-size:var(--text-base)!important;font-weight:700;letter-spacing:.02em;margin-bottom:18px
+    }
+    #features .fcard__illus{
+      display:block;width:100%;flex:1;min-height:140px;object-fit:cover;
+      border-radius:16px;background:var(--color-surface-light-subtle);margin-bottom:18px
+    }
+    #features .fcard__bottom{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+    #features .fcard h3{margin:0;font-size:var(--text-base);font-weight:700;line-height:1.15;letter-spacing:-.02em;color:var(--color-text-primary)}
+    #features .fcard p{margin:0;font-size:var(--text-sm);line-height:1.5;color:var(--color-text-tertiary);text-align:left}
+    #features .fcard:first-child{
+      border:none;background-color:hsl(210,56%,92%)!important;
+      background-image:url('assets/illustrations/fcard-mesh-1.webp')!important;
+      background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+    }
+    #features .fcard:first-child h3,#features .fcard:first-child p{color:var(--color-text-primary)!important}
+    #features .fcard:nth-child(2){
+      border:none;background-color:hsl(45,100%,60%)!important;
+      background-image:url('assets/illustrations/fcard-mesh-2.webp')!important;
+      background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+    }
+    #features .fcard:nth-child(2) h3,#features .fcard:nth-child(2) p{color:var(--color-text-primary)!important}
+    #features .fcard:nth-child(3){
+      border:none;background-color:hsl(265,80%,72%)!important;
+      background-image:url('assets/illustrations/fcard-mesh-3.webp')!important;
+      background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+    }
+    #features .fcard:nth-child(3) h3,#features .fcard:nth-child(3) p,#features .fcard:nth-child(3) .fcard__index{color:var(--color-text-primary)!important}
+    #features .fcard:nth-child(4){
+      border:none;background-color:hsl(340,75%,85%)!important;
+      background-image:url('assets/illustrations/fcard-mesh-4.webp')!important;
+      background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+    }
+    #features .fcard:nth-child(4) h3,#features .fcard:nth-child(4) p,#features .fcard:nth-child(4) .fcard__index{color:var(--color-text-primary)!important}
+    .home-cover__scroll::-webkit-scrollbar-thumb {
+      background: var(--color-border-light-strong, rgba(8,7,3,.12));
+      border-radius: 10px;
+    }
+
+    .bfs {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: clamp(96px, 12vh, 160px) 24px clamp(96px, 14vh, 180px);
+    }
+    .bfs__head {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto clamp(48px, 6vw, 80px);
+    }
+    .bfs__title {
+      font-size: clamp(2.25rem, 4.4vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: var(--color-text-primary, #080703);
+    }
+    .bfs__subtitle {
+      margin-top: var(--space-5, 20px);
+      font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--color-text-secondary, rgba(8,7,3,.58));
+    }
+    .bfs__panels {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4, 16px);
+    }
+
+    .bfs-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: stretch;
+      min-height: 500px;
+      border-radius: var(--radius-lg, 16px);
+      background: var(--color-bg-white, #fff);
+      border: 1px solid var(--color-border-light, rgba(8,7,3,.08));
+      box-shadow: 0 1px 2px rgba(8,7,3,.04), 0 30px 60px -40px rgba(8,7,3,.28);
+      overflow: hidden;
+    }
+    .bfs-panel--imageR .bfs-panel__media { order: 2; }
+
+    .bfs-panel__media {
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+      background: var(--color-bg-muted, #F4F4F1);
+    }
+    .bfs-panel__media-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* scroll-reveal entrance — matches morpho: opacity 0→1, scale .96→1, blur 2px→0 */
+      opacity: 0;
+      transform: scale(0.96);
+      filter: blur(2px);
+      transition:
+        opacity .9s var(--ease, cubic-bezier(.22,.61,.36,1)),
+        transform 1.1s var(--ease, cubic-bezier(.22,.61,.36,1)),
+        filter .9s var(--ease, cubic-bezier(.22,.61,.36,1));
+      will-change: opacity, transform, filter;
+    }
+    .bfs-panel.is-in .bfs-panel__media-img {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+    }
+
+    .bfs-panel__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-6, 24px);
+      padding: clamp(28px, 3vw, 52px);
+    }
+    .bfs-panel__text {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity .7s var(--ease, cubic-bezier(.22,.61,.36,1)) .08s,
+        transform .8s var(--ease, cubic-bezier(.22,.61,.36,1)) .08s;
+    }
+    .bfs-panel.is-in .bfs-panel__text { opacity: 1; transform: none; }
+    .bfs-panel__title {
+      font-size: clamp(1.5rem, 2.2vw, 2rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary, #080703);
+    }
+    .bfs-panel__desc {
+      margin-top: var(--space-4, 16px);
+      font-size: var(--text-md, 1.125rem);
+      line-height: 1.5;
+      color: var(--color-text-secondary, rgba(8,7,3,.58));
+      max-width: 38ch;
+    }
+
+    /* logo tile row — horizontal drag-scroll carousel */
+    .bfs-logos {
+      display: flex;
+      gap: var(--space-2, 8px);
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: var(--space-1, 4px) 0;
+      margin: 0 calc(-1 * clamp(28px, 3vw, 52px));
+      padding-left: clamp(28px, 3vw, 52px);
+      padding-right: clamp(28px, 3vw, 52px);
+      cursor: grab;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(8,7,3,.24) rgba(8,7,3,.08);
+      scroll-snap-type: x proximity;
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity .7s var(--ease, cubic-bezier(.22,.61,.36,1)) .18s,
+        transform .8s var(--ease, cubic-bezier(.22,.61,.36,1)) .18s;
+    }
+    .bfs-panel.is-in .bfs-logos { opacity: 1; transform: none; }
+    .bfs-logos::-webkit-scrollbar { height: 10px; }
+    .bfs-logos::-webkit-scrollbar-track {
+      background: rgba(8,7,3,.08);
+      border-radius: 999px;
+    }
+    .bfs-logos::-webkit-scrollbar-thumb {
+      background: rgba(8,7,3,.24);
+      border-radius: 999px;
+    }
+    .bfs-logos.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+    .bfs-logos.is-dragging .bfs-tile { pointer-events: none; }
+
+    .bfs-tile {
+      position: relative;
+      flex: 0 0 auto;
+      width: 150px;
+      height: 150px;
+      border-radius: 12px;
+      background: var(--color-surface-light-subtle, rgba(8,7,3,.05));
+      border: 1px solid var(--color-border-light, rgba(8,7,3,.08));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      text-decoration: none;
+      transition: background .25s ease, border-color .25s ease;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+    .bfs-tile:hover {
+      background: var(--color-surface-light-hover, rgba(8,7,3,.08));
+      border-color: var(--color-border-light-strong, rgba(8,7,3,.12));
+    }
+    .bfs-tile img {
+      max-width: 60%;
+      max-height: 40%;
+      object-fit: contain;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+    /* animated corner arrow (two stacked ↗ — loops out top-right, in from bottom-left) */
+    .bfs-tile__arrow {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
+      color: var(--color-text-tertiary, rgba(8,7,3,.48));
+    }
+    .bfs-tile__arrow svg {
+      position: absolute;
+      inset: 0;
+      width: 20px;
+      height: 20px;
+      transition: transform .4s cubic-bezier(.36,.2,.07,1);
+    }
+    .bfs-tile__arrow svg:nth-child(2) { transform: translate(-100%, 100%); }
+    .bfs-tile:hover .bfs-tile__arrow { color: var(--color-text-primary, #080703); }
+    .bfs-tile:hover .bfs-tile__arrow svg:nth-child(1) { transform: translate(100%, -100%); }
+    .bfs-tile:hover .bfs-tile__arrow svg:nth-child(2) { transform: translate(0, 0); }
+
+    .bfs-panel__cta {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2, 8px);
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: var(--color-button-secondary, #080703);
+      color: var(--color-text-inverse, #fff);
+      font-size: var(--text-sm, 0.875rem);
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .25s ease, transform .25s ease;
+    }
+    .bfs-panel__cta:hover {
+      background: var(--color-button-secondary-hover, #1B180B);
+      transform: translateY(-1px);
+    }
+    .bfs-panel__cta svg { width: 16px; height: 16px; }
+
+    @media (max-width: 900px) {
+      .bfs-panel {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+      .bfs-panel--imageR .bfs-panel__media { order: 0; }
+      .bfs-panel__media { min-height: 280px; aspect-ratio: 16 / 10; }
     }
 
     @media (max-width: 760px) {
@@ -286,1021 +682,795 @@
     </div>
   </section>
 
-  <script type="module">
-// ─── OGL via CDN ──────────────────────────────────────────────────────────────
-import { Renderer, Camera, Transform, Geometry, Program, Mesh, Vec3, Plane, Texture }
-  from 'https://cdn.jsdelivr.net/npm/ogl@1.0.11/src/index.js';
+  <section class="home-cover" aria-hidden="true">
+    <div class="home-cover__scroll">
+      <!-- Logo marquee — slides up during cover transition -->
+      <div class="home-cover-logos">
+        <p class="home-cover-logos__title">Trusted by teams worldwide</p>
+        <div class="marquee">
+          <div class="marquee__track">
+            <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
+          </div>
+          <div class="marquee__track" aria-hidden="true">
+            <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
+            <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
+          </div>
+        </div>
+      </div>
 
-// ─── Utility functions (from morpho module 66287) ────────────────────────────
-const randomRange    = (a, b) => a + Math.random() * (b - a);
-const randomBoolean  = (p = 0.5) => Math.random() < p;
-const randomSign     = () => Math.random() > 0.5 ? 1 : -1;
-const limitRange     = (min, v, max) => Math.max(min, Math.min(v, max));
-const distPts        = (a, b) => Math.sqrt((b.x-a.x)**2 + (b.y-a.y)**2);
-const smoothstep     = (a, b, v) => {
-  const t = limitRange(0, (v - a) / (b - a), 1);
-  return t * t * (3 - 2 * t);
-};
+      <!-- ============ Features ============ -->
+      <section class="section" id="features">
+        <div class="container">
+          <div class="features-head" data-reveal>
+            <div class="section-head">
+              <div class="eyebrow">Why ROLA-IP</div>
+              <h2 class="h-section">Reliability engineered into every IP</h2>
+            </div>
+            <p class="features-head__desc">High-success access, real ISP IPs, long sessions, and predictable pricing.</p>
+          </div>
+          <div class="features__grid">
+            <div class="fcard" data-reveal>
+              <span class="fcard__index">01</span>
+              <img class="fcard__illus" src="assets/illustrations/fcard-mesh-1.webp" alt="" loading="lazy">
+              <div class="fcard__bottom">
+                <h3>High-success access</h3>
+                <p>Well-known ASN with fewer restrictions from target sites.</p>
+              </div>
+            </div>
+            <div class="fcard" data-reveal data-delay="1">
+              <span class="fcard__index">02</span>
+              <img class="fcard__illus" src="assets/illustrations/fcard-mesh-2.webp" alt="" loading="lazy">
+              <div class="fcard__bottom">
+                <h3>Premium ASN source</h3>
+                <p>Residential-grade real IPs sourced from premium ASNs.</p>
+              </div>
+            </div>
+            <div class="fcard fcard--tall" data-reveal data-delay="2">
+              <span class="fcard__index">03</span>
+              <img class="fcard__illus" src="assets/illustrations/fcard-mesh-3.webp" alt="" loading="lazy">
+              <div class="fcard__bottom">
+                <h3>Long / unlimited sessions</h3>
+                <p>IPs never rotate mid-session — keeps your login state intact.</p>
+              </div>
+            </div>
+            <div class="fcard fcard--wide" data-reveal data-delay="3">
+              <span class="fcard__index">04</span>
+              <img class="fcard__illus" src="assets/illustrations/fcard-mesh-4.webp" alt="" loading="lazy">
+              <div class="fcard__bottom">
+                <h3>Pay-per-IP, no hidden fees</h3>
+                <p>Bandwidth is never charged extra — pay only for the IPs you use.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-// Skewed random: ai(min, max, skew=-0.25, a=10)
-function ai(min, max, skew = 0, a = 10) {
-  if (min >= max) return min;
-  skew = Math.max(-1, Math.min(1, skew));
-  if (skew === 0) return min + Math.random() * (max - min);
-  return min + Math.pow(Math.random(), Math.pow(a, -skew)) * (max - min);
-}
+      <!-- ============ Pricing ============ -->
+      <section class="section" id="pricing">
+        <div class="container">
+          <div class="section-head center" data-reveal>
+            <div class="eyebrow">Pricing</div>
+            <h2 class="h-section">Buy Residential Proxies</h2>
+            <p class="section-sub">ROLA IP offers flexible pricing options for easy scalability</p>
+          </div>
+          <div class="pricing__grid">
+            <div class="pcard" data-reveal>
+              <div class="pcard__info">
+                <span class="pcard__badge">Free trial</span>
+                <div class="pcard__name">Starter</div>
+                <div class="pcard__ips"><span class="pcard__ips-qty">25 IPs</span><span class="pcard__ips-sep"></span>For small teams and first production workloads</div>
+              </div>
+              <div class="pcard__pricing">
+                <div class="pcard__price">$3.20<span class="u">/IP</span></div>
+                <div class="pcard__billed">Billed monthly</div>
+              </div>
+              <a href="#" class="btn btn--ghost btn--lg btn--block">Buy Now</a>
+            </div>
+            <div class="pcard" data-reveal data-delay="1">
+              <div class="pcard__info">
+                <span class="pcard__badge">Scale</span>
+                <div class="pcard__name">Advanced</div>
+                <div class="pcard__ips"><span class="pcard__ips-qty">100 IPs</span><span class="pcard__ips-sep"></span>For growing scraping and automation pipelines</div>
+              </div>
+              <div class="pcard__pricing">
+                <div class="pcard__price">$2.75<span class="u">/IP</span></div>
+                <div class="pcard__billed">Billed monthly</div>
+              </div>
+              <a href="#" class="btn btn--ghost btn--lg btn--block">Buy Now</a>
+            </div>
+            <div class="pcard pcard--popular" data-reveal data-delay="2">
+              <div class="pcard__info">
+                <span class="pcard__badge">Most popular</span>
+                <div class="pcard__name-row">
+                  <div class="pcard__name">Premium</div>
+                  <span class="pcard__clip">Most Popular</span>
+                </div>
+                <div class="pcard__ips"><span class="pcard__ips-qty">500 IPs</span><span class="pcard__ips-sep"></span>For high-volume teams that need steadier scale</div>
+              </div>
+              <div class="pcard__pricing">
+                <div class="pcard__price">$2.10<span class="u">/IP</span></div>
+                <div class="pcard__billed">Billed monthly</div>
+              </div>
+              <a href="#" class="btn btn--primary btn--lg btn--block">Buy Now</a>
+            </div>
+            <div class="pcard" data-reveal data-delay="3">
+              <div class="pcard__info">
+                <span class="pcard__badge">Custom</span>
+                <div class="pcard__name">Enterprise</div>
+                <div class="pcard__ips"><span class="pcard__ips-qty">1,000+ IPs</span><span class="pcard__ips-sep"></span>With custom allocation, SLA and infrastructure</div>
+              </div>
+              <div class="pcard__pricing">
+                <div class="pcard__price">Custom</div>
+                <div class="pcard__billed">Tailored billing</div>
+              </div>
+              <a href="#" class="btn btn--ghost btn--lg btn--block">Contact Sales</a>
+            </div>
+          </div>
+          <div class="pricing__note pricing__payments" data-reveal>
+            <div class="payments__row">
+              <div class="payments__item">
+                <div class="payments__copy">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5zm-18 0a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z"/></svg>
+                  <span>24/7 Support</span>
+                </div>
+              </div>
+              <div class="payments__sep"></div>
+              <div class="payments__item">
+                <div class="payments__copy">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+                  <span>Free Trial</span>
+                </div>
+              </div>
+              <div class="payments__sep"></div>
+              <div class="payments__item">
+                <div class="payments__copy">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.3 8.3-8 9-4.7-.7-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-5"/></svg>
+                  <span>Accepted payment methods</span>
+                </div>
+                <div class="payments__logos" aria-label="Supported payment methods">
+                  <span class="paymark paymark--mastercard"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#FF5F00" d="M10.198 8.758h3.607v6.482h-3.607z"/><path fill="#EB001B" d="M10.427 12a4.15 4.15 0 0 1 1.569-3.242 4.123 4.123 0 0 0-5.796.699 4.12 4.12 0 0 0 .71 5.784 4.11 4.11 0 0 0 5.097 0 4.12 4.12 0 0 1-1.58-3.242"/><path fill="#F79E1B" d="M18.673 12a4.12 4.12 0 0 1-6.665 3.24 4.13 4.13 0 0 0 0-6.482 4.11 4.11 0 0 1 5.784.699c.572.721.881 1.614.881 2.542"/></svg></span>
+                  <span class="paymark paymark--visa"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#1434CB" d="m10.044 9.468-2.128 5.078H6.527L5.48 10.493c-.064-.249-.119-.34-.312-.446-.316-.172-.838-.332-1.296-.432l.03-.147h2.235c.285 0 .541.19.606.518l.554 2.938 1.366-3.456zM15.485 12.887c.006-1.34-1.853-1.414-1.84-2.013.004-.182.178-.376.557-.425a2.5 2.5 0 0 1 1.295.227l.23-1.077a3.6 3.6 0 0 0-1.228-.224c-1.299 0-2.213.69-2.22 1.678-.008.732.653 1.139 1.15 1.383.513.249.684.409.682.63-.004.341-.409.492-.785.498-.66.01-1.044-.179-1.35-.321l-.238 1.113c.308.14.874.263 1.46.269 1.381 0 2.284-.682 2.288-1.738M19.067 9.468h-1.12a.6.6 0 0 0-.56.372l-1.97 4.706h1.379l.273-.759h1.686l.159.758h1.214zm-1.62 3.279.692-1.906.397 1.906zM11.92 9.468l-1.085 5.078H9.52l1.086-5.078z"/></svg></span>
+                  <span class="paymark paymark--usdt"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><circle cx="12" cy="12" r="5" fill="#50AF95"/><path fill="#fff" fill-rule="evenodd" d="M12.7 12.592c-.04.003-.241.015-.692.015-.358 0-.612-.011-.701-.015-1.384-.061-2.417-.302-2.417-.59 0-.289 1.033-.53 2.417-.591v.94c.09.007.35.022.707.022.43 0 .645-.017.684-.021v-.94c1.381.06 2.412.302 2.412.59 0 .287-1.03.528-2.412.59zm0-1.278v-.842h1.927V9.188H9.38v1.284h1.926v.842c-1.566.072-2.743.382-2.743.754 0 .371 1.177.681 2.743.754v2.698H12.7v-2.7c1.563-.072 2.739-.381 2.739-.753 0-.371-1.175-.681-2.739-.753" clip-rule="evenodd"/></svg></span>
+                  <span class="paymark paymark--alipay"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#1677FF" d="M15.033 7.5H8.968c-.79 0-1.43.645-1.43 1.441v6.117c0 .796.64 1.441 1.43 1.441h6.065c.79 0 1.429-.645 1.429-1.441V8.942c0-.797-.64-1.442-1.429-1.442"/><path fill="#fff" d="M14.885 13.151c-.357-.12-.836-.305-1.37-.5a7.3 7.3 0 0 0 .745-1.897H12.5v-.639h2.155v-.357H12.5V8.693h-.88c-.154 0-.154.154-.154.154v.911h-2.18v.357h2.18v.64h-1.8v.355h3.49c-.127.445-.299.86-.502 1.24-1.133-.377-2.341-.683-3.1-.495-.485.121-.798.336-.982.562-.843 1.034-.238 2.606 1.542 2.606 1.053 0 2.067-.592 2.853-1.568 1.172.569 3.494 1.544 3.494 1.544v-1.39s-.292-.024-1.577-.458m-4.935 1.27c-1.389 0-1.799-1.102-1.114-1.706.23-.204.648-.304.871-.326.825-.082 1.588.235 2.49.679-.633.833-1.44 1.353-2.247 1.353"/></svg></span>
+                  <span class="paymark paymark--wechat"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" class="paymark__img" viewBox="0 0 24 24"><path fill="#fff" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25"/><path fill="#000" d="M20.25 5.25H3.75A2.25 2.25 0 0 0 1.5 7.5v9a2.25 2.25 0 0 0 2.25 2.25h16.5a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25m1.5 11.25c0 .827-.673 1.5-1.5 1.5H3.75c-.827 0-1.5-.673-1.5-1.5v-9c0-.827.673-1.5 1.5-1.5h16.5c.827 0 1.5.673 1.5 1.5z" opacity=".15"/><path fill="#fff" d="M20.25 6H3.75a1.5 1.5 0 0 0-1.5 1.5v.75a1.5 1.5 0 0 1 1.5-1.5h16.5a1.5 1.5 0 0 1 1.5 1.5V7.5a1.5 1.5 0 0 0-1.5-1.5" opacity=".2"/><path fill="#00C800" d="M16.66 9.863 10.6 13.364a.356.356 0 0 1-.502-.161l-.978-2.162c-.066-.147.103-.288.236-.197l1.232.85c.117.081.266.095.396.037L16.3 9.37C15.35 8.239 13.779 7.5 12 7.5c-2.9 0-5.25 1.963-5.25 4.384 0 1.314.693 2.493 1.79 3.297 0 0 .216.146.168.363-.047.216-.256.95-.256.95s-.068.163.037.247c.104.085.204.017.255-.012l1.175-.67a.48.48 0 0 1 .366-.03l.062.017.022.006h.002a6.2 6.2 0 0 0 1.63.215c2.9 0 5.25-1.963 5.25-4.384 0-.729-.213-1.416-.59-2.02z"/></svg></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-// ─── GLSL Simplex Noise + Cloud (from morpho module 61578) ───────────────────
-const GLSL_SNOISE = `
-vec3 _mod289v3(vec3 x){ return x - floor(x*(1.0/289.0))*289.0; }
-vec2 _mod289v2(vec2 x){ return x - floor(x*(1.0/289.0))*289.0; }
-vec3 _permute(vec3 x){ return _mod289v3(((x*34.0)+1.0)*x); }
-float snoise(vec2 v){
-  const vec4 C = vec4(0.211324865405187,0.366025403784439,-0.577350269189626,0.024390243902439);
-  vec2 i  = floor(v + dot(v, C.yy));
-  vec2 x0 = v - i + dot(i, C.xx);
-  vec2 i1  = (x0.x > x0.y) ? vec2(1.0,0.0) : vec2(0.0,1.0);
-  vec4 x12 = x0.xyxy + C.xxzz;
-  x12.xy -= i1;
-  i = _mod289v2(i);
-  vec3 p = _permute(_permute(i.y+vec3(0.0,i1.y,1.0))+i.x+vec3(0.0,i1.x,1.0));
-  vec3 m = max(0.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.0);
-  m = m*m; m = m*m;
-  vec3 xv = 2.0*fract(p*C.www)-1.0;
-  vec3 h  = abs(xv)-0.5;
-  vec3 ox = floor(xv+0.5);
-  vec3 a0 = xv-ox;
-  m *= 1.79284291400159 - 0.85373472095314*(a0*a0+h*h);
-  vec3 g;
-  g.x  = a0.x *x0.x  + h.x *x0.y;
-  g.yz = a0.yz*x12.xz + h.yz*x12.yw;
-  return 130.0*dot(m,g);
-}`;
+      <!-- ============ Geo Coverage ============ -->
+      <section class="section" id="geo">
+        <div class="container geo__head-wrap" data-reveal>
+          <div class="geo-head">
+            <div class="section-head">
+              <div class="eyebrow">Coverage</div>
+              <h2 class="h-section">Meeting various global business needs</h2>
+            </div>
+            <p class="geo-head__desc">Covering 200+ countries worldwide, supporting various business and technical needs</p>
+          </div>
+        </div>
+        <div class="container geo__card-wrap">
+          <div class="geo__stats" data-reveal>
+            <div class="geo__stat"><span class="geo__stat-num">200+</span><span class="geo__stat-label">Countries covered</span></div>
+            <div class="geo__stat"><span class="geo__stat-num">40M+</span><span class="geo__stat-label">Residential IPs</span></div>
+            <div class="geo__stat"><span class="geo__stat-num">99.9%</span><span class="geo__stat-label">Uptime guarantee</span></div>
+            <div class="geo__stat"><span class="geo__stat-num">24/7</span><span class="geo__stat-label">Technical support</span></div>
+          </div>
+          <div class="geo__locations" data-reveal>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/us.png" width="48" height="32" alt="United States"><div><h3>United States / US</h3><p>6,843,600 IPs</p></div></article>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/hk.png" width="48" height="32" alt="Hong Kong"><div><h3>Hong Kong / HK</h3><p>1,245,300 IPs</p></div></article>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/jp.png" width="48" height="32" alt="Japan"><div><h3>Japan / JP</h3><p>2,340,800 IPs</p></div></article>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/fr.png" width="48" height="32" alt="France"><div><h3>France / FR</h3><p>3,479,400 IPs</p></div></article>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/pl.png" width="48" height="32" alt="Poland"><div><h3>Poland / PL</h3><p>892,600 IPs</p></div></article>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/gb.png" width="48" height="32" alt="United Kingdom"><div><h3>United Kingdom / GB</h3><p>2,765,400 IPs</p></div></article>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/sg.png" width="48" height="32" alt="Singapore"><div><h3>Singapore / SG</h3><p>1,128,500 IPs</p></div></article>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/de.png" width="48" height="32" alt="Germany"><div><h3>Germany / DE</h3><p>1,110,960 IPs</p></div></article>
+            <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/kr.png" width="48" height="32" alt="South Korea"><div><h3>South Korea / KR</h3><p>1,567,200 IPs</p></div></article>
+          </div>
+          <div class="geo__globe-wrap" data-reveal>
+            <canvas id="cobe-globe" width="920" height="920" aria-label="Global proxy coverage map"></canvas>
+          </div>
+        </div>
+      </section>
 
-const GLSL_COMPLEX_CLOUD = `
-float complexCloudPattern(vec2 uv, float t){
-  float o = 0.0;
-  uv *= cloudFrequency;
-  t  *= cloudSpeed;
-  vec2 vel = vec2(t*0.1);
-  o += snoise(uv+vel)*0.25+0.25;
-  float a = snoise(uv*vec2(cos(t*0.15),sin(t*0.1))*0.1)*3.1415;
-  vel = vec2(cos(a),sin(a));
-  o += snoise(uv+vel)*0.25+0.25;
-  o = fract(o);
-  return o*cloudAmplitude;
-}`;
+      <!-- ============ Use Cases ============ -->
+      <section class="section" id="use-cases">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <div class="eyebrow">Use Cases</div>
+            <h2 class="h-section">Built for every workflow that needs reliable IP access</h2>
+            <p class="section-sub">Use ROLA-IP to collect, verify, monitor, and automate across regions with stable ISP proxies.</p>
+          </div>
+          <div class="cases__grid">
+            <div class="ucard" data-reveal>
+              <div class="ucard__header">
+                <i data-lucide="megaphone" class="ucard__glyph" aria-hidden="true"></i>
+                <h3>Social Media Marketing</h3>
+              </div>
+              <p>Complete social media automation tasks at scale without running into friction or access limits.</p>
+            </div>
+            <div class="ucard" data-reveal data-delay="1">
+              <div class="ucard__header">
+                <i data-lucide="globe" class="ucard__glyph" aria-hidden="true"></i>
+                <h3>E-commerce Management</h3>
+              </div>
+              <p>Break through geographic barriers and reach the major online marketplaces around the world.</p>
+            </div>
+            <div class="ucard" data-reveal data-delay="2">
+              <div class="ucard__header">
+                <i data-lucide="database" class="ucard__glyph" aria-hidden="true"></i>
+                <h3>Data Collection</h3>
+              </div>
+              <p>Run large-scale web scraping while using reliable static residential proxies to avoid IP blocks and CAPTCHAs.</p>
+            </div>
+            <div class="ucard" data-reveal>
+              <div class="ucard__header">
+                <i data-lucide="search" class="ucard__glyph" aria-hidden="true"></i>
+                <h3>Search Engine Optimization</h3>
+              </div>
+              <p>Gather valuable search engine data, perform keyword analysis, and monitor rankings across locations.</p>
+            </div>
+            <div class="ucard" data-reveal data-delay="1">
+              <div class="ucard__header">
+                <i data-lucide="plane" class="ucard__glyph" aria-hidden="true"></i>
+                <h3>Price and Travel Aggregation</h3>
+              </div>
+              <p>Collect up-to-date pricing and inventory information from multiple travel and booking websites with ease.</p>
+            </div>
+            <div class="ucard" data-reveal data-delay="2">
+              <div class="ucard__header">
+                <i data-lucide="monitor-play" class="ucard__glyph" aria-hidden="true"></i>
+                <h3>Ad Technology</h3>
+              </div>
+              <p>Pair static residential proxies with campaign testing to collect competitor insights and identify bot traffic.</p>
+            </div>
+            <div class="ucard" data-reveal>
+              <div class="ucard__header">
+                <i data-lucide="shield-check" class="ucard__glyph" aria-hidden="true"></i>
+                <h3>Brand Protection</h3>
+              </div>
+              <p>Detect trademark violations, report unauthorized use of your assets, and protect brand reputation.</p>
+            </div>
+            <div class="ucard" data-reveal data-delay="1">
+              <div class="ucard__header">
+                <i data-lucide="chart-column" class="ucard__glyph" aria-hidden="true"></i>
+                <h3>Market Research</h3>
+              </div>
+              <p>Retrieve regional data for actionable insight, monitor consumer behavior, and track competitor progress.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-// ─── Vertex Shader ────────────────────────────────────────────────────────────
-// Matches morpho.org's particle vertex shader exactly (WebGL2 / GLSL 300 es)
-const VERT = `#version 300 es
-precision highp float;
+      <!-- ============ Integration ============ -->
+      <section class="section" id="integration">
+        <div class="container">
+          <div class="integ__grid">
+            <div class="section-head" data-reveal>
+              <div class="eyebrow">Quick Start</div>
+              <h2 class="h-section">Start proxying with one endpoint</h2>
+              <p class="section-sub">Route requests through ISP proxies using simple credentials, country targeting, and sticky sessions.</p>
+              <div class="integ__logos">
+                <div class="integ__logo-slot"><img src="assets/curl-logo.svg" alt="cURL" class="integ__logo-img"></div>
+                <div class="integ__logo-slot"><img src="assets/python-logo.svg" alt="Python" class="integ__logo-img"></div>
+                <div class="integ__logo-slot"><img src="assets/javascript-logo.svg" alt="JavaScript" class="integ__logo-img"></div>
+                <div class="integ__logo-slot"><img src="assets/go-logo.svg" alt="Go" class="integ__logo-img"></div>
+                <div class="integ__logo-slot"><img src="assets/java-logo.svg" alt="Java" class="integ__logo-img"></div>
+                <div class="integ__logo-slot"><img src="assets/php-logo.svg" alt="PHP" class="integ__logo-img"></div>
+              </div>
+            </div>
+            <div class="codepanel" data-reveal data-delay="1">
+              <div class="codepanel__top">
+                <div class="codetabs" id="codeTabsBar"></div>
+                <button class="copybtn" id="copyBtn" aria-label="Copy code">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 10V3.5A1.5 1.5 0 014.5 2H11"/></svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+              <div class="codebody">
+                <div class="th-code" id="codeDisplay"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-in  vec3 position;
-out vec4 vColor;
+      <!-- ============ Testimonials ============ -->
+      <section class="section">
+        <div class="container">
+          <div class="section-head center" data-reveal>
+            <div class="eyebrow">Customer Stories</div>
+            <h2 class="h-section">Real results from real users.</h2>
+          </div>
+        </div>
+        <div class="tmarquee">
+            <div class="tmarquee__track">
+              <div class="tcard">
+                <div class="tcard__author">
+                  <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
+                  <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead, Northstar Analytics</div></div>
+                </div>
+                <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
+                <span class="tcard__stars">★★★★★</span>
+              </div>
+              <div class="tcard">
+                <div class="tcard__author">
+                  <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
+                  <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth, CartPulse</div></div>
+                </div>
+                <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
+                <span class="tcard__stars">★★★★★</span>
+              </div>
+              <div class="tcard">
+                <div class="tcard__author">
+                  <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
+                  <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager, MarketLens</div></div>
+                </div>
+                <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
+                <span class="tcard__stars">★★★★★</span>
+              </div>
+              <div class="tcard">
+                <div class="tcard__author">
+                  <img class="tcard__avatar" src="assets/testimonials/james-wong.jpg" alt="James Wong">
+                  <div><div class="tcard__name">James Wong</div><div class="tcard__role">Senior Engineer, DataBridge</div></div>
+                </div>
+                <p class="tcard__quote">Switching to ROLA-IP was seamless. The geo-targeting works exactly as documented, and our success rate on restricted regions improved immediately.</p>
+                <span class="tcard__stars">★★★★★</span>
+              </div>
+            </div>
+            <div class="tmarquee__track" aria-hidden="true">
+              <div class="tcard">
+                <div class="tcard__author">
+                  <img class="tcard__avatar" src="assets/testimonials/maya-chen.jpg" alt="Maya Chen">
+                  <div><div class="tcard__name">Maya Chen</div><div class="tcard__role">Data Operations Lead, Northstar Analytics</div></div>
+                </div>
+                <p class="tcard__quote">ROLA-IP cut our retry volume by more than half within the first week. The static sessions made our collection pipeline much easier to reason about.</p>
+                <span class="tcard__stars">★★★★★</span>
+              </div>
+              <div class="tcard">
+                <div class="tcard__author">
+                  <img class="tcard__avatar" src="assets/testimonials/daniel-brooks.jpg" alt="Daniel Brooks">
+                  <div><div class="tcard__name">Daniel Brooks</div><div class="tcard__role">Head of Growth, CartPulse</div></div>
+                </div>
+                <p class="tcard__quote">Moving from bandwidth billing to per-IP pricing finally made our monthly proxy spend predictable. Finance stopped chasing surprise overage lines.</p>
+                <span class="tcard__stars">★★★★★</span>
+              </div>
+              <div class="tcard">
+                <div class="tcard__author">
+                  <img class="tcard__avatar" src="assets/testimonials/sofia-alvarez.jpg" alt="Sofia Alvarez">
+                  <div><div class="tcard__name">Sofia Alvarez</div><div class="tcard__role">Infrastructure Manager, MarketLens</div></div>
+                </div>
+                <p class="tcard__quote">The API was live in our crawler stack the same afternoon. Their support team helped us tune country routing before launch.</p>
+                <span class="tcard__stars">★★★★★</span>
+              </div>
+              <div class="tcard">
+                <div class="tcard__author">
+                  <img class="tcard__avatar" src="assets/testimonials/james-wong.jpg" alt="James Wong">
+                  <div><div class="tcard__name">James Wong</div><div class="tcard__role">Senior Engineer, DataBridge</div></div>
+                </div>
+                <p class="tcard__quote">Switching to ROLA-IP was seamless. The geo-targeting works exactly as documented, and our success rate on restricted regions improved immediately.</p>
+                <span class="tcard__stars">★★★★★</span>
+              </div>
+            </div>
+          </div>
+      </section>
 
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
+      <!-- ============ Compliance ============ -->
+      <section class="section" id="compliance" style="background:var(--color-surface-dark-overlay);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)">
+        <div class="container">
+          <div class="section-head center" data-reveal>
+            <div class="eyebrow">Security &amp; Compliance</div>
+            <h2 class="h-section">Safe, secure, and industry recognized</h2>
+          </div>
+          <div class="compliance__boxes" data-reveal>
+            <div class="compliance__box">
+              <div id="light-rays-bg" class="light-rays-bg"></div>
+              <div class="compliance__badges">
+                <img src="assets/badge-g2-europe-leader.svg" alt="G2 Europe Regional Leader">
+                <img src="assets/badge-g2-grid-leader.svg" alt="G2 Grid Leader">
+                <img src="assets/badge-g2-top50-security.svg" alt="G2 Top 50 Security Products">
+                <img src="assets/badge-iso-27001.svg" alt="ISO 27001">
+                <img src="assets/badge-iso-50001.svg" alt="ISO 50001">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-uniform float time;
-uniform float pointSize;
-uniform vec2  mousePosition;
-uniform bool  hasMouseMoved;
-uniform float lessDotAlpha;
+      <!-- ============ FAQ ============ -->
+      <section class="section" id="faq">
+        <div class="container">
+          <div class="section-head center" data-reveal>
+            <div class="eyebrow">FAQs</div>
+            <h2 class="h-section">Questions, answered</h2>
+          </div>
+          <div class="faq__wrap" data-reveal>
+            <div class="faq-item">
+              <button class="faq-item__q">What is an ISP proxy?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>An ISP proxy — also called a static residential proxy — is an IP address hosted in a datacenter but registered to a real Internet Service Provider. Target sites see it as a legitimate residential connection, so you get the trust profile of a home IP combined with datacenter-grade speed and stability.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-item__q">How are ISP proxies different from rotating residential proxies?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>Rotating residential proxies pull a different IP from a shared pool on each request and are usually billed by bandwidth (per GB). ISP proxies give you a fixed, dedicated IP that stays the same until you change it, billed per-IP with unlimited bandwidth. They're the better fit when you need persistent identity, stable sessions, and predictable cost.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-item__q">Do you offer a free trial?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>Yes. You can test the network on a 7-day free trial before committing — no credit card required to start. Trial accounts include 5 ISP IPs and dashboard access.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-item__q">How does per-IP billing work?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>You pay a flat monthly price for each IP in your plan. Bandwidth is unlimited and included — there are no per-GB charges, no overage fees, and no hidden line items. Your monthly cost is the same whether you send one request or millions.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-item__q">Which regions and locations do you support?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>We offer ISP proxies across 85+ countries, with the deepest pools in the US, UK, Germany, Canada, and other major markets. Country-level targeting is available everywhere; city-level targeting is available in 210 metro areas.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-item__q">How long can a session last?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>ISP proxies are static by design — you keep the same IP for the full duration of your subscription with no forced rotation. This makes them ideal for authenticated sessions, account management, and long-running collection jobs.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-item__q">Are there any target-site restrictions?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>Our proxies can access most publicly available websites. All usage must comply with our Acceptable Use Policy, which prohibits illegal activity, credential abuse, spam, payment fraud, and attacks on third-party services.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-item__q">What authentication methods are supported?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>Both username/password authentication and IP whitelisting are supported. You can configure either (or both) from the dashboard and switch at any time.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-item__q">Is the service compliant for enterprise procurement?<span class="faq-item__ic"></span></button>
+              <div class="faq-item__a"><p>Yes. We align with GDPR and CCPA, source all IPs ethically through consent-based ISP partnerships, and can provide a DPA, ISO 27001 documentation, SOC 2 Type II report access, and security audit details on request.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-// ── constants from source ──
-const float showEvery                     = 4.0;
-const vec3  blueColor1                    = vec3(0.102, 0.843, 0.624); // #1ad79f (brand color mid)
-const vec3  blueColor2                    = vec3(0.55, 0.95, 0.8); // #8cf2cc (light brand)
-const vec3  blueColor3                    = vec3(0.04, 0.4, 0.3); // #0a6633 (dark brand)
-const float colorBlendFactor              = 0.5;
-const float colorBlendOffset              = -0.05;
-const float basePointSize                 = 5.8;
-const float distancePointSizeMultiplier   = -0.5;
-const float mouseInfluenceRadius          = 0.2;
-const float mouseSizeBoost                = 1.3;
-const float farAlphaBase                  = 2.85;
-const float farAlphaMultiplier            = 0.4;
-const float cloudFrequency                = 0.08;
-const float cloudAmplitude                = 2.4;
-const float cloudSpeed                    = 4.0;
-const float uvFactor                      = 10.0;
-const float centerAlphaMin                = 0.3;
-const float centerAlphaPowerFactor        = 0.9;
-const float centerAlphaScaleX             = 0.8;
-const float centerAlphaScaleY             = 1.7;
-const float centerParticlesBrightnessDist = 0.4;
-const float centerParticlesBrightnessPow  = 2.4;
-const float centerParticlesWhiteFactor    = 1.2;
-const float topPoleSoftenStart            = 0.86;
-const float topPoleSoftenEnd              = 0.98;
-const float zoomParticleSizeMin           = 0.72;
+      <!-- ============ Final CTA + Footer ============ -->
+      <div class="site-bottom">
+      <section class="finalcta">
+        <div class="container">
+          <div class="finalcta__box" data-reveal>
+            <h2>Start routing through stable ISP proxies today</h2>
+            <div class="finalcta__ctas">
+              <a href="#" class="btn btn--primary">Start free trial</a>
+              <a href="#" class="btn btn--ghost">Contact Sales</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-${GLSL_SNOISE}
-${GLSL_COMPLEX_CLOUD}
+      <footer class="footer">
+        <div class="container">
+          <div class="footer__grid">
+            <div class="footer__brand" data-reveal>
+              <div class="footer__brand-copy">
+                <a href="#" class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="none" aria-hidden="true"><g fill="#11A757" clip-path="url(#rola-logo)"><path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/><path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity=".4"/></g><defs><clipPath id="rola-logo"><path fill="#fff" d="M0 20V0h24v20z"/></clipPath></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="76" height="13" fill="none" aria-label="ROLA-IP" class="logo__wordmark"><path fill="#D4DADD" d="M2.7 12.24H0V.18h6.66q1.494 0 2.538.432 1.044.414 1.584 1.224t.54 1.962q0 .99-.378 1.692T9.81 6.624q-.756.414-1.89.522v.144q.81.216 1.206.648T9.864 9l1.746 3.24H8.478L6.822 9.108A3.2 3.2 0 0 0 6.3 8.37a1.47 1.47 0 0 0-.702-.378q-.414-.126-1.116-.126H2.7zm0-9.63v3.222h3.942q.954 0 1.404-.324.45-.342.45-1.296 0-.9-.45-1.242-.45-.36-1.404-.36zm17.053 9.81q-1.98 0-3.456-.756a5.5 5.5 0 0 1-2.25-2.16q-.774-1.404-.774-3.294t.774-3.276a5.35 5.35 0 0 1 2.25-2.16Q17.773 0 19.753 0q2.052 0 3.51.774a5.35 5.35 0 0 1 2.25 2.16q.792 1.386.792 3.276t-.792 3.294a5.5 5.5 0 0 1-2.25 2.16q-1.458.756-3.51.756m0-2.592q1.332 0 2.124-.342.81-.36 1.17-1.152.378-.792.378-2.124 0-1.35-.378-2.124a2.17 2.17 0 0 0-1.17-1.134q-.792-.36-2.124-.36-1.314 0-2.106.36a2.17 2.17 0 0 0-1.152 1.134q-.36.774-.36 2.124 0 1.332.36 2.124t1.152 1.152q.792.342 2.106.342m11.51 2.412h-2.7V.18h2.7zm7.181 0h-9.126V9.81h9.126zm4.381 0h-3.024L45.075.18h3.852l5.31 12.06h-3.096L47.83 4.518l-.738-1.872h-.198l-.738 1.872zm8.352-2.664h-8.496v-2.43h8.496zm11.327 2.664h-2.7V.18h2.7zm8.794-3.33h-5.364V6.48h5.076q1.134 0 1.656-.396.54-.414.54-1.548 0-1.098-.54-1.512-.522-.414-1.656-.414h-5.076V.18h5.364q1.404 0 2.43.522a3.63 3.63 0 0 1 1.584 1.476q.576.972.576 2.358t-.576 2.376a3.74 3.74 0 0 1-1.584 1.494q-1.026.504-2.43.504m-3.6 3.33h-2.7V.18h2.7z"/></svg></a>
+                <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
+              </div>
+              <div class="footer-ai-summary" aria-label="Get an AI summary of ROLA IP">
+                <span>Get an AI summary of ROLA IP</span>
+                <span class="footer-ai-summary__icons" aria-hidden="true">
+                  <img class="footer-ai-summary__icon" src="assets/ai/openai-chatgpt.svg" alt="">
+                  <img class="footer-ai-summary__icon" src="assets/ai/claude.svg" alt="">
+                  <img class="footer-ai-summary__icon" src="assets/ai/perplexity.svg" alt="">
+                </span>
+              </div>
+            </div>
+            <div data-reveal data-delay="1">
+              <h4>Product</h4>
+              <ul>
+                <li><a href="#features">ISP Proxies</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="#geo">Locations</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="faq.html">FAQs</a></li>
+                <li><a href="pricing.html">Free Trial</a></li>
+              </ul>
+            </div>
+            <div data-reveal data-delay="2">
+              <h4>Developers</h4>
+              <ul>
+                <li><a href="#integration">Documentation</a></li>
+                <li><a href="#">API Reference</a></li>
+                <li><a href="#">SDKs</a></li>
+                <li><a href="#">Status</a></li>
+              </ul>
+            </div>
+            <div data-reveal data-delay="3">
+              <h4>Company</h4>
+              <ul>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact Sales</a></li>
+                <li><a href="#compliance">Compliance</a></li>
+                <li><a href="#">Privacy &amp; Terms</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer__bottom footer__bottom--reveal">
+            <span>&copy; 2026 ROLA-IP. All rights reserved.</span>
+            <span>sales@rola-ip.com</span>
+          </div>
+        </div>
+      </footer>
+      </div>
+    </div>
+  </section>
 
-void main(){
-  vec3 pos     = position;
-  vec4 clipPos = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-  gl_Position  = clipPos;
+  <script src="assets/home-webgl.bundle.js?v=20260623-scrollbars-on"></script>
 
-  // Particle density control (show 1/4 when lessDotAlpha=0)
-  float every  = max(showEvery, 1.0);
-  float rem    = mod(float(gl_VertexID), every);
-  float vis    = (1.0 - step(0.5, rem)) + lessDotAlpha;
-
-  // Point size with depth
-  float psBase = (basePointSize + clipPos.z * distancePointSizeMultiplier) * pointSize;
-  vec3  ndc    = clipPos.xyz / clipPos.w;
-  float topPole = smoothstep(topPoleSoftenStart, topPoleSoftenEnd, -pos.z);
-  float poleSize = mix(1.0, 0.42, topPole);
-  float zoomSize = mix(zoomParticleSizeMin, 1.0, lessDotAlpha);
-
-  if(hasMouseMoved){
-    float md  = distance(ndc.xy, mousePosition);
-    float prx = 1.0 - smoothstep(0.0, mouseInfluenceRadius, md);
-    float sm  = position.y < 0.0 ? 1.0 : (1.0 + prx * mouseSizeBoost);
-    gl_PointSize = psBase * sm * poleSize * zoomSize;
-  } else {
-    gl_PointSize = psBase * poleSize * zoomSize;
-  }
-
-  // Cloud color (using pos in object space)
-  vec2 uv = vec2(0.5 + pos.x * uvFactor, 0.5 + pos.z * uvFactor);
-  vec3 w  = vec3(
-    complexCloudPattern(uv * 1.0, +time * 0.8) - 0.1,
-    complexCloudPattern(uv * 1.4, -time * 1.3) - 0.1,
-    complexCloudPattern(uv * 0.7, +time * 0.6) - 0.1
-  );
-  w *= colorBlendFactor;
-  w += colorBlendOffset;
-  vec3 color = w.x * blueColor1 + w.y * blueColor2 + w.z * blueColor3;
-  color *= mix(1.0, 0.72, topPole);
-
-  // Alpha: depth-based
-  float farAlpha = clamp(farAlphaBase - clipPos.z * farAlphaMultiplier, 0.0, 1.0);
-
-  // Alpha: center void
-  float dim = centerAlphaPowerFactor
-    - distance(vec2(pos.x * centerAlphaScaleX, pos.z * centerAlphaScaleY), vec2(0.0));
-  float centerAlpha = 1.0 - clamp(dim, 0.0, 1.0 - centerAlphaMin);
-
-  // Center brightness (particle switching)
-  if(lessDotAlpha > 0.0){
-    float clearance = centerParticlesBrightnessDist * lessDotAlpha;
-    float d2 = distance(vec2(0.0), vec2(pos.x, pos.z));
-    if(d2 < clearance){
-      centerAlpha += abs(d2 - clearance) * centerParticlesBrightnessPow;
-      color *= centerParticlesWhiteFactor;
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    // Init Lucide icons for use-case cards
+    if (window.lucide) {
+      lucide.createIcons({ attrs: { width: 40, height: 40, 'stroke-width': 2.1 } });
     }
-  }
-
-  farAlpha -= 1.0 - centerAlpha;
-  farAlpha *= vis;
-  vColor = vec4(color, farAlpha);
-}`;
-
-// ─── Fragment Shader ──────────────────────────────────────────────────────────
-const FRAG = `#version 300 es
-precision highp float;
-
-in  vec4 vColor;
-out vec4 fragColor;
-
-const float radius         = 0.45;
-const float edge           = 0.0;
-const vec2  center         = vec2(0.5);
-const float alphaThreshold = 0.05;
-
-void main(){
-  if(vColor.a <= alphaThreshold) discard;
-  float d          = distance(gl_PointCoord, center);
-  float alpha      = 1.0 - smoothstep(radius - edge, radius, d);
-  float brightness = alpha * vColor.a;
-  if(brightness <= alphaThreshold) discard;
-  fragColor = vec4(vColor.rgb, brightness);
-}`;
-
-// ─── Butterfly logo: dissolve shaders (from morpho modules ao / ad) ───────────
-const LOGO_VERT = `#version 300 es
-precision highp float;
-in  vec3 position;
-in  vec2 uv;
-out vec2 vUv;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-void main(){
-  vUv = uv;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-}`;
-
-const LOGO_FRAG = `#version 300 es
-precision highp float;
-in  vec2 vUv;
-out vec4 fragColor;
-
-uniform float opacity;
-uniform float dissolve;
-uniform float frame;
-uniform sampler2D textureMap;
-
-const float noiseDefinition       = 80.0;
-const float dissolveStart         = -1.5;
-const float introDissolveFactor   = 50.0;
-const float opacityDissolveFactor = 2.4;
-
-${GLSL_SNOISE}
-
-void main(){
-  vec4 tex = texture(textureMap, vUv);
-  if(tex.a <= 0.01) discard;
-
-  // Pixel-grid noise dissolve
-  vec2  cell = floor(vUv * noiseDefinition);
-  float rnd  = snoise(cell);
-
-  // Bias dissolve to radiate from the edges inward
-  float d = 0.5 - distance(vUv, vec2(0.5));
-  rnd = mix(rnd, d, 0.8);
-
-  // Reveal progress: intro grows with dissolve counter; exit pulls it back with opacity
-  float edge         = 0.05;
-  float revealFactor = dissolveStart + min(dissolve / introDissolveFactor, 2.5);
-  revealFactor      -= (1.0 - opacity) * opacityDissolveFactor;
-  float reveal       = smoothstep(rnd, rnd + edge, revealFactor);
-
-  float alpha = tex.a * clamp(reveal, 0.0, 1.0);
-  if(alpha <= 0.01) discard;
-  fragColor = vec4(tex.rgb, alpha);
-}`;
-
-// ─── Brand logo shader ────────────────────────────────────────────────────────
-const BRAND_FRAG = `#version 300 es
-precision highp float;
-in  vec2 vUv;
-out vec4 fragColor;
-uniform sampler2D textureMap;
-uniform float opacity;
-uniform float focus;
-void main(){
-  vec4 tex = texture(textureMap, vUv);
-  float alpha = tex.a * opacity;
-  if(alpha <= 0.01) discard;
-  float gray = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
-  vec3 inactive = vec3(gray * 0.62 + 0.12);
-  vec3 color = mix(inactive, tex.rgb, focus);
-  fragColor = vec4(color, alpha * mix(0.48, 1.0, focus));
-}`;
-
-// Brand data: first 32 entries are used by the two visible orbit rings.
-// Local assets are drawn into canvas textures so the whole orbit remains WebGL.
-const BRAND_DATA = [
-  // ring 0 — 12 flags
-  { label: 'US', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/us.svg', flag: 'us', circleFlag: true, color: '#3c7cff' },
-  { label: 'UK', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/gb.svg', flag: 'uk', circleFlag: true, color: '#315bc7' },
-  { label: 'Germany', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/de.svg', flag: 'de', circleFlag: true, color: '#f1c232' },
-  { label: 'France', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/fr.svg', flag: 'fr', circleFlag: true, color: '#315bc7' },
-  { label: 'Japan', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/jp.svg', flag: 'jp', circleFlag: true, color: '#d02f44' },
-  { label: 'Canada', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/ca.svg', flag: 'ca', circleFlag: true, color: '#e0313f' },
-  { label: 'Brazil', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/br.svg', flag: 'br', circleFlag: true, color: '#26a269' },
-  { label: 'India', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/in.svg', flag: 'in', circleFlag: true, color: '#ff8f2d' },
-  { label: 'Australia', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/au.svg', flag: 'au', circleFlag: true, color: '#315bc7' },
-  { label: 'Singapore', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/sg.svg', flag: 'sg', circleFlag: true, color: '#e0313f' },
-  { label: 'South Korea', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/kr.svg', flag: 'kr', circleFlag: true, color: '#315bc7' },
-  { label: 'Netherlands', src: 'https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@gh-pages/flags/nl.svg', flag: 'nl', circleFlag: true, color: '#ef4b4b' },
-  // ring 1 — 20 logos
-  { label: 'Client A', src: 'assets/clients/logoipsum-426.svg', color: '#52ffa8' },
-  { label: 'Client B', src: 'assets/clients/logoipsum-380.svg', color: '#58a6ff' },
-  { label: 'Client C', src: 'assets/clients/logoipsum-418.svg', color: '#f4f8f5' },
-  { label: 'Client D', src: 'assets/clients/logoipsum-430.svg', color: '#7dffdf' },
-  { label: 'Client E', src: 'assets/clients/logoipsum-360.svg', color: '#80a9ff' },
-  { label: 'Client F', src: 'assets/clients/logoipsum-367.svg', color: '#f6fff9' },
-  { label: 'Client G', src: 'assets/clients/logoipsum-414.svg', color: '#47e7c2' },
-  { label: 'Client H', src: 'assets/clients/logoipsum-402.svg', color: '#99f7c8' },
-  { label: 'ISO 27001', src: 'assets/badge-iso-27001.svg', color: '#1ad79f' },
-  { label: 'ISO 50001', src: 'assets/badge-iso-50001.svg', color: '#5ee8c0' },
-  { label: 'Grid Leader', src: 'assets/badge-g2-grid-leader.svg', color: '#ff7448' },
-  { label: 'Security', src: 'assets/badge-g2-top50-security.svg', color: '#ff9a47' },
-  // ring 2 — 15 logos
-  { label: 'PHP', src: 'assets/php-logo.svg', color: '#8993be' },
-  { label: 'Java', src: 'assets/java-logo.svg', color: '#f89820' },
-  { label: 'cURL', src: 'assets/curl-logo.svg', color: '#f7f7f7' },
-  { label: 'OpenAI', src: 'assets/ai/openai-chatgpt.svg', color: '#12d99f' },
-  { label: 'Perplexity', src: 'assets/ai/perplexity.svg', color: '#20c8d9' },
-  { label: 'Client A', src: 'assets/clients/logoipsum-426.svg', color: '#52ffa8' },
-  { label: 'Client B', src: 'assets/clients/logoipsum-380.svg', color: '#58a6ff' },
-  { label: 'Client C', src: 'assets/clients/logoipsum-418.svg', color: '#f4f8f5' },
-  { label: 'Client D', src: 'assets/clients/logoipsum-430.svg', color: '#7dffdf' },
-  { label: 'Client E', src: 'assets/clients/logoipsum-360.svg', color: '#80a9ff' },
-  { label: 'Client F', src: 'assets/clients/logoipsum-367.svg', color: '#f6fff9' },
-  { label: 'Client G', src: 'assets/clients/logoipsum-414.svg', color: '#47e7c2' },
-  { label: 'Trustpilot', src: 'assets/ratings/trustpilot.svg', color: '#00b67a' },
-  { label: 'Capterra', src: 'assets/ratings/capterra.svg', color: '#2879ff' },
-  { label: 'G2', src: 'assets/ratings/g2.svg', color: '#ff6b3d' },
-];
-
-function makeBrandCanvas(label, color, texture, src, flag, circleFlag = false) {
-  const c = document.createElement('canvas');
-  c.width = c.height = 192;
-  const ctx = c.getContext('2d');
-
-  function paintBase() {
-    ctx.clearRect(0, 0, 192, 192);
-    ctx.beginPath();
-    ctx.arc(96, 96, 73, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(246, 251, 249, 0.96)';
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(96, 96, 73, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(255,255,255,0.82)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }
-
-  function paintFallback() {
-    paintBase();
-    const initials = label.split(/\s+/).map(part => part[0]).join('').slice(0, 3).toUpperCase();
-    const fs = initials.length > 2 ? 34 : initials.length > 1 ? 42 : 54;
-    ctx.font = `800 ${fs}px Inter,sans-serif`;
-    ctx.fillStyle = color;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(initials, 96, 98);
-    if (texture) {
-      texture.image = c;
-      texture.needsUpdate = true;
-    }
-  }
-
-  paintFallback();
-
-  if (flag && !src) {
-    paintFlag(flag);
-    if (texture) {
-      texture.image = c;
-      texture.needsUpdate = true;
-    }
-    return c;
-  }
-
-  if (src && texture) {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      if (!circleFlag) paintBase();
-      const maxW = circleFlag ? 146 : 104;
-      const maxH = circleFlag ? 146 : 64;
-      const ratio = Math.min(maxW / img.width, maxH / img.height, 1.2);
-      const w = img.width * ratio;
-      const h = img.height * ratio;
-      ctx.drawImage(img, 96 - w / 2, 96 - h / 2, w, h);
-      texture.image = c;
-      texture.needsUpdate = true;
-    };
-    img.onerror = paintFallback;
-    img.src = src;
-  }
-
-  return c;
-
-  function paintFlag(flag) {
-    paintBase();
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(96, 96, 54, 0, Math.PI * 2);
-    ctx.clip();
-
-    const x = 42, y = 62, w = 108, h = 68;
-    const stripe = (yy, hh, fill) => { ctx.fillStyle = fill; ctx.fillRect(x, y + yy, w, hh); };
-    const vstripe = (xx, ww, fill) => { ctx.fillStyle = fill; ctx.fillRect(x + xx, y, ww, h); };
-
-    if (flag === 'us') {
-      ctx.fillStyle = '#fff'; ctx.fillRect(x, y, w, h);
-      for (let i = 0; i < 7; i++) stripe(i * h / 7, h / 14, '#bf2438');
-      ctx.fillStyle = '#243a7a'; ctx.fillRect(x, y, 46, 37);
-      ctx.fillStyle = '#fff';
-      for (let row = 0; row < 4; row++) for (let col = 0; col < 5; col++) {
-        ctx.beginPath(); ctx.arc(x + 7 + col * 8, y + 6 + row * 8, 1.25, 0, Math.PI * 2); ctx.fill();
-      }
-    } else if (flag === 'uk') {
-      ctx.fillStyle = '#12327d'; ctx.fillRect(x, y, w, h);
-      ctx.strokeStyle = '#fff'; ctx.lineWidth = 17;
-      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + w, y + h); ctx.moveTo(x + w, y); ctx.lineTo(x, y + h); ctx.stroke();
-      ctx.strokeStyle = '#c8102e'; ctx.lineWidth = 8; ctx.stroke();
-      ctx.strokeStyle = '#fff'; ctx.lineWidth = 22;
-      ctx.beginPath(); ctx.moveTo(x + w / 2, y); ctx.lineTo(x + w / 2, y + h); ctx.moveTo(x, y + h / 2); ctx.lineTo(x + w, y + h / 2); ctx.stroke();
-      ctx.strokeStyle = '#c8102e'; ctx.lineWidth = 12; ctx.stroke();
-    } else if (flag === 'de') {
-      stripe(0, h / 3, '#111'); stripe(h / 3, h / 3, '#dd0000'); stripe(2 * h / 3, h / 3, '#ffce00');
-    } else if (flag === 'fr') {
-      vstripe(0, w / 3, '#244aa5'); vstripe(w / 3, w / 3, '#fff'); vstripe(2 * w / 3, w / 3, '#ed2939');
-    } else if (flag === 'jp') {
-      ctx.fillStyle = '#fff'; ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = '#bc002d'; ctx.beginPath(); ctx.arc(x + w / 2, y + h / 2, 20, 0, Math.PI * 2); ctx.fill();
-    } else if (flag === 'ca') {
-      vstripe(0, 28, '#d52b1e'); vstripe(28, 52, '#fff'); vstripe(80, 28, '#d52b1e');
-      ctx.fillStyle = '#d52b1e'; ctx.beginPath(); ctx.moveTo(96, 78); ctx.lineTo(106, 106); ctx.lineTo(96, 100); ctx.lineTo(86, 106); ctx.closePath(); ctx.fill();
-    } else if (flag === 'br') {
-      ctx.fillStyle = '#229e45'; ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = '#f8df1f'; ctx.beginPath(); ctx.moveTo(96, y + 8); ctx.lineTo(x + w - 12, 96); ctx.lineTo(96, y + h - 8); ctx.lineTo(x + 12, 96); ctx.closePath(); ctx.fill();
-      ctx.fillStyle = '#263a8b'; ctx.beginPath(); ctx.arc(96, 96, 20, 0, Math.PI * 2); ctx.fill();
-    } else if (flag === 'in') {
-      stripe(0, h / 3, '#ff9933'); stripe(h / 3, h / 3, '#fff'); stripe(2 * h / 3, h / 3, '#138808');
-      ctx.strokeStyle = '#1a4ba0'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(96, 96, 11, 0, Math.PI * 2); ctx.stroke();
-    } else {
-      ctx.fillStyle = '#12327d'; ctx.fillRect(x, y, w, h);
-      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x + 31, y + 23, 13, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#12327d'; ctx.beginPath(); ctx.arc(x + 36, y + 23, 13, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#fff';
-      for (const [sx, sy, r] of [[78, 24, 3], [89, 35, 2.4], [70, 44, 2.4], [84, 51, 2.8], [59, 33, 2]]) {
-        ctx.beginPath(); ctx.arc(x + sx, y + sy, r, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-    ctx.restore();
-  }
-}
-
-// ─── OGL Setup ────────────────────────────────────────────────────────────────
-const renderer = new Renderer({ dpr: Math.min(devicePixelRatio, 2), antialias: false, alpha: true, webgl2: true });
-const gl = renderer.gl;
-document.getElementById('gl-container').appendChild(gl.canvas);
-gl.clearColor(0, 0, 0, 0);
-
-const camera = new Camera(gl);
-// Slight elevation so the equatorial plane is seen at an angle (not edge-on),
-// matching morpho.org's framing — otherwise the centerAlpha void collapses to a flat line.
-camera.position.set(0, 1.15, 4.35);
-camera.perspective({ fov: 50, far: 200, near: 0.1, aspect: gl.canvas.width / gl.canvas.height });
-
-const scene = new Transform();
-const brandScene = new Transform();
-brandScene.setParent(scene);
-
-// ─── Particle System ──────────────────────────────────────────────────────────
-const NUM = 12000;
-const positions = new Float32Array(NUM * 3);
-
-function createParticle() {
-  // v: polar angle fraction, biased toward poles via skewed random
-  const v0  = randomBoolean(0.5) ? ai(3e-4, 0.48, -0.25) : 0.9997 - ai(0, 0.48, -0.25);
-  const r0  = randomRange(80, 200);         // initial radius (far for intro)
-  const rd  = randomRange(0.985, 1.015);    // target radius ≈ 1
-  const rs  = randomRange(0.9, 1.1);        // radius scale noise
-  const l   = randomRange(1.5e-4, 4.5e-4); // azimuth drift speed
-
-  // Orbit speed proportional to latitude (more at equator)
-  const orbitR = 0.022 - 0.022 * Math.abs(0.5 - v0) * 1.6;
-  const ou  = randomRange(1, 2) * orbitR * randomSign();
-  const ov  = randomRange(1, 2) * orbitR * randomSign();
-  const wob = 0.003 * randomRange(1, 5);   // wobble amplitude
-  const smt = randomRange(5, 16);          // smooth speed
-
-  const flipCheck = (v, dt) => (v < 0.1 || v > 0.9) && randomBoolean(1e-4 * dt);
-
-  const s = {
-    u: randomRange(0, 1),
-    v: v0,
-    vd: flipCheck(v0, 30) ? 1 - v0 : v0,
-    r: r0, r2: 1, r2d: 1, rd,
-    mu: 0, mv: 0,
-    mui: randomRange(0, 2 * Math.PI),
-    mvi: randomRange(0, 2 * Math.PI),
-    h: 0,
-    mdvu: 0, mdvv: 0, mdvud: 0, mdvvd: 0,
-  };
-
-  return {
-    get u()    { return s.u + s.mu + s.mdvu; },
-    get v()    { return s.v + s.mv + s.mdvv; },
-    get r()    { return s.r; },
-    get r2()   { return s.r2; },
-    get h()    { return s.h; },
-    set h(x)   { s.h = x; },
-    get mdvud(){ return s.mdvud; }, set mdvud(x){ s.mdvud = x; },
-    get mdvvd(){ return s.mdvvd; }, set mdvvd(x){ s.mdvvd = x; },
-
-    update(dt, frame) {
-      s.mdvud *= 0.92;
-      s.mdvvd *= 0.92;
-      s.mdvu  -= (s.mdvu - s.mdvud) / (100 / dt);
-      s.mdvv  -= (s.mdvv - s.mdvvd) / (100 / dt);
-
-      s.u -= l * dt;
-
-      if (Math.abs(s.v - s.vd) > 0.05) {
-        const e = 0.5 - Math.abs(0.5 - s.v);
-        s.r2d   = 1 - Math.min(0.8, 2 * e) * rs;
-        s.u    += l * dt * 3;
-      } else {
-        s.r2d = 1;
-      }
-
-      s.r2 -= (s.r2 - s.r2d) / (10 / dt);
-      s.v  -= (s.v - s.vd)   / (frame < 40 ? 30 : 400 / dt);
-      s.r  -= (s.r - s.rd - s.h) / (smt / dt);
-
-      if (s.v > 0.05 && s.v < 0.95) {
-        const e  = 1 + 40 * s.h;
-        s.mui   += ou * dt * e;
-        s.mvi   += ov * dt * e;
-        s.mu     = Math.sin(s.mui) * wob;
-        s.mv     = Math.cos(s.mvi) * wob;
-      }
-
-      // Random hemisphere flip when at poles
-      const flipDt = dt * (frame < 60 ? (60 - frame) * 0.3 : 1);
-      if (flipCheck(s.v, flipDt)) s.vd = 1 - s.vd;
-    },
-
-    reset() { s.r = r0; s.rd = rd; },
-  };
-}
-
-const particles = Array.from({ length: NUM }, createParticle);
-
-// ─── Geometry + Program ───────────────────────────────────────────────────────
-const geometry = new Geometry(gl, {
-  position: { size: 3, data: positions },
-});
-
-const program = new Program(gl, {
-  vertex:   VERT,
-  fragment: FRAG,
-  uniforms: {
-    // Declare these so OGL auto-updates them each frame
-    modelViewMatrix:  { value: new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]) },
-    projectionMatrix: { value: new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]) },
-    time:          { value: 0 },
-    pointSize:     { value: window.innerHeight / 1024 },
-    mousePosition: { value: [0, 0] },
-    hasMouseMoved: { value: false },
-    lessDotAlpha:  { value: 1.0 },
-  },
-  transparent: true,
-  depthWrite:  false,
-  depthTest:   false,
-});
-
-// Force additive blending (SRC_ALPHA, ONE) — same as original
-program.blendFunc = { src: gl.SRC_ALPHA, dst: gl.ONE };
-
-const mesh = new Mesh(gl, { geometry, program, mode: gl.POINTS });
-mesh.rotation.x = Math.PI / 2;
-mesh.setParent(scene);
-
-// ─── Center logo (dissolve) — ROLA mark, rendered white ───────────────────────
-const logoTex = new Texture(gl, {
-  generateMipmaps: false,
-  minFilter: gl.LINEAR, magFilter: gl.LINEAR,
-  wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE,
-});
-// ROLA graphic mark (same paths as the nav logo) in white, centered on a
-// transparent square so the dissolve shader gets clean rgb=white + alpha=shape.
-const ROLA_LOGO_SVG =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">' +
-    '<g transform="translate(64 96) scale(16)" fill="#ffffff">' +
-      '<path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/>' +
-      '<path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity="0.4"/>' +
-    '</g>' +
-  '</svg>';
-const logoCanvas = document.createElement('canvas');
-logoCanvas.width = logoCanvas.height = 512;
-const logoImg = new Image();
-logoImg.onload = () => {
-  const ctx = logoCanvas.getContext('2d');
-  ctx.clearRect(0, 0, 512, 512);
-  ctx.drawImage(logoImg, 0, 0, 512, 512);
-  logoTex.image = logoCanvas;
-  logoTex.needsUpdate = true;
-};
-logoImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(ROLA_LOGO_SVG);
-
-const logoProgram = new Program(gl, {
-  vertex:   LOGO_VERT,
-  fragment: LOGO_FRAG,
-  uniforms: {
-    modelViewMatrix:  { value: new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]) },
-    projectionMatrix: { value: new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]) },
-    textureMap: { value: logoTex },
-    opacity:    { value: 1 },
-    dissolve:   { value: 0 },
-    frame:      { value: 0 },
-  },
-  transparent: true,
-  depthWrite:  false,
-  depthTest:   false,
-});
-logoProgram.blendFunc = { src: gl.SRC_ALPHA, dst: gl.ONE }; // additive, same as particles
-
-const logoMesh = new Mesh(gl, {
-  geometry: new Plane(gl, { width: 0.42, height: 0.42 }),
-  program:  logoProgram,
-});
-logoMesh.setParent(scene);
-
-// ─── Brand orbit rings ───────────────────────────────────────────────────────
-const ORBIT_LAYERS    = [12, 20];     // logos per ring
-const ORBIT_R_START   = 0.52;         // inner ring radius
-const ORBIT_R_END     = 1.18;         // outer ring radius
-const ORBIT_SPEED     = 0.001;        // revolution speed (slow, like Morpho)
-const ORBIT_SIZE      = 0.092;        // logo quad world size
-const ORBIT_R_DECAY   = 0.055;        // effective radius decay per layer
-const ORBIT_SCALE_DEC   = 0.16;  // outer rings scale down
-const ORBIT_INNER_R_SCALE = 0.78;  // inner ring orbit radius
-const ORBIT_OUTER_R_SCALE = 0.86;  // outer ring orbit radius
-const ORBIT_ALPHA_DEC   = 0.05;  // outer rings slightly less opaque
-const ORBIT_RETRACT     = 0.12;  // rings retract toward center when zoomed in
-const ORBIT_RETRACT_SPD = 20;    // damping speed for retract
-
-let brandT = 0;
-const brandObjects = [];
-let bdIdx = 0;
-
-ORBIT_LAYERS.forEach((count, layerIdx) => {
-  // Morpho formula: frac = layerIdx / totalLayers (NOT length-1)
-  const frac   = layerIdx / ORBIT_LAYERS.length;
-  const baseRRaw = ORBIT_R_START + frac * (ORBIT_R_END - ORBIT_R_START);
-  const baseR  = layerIdx === 0 ? baseRRaw * ORBIT_INNER_R_SCALE : baseRRaw * ORBIT_OUTER_R_SCALE;
-  const dir    = layerIdx % 2 === 0 ? 1 : -1;  // alternate CW / CCW
-
-  for (let i = 0; i < count; i++) {
-    if (bdIdx >= BRAND_DATA.length) break;
-    const data = BRAND_DATA[bdIdx++];
-    const phi  = (i / count) * Math.PI * 2;
-
-    const tex = new Texture(gl, {
-      generateMipmaps: false, minFilter: gl.LINEAR, magFilter: gl.LINEAR,
-      wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE,
-    });
-    tex.image       = makeBrandCanvas(data.label, data.color, tex, data.src, data.flag, data.circleFlag);
-    tex.needsUpdate = true;
-
-    const prog = new Program(gl, {
-      vertex:   LOGO_VERT,
-      fragment: BRAND_FRAG,
-      uniforms: {
-        modelViewMatrix:  { value: new Float32Array(16) },
-        projectionMatrix: { value: new Float32Array(16) },
-        textureMap: { value: tex },
-        opacity:    { value: 0 },
-        focus:      { value: layerIdx === 0 ? 1 : 0 },
-      },
-      transparent: true,
-      depthWrite: false,
-      depthTest:  false,
-    });
-    prog.blendFunc = { src: gl.SRC_ALPHA, dst: gl.ONE_MINUS_SRC_ALPHA };
-
-    const plane = new Mesh(gl, {
-      geometry: new Plane(gl, { width: ORBIT_SIZE, height: ORBIT_SIZE }),
-      program: prog,
-    });
-    plane.setParent(brandScene);
-    plane.scale.set(0.00001);
-
-    brandObjects.push({
-      plane, prog, phi, baseR, dir, layerIdx,
-      curR: baseR,   // damped current radius (for retract effect)
-      curScale: 0,
-      focus: layerIdx === 0 ? 1 : 0,
-      focusVelocity: 0,
-    });
-  }
-});
-
-function updateBrands(dt, scrollProg, activeSegment) {
-  brandT += ORBIT_SPEED * dt;
-  // Morpho formula: k = limitRange(0, -1 + 2*scrollProg, 1)  →  k starts at scrollProg=0.5
-  const k = limitRange(0, -1 + 2 * scrollProg, 1);
-
-  brandObjects.forEach((b, i) => {
-    // Retract rings toward center as zoom progresses (brandRetractFactor=0.4)
-    const retractedR = b.baseR * (1 - k * ORBIT_RETRACT);
-    b.curR -= (b.curR - retractedR) / (ORBIT_RETRACT_SPD / dt);
-
-    const angle = b.phi + brandT * b.dir;
-    // Apply circle radius decay per layer (brandCircleRadiusDecay=0.13)
-    const effR  = b.curR * (1 - b.layerIdx * ORBIT_R_DECAY);
-
-    b.plane.position.x = Math.sin(angle) * effR;
-    b.plane.position.y = Math.cos(angle) * effR;
-    b.plane.position.z = 0.05 + i * 0.0008;
-
-    // Scale grows with k; outer layers scale down (brandLayerScaleDecay=0.28)
-    const scaleK = k > 0.005 ? k * (1 - b.layerIdx * ORBIT_SCALE_DEC) : 0;
-    b.curScale  += (scaleK - b.curScale) * Math.min(1, 0.08 * dt);
-    b.plane.scale.set(Math.max(0.00001, b.curScale));
-
-    // Opacity: outer layers slightly less opaque (brandLayerOpacityDecay=0.04)
-    const alpha = limitRange(0, k * (1 - b.layerIdx * ORBIT_ALPHA_DEC), 1);
-    b.prog.uniforms.opacity.value = alpha;
-
-    const targetFocus = b.layerIdx === activeSegment ? 1 : 0;
-    const focusStiffness = 0.055;
-    const focusDamping = 0.78;
-    b.focusVelocity += (targetFocus - b.focus) * focusStiffness * dt;
-    b.focusVelocity *= Math.pow(focusDamping, dt);
-    b.focus = limitRange(0, b.focus + b.focusVelocity * dt, 1);
-    b.prog.uniforms.focus.value = b.focus;
-  });
-}
-
-// Logo/camera progress is damped toward the wheel target for a softer zoom.
-let scrollProgress = 0;          // damped value used for camera/rendering
-let scrollTarget   = 0;          // direct wheel intent
-let scrollVelocity = 0;
-let logoOpacity    = 1;
-window.addEventListener('wheel', e => {
-  if (e.deltaY > 0) homeUiReturnLock = false;
-  scrollTarget = limitRange(0, scrollTarget + e.deltaY * 0.0012, 2);
-}, { passive: true });
-
-// ─── Mouse interaction ────────────────────────────────────────────────────────
-// Mouse position in [-0.5, 0.5] normalized screen space
-const mouse  = { x: 0, y: 0 };
-const smooth = { x: 0, y: 0 };
-let mouseMoved = false;
-
-window.addEventListener('mousemove', e => {
-  mouse.x    = e.clientX / window.innerWidth  - 0.5;
-  mouse.y    = e.clientY / window.innerHeight - 0.5;
-  mouseMoved = true;
-});
-window.addEventListener('touchmove', e => {
-  const t = e.touches[0];
-  mouse.x = t.clientX / window.innerWidth  - 0.5;
-  mouse.y = t.clientY / window.innerHeight - 0.5;
-  mouseMoved = true;
-}, { passive: true });
-
-// Project particle local pos → screen [-0.5, 0.5] for hover detection
-function projectToScreen(lx, ly, lz) {
-  // mesh.rotation.x = PI/2: local(x,y,z) → world(x, -z, y)
-  const wx = lx, wy = -lz, wz = ly;
-
-  const vx = wx - camera.position.x;
-  const vy = wy - camera.position.y;
-  const vz = wz - camera.position.z;   // view depth (negative = in front when camera.z > 0)
-
-  const f   = 1.0 / Math.tan((50 * Math.PI / 180) / 2);
-  const ar  = window.innerWidth / window.innerHeight;
-  const cw  = -vz;             // perspective divide (positive = in front of camera)
-  if (cw <= 0) return null;
-  return { x: (f / ar * vx) / cw / 2, y: (f * vy) / cw / 2 };
-}
-
-// ─── Resize ───────────────────────────────────────────────────────────────────
-function resize() {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.perspective({ fov: 50, far: 200, near: 0.1, aspect: gl.canvas.width / gl.canvas.height });
-  program.uniforms.pointSize.value = window.innerHeight / 1024;
-}
-window.addEventListener('resize', resize);
-resize();
-
-// ─── Particle update + position buffer write ──────────────────────────────────
-function updateParticles(dt, frame) {
-  mesh.updateMatrixWorld();
-
-  for (let i = 0; i < NUM; i++) {
-    const p = particles[i];
-    p.update(dt, frame);
-
-    const az   = 2 * Math.PI * p.u;
-    const pol  = Math.acos(Math.max(-1, Math.min(1, 2 * p.v - 1)));
-    const sinP = Math.sin(pol);
-    const px   = sinP * Math.cos(az) * p.r * p.r2;
-    const py   = sinP * Math.sin(az) * p.r * p.r2;
-    const pz   = Math.cos(pol) * p.r;
-
-    // Mouse proximity → push particles
-    if (mouseMoved && py > -0.15 && pz > -0.82) {
-      const sc = projectToScreen(px, py, pz);
-      if (sc) {
-        const facing = 1 + Math.min(0, py / 0.15);
-        const dist   = distPts(sc, smooth);
-        if (dist < 0.06) {
-          const edge   = 0.06 - dist;
-          const latFac = limitRange(0.2, p.v < 0.5 ? 10 * p.v : 10 - 10 * p.v, 1);
-          p.h          = 1.4 * edge * facing;
-          p.mdvud     -= 230 * (mouse.x - smooth.x) * edge * facing * latFac;
-          p.mdvvd     += 230 * (mouse.y - smooth.y) * edge * facing * latFac;
-        } else {
-          p.h = 0;
+  </script>
+
+  <script>
+    // ─── Cover content: scroll-reveal, arrows, drag-scroll, FAQ, code tabs, marquee ──
+    (function () {
+      var scrollRoot = document.querySelector('.home-cover__scroll');
+      if (!scrollRoot) return;
+
+      // Inject the animated corner arrows
+      var ARROW =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.676 8.323 8.322 15.677"/><path d="M8.323 8.323H15.677V15.677"/></svg>';
+      document.querySelectorAll('.bfs-tile__arrow').forEach(function (el) {
+        el.innerHTML = ARROW + ARROW;
+      });
+      var CTA_ARROW =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>';
+      document.querySelectorAll('.bfs-panel__cta').forEach(function (el) {
+        el.insertAdjacentHTML('beforeend', CTA_ARROW);
+      });
+
+      // Scroll-reveal — wait for .anim (WebGL entrance) before observing,
+      // otherwise elements that are already in-view would appear instantly.
+      function setupScrollReveal() {
+        if (!('IntersectionObserver' in window)) {
+          document.querySelectorAll('[data-reveal],.bfs-panel').forEach(function (el) { el.classList.add('in'); });
+          return;
         }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('in');
+              io.unobserve(e.target);
+            }
+          });
+        }, { root: scrollRoot, threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+        var bfsIO = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-in');
+              bfsIO.unobserve(e.target);
+            }
+          });
+        }, { root: scrollRoot, threshold: 0.22, rootMargin: '0px 0px -8% 0px' });
+        document.querySelectorAll('.bfs-panel').forEach(function (p) { bfsIO.observe(p); });
+        document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
+      }
+
+      if (document.documentElement.classList.contains('anim')) {
+        setupScrollReveal();
       } else {
-        p.h = 0;
+        var animObserver = new MutationObserver(function (mutations) {
+          mutations.forEach(function (m) {
+            if (m.type === 'attributes' && m.attributeName === 'class') {
+              if (document.documentElement.classList.contains('anim')) {
+                animObserver.disconnect();
+                setupScrollReveal();
+              }
+            }
+          });
+        });
+        animObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
       }
-    } else {
-      p.h = 0;
-    }
 
-    positions[i * 3]     = px;
-    positions[i * 3 + 1] = py;
-    positions[i * 3 + 2] = pz;
-  }
+      // Drag-to-scroll for each logo row
+      document.querySelectorAll('[data-bfs-drag]').forEach(function (row) {
+        var down = false, startX = 0, startLeft = 0, moved = 0;
+        row.addEventListener('pointerdown', function (e) {
+          down = true; moved = 0;
+          startX = e.clientX; startLeft = row.scrollLeft;
+          row.setPointerCapture(e.pointerId);
+        });
+        row.addEventListener('pointermove', function (e) {
+          if (!down) return;
+          var dx = e.clientX - startX;
+          if (Math.abs(dx) > 3) row.classList.add('is-dragging');
+          moved = Math.max(moved, Math.abs(dx));
+          row.scrollLeft = startLeft - dx;
+        });
+        var end = function (e) {
+          if (!down) return;
+          down = false;
+          row.classList.remove('is-dragging');
+          try { row.releasePointerCapture(e.pointerId); } catch (err) {}
+        };
+        row.addEventListener('pointerup', end);
+        row.addEventListener('pointercancel', end);
+        row.addEventListener('click', function (e) {
+          if (moved > 5) { e.preventDefault(); e.stopPropagation(); }
+        }, true);
+        row.addEventListener('wheel', function (e) {
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            row.scrollLeft += e.deltaY;
+            e.preventDefault();
+          }
+        }, { passive: false });
+      });
 
-  geometry.attributes.position.needsUpdate = true;
-}
+      // ─── FAQ accordion ──────────────────────────────────────────────────────
+      document.querySelectorAll('.faq-item__q').forEach(function (q) {
+        q.addEventListener('click', function () {
+          var item = q.parentElement;
+          var open = item.classList.contains('open');
+          document.querySelectorAll('.faq-item.open').forEach(function (i) { i.classList.remove('open'); i.querySelector('.faq-item__a').style.maxHeight = null; });
+          if (!open) { item.classList.add('open'); var a = item.querySelector('.faq-item__a'); a.style.maxHeight = a.scrollHeight + 'px'; }
+        });
+      });
 
-// ─── UI elements for scroll-driven exit ──────────────────────────────────────
-const rootEl = document.documentElement;
-const orbitCopyEl = document.querySelector('.orbit-copy');
-const orbitCopyLabelEl = document.querySelector('.orbit-copy__stat-label');
-const orbitCopyValueEl = document.querySelector('.orbit-copy__stat-value');
-const ORBIT_COPY_STATES = [
-  { label: 'Supported Countries', value: '265' },
-  { label: 'Support Services', value: '10,000' },
-];
-let activeOrbitSegment = 0;
-let renderedOrbitSegment = -1;
-let homeUiWasExiting = false;
-let homeUiReturnTimer = null;
-let homeUiReturnLock = false;
+      // ─── Code block tabs ────────────────────────────────────────────────────
+      (function () {
+        var codeTabs = {
+          curl: { label: 'cURL', lines: [
+            '# Route any request through your ISP gateway',
+            'curl -x http://USER:PASS@gate.rola-ip.com:PORT \\',
+            '     "https://ipinfo.io/json"',
+            '',
+            '# Pin a country with a session token',
+            'curl -x http://USER-country-us-session-a1b2:PASS@gate.rola-ip.com:PORT \\',
+            '     "https://ipinfo.io/json"'
+          ]},
+          python: { label: 'Python', lines: [
+            'import requests',
+            '',
+            'proxy = "http://USER:PASS@gate.rola-ip.com:PORT"',
+            'proxies = {"http": proxy, "https": proxy}',
+            '',
+            'r = requests.get("https://ipinfo.io/json", proxies=proxies)',
+            'print(r.json())  # {"ip": "...", "country": "US", ...}'
+          ]},
+          javascript: { label: 'JavaScript', lines: [
+            'import axios from "axios";',
+            'import { HttpsProxyAgent } from "https-proxy-agent";',
+            '',
+            'const agent = new HttpsProxyAgent(',
+            '  "http://USER:PASS@gate.rola-ip.com:PORT"',
+            ');',
+            '',
+            'const { data } = await axios.get("https://ipinfo.io/json", { httpsAgent: agent });',
+            'console.log(data);'
+          ]},
+          go: { label: 'Go', lines: [
+            'package main',
+            '',
+            'import ("net/http"; "net/url")',
+            '',
+            'func main() {',
+            '  proxyURL, _ := url.Parse("http://USER:PASS@gate.rola-ip.com:PORT")',
+            '  client := &http.Client{',
+            '    Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},',
+            '  }',
+            '  resp, _ := client.Get("https://ipinfo.io/json")',
+            '  defer resp.Body.Close()',
+            '}'
+          ]},
+          java: { label: 'Java', lines: [
+            'System.setProperty("https.proxyHost", "gate.rola-ip.com");',
+            'System.setProperty("https.proxyPort", "PORT");',
+            '',
+            'Authenticator.setDefault(new Authenticator() {',
+            '  protected PasswordAuthentication getPasswordAuthentication() {',
+            '    return new PasswordAuthentication("USER", "PASS".toCharArray());',
+            '  }',
+            '});',
+            '',
+            'URL url = new URL("https://ipinfo.io/json");',
+            'HttpURLConnection conn = (HttpURLConnection) url.openConnection();'
+          ]},
+          php: { label: 'PHP', lines: [
+            '$ch = curl_init("https://ipinfo.io/json");',
+            'curl_setopt($ch, CURLOPT_PROXY, "http://gate.rola-ip.com:PORT");',
+            'curl_setopt($ch, CURLOPT_PROXYUSERPWD, "USER:PASS");',
+            'curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);',
+            '$response = curl_exec($ch);',
+            'curl_close($ch);',
+            'echo $response;'
+          ]}
+        };
+        var activeTab = 'curl';
+        function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        function highlight(text) {
+          if (!text) return '';
+          if (text.trim()[0] === '#' || text.trim().startsWith('//')) {
+            return '<span style="color:rgba(255,255,255,0.35)">' + esc(text) + '</span>';
+          }
+          var pat = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\b(?:import|from|const|let|var|return|for|if|func|defer|package|await|new|true|false|null)\b|\b(?:curl|requests|print|echo)\b|\b(?:log|get|post)\b|\b\d+\b)/g;
+          var res = '', last = 0, m;
+          while ((m = pat.exec(text)) !== null) {
+            res += esc(text.slice(last, m.index));
+            var t = m[0], c = '#c478ff';
+            if (t[0] === '"' || t[0] === "'") c = '#3fa4ff';
+            else if (/^(import|from|const|let|var|return|for|if|func|defer|package|await|new|true|false|null)$/.test(t)) c = '#ff32c6';
+            else if (/^(curl|requests|print|echo)$/.test(t)) c = '#ffac60';
+            else if (/^(log|get|post)$/.test(t)) c = '#1ac69c';
+            else if (/^\d+$/.test(t)) c = '#ff32c6';
+            res += '<span style="color:' + c + '">' + esc(t) + '</span>';
+            last = m.index + t.length;
+          }
+          return res + esc(text.slice(last));
+        }
+        function renderPane(tab) {
+          return codeTabs[tab].lines.map(function (line, i) {
+            return '<span class="th-ln">' + (i + 1) + '</span><span class="th-lc">' + highlight(line) + '</span>';
+          }).join('');
+        }
+        var bar = document.getElementById('codeTabsBar');
+        var display = document.getElementById('codeDisplay');
+        var copyBtn = document.getElementById('copyBtn');
+        if (!bar || !display) return;
+        bar.innerHTML = Object.keys(codeTabs).map(function (k) {
+          return '<button class="codetab' + (k === activeTab ? ' active' : '') + '" data-tab="' + k + '">' + codeTabs[k].label + '</button>';
+        }).join('');
+        display.innerHTML = renderPane(activeTab);
+        bar.querySelectorAll('.codetab').forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            bar.querySelectorAll('.codetab').forEach(function (t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            activeTab = tab.dataset.tab;
+            display.innerHTML = renderPane(activeTab);
+          });
+        });
+        if (copyBtn) {
+          copyBtn.addEventListener('click', function () {
+            var text = codeTabs[activeTab].lines.join('\n');
+            navigator.clipboard.writeText(text).then(function () {
+              copyBtn.classList.add('copied');
+              setTimeout(function () { copyBtn.classList.remove('copied'); }, 1800);
+            }).catch(function () {});
+          });
+        }
+      })();
 
-function clearHomeUiInlineStyles() {
-  document.querySelectorAll('#nav,.home-hero-eyebrow,.home-hero-h1,.home-stat,.scroll-cue').forEach(el => {
-    el.style.opacity = '';
-    el.style.transform = '';
-    el.style.filter = '';
-  });
-}
+      // ─── Marquee pause on logo hover ───────────────────────────────────────
+      (function () {
+        var tracks = document.querySelectorAll('.marquee__track');
+        document.querySelectorAll('.logo-ph').forEach(function (logo) {
+          logo.addEventListener('mouseenter', function () { tracks.forEach(function (t) { t.style.animationPlayState = 'paused'; }); });
+          logo.addEventListener('mouseleave', function () { tracks.forEach(function (t) { t.style.animationPlayState = ''; }); });
+        });
+      })();
 
-function resetOrbitCopyTextAnimation() {
-  if (!orbitCopyLabelEl || !orbitCopyValueEl) return;
-  orbitCopyLabelEl.style.animation = 'none';
-  orbitCopyValueEl.style.animation = 'none';
-  orbitCopyLabelEl.offsetHeight;
-  orbitCopyValueEl.offsetHeight;
-  orbitCopyLabelEl.style.animation = '';
-  orbitCopyValueEl.style.animation = '';
-}
-
-function showOrbitCopySegment(segment) {
-  if (!orbitCopyEl || !orbitCopyLabelEl || !orbitCopyValueEl) return;
-  const nextState = ORBIT_COPY_STATES[segment];
-  renderedOrbitSegment = segment;
-  orbitCopyEl.classList.remove('is-visible');
-  orbitCopyLabelEl.textContent = nextState.label;
-  orbitCopyValueEl.textContent = nextState.value;
-  resetOrbitCopyTextAnimation();
-  requestAnimationFrame(() => orbitCopyEl.classList.add('is-visible'));
-}
-
-function hideOrbitCopy() {
-  if (!orbitCopyEl) return;
-  orbitCopyEl.classList.remove('is-visible');
-  renderedOrbitSegment = -1;
-}
-
-function replayHomeUiEntrance() {
-  clearHomeUiInlineStyles();
-  scrollTarget = 0;
-  scrollProgress = 0;
-  scrollVelocity = 0;
-  homeUiReturnLock = true;
-  rootEl.classList.remove('home-ui-returning');
-  // Keep the exit state during the reflow so presented styles cannot flash in.
-  rootEl.offsetHeight;
-  rootEl.classList.add('home-ui-returning');
-  rootEl.classList.remove('home-ui-exiting');
-  clearTimeout(homeUiReturnTimer);
-  homeUiReturnTimer = setTimeout(() => {
-    rootEl.classList.remove('home-ui-returning');
-  }, 1500);
-}
-
-function syncHomeUiExit() {
-  const uiScroll = Math.max(scrollTarget, scrollProgress);
-  if (homeUiReturnLock && uiScroll < 0.12) {
-    rootEl.classList.remove('home-ui-exiting');
-    return;
-  }
-  if (uiScroll > 0.035) {
-    homeUiWasExiting = true;
-    rootEl.classList.remove('home-ui-returning');
-    rootEl.classList.add('home-ui-exiting');
-  } else if (scrollTarget < 0.008 && scrollProgress < 0.008) {
-    if (homeUiWasExiting) {
-      homeUiWasExiting = false;
-      replayHomeUiEntrance();
-    } else {
-      rootEl.classList.remove('home-ui-exiting');
-    }
-  }
-}
-
-// ─── Animation Loop ───────────────────────────────────────────────────────────
-const TARGET_MS = 1000 / 60;
-let startMs     = null;
-let lastMs      = null;
-let frameAccum  = 0;
-let textReady   = false;
-let textVisible = false;
-let uiPresented = false;
-let orbitCopyRevealFrames = 0;
-
-function loop(nowMs) {
-  requestAnimationFrame(loop);
-
-  if (!startMs) { startMs = nowMs; lastMs = nowMs; }
-  const elapsed = nowMs - lastMs;
-  lastMs = nowMs;
-
-  const dt = limitRange(0.1, elapsed / TARGET_MS, 3);
-  frameAccum += dt;
-
-  const spring = 0.105;
-  const damping = 0.68;
-  scrollVelocity += (scrollTarget - scrollProgress) * spring * dt;
-  scrollVelocity *= Math.pow(damping, dt);
-  scrollProgress = limitRange(0, scrollProgress + scrollVelocity * dt, 2);
-  if ((scrollProgress === 0 && scrollVelocity < 0) || (scrollProgress === 2 && scrollVelocity > 0)) {
-    scrollVelocity = 0;
-  }
-  const sceneProgress = limitRange(0, scrollProgress, 1);
-  const zoomProgress = sceneProgress * sceneProgress * (3 - 2 * sceneProgress);
-  activeOrbitSegment = scrollProgress < 1.9 ? 0 : 1;
-
-  // Smooth mouse
-  const c = 14 / dt;
-  smooth.x -= (smooth.x - mouse.x) / c;
-  smooth.y -= (smooth.y - mouse.y) / c;
-
-  // Scroll dollies the camera toward the sphere → it grows to fill the view
-  // (morpho.org's "scroll = zoom in" effect). At full scroll the camera ends
-  // up close enough that the sphere overflows the screen edges. baseY also
-  // eases to 0 so the camera faces the sphere head-on and it stays centred.
-  const baseZ = 4.35, nearZ = 1.2;
-  const targetZ = baseZ - (baseZ - nearZ) * zoomProgress;
-  const baseY   = 1.15 * (1 - zoomProgress);
-
-  // Camera gently follows mouse, drifting around its base position.
-  // Fade the follow out as we zoom in (scrollProgress → 1) so the enlarged
-  // sphere stays put instead of swaying with the mouse (which feels dizzying).
-  const cc     = 8 / dt;
-  const follow = 0.7 * (1 - zoomProgress);
-  camera.position.x -= (camera.position.x - (0     - smooth.x * follow)) / cc;
-  camera.position.y -= (camera.position.y - (baseY + smooth.y * follow)) / cc;
-  camera.position.z -= (camera.position.z - targetZ)                     / cc;
-
-  // lookAt Y eases from 0.4 → 0 as scroll progresses, centering the sphere
-  const lookY = 0.4 * Math.max(0, 1 - zoomProgress * 2.5);
-  camera.lookAt(new Vec3(0, lookY, 0));
-
-  // Update particle shader uniforms
-  program.uniforms.time.value          = (nowMs - startMs) / 1000;
-  program.uniforms.mousePosition.value = [2 * smooth.x, -2 * smooth.y];
-  program.uniforms.hasMouseMoved.value = mouseMoved;
-  // Scroll thins particles out (morpho's lessDotAlpha), matching the logo dissolve
-  program.uniforms.lessDotAlpha.value  = limitRange(0, 1 - 1.15 * zoomProgress, 1);
-
-  // Drive butterfly logo: intro dissolve via ever-growing counter, exit via opacity
-  logoOpacity -= (logoOpacity - (1 - zoomProgress)) / (8 / dt);
-  logoProgram.uniforms.opacity.value  = logoOpacity;
-  logoProgram.uniforms.dissolve.value = frameAccum;
-  logoProgram.uniforms.frame.value    = frameAccum;
-
-  updateParticles(dt, frameAccum);
-  updateBrands(dt, sceneProgress, activeOrbitSegment);
-
-  // Trigger text entrance once sphere has fully formed (~100 frames ≈ 1.7s at 60fps)
-  if (!textReady && frameAccum > 100) {
-    textReady   = true;
-    textVisible = true;
-    rootEl.classList.add('anim');
-  }
-  if (!uiPresented && frameAccum > 155) {
-    uiPresented = true;
-    rootEl.classList.add('home-ui-presented');
-  }
-
-  // As the sphere expands, the entire homepage UI performs one staged exit.
-  if (textVisible) syncHomeUiExit();
-  if (orbitCopyEl) {
-    if (sceneProgress > 0.62) {
-      orbitCopyRevealFrames += dt;
-    } else {
-      orbitCopyRevealFrames = 0;
-    }
-
-    const copyReady = orbitCopyRevealFrames > 8;
-    if (copyReady) {
-      if (activeOrbitSegment !== renderedOrbitSegment) {
-        showOrbitCopySegment(activeOrbitSegment);
-      }
-    } else if (sceneProgress < 0.82) {
-      hideOrbitCopy();
-    }
-  }
-
-  // All objects in one pass — OGL applies per-program blendFunc per object
-  gl.enable(gl.BLEND);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-  renderer.render({ scene, camera });
-}
-
-requestAnimationFrame(loop);
+      // ─── Smooth anchor scroll within the cover ─────────────────────────────
+      (function () {
+        document.querySelectorAll('.home-cover__scroll a[href^="#"]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            var id = a.getAttribute('href');
+            if (id === '#') return;
+            var el = document.querySelector(id);
+            if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+          });
+        });
+      })();
+    })();
   </script>
 
   <script src="assets/site-i18n.js"></script>
@@ -1336,6 +1506,121 @@ requestAnimationFrame(loop);
         });
       }
     })();
+  </script>
+
+  <!-- COBE globe (geo coverage) -->
+  <script type="module">
+    import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@latest/+esm';
+    const globeCanvas = document.getElementById('cobe-globe');
+    if (globeCanvas) {
+      let globe, frame, phi = 0;
+      function rotateGlobe() {
+        phi += 0.003;
+        if (globe) globe.update({ phi });
+        frame = requestAnimationFrame(rotateGlobe);
+      }
+      function mountGlobe() {
+        if (globe) globe.destroy();
+        cancelAnimationFrame(frame);
+        frame = null;
+        const geoWrap = document.querySelector('.geo__globe-wrap') || globeCanvas.parentElement;
+        const rect = geoWrap.getBoundingClientRect();
+        const size = Math.max(320, Math.round((rect.width || 460) * 0.98));
+        globeCanvas.style.width = size + 'px';
+        globeCanvas.style.height = size + 'px';
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        globe = createGlobe(globeCanvas, {
+          devicePixelRatio: dpr, width: size, height: size, phi, theta: 0.2,
+          dark: 0, diffuse: 1.2, mapSamples: 8000, mapBrightness: 6, mapBaseBrightness: 0,
+          baseColor: [1, 1, 1], markerColor: [0.1, 0.66, 0.34], glowColor: [1, 1, 1],
+        });
+        globe.update({ phi });
+        if (visible) frame = requestAnimationFrame(rotateGlobe);
+      }
+      let visible = false;
+      const observer = new IntersectionObserver(entries => {
+        visible = entries[0].isIntersecting;
+        if (visible && !frame) frame = requestAnimationFrame(rotateGlobe);
+        if (!visible) { cancelAnimationFrame(frame); frame = null; }
+      }, { threshold: 0 });
+      observer.observe(globeCanvas);
+      mountGlobe();
+      window.addEventListener('resize', mountGlobe, { passive: true });
+    }
+  </script>
+
+  <!-- Light rays WebGL (compliance section) -->
+  <script type="module">
+    import { Renderer, Program, Triangle, Mesh } from 'https://esm.sh/ogl';
+    const hexToRgb = hex => {
+      const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return m ? [parseInt(m[1],16)/255, parseInt(m[2],16)/255, parseInt(m[3],16)/255] : [1,1,1];
+    };
+    const getAnchorAndDir = (origin, w, h) => {
+      const o = 0.2;
+      switch(origin) {
+        case 'top-left':      return { anchor:[0,-o*h],       dir:[0,1] };
+        case 'top-right':     return { anchor:[w,-o*h],       dir:[0,1] };
+        case 'left':          return { anchor:[-o*w,.5*h],    dir:[1,0] };
+        case 'right':         return { anchor:[(1+o)*w,.5*h], dir:[-1,0] };
+        case 'bottom-left':   return { anchor:[0,(1+o)*h],    dir:[0,-1] };
+        case 'bottom-center': return { anchor:[.5*w,(1+o)*h], dir:[0,-1] };
+        case 'bottom-right':  return { anchor:[w,(1+o)*h],    dir:[0,-1] };
+        default:              return { anchor:[.5*w,-o*h],    dir:[0,1] };
+      }
+    };
+    const container = document.getElementById('light-rays-bg');
+    if (container) {
+      const raysOrigin = 'top-center', raysColor = '#ffffff', raysSpeed = 1;
+      const lightSpread = 2.5, rayLength = 4;
+      const pulsating = false, fadeDistance = 1.5, saturation = 1.0;
+      const mouseInfluence = 0.0, noiseAmount = 0.0, distortion = 0.0;
+      const mouse = { x:.5, y:.5 }, smoothMouse = { x:.5, y:.5 };
+      const renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio,2), alpha:true });
+      const gl = renderer.gl;
+      gl.canvas.style.width = '100%';
+      gl.canvas.style.height = '100%';
+      container.appendChild(gl.canvas);
+      const vert = 'attribute vec2 position;varying vec2 vUv;void main(){vUv=position*.5+.5;gl_Position=vec4(position,0.,1.);}';
+      const frag = 'precision highp float;uniform float iTime;uniform vec2 iResolution;uniform vec2 rayPos;uniform vec2 rayDir;uniform vec3 raysColor;uniform float raysSpeed;uniform float lightSpread;uniform float rayLength;uniform float pulsating;uniform float fadeDistance;uniform float saturation;uniform vec2 mousePos;uniform float mouseInfluence;uniform float noiseAmount;uniform float distortion;varying vec2 vUv;float noise(vec2 st){return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);}float rayStrength(vec2 src,vec2 refDir,vec2 coord,float sA,float sB,float spd){vec2 s2c=coord-src;vec2 dn=normalize(s2c);float ca=dot(dn,refDir);float da=ca+distortion*sin(iTime*2.+length(s2c)*.01)*.2;float sf=pow(max(da,0.),1./max(lightSpread,.001));float dist=length(s2c);float mx=iResolution.x*rayLength;float lf=clamp((mx-dist)/mx,0.,1.);float ff=clamp((iResolution.x*fadeDistance-dist)/(iResolution.x*fadeDistance),.5,1.);float pulse=pulsating>.5?(0.8+0.2*sin(iTime*spd*3.)):1.;float bs=clamp((0.45+0.15*sin(da*sA+iTime*spd))+(0.3+0.2*cos(-da*sB+iTime*spd)),0.,1.);return bs*lf*ff*sf*pulse;}void mainImage(out vec4 fc,in vec2 fragCoord){vec2 coord=vec2(fragCoord.x,iResolution.y-fragCoord.y);vec2 frd=rayDir;if(mouseInfluence>0.){vec2 mp=mousePos*iResolution.xy;vec2 md=normalize(mp-rayPos);frd=normalize(mix(rayDir,md,mouseInfluence));}vec4 r1=vec4(1.)*rayStrength(rayPos,frd,coord,36.2214,21.11349,1.5*raysSpeed);vec4 r2=vec4(1.)*rayStrength(rayPos,frd,coord,22.3991,18.0234,1.1*raysSpeed);fc=r1*.5+r2*.4;if(noiseAmount>0.){float n=noise(coord*.01+iTime*.1);fc.rgb*=(1.-noiseAmount+noiseAmount*n);}float bright=1.-(coord.y/iResolution.y);fc.x*=0.1+bright*.8;fc.y*=0.3+bright*.6;fc.z*=0.5+bright*.5;if(saturation!=1.){float g=dot(fc.rgb,vec3(0.299,0.587,0.114));fc.rgb=mix(vec3(g),fc.rgb,saturation);}fc.rgb*=raysColor;}void main(){vec4 c;mainImage(c,gl_FragCoord.xy);gl_FragColor=c;}';
+      const uniforms = {
+        iTime:{value:0},iResolution:{value:[1,1]},rayPos:{value:[0,0]},rayDir:{value:[0,1]},
+        raysColor:{value:hexToRgb(raysColor)},raysSpeed:{value:raysSpeed},lightSpread:{value:lightSpread},
+        rayLength:{value:rayLength},pulsating:{value:pulsating?1.0:0.0},fadeDistance:{value:fadeDistance},
+        saturation:{value:saturation},mousePos:{value:[.5,.5]},mouseInfluence:{value:mouseInfluence},
+        noiseAmount:{value:noiseAmount},distortion:{value:distortion}
+      };
+      const geometry = new Triangle(gl);
+      const program = new Program(gl, { vertex:vert, fragment:frag, uniforms });
+      const mesh = new Mesh(gl, { geometry, program });
+      const updateSize = () => {
+        renderer.dpr = Math.min(window.devicePixelRatio,2);
+        const w = container.clientWidth, h = container.clientHeight;
+        renderer.setSize(w,h);
+        const dpr = renderer.dpr;
+        uniforms.iResolution.value = [w*dpr, h*dpr];
+        const {anchor,dir} = getAnchorAndDir(raysOrigin, w*dpr, h*dpr);
+        uniforms.rayPos.value = anchor;
+        uniforms.rayDir.value = dir;
+      };
+      const loop = t => {
+        uniforms.iTime.value = t * 0.001;
+        const s = 0.92;
+        smoothMouse.x = smoothMouse.x*s + mouse.x*(1-s);
+        smoothMouse.y = smoothMouse.y*s + mouse.y*(1-s);
+        uniforms.mousePos.value = [smoothMouse.x, smoothMouse.y];
+        renderer.render({ scene: mesh });
+        requestAnimationFrame(loop);
+      };
+      window.addEventListener('resize', updateSize);
+      window.addEventListener('mousemove', e => {
+        const r = container.getBoundingClientRect();
+        mouse.x = (e.clientX-r.left)/r.width;
+        mouse.y = (e.clientY-r.top)/r.height;
+      });
+      updateSize();
+      requestAnimationFrame(loop);
+    }
   </script>
 </body>
 </html>
