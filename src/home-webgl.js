@@ -77,6 +77,7 @@ uniform float pointSize;
 uniform vec2  mousePosition;
 uniform bool  hasMouseMoved;
 uniform float lessDotAlpha;
+uniform float sceneAlpha;
 
 // ── constants from source ──
 const float showEvery                     = 4.0;
@@ -166,7 +167,7 @@ void main(){
   }
 
   farAlpha -= 1.0 - centerAlpha;
-  farAlpha *= vis;
+  farAlpha *= vis * sceneAlpha;
   vColor = vec4(color, farAlpha);
 }`;
 
@@ -491,6 +492,7 @@ const program = new Program(gl, {
     mousePosition: { value: [0, 0] },
     hasMouseMoved: { value: false },
     lessDotAlpha:  { value: 1.0 },
+    sceneAlpha:    { value: 1.0 },
   },
   transparent: true,
   depthWrite:  false,
@@ -648,10 +650,12 @@ function updateBrands(dt, scrollProg, activeSegment) {
     b.plane.scale.set(Math.max(0.00001, b.curScale));
 
     // Opacity: outer layers slightly less opaque (brandLayerOpacityDecay=0.04)
-    const alpha = limitRange(0, k * (1 - b.layerIdx * ORBIT_ALPHA_DEC), 1);
+    const alpha = limitRange(0, k * (1 - b.layerIdx * ORBIT_ALPHA_DEC) * brandSceneAlpha, 1);
     b.prog.uniforms.opacity.value = alpha;
 
-    const targetFocus = b.layerIdx === activeSegment ? 1 : 0;
+    // As the hero fades out, every ring desaturates back to gray regardless
+    // of which segment was active (matches the inner ring's resting style).
+    const targetFocus = (b.layerIdx === activeSegment ? 1 : 0) * (1 - textPhase);
     const focusStiffness = 0.055;
     const focusDamping = 0.78;
     b.focusVelocity += (targetFocus - b.focus) * focusStiffness * dt;
@@ -667,28 +671,21 @@ let scrollTarget   = 0;          // direct wheel intent
 let scrollVelocity = 0;
 let logoOpacity    = 1;
 // Scroll budget stages:
-//   0 → 1            sphere zooms in, inner brand ring appears
-//   1 → OUTER_RING_AT focus stays on the inner ring
-//   OUTER_RING_AT→COVER_START  outer logo ring takes focus (explore the orbit)
-//   COVER_START → SCROLL_MAX   scene washes out, then the white page/content takes over
-// The cover only begins once the outer ring has been reached, so users get to
-// scroll through the full orbit (incl. the outer logos) before the page covers.
+//   0 → 1                sphere zooms in, inner brand ring appears
+//   1 → OUTER_RING_AT     focus stays on the inner ring
+//   OUTER_RING_AT→FADE_START  outer logo ring takes focus (explore the orbit)
+//   FADE_START → FADE_END     one continuous window holding three curves that
+//                             never pause mid-motion: the stat text fades out
+//                             fast (0→30%), "Built for scale" slides up
+//                             smoothly the whole time and arrives by the
+//                             midpoint (0→50%), then the hero canvas + logo
+//                             desaturation fade out only after that (50→100%).
 const SCROLL_MAX    = 4;
 const OUTER_RING_AT = 1.5;
 const COVER_ENABLED = true;
-const COVER_START   = OUTER_RING_AT + (SCROLL_MAX - OUTER_RING_AT) * 0.52;
-const COVER_RANGE   = SCROLL_MAX - COVER_START;
-const coverScrollEl = document.querySelector('.home-cover__scroll');
+const FADE_START    = 1.8;
+const FADE_END       = FADE_START + 1.6;
 window.addEventListener('wheel', e => {
-  // Once the white page has fully covered the hero, hand scrolling over to it.
-  if (document.documentElement.classList.contains('home-cover-scrollable')) {
-    // Only pull the hero back when the page is at its very top and we scroll up.
-    if (e.deltaY < 0 && (!coverScrollEl || coverScrollEl.scrollTop <= 0)) {
-      homeUiReturnLock = false;
-      scrollTarget = limitRange(0, scrollTarget + e.deltaY * 0.0012, SCROLL_MAX);
-    }
-    return;
-  }
   if (e.deltaY > 0) homeUiReturnLock = false;
   scrollTarget = limitRange(0, scrollTarget + e.deltaY * 0.0012, SCROLL_MAX);
 }, { passive: true });
@@ -795,9 +792,13 @@ let renderedOrbitSegment = -1;
 let homeUiWasExiting = false;
 let homeUiReturnTimer = null;
 let homeUiReturnLock = false;
-let coverRenderedProgress = -1;
 let heroRenderedOpacity = -1;
-let coverPhase = 0;   // 0→1 while the next page rises (drives the sphere shrink)
+let coverRenderedRaw = -1;
+let coverPhase = 0;   // 0→1 hero canvas/logo fade-out progress
+let textPhase = 0;     // 0→1 stat text fade-out progress (faster than coverPhase)
+let particleSceneAlpha = 1;
+let brandSceneAlpha = 1;
+let copySceneAlpha = 1;
 
 function clearHomeUiInlineStyles() {
   document.querySelectorAll('#nav,.home-hero-eyebrow,.home-hero-h1,.home-stat,.scroll-cue').forEach(el => {
@@ -874,47 +875,41 @@ function syncHomeUiExit() {
 function syncHomeCover() {
   if (!COVER_ENABLED) {
     coverPhase = 0;
-    if (coverRenderedProgress !== 0) {
-      rootEl.style.setProperty('--home-cover-progress', '0');
-      rootEl.style.setProperty('--home-cover-wash', '0');
-      rootEl.style.setProperty('--home-cover-content-opacity', '0');
-      rootEl.style.setProperty('--home-cover-content-y', '48vh');
-      coverRenderedProgress = 0;
-    }
+    textPhase = 0;
     if (heroRenderedOpacity !== 1) {
       rootEl.style.setProperty('--home-hero-opacity', '1');
+      rootEl.style.setProperty('--home-content-y', '100vh');
       heroRenderedOpacity = 1;
+      coverRenderedRaw = -1;
     }
-    rootEl.classList.remove('home-cover-visible', 'home-cover-complete', 'home-cover-scrollable');
+    rootEl.classList.remove('home-cover-complete');
     return;
   }
 
-  let raw = limitRange(0, (scrollProgress - COVER_START) / COVER_RANGE, 1);
-  if (raw > 0.985) raw = 1;
-  if (raw < 0.015) raw = 0;
-  const washProgress = smoothstep(0, 0.62, raw);
-  const pageProgress = smoothstep(0.22, 1, raw);
-  coverPhase = pageProgress;
-  const heroOpacity = 1 - smoothstep(0.18, 0.95, raw);
+  // Three curves sharing one continuous window, none of them ever pausing
+  // mid-motion:
+  // - textT: old stat text fades fast and early — gone before content shows.
+  // - contentT: "Built for scale" slides up smoothly the whole time,
+  //   arriving by the window's midpoint — no stall, no holding pattern.
+  // - canvasT: hero canvas + logo desaturation only start once content has
+  //   essentially arrived, finishing as the window ends.
+  const rawExit = limitRange(0, (scrollProgress - FADE_START) / (FADE_END - FADE_START), 1);
+  const textT    = smoothstep(0, 0.3, rawExit);
+  const contentT = smoothstep(0, 0.5, rawExit);
+  const canvasT  = smoothstep(0.3, 0.5, rawExit);
+  const heroOpacity = 1 - canvasT;
+  coverPhase = canvasT;
+  textPhase = textT;
 
-  // First wash the dark scene, then fade in the white page and content.
-  if (Math.abs(raw - coverRenderedProgress) > 0.001) {
-    const contentProgress = smoothstep(0.72, 1, raw);
-    const contentY = Math.round((1 - contentProgress) * window.innerHeight * 0.48);
-    rootEl.style.setProperty('--home-cover-progress', pageProgress.toFixed(4));
-    rootEl.style.setProperty('--home-cover-wash', washProgress.toFixed(4));
-    rootEl.style.setProperty('--home-cover-content-opacity', contentProgress.toFixed(4));
-    rootEl.style.setProperty('--home-cover-content-y', `${contentY}px`);
-    coverRenderedProgress = raw;
-  }
-  if (Math.abs(heroOpacity - heroRenderedOpacity) > 0.001) {
+  const raw = rawExit;
+  if (Math.abs(raw - coverRenderedRaw) > 0.001) {
+    const contentY = Math.round((1 - contentT) * window.innerHeight);
     rootEl.style.setProperty('--home-hero-opacity', heroOpacity.toFixed(4));
+    rootEl.style.setProperty('--home-content-y', `${contentY}px`);
     heroRenderedOpacity = heroOpacity;
+    coverRenderedRaw = raw;
   }
-  rootEl.classList.toggle('home-cover-visible', pageProgress > 0.015);
-  rootEl.classList.toggle('home-cover-complete', pageProgress > 0.86);
-  // Page becomes natively scrollable only once it has fully faded in.
-  rootEl.classList.toggle('home-cover-scrollable', raw >= 1);
+  rootEl.classList.toggle('home-cover-complete', rawExit >= 1);
 }
 
 // ─── Animation Loop ───────────────────────────────────────────────────────────
@@ -950,11 +945,6 @@ function loop(nowMs) {
   activeOrbitSegment = scrollProgress < OUTER_RING_AT ? 0 : 1;
   syncHomeCover();
 
-  // As the white page fades in over the hero, the whole sphere/logo cluster
-  // shrinks toward the centre (instead of the page sliding up over a static sphere).
-  const coverEase  = coverPhase * coverPhase * (3 - 2 * coverPhase);
-  scene.scale.set(1 - coverEase * 0.5);
-
   // Smooth mouse
   const c = 14 / dt;
   smooth.x -= (smooth.x - mouse.x) / c;
@@ -987,6 +977,7 @@ function loop(nowMs) {
   program.uniforms.hasMouseMoved.value = mouseMoved;
   // Scroll thins particles out (morpho's lessDotAlpha), matching the logo dissolve
   program.uniforms.lessDotAlpha.value  = limitRange(0, 1 - 1.15 * zoomProgress, 1);
+  program.uniforms.sceneAlpha.value    = particleSceneAlpha;
 
   // Drive butterfly logo: intro dissolve via ever-growing counter, exit via opacity
   logoOpacity -= (logoOpacity - (1 - zoomProgress)) / (8 / dt);
@@ -1026,17 +1017,13 @@ function loop(nowMs) {
       hideOrbitCopy();
     }
 
-    // Exit the centre metric before the white page/content takes over.
-    if (coverPhase > 0.001) {
-      const exitProgress = smoothstep(0, 0.48, coverPhase);
-      const s = 1 - exitProgress * 0.26;
-      const y = -42 - exitProgress * 14;
-      orbitCopyEl.style.opacity = Math.max(0, 1 - exitProgress).toFixed(3);
-      orbitCopyEl.style.filter = `blur(${(exitProgress * 6).toFixed(2)}px)`;
-      orbitCopyEl.style.transform = `translate(-50%, ${y.toFixed(2)}%) scale(${s.toFixed(3)})`;
+    // Drifts up and fades out fast/early — fully gone before "Built for
+    // scale" arrives, so the two never overlap.
+    if (textPhase > 0.001) {
+      orbitCopyEl.style.opacity = (1 - textPhase).toFixed(3);
+      orbitCopyEl.style.transform = `translate(-50%, ${(-42 - textPhase * 14).toFixed(2)}%)`;
     } else {
       orbitCopyEl.style.opacity = '';
-      orbitCopyEl.style.filter = '';
       orbitCopyEl.style.transform = '';
     }
   }
