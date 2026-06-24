@@ -14,6 +14,11 @@
     html {
       --home-hero-opacity: 1;
       --home-content-y: 100vh;
+      --home-content-extra-y: 0px;
+      --home-content-opacity: 1;
+      --home-section-padding-y: 40px;
+      --home-section-gap: calc(var(--home-section-padding-y) * 2);
+      --hero-logo-gray: 0;
     }
     #gl-container {
       position: fixed;
@@ -21,8 +26,10 @@
       z-index: 1;
       opacity: var(--home-hero-opacity);
       transition:
-        opacity .12s linear;
+        opacity .12s linear,
+        filter .24s var(--ease, cubic-bezier(.22,.61,.36,1));
       will-change: opacity, filter, transform;
+      filter: grayscale(var(--hero-logo-gray));
     }
     #gl-container canvas { width: 100% !important; height: 100% !important; }
     .home-content {
@@ -30,13 +37,48 @@
       inset: 0;
       z-index: 5;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      transform: translateY(var(--home-content-y));
-      will-change: transform;
+      justify-content: flex-start;
+      overflow-y: auto;
+      /* auto：整个滚动内容区都能接住滚轮。intro 阶段 content 被 translate
+         到视口下方不挡粒子，bundle 的 wheel/mousemove 挂在 window 上不受影响 */
+      pointer-events: auto;
+      opacity: var(--home-content-opacity);
+      transform: translateY(calc(var(--home-content-y) + var(--home-content-extra-y)));
+      will-change: transform, opacity;
+      /* 隐藏原生滚动条，改用下面的自定义指示条 */
+      scrollbar-width: none;
     }
-    .bfs-title { text-align: center; padding: 0 24px; }
+    .home-content::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+    /* 自定义滚动指示条 */
+    .home-scrollbar {
+      position: fixed;
+      top: 88px;            /* nav 下方 */
+      right: 6px;
+      bottom: 16px;
+      width: 6px;
+      z-index: 90;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      opacity: 0;
+      transition: opacity .3s ease;
+      pointer-events: none;
+    }
+    .home-scrollbar.is-visible { opacity: 1; }
+    .home-scrollbar__thumb {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.28);
+      transition: background .2s ease;
+    }
+    .home-scrollbar.is-visible:hover .home-scrollbar__thumb {
+      background: rgba(255,255,255,0.45);
+    }
+    .bfs-title { text-align: center; padding: 120px 24px 60px; }
     .bfs-title h2 {
       font-size: clamp(2rem, 3.5vw, 2.75rem);
       font-weight: 800;
@@ -48,6 +90,521 @@
       font-size: 1.125rem;
       line-height: 1.5;
       color: var(--color-text-on-dark-secondary, #9BA9A3);
+    }
+    .bfs-marquee {
+      margin-top: 40px;
+      pointer-events: auto;
+    }
+    .bfs-marquee .logo-ph {
+      opacity: 1;
+    }
+    .bfs-marquee .logo-ph img {
+      filter: grayscale(1) brightness(2.8) opacity(1);
+    }
+    .bfs-marquee .logo-ph:hover img {
+      filter: grayscale(0) brightness(1.8) opacity(1);
+    }
+    /* ── Solutions section ── */
+    .solutions-pin-wrapper {
+      width: 100%;
+      flex-shrink: 0;  /* 关键：flex 容器里不被压缩，保住高度 */
+      /* section pin 占 1×100vh；每个 item 切换只需 45vh 滚动行程（4 项 = 180vh）
+         => 想更快/更慢切换，只改这里的 45vh 即可，JS 会自动适配 */
+      height: calc(100vh + 45vh * 4);
+    }
+    .solutions-section {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      pointer-events: auto;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+    }
+    .solutions-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      width: 100%;
+    }
+    .solutions-title {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .solutions-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 32px;
+    }
+    .solutions-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .solutions-item__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--icon-border);
+      background: var(--icon-bg);
+      flex-shrink: 0;
+      padding: 8px;
+    }
+    .solutions-item__icon img {
+      width: 24px;
+      height: 24px;
+    }
+    .solutions-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 20px 12px;
+      cursor: pointer;
+      opacity: 0.42;
+      transition: opacity 0.4s ease;
+    }
+    .solutions-item.is-active {
+      opacity: 1;
+    }
+    .solutions-item__body {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex: 1;
+    }
+    .solutions-item__name {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.125rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #fff;
+      padding: 2px 0;
+    }
+    .solutions-item__body-extra {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.48s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.28s ease;
+    }
+    .solutions-item.is-active .solutions-item__body-extra {
+      max-height: 280px;
+      opacity: 1;
+      transition: max-height 0.48s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.32s ease 0.1s;
+    }
+    .solutions-item__desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.6);
+      margin-top: 8px;
+    }
+    .solutions-item__tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .solutions-item__tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 3px;
+      padding: 2px 8px;
+      letter-spacing: 0.01em;
+    }
+    .solutions-right {
+      /* section 本身已 sticky，右侧图不需要额外 sticky */
+    }
+    .solutions-mockup {
+      aspect-ratio: 16 / 10;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(0,0,0,0.18);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .solutions-mockup__bar {
+      height: 16px;
+      background: #f2f0ed;
+    }
+    .solutions-img {
+      display: none;
+      width: 100%;
+      flex: 1 1 auto;
+      object-fit: cover;
+    }
+    .solutions-img.is-active {
+      display: block;
+    }
+    .solutions-pin-wrapper--headline-only {
+      height: auto;
+    }
+    .solutions-pin-wrapper--headline-only .solutions-section {
+      position: relative;
+      height: auto;
+      padding: 64px 0 88px;
+    }
+    .solutions-pin-wrapper--headline-only .solutions-inner {
+      grid-template-columns: 1fr;
+      gap: 0;
+      justify-items: center;
+    }
+    .solutions-pin-wrapper--headline-only .solutions-left {
+      max-width: 720px;
+      text-align: center;
+    }
+    .solutions-pin-wrapper--headline-only .solutions-title {
+      margin-bottom: 0;
+    }
+    .solutions-pin-wrapper--headline-only .bfs-marquee {
+      width: 100%;
+      max-width: 1280px;
+      margin-top: 80px;
+    }
+    @media (max-width: 900px) {
+      .solutions-inner {
+        grid-template-columns: 1fr;
+        padding: 0 24px;
+        gap: 32px;
+      }
+    }
+    .home-coverage {
+      position: relative;
+      width: 100%;
+      min-height: auto;
+      flex-shrink: 0;
+      color: #fff;
+      padding: 0 0 80px;
+      pointer-events: auto;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: flex-start;
+    }
+    .home-coverage__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .home-coverage__copy {
+      max-width: 560px;
+      padding-top: 4px;
+    }
+    .home-coverage__title {
+      font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .home-coverage__desc {
+      max-width: 620px;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.6);
+    }
+    .home-coverage__visual {
+      width: 100%;
+      min-height: 240px;
+      border-radius: 34px;
+      background: #0b3350;
+    }
+    .home-integrate {
+      width: 100%;
+      flex-shrink: 0;
+      padding: calc(var(--home-section-gap) * 2) 0 var(--home-section-padding-y);
+      color: #fff;
+      pointer-events: auto;
+      font-family: 'Inter', sans-serif;
+    }
+    .home-integrate__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0;
+    }
+    .home-integrate__title {
+      max-width: 832px;
+      margin: 0 auto 80px;
+      text-align: center;
+      font-size: clamp(2rem, 3vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+    .home-integrate__grid {
+      display: grid;
+      grid-template-columns: 542px minmax(0, 1fr);
+      gap: 60px;
+      align-items: stretch;
+    }
+    .home-integrate__copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 64px;
+      padding: 20px 0;
+    }
+    .home-integrate__desc {
+      max-width: 542px;
+      font-size: 1.125rem;
+      line-height: 1.56;
+      color: rgba(255,255,255,.9);
+      margin-bottom: 24px;
+    }
+    .home-integrate__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+    .home-integrate__button {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      line-height: 1.5;
+      border: 1px solid transparent;
+      transition: background .2s ease, border-color .2s ease;
+    }
+    .home-integrate__button--outline {
+      border-color: rgba(255,255,255,.8);
+    }
+    .home-integrate__button:hover {
+      background: rgba(255,255,255,.08);
+    }
+    .home-integrate__button-icon {
+      width: 18px;
+      height: 18px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .home-integrate__button-icon::before {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      right: 1px;
+      top: 4px;
+      border-top: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+      transform: rotate(45deg);
+    }
+    .home-integrate__button-icon::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      right: 2px;
+      top: 8px;
+      background: currentColor;
+    }
+    .home-integrate__langs-label {
+      font-size: .875rem;
+      line-height: 1.43;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 12px;
+    }
+    .home-integrate__langs {
+      display: grid;
+      grid-template-columns: repeat(4, 120px);
+      gap: 18px 24px;
+      align-items: center;
+    }
+    .home-integrate__lang {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      color: #fff;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+    .home-integrate__lang img,
+    .home-integrate__lang-badge {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      object-fit: contain;
+    }
+    .home-integrate__lang-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      font-size: .8125rem;
+      font-weight: 700;
+    }
+    .home-code-card {
+      height: 502px;
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.2));
+      overflow: hidden;
+    }
+    .home-code-card__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-left: 4px;
+      margin-bottom: 16px;
+    }
+    .home-code-card__label {
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.2;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .home-code-card__tabs {
+      height: 36px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.2);
+    }
+    .home-code-card__tab {
+      min-width: 60px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: .75rem;
+      line-height: 1;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .home-code-card__tab.is-active {
+      border-radius: 8px;
+      background: #fff;
+      color: #08152a;
+      font-size: .875rem;
+      font-weight: 500;
+    }
+    .home-code-card__body {
+      height: calc(100% - 52px);
+      overflow: hidden;
+      border-radius: 12px;
+      background: #01021b;
+      padding: 24px;
+      backdrop-filter: blur(20px);
+    }
+    .home-code {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 18px;
+      row-gap: 0;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: .875rem;
+      line-height: 1.43;
+      color: #fff;
+      white-space: pre;
+    }
+    .home-code__line {
+      color: rgba(255,255,255,.2);
+      text-align: right;
+      user-select: none;
+    }
+    .home-code .muted { color: rgba(255,255,255,.28); }
+    .home-code .pink { color: #ff32c6; }
+    .home-code .orange { color: #ffac60; }
+    .home-code .green { color: #1ac69c; }
+    .home-code .blue { color: #3fa4ff; }
+    .home-code .purple { color: #c478ff; }
+    @media (max-width: 900px) {
+      html {
+        --home-section-padding-y: 32px;
+      }
+      .home-coverage {
+        min-height: auto;
+        padding: 0 24px 80px;
+      }
+      .home-coverage__inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .home-coverage__visual {
+        min-height: 220px;
+        border-radius: 28px;
+      }
+      .home-integrate {
+        padding: calc(var(--home-section-gap) * 2) 24px var(--home-section-padding-y);
+      }
+      .home-integrate__title {
+        margin-bottom: 36px;
+        text-align: left;
+      }
+      .home-integrate__grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .home-integrate__copy {
+        gap: 36px;
+        padding: 0;
+      }
+      .home-integrate__langs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .home-code-card {
+        height: 420px;
+      }
+      .home-code-card__top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .home-code-card__tabs {
+        max-width: 100%;
+        overflow-x: auto;
+      }
+      .home-code-card__body {
+        height: calc(100% - 96px);
+        padding: 18px;
+      }
+      .home-code {
+        font-size: .75rem;
+        column-gap: 12px;
+      }
     }
     .home-gradient {
       position: fixed;
@@ -163,6 +720,12 @@
       opacity: 1;
       transform: translate(-50%, -42%);
     }
+    .home-ui-exiting .orbit-copy {
+      opacity: var(--orbit-copy-opacity, 0) !important;
+      transform: translate(-50%, -42%) translateY(calc(var(--orbit-copy-exit-y, 0px) * -1)) !important;
+      filter: grayscale(var(--hero-logo-gray));
+      transition: none !important;
+    }
     .orbit-copy__stat {
       text-align: center;
     }
@@ -170,7 +733,7 @@
       font-size: clamp(1.125rem, 1.55vw, 1.5rem);
       font-weight: 400;
       line-height: 1.2;
-      color: var(--color-text-on-dark-secondary, #9BA9A3);
+      color: color-mix(in srgb, var(--color-text-on-dark-secondary, #9BA9A3), #8f9693 calc(var(--hero-logo-gray) * 100%));
       margin-bottom: 14px;
     }
     .orbit-copy__stat-value {
@@ -178,7 +741,7 @@
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.025em;
-      color: var(--color-text-on-dark, #F4F8F5);
+      color: color-mix(in srgb, var(--color-text-on-dark, #F4F8F5), #a5aba8 calc(var(--hero-logo-gray) * 100%));
     }
     .orbit-copy__stat-label,
     .orbit-copy__stat-value {
@@ -193,6 +756,8 @@
     }
     /* Hidden by default — revealed after sphere forms (see WebGL loop) */
     .nav {
+      z-index: 110;
+      pointer-events: auto;
       opacity: 0;
       transform: translateY(-16px);
     }
@@ -252,8 +817,19 @@
     .home-ui-returning .scroll-cue             { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .42s  forwards !important; }
     .home-ui-returning .home-stat:nth-child(1) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .42s  forwards !important; }
     .home-ui-returning .home-stat:nth-child(2) { animation: rise .85s var(--ease, cubic-bezier(.22,.61,.36,1)) .54s  forwards !important; }
+    /* nav 跟随 hero 标题一起退场（球体放大/滚动进入内容区时淡出）*/
     .home-ui-exiting .nav {
       animation: homeNavExit .38s var(--ease, cubic-bezier(.22,.61,.36,1)) 0s both !important;
+    }
+    /* 粒子/logo 背景淡出归零的瞬间 nav 进场（由 rAF 在 heroOp=0 时加 .particles-gone）；
+       放在退出规则之后，同优先级靠源码顺序覆盖退出动画 */
+    @keyframes navEnter {
+      from { opacity: 0; transform: translateY(-22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .particles-gone .nav {
+      pointer-events: auto;
+      animation: navEnter .6s var(--ease, cubic-bezier(.22,.61,.36,1)) both !important;
     }
     .home-ui-exiting .home-hero-eyebrow {
       animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .04s both !important;
@@ -298,11 +874,199 @@
   <div class="home-gradient" aria-hidden="true"></div>
 
   <div class="home-content" aria-hidden="true">
-    <div class="bfs-title">
-      <h2>Built for scale</h2>
-      <p>Enterprise-grade infrastructure that<br>lets you launch in days, not months</p>
+    <div class="solutions-pin-wrapper solutions-pin-wrapper--headline-only">
+    <section class="solutions-section">
+      <div class="solutions-inner">
+        <div class="solutions-left">
+          <h2 class="solutions-title">Trusted by 15,000+ clients globally</h2>
+        </div>
+        <div class="bfs-marquee">
+          <div class="marquee">
+            <div class="marquee__track">
+              <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
+            </div>
+            <div class="marquee__track" aria-hidden="true">
+              <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-367.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-380.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-402.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-414.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-418.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-426.svg" alt="" height="32"></span>
+              <span class="logo-ph"><img src="assets/clients/logoipsum-430.svg" alt="" height="32"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     </div>
+
+    <div class="solutions-pin-wrapper">
+    <section class="solutions-section">
+      <div class="solutions-inner">
+        <div class="solutions-left">
+          <h2 class="solutions-title">Solutions for Every Use Case</h2>
+          <p class="solutions-desc">Aenean consequat neque in turpis volutpat tristique. Integer nunc nisi, accumsan ultricies enim quis, tincidunt lacinia lorem.</p>
+          <div class="solutions-list">
+            <div class="solutions-item" data-solution="0">
+              <div class="solutions-item__icon" style="--icon-bg:rgba(0,217,146,0.1);--icon-border:#00d992">
+                <img src="assets/solutions/icon-proxies.svg" alt="">
+              </div>
+              <div class="solutions-item__body">
+                <p class="solutions-item__name">Proxies Anonymity</p>
+                <div class="solutions-item__body-extra">
+                  <p class="solutions-item__desc">A 100-million-level IP pool with 99.9% uptime. Real residential IPs, low detection rate, low ban rate.</p>
+                  <div class="solutions-item__tags">
+                    <span class="solutions-item__tag">ISP</span>
+                    <span class="solutions-item__tag">Datacenter</span>
+                    <span class="solutions-item__tag">Asia</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="solutions-item" data-solution="1">
+              <div class="solutions-item__icon" style="--icon-bg:rgba(205,101,234,0.1);--icon-border:#cd65ea">
+                <img src="assets/solutions/icon-unblockers.svg" alt="">
+              </div>
+              <div class="solutions-item__body">
+                <p class="solutions-item__name">Website Unblockers</p>
+                <div class="solutions-item__body-extra">
+                  <p class="solutions-item__desc">Bypass anti-bot protection and access any website at scale with automatic CAPTCHA solving and browser fingerprint rotation.</p>
+                  <div class="solutions-item__tags">
+                    <span class="solutions-item__tag">Google</span>
+                    <span class="solutions-item__tag">Amazon</span>
+                    <span class="solutions-item__tag">Cloudflare</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="solutions-item" data-solution="2">
+              <div class="solutions-item__icon" style="--icon-bg:rgba(255,184,63,0.1);--icon-border:#ffb83f">
+                <img src="assets/solutions/icon-scraper.svg" alt="">
+              </div>
+              <div class="solutions-item__body">
+                <p class="solutions-item__name">Scraper APIs</p>
+                <div class="solutions-item__body-extra">
+                  <p class="solutions-item__desc">Pre-built APIs for structured data extraction from major platforms. Get clean JSON without managing infrastructure.</p>
+                  <div class="solutions-item__tags">
+                    <span class="solutions-item__tag">E-commerce</span>
+                    <span class="solutions-item__tag">Social Media</span>
+                    <span class="solutions-item__tag">News</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="solutions-item" data-solution="3">
+              <div class="solutions-item__icon" style="--icon-bg:rgba(28,175,243,0.1);--icon-border:#1caff3">
+                <img src="assets/solutions/icon-datasets.svg" alt="">
+              </div>
+              <div class="solutions-item__body">
+                <p class="solutions-item__name">Datasets</p>
+                <div class="solutions-item__body-extra">
+                  <p class="solutions-item__desc">Ready-to-use pre-collected datasets for training AI models, market research, and competitive intelligence.</p>
+                  <div class="solutions-item__tags">
+                    <span class="solutions-item__tag">B2B</span>
+                    <span class="solutions-item__tag">Consumer</span>
+                    <span class="solutions-item__tag">Web</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="solutions-right">
+          <div class="solutions-mockup">
+            <div class="solutions-mockup__bar"></div>
+            <img class="solutions-img is-active" data-solution="0" src="https://unsplash.com/photos/oyXis2kALVg/download?force=true" alt="Proxies Anonymity">
+            <img class="solutions-img" data-solution="1" src="https://unsplash.com/photos/Im7lZjxeLhg/download?force=true" alt="Website Unblockers">
+            <img class="solutions-img" data-solution="2" src="https://unsplash.com/photos/XJXWbfSo2f0/download?force=true" alt="Scraper APIs">
+            <img class="solutions-img" data-solution="3" src="https://unsplash.com/photos/SYTO3xs06fU/download?force=true" alt="Datasets">
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <section class="home-coverage" data-screen-label="Country Coverage">
+      <div class="home-coverage__inner">
+        <div class="home-coverage__copy">
+          <h2 class="home-coverage__title">Provide over 250+ countries IP</h2>
+          <p class="home-coverage__desc">Aenean consequat neque in turpis volutpat tristique. Integer nunc nisi, accumsan ultricies enim quis, tincidunt lacinia lorem.</p>
+        </div>
+        <div class="home-coverage__visual" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="home-integrate" data-screen-label="Easy Integration">
+      <div class="home-integrate__inner">
+        <h2 class="home-integrate__title">Easy integrate our solutions to your projects</h2>
+        <div class="home-integrate__grid">
+          <div class="home-integrate__copy">
+            <div>
+              <p class="home-integrate__desc">We ensure that integrating our products into your scraping infrastructure is as effortless as possible. With multiple language support and ready-to-use code examples, a quick and easy start to your web scraping project is a guarantee.</p>
+              <div class="home-integrate__actions">
+                <a class="home-integrate__button home-integrate__button--outline" href="#">Roxy Documentation <span class="home-integrate__button-icon" aria-hidden="true"></span></a>
+                <a class="home-integrate__button" href="#">Join our community</a>
+              </div>
+            </div>
+            <div>
+              <p class="home-integrate__langs-label">We support majority of the programming language:</p>
+              <div class="home-integrate__langs" aria-label="Supported programming languages">
+                <div class="home-integrate__lang"><img src="assets/javascript-logo.svg" alt="" width="32" height="32">Node.js</div>
+                <div class="home-integrate__lang"><img src="assets/python-logo.svg" alt="" width="32" height="32">Python</div>
+                <div class="home-integrate__lang"><img src="assets/php-logo.svg" alt="" width="32" height="32">PHP</div>
+                <div class="home-integrate__lang"><img src="assets/java-logo.svg" alt="" width="32" height="32">Java</div>
+                <div class="home-integrate__lang"><img src="assets/go-logo.svg" alt="" width="32" height="32">GO</div>
+                <div class="home-integrate__lang"><span class="home-integrate__lang-badge" aria-hidden="true">Rb</span>Ruby</div>
+              </div>
+            </div>
+          </div>
+          <div class="home-code-card">
+            <div class="home-code-card__top">
+              <p class="home-code-card__label">Code block examples</p>
+              <div class="home-code-card__tabs" aria-label="Code language tabs">
+                <span class="home-code-card__tab is-active">Node.js</span>
+                <span class="home-code-card__tab">Python</span>
+                <span class="home-code-card__tab">PHP</span>
+                <span class="home-code-card__tab">Java</span>
+                <span class="home-code-card__tab">Ruby</span>
+              </div>
+            </div>
+            <div class="home-code-card__body" aria-label="Node.js code example">
+              <code class="home-code">
+                <span class="home-code__line">1</span><span><span class="muted">// Type some code -&gt;</span></span>
+                <span class="home-code__line">2</span><span></span>
+                <span class="home-code__line">3</span><span><span class="orange">console</span>.<span class="green">log</span>(<span class="blue">"oO8 ill1 g9qCGQ ~+ =&gt;"</span>);</span>
+                <span class="home-code__line">4</span><span></span>
+                <span class="home-code__line">5</span><span><span class="pink">function</span> <span class="green">updateGutters</span>(<span class="purple">cm</span>) {</span>
+                <span class="home-code__line">6</span><span>  <span class="pink">var</span> <span class="purple">gutters</span> = <span class="purple">cm</span>.<span class="green">display</span>.<span class="green">gutters</span>,</span>
+                <span class="home-code__line">7</span><span>      <span class="purple">specs</span> = <span class="purple">cm</span>.<span class="green">options</span>.<span class="green">gutters</span>;</span>
+                <span class="home-code__line">8</span><span></span>
+                <span class="home-code__line">9</span><span>  <span class="orange">removeChildren</span>(<span class="purple">gutters</span>);</span>
+                <span class="home-code__line">10</span><span></span>
+                <span class="home-code__line">11</span><span>  <span class="pink">for</span> (<span class="pink">var</span> <span class="purple">i</span> = <span class="pink">0</span>; <span class="purple">i</span> &lt; <span class="orange">specs</span>.<span class="green">length</span>; ++<span class="purple">i</span>) {</span>
+                <span class="home-code__line">12</span><span>    <span class="pink">var</span> <span class="purple">gutterClass</span> = <span class="purple">specs</span>[<span class="purple">i</span>];</span>
+                <span class="home-code__line">13</span><span>    <span class="pink">var</span> <span class="purple">gElt</span> = <span class="purple">gutters</span>.<span class="green">appendChild</span>(</span>
+                <span class="home-code__line">14</span><span>      <span class="orange">elt</span>(<span class="blue">"div"</span>, <span class="pink">null</span>, <span class="blue">"CodeMirror-gutter "</span> + <span class="purple">gutterClass</span>)</span>
+                <span class="home-code__line">15</span><span>    );</span>
+                <span class="home-code__line">16</span><span>  }</span>
+                <span class="home-code__line">17</span><span>}</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
+
+  <div class="home-scrollbar" aria-hidden="true"><div class="home-scrollbar__thumb"></div></div>
 
   <div data-site-nav data-active="home"></div>
   <script src="assets/site-nav.js"></script>
@@ -332,7 +1096,7 @@
     </div>
   </section>
 
-  <script src="assets/home-webgl.bundle.js?v=20260623-no-cover"></script>
+  <script src="assets/home-webgl.bundle.js?v=20260624-ai-logo"></script>
 
   <script src="assets/site-i18n.js"></script>
   <script>
@@ -346,12 +1110,173 @@
   </script>
   <script>
     (function(){
-      var nav = document.getElementById('nav');
-      if (nav) {
-        var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 12); };
-        window.addEventListener('scroll', onScroll, {passive:true});
-        onScroll();
+      var tracks = document.querySelectorAll('.bfs-marquee .marquee__track');
+      document.querySelectorAll('.bfs-marquee .logo-ph').forEach(function(logo){
+        logo.addEventListener('mouseenter', function(){
+          tracks.forEach(function(t){ t.style.animationPlayState = 'paused'; });
+        });
+        logo.addEventListener('mouseleave', function(){
+          tracks.forEach(function(t){ t.style.animationPlayState = ''; });
+        });
+      });
+    })();
+
+    // ── 粒子淡出（绿色渐变背景保持常显）──
+    (function(){
+      var content  = document.querySelector('.home-content');
+      var glCanvas = document.getElementById('gl-container');
+      var glGrad   = document.querySelector('.home-gradient');
+      var root     = document.documentElement;
+      if (!content) return;
+      var orbitCopy = document.querySelector('.orbit-copy');
+      var trustedTitle = content.querySelector('.solutions-pin-wrapper--headline-only .solutions-title');
+
+      function clamp(x){ return x < 0 ? 0 : x > 1 ? 1 : x; }
+
+      // 绿色渐变背景始终保持显示：inline opacity 覆盖 bundle 控制的 CSS 变量
+      if (glGrad) glGrad.style.opacity = '1';
+
+      var prevHero = -1, prevGone = null;
+      var orbitExitCurrent = 0;
+      var orbitGrayCurrent = 0;
+      var orbitExitStarted = false;
+
+      function loop(){
+        var matrix = new DOMMatrix(window.getComputedStyle(content).transform);
+        var ty = matrix.m42;
+        var baseY = parseFloat(root.style.getPropertyValue('--home-content-y')) || ty;
+        var vh = window.innerHeight;
+
+        // ① 粒子/背景淡出：直接设 inline opacity，绕过 bundle 对 CSS 变量的竞争
+        // ty=vh*0.75 → ty=vh*0.35 时完全消失
+        var heroOp = baseY > 0 ? clamp((baseY / vh - 0.35) / 0.40) : 0;
+        var contentExtraY = Math.round(clamp(heroOp / 0.55) * 120);
+        root.style.setProperty('--home-content-extra-y', contentExtraY + 'px');
+        if (Math.abs(heroOp - prevHero) > 0.002) {
+          prevHero = heroOp;
+          // 只淡出粒子，绿色渐变背景保持常显
+          if (glCanvas) glCanvas.style.opacity = heroOp.toFixed(3);
+        } else if (glCanvas) {
+          glCanvas.style.opacity = heroOp.toFixed(3);
+        }
+        if (orbitCopy) {
+          setTimeout(function(){
+            var trustedTop = trustedTitle ? trustedTitle.getBoundingClientRect().top : vh;
+            var isExiting = root.classList.contains('home-ui-exiting');
+            if (isExiting && baseY < vh - 8) orbitExitStarted = true;
+            if (!isExiting || baseY >= vh - 2) orbitExitStarted = false;
+            var targetExit = orbitExitStarted ? 1 : 0;
+            var targetGray = isExiting ? clamp(targetExit / 0.34) : 0;
+            var exitEase = trustedTop < vh * 0.18 ? 0.22 : 0.085;
+            var grayEase = targetGray >= orbitGrayCurrent ? 0.18 : 0.12;
+            orbitExitCurrent += (targetExit - orbitExitCurrent) * exitEase;
+            orbitGrayCurrent += (targetGray - orbitGrayCurrent) * grayEase;
+            if (targetExit === 0 && orbitExitCurrent < 0.01) orbitExitCurrent = 0;
+            if (targetExit === 1 && orbitExitCurrent > 0.995) orbitExitCurrent = 1;
+            if (targetGray === 0 && orbitGrayCurrent < 0.01) orbitGrayCurrent = 0;
+            if (targetGray === 1 && orbitGrayCurrent > 0.995) orbitGrayCurrent = 1;
+            var orbitVisible = orbitCopy.classList.contains('is-visible') ? 1 - orbitExitCurrent : 0;
+            root.style.setProperty('--hero-logo-gray', orbitGrayCurrent.toFixed(3));
+            orbitCopy.style.setProperty('--orbit-copy-opacity', orbitVisible.toFixed(3));
+            orbitCopy.style.setProperty('--orbit-copy-exit-y', Math.round(orbitExitCurrent * 190) + 'px');
+          }, 0);
+        }
+        var contentReady = ty <= 2 && heroOp <= 0.001;
+        root.style.setProperty('--home-content-opacity', '1');
+        root.classList.toggle('home-content-ready', contentReady);
+        content.style.overflowY = contentReady ? 'auto' : 'hidden';
+        if (!contentReady && content.scrollTop !== 0) content.scrollTop = 0;
+
+        // ② 粒子/logo 背景消失的瞬间（heroOp=0）→ nav 出现（.particles-gone 触发 CSS）
+        var gone = heroOp <= 0.001;
+        if (gone !== prevGone) {
+          prevGone = gone;
+          root.classList.toggle('particles-gone', gone);
+        }
+
+        requestAnimationFrame(loop);
       }
+      requestAnimationFrame(loop);
+    })();
+
+    // ── 修复：在内容区内往上滚时，冻结 bundle 的 hero 累加器，避免 hero 提前返场把模块盖住 ──
+    // 只拦 deltaY<0（向上）且 scrollTop>0；不 preventDefault，原生滚动照常；
+    // scrollTop 回到 0 后放行，hero 正常返场。capture 阶段先于 bundle 的 window 监听器。
+    (function(){
+      var content = document.querySelector('.home-content');
+      if (!content) return;
+      window.addEventListener('wheel', function(e){
+        if (e.deltaY < 0 && content.scrollTop > 0) {
+          e.stopImmediatePropagation();
+        }
+      }, { capture: true });
+    })();
+
+    // ── Solutions scroll-driven sticky accordion（支持多个独立模块）──
+    (function(){
+      var content   = document.querySelector('.home-content');
+      var scrollbar = document.querySelector('.home-scrollbar');
+      var thumb     = document.querySelector('.home-scrollbar__thumb');
+      if (!content) return;
+
+      // 全局滚动指示条：thumb 高度/位置随内容整体滚动更新
+      function updateScrollbar() {
+        if (!scrollbar || !thumb) return;
+        var sh = content.scrollHeight, ch = content.clientHeight;
+        var maxScroll = sh - ch;
+        var revealed = document.documentElement.classList.contains('home-cover-complete');
+        if (maxScroll <= 1 || !revealed) { scrollbar.classList.remove('is-visible'); return; }
+        scrollbar.classList.add('is-visible');
+        var trackH = scrollbar.clientHeight;
+        var thumbH = Math.max(32, trackH * ch / sh);
+        var t      = content.scrollTop / maxScroll;
+        thumb.style.height = thumbH + 'px';
+        thumb.style.top    = (t * (trackH - thumbH)).toFixed(1) + 'px';
+      }
+
+      // 为每个 .solutions-pin-wrapper 建立独立的 accordion
+      var updaters = [];
+      document.querySelectorAll('.solutions-pin-wrapper').forEach(function(wrapper){
+        var items  = Array.from(wrapper.querySelectorAll('.solutions-item'));
+        var images = Array.from(wrapper.querySelectorAll('.solutions-img'));
+        if (!items.length) return;
+        var activeIdx = -1;
+        function setActive(idx) {
+          if (idx === activeIdx) return;
+          activeIdx = idx;
+          items.forEach(function(el, i) { el.classList.toggle('is-active', i === idx); });
+          images.forEach(function(el, i) { el.classList.toggle('is-active', i === idx); });
+        }
+        items.forEach(function(el, i) {
+          el.addEventListener('click', function() { setActive(i); });
+        });
+        // CSS sticky 负责 pin（合成器驱动，不抖）；JS 只按本模块滚动进度切换激活项
+        function update() {
+          var scrolled = content.scrollTop - wrapper.offsetTop;
+          var total    = wrapper.offsetHeight - window.innerHeight;
+          if (total <= 0) { setActive(0); return; }
+          var progress = Math.max(0, Math.min(1, scrolled / total));
+          var idx = Math.min(items.length - 1, Math.floor(progress * items.length));
+          setActive(idx);
+        }
+        setActive(0);
+        updaters.push(update);
+      });
+
+      function onScroll() {
+        updateScrollbar();
+        for (var i = 0; i < updaters.length; i++) updaters[i]();
+      }
+
+      content.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      new MutationObserver(updateScrollbar)
+        .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+      onScroll();
+    })();
+
+    (function(){
       var burger = document.getElementById('hamburger');
       var mnav = document.getElementById('mobileNav');
       if (burger && mnav) {
@@ -367,47 +1292,6 @@
         });
       }
     })();
-  </script>
-
-  <!-- COBE globe (geo coverage) -->
-  <script type="module">
-    import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@latest/+esm';
-    const globeCanvas = document.getElementById('cobe-globe');
-    if (globeCanvas) {
-      let globe, frame, phi = 0;
-      function rotateGlobe() {
-        phi += 0.003;
-        if (globe) globe.update({ phi });
-        frame = requestAnimationFrame(rotateGlobe);
-      }
-      function mountGlobe() {
-        if (globe) globe.destroy();
-        cancelAnimationFrame(frame);
-        frame = null;
-        const geoWrap = document.querySelector('.geo__globe-wrap') || globeCanvas.parentElement;
-        const rect = geoWrap.getBoundingClientRect();
-        const size = Math.max(320, Math.round((rect.width || 460) * 0.98));
-        globeCanvas.style.width = size + 'px';
-        globeCanvas.style.height = size + 'px';
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        globe = createGlobe(globeCanvas, {
-          devicePixelRatio: dpr, width: size, height: size, phi, theta: 0.2,
-          dark: 0, diffuse: 1.2, mapSamples: 8000, mapBrightness: 6, mapBaseBrightness: 0,
-          baseColor: [1, 1, 1], markerColor: [0.1, 0.66, 0.34], glowColor: [1, 1, 1],
-        });
-        globe.update({ phi });
-        if (visible) frame = requestAnimationFrame(rotateGlobe);
-      }
-      let visible = false;
-      const observer = new IntersectionObserver(entries => {
-        visible = entries[0].isIntersecting;
-        if (visible && !frame) frame = requestAnimationFrame(rotateGlobe);
-        if (!visible) { cancelAnimationFrame(frame); frame = null; }
-      }, { threshold: 0 });
-      observer.observe(globeCanvas);
-      mountGlobe();
-      window.addEventListener('resize', mountGlobe, { passive: true });
-    }
   </script>
 
   <!-- Light rays WebGL (compliance section) -->

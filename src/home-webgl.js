@@ -1,5 +1,28 @@
 // OGL is bundled locally for production.
 import { Renderer, Camera, Transform, Geometry, Program, Mesh, Vec3, Plane, Texture } from 'ogl';
+import openaiChatgpt from 'thesvg/openai-chatgpt';
+import openai from 'thesvg/openai';
+import claude from 'thesvg/claude';
+import claudeCode from 'thesvg/claude-code';
+import perplexity from 'thesvg/perplexity';
+import perplexityAi from 'thesvg/perplexity-ai';
+import anthropic from 'thesvg/anthropic';
+import googleGemini from 'thesvg/google-gemini';
+import microsoftCopilot from 'thesvg/microsoft-copilot';
+import azureOpenAI from 'thesvg/azure-azure-openai';
+import codexOpenAI from 'thesvg/codex-openai';
+import dallEOpenAI from 'thesvg/dall-e-openai';
+import openAIGym from 'thesvg/openai-gym';
+import cursor from 'thesvg/cursor';
+import github from 'thesvg/github';
+import vercel from 'thesvg/vercel';
+import supabase from 'thesvg/supabase';
+import figma from 'thesvg/figma';
+import slack from 'thesvg/slack';
+import stripe from 'thesvg/stripe';
+import notion from 'thesvg/notion';
+import zapier from 'thesvg/zapier';
+import linear from 'thesvg/linear';
 
 // ─── Utility functions (from morpho module 66287) ────────────────────────────
 const randomRange    = (a, b) => a + Math.random() * (b - a);
@@ -281,40 +304,55 @@ const BRAND_DATA = [
   { label: 'South Korea', src: `${CIRCLE_FLAG_BASE}kr.svg`, circleFlag: true, color: '#315bc7' },
   { label: 'Netherlands', src: `${CIRCLE_FLAG_BASE}nl.svg`, circleFlag: true, color: '#ef4b4b' },
   // ring 1 — 20 logos
-  { label: 'Client A', src: 'assets/clients/logoipsum-426.svg', color: '#52ffa8' },
-  { label: 'Client B', src: 'assets/clients/logoipsum-380.svg', color: '#58a6ff' },
-  { label: 'Client C', src: 'assets/clients/logoipsum-418.svg', color: '#f4f8f5' },
-  { label: 'Client D', src: 'assets/clients/logoipsum-430.svg', color: '#7dffdf' },
-  { label: 'Client E', src: 'assets/clients/logoipsum-360.svg', color: '#80a9ff' },
-  { label: 'Client F', src: 'assets/clients/logoipsum-367.svg', color: '#f6fff9' },
-  { label: 'Client G', src: 'assets/clients/logoipsum-414.svg', color: '#47e7c2' },
-  { label: 'Client H', src: 'assets/clients/logoipsum-402.svg', color: '#99f7c8' },
-  { label: 'ISO 27001', src: 'assets/badge-iso-27001.svg', color: '#1ad79f' },
-  { label: 'ISO 50001', src: 'assets/badge-iso-50001.svg', color: '#5ee8c0' },
-  { label: 'Grid Leader', src: 'assets/badge-g2-grid-leader.svg', color: '#ff7448' },
-  { label: 'Security', src: 'assets/badge-g2-top50-security.svg', color: '#ff9a47' },
-  // ring 2 — 15 logos
-  { label: 'PHP', src: 'assets/php-logo.svg', color: '#8993be' },
-  { label: 'Java', src: 'assets/java-logo.svg', color: '#f89820' },
-  { label: 'cURL', src: 'assets/curl-logo.svg', color: '#f7f7f7' },
-  { label: 'OpenAI', src: 'assets/ai/openai-chatgpt.svg', color: '#12d99f' },
-  { label: 'Perplexity', src: 'assets/ai/perplexity.svg', color: '#20c8d9' },
-  { label: 'Client A', src: 'assets/clients/logoipsum-426.svg', color: '#52ffa8' },
-  { label: 'Client B', src: 'assets/clients/logoipsum-380.svg', color: '#58a6ff' },
-  { label: 'Client C', src: 'assets/clients/logoipsum-418.svg', color: '#f4f8f5' },
-  { label: 'Client D', src: 'assets/clients/logoipsum-430.svg', color: '#7dffdf' },
-  { label: 'Client E', src: 'assets/clients/logoipsum-360.svg', color: '#80a9ff' },
-  { label: 'Client F', src: 'assets/clients/logoipsum-367.svg', color: '#f6fff9' },
-  { label: 'Client G', src: 'assets/clients/logoipsum-414.svg', color: '#47e7c2' },
-  { label: 'Trustpilot', src: 'assets/ratings/trustpilot.svg', color: '#00b67a' },
-  { label: 'Capterra', src: 'assets/ratings/capterra.svg', color: '#2879ff' },
-  { label: 'G2', src: 'assets/ratings/g2.svg', color: '#ff6b3d' },
+  { label: 'GitHub', src: github.svg, color: '#f7f7f7' },
+  { label: 'Vercel', src: vercel.svg, color: '#f7f7f7' },
+  { label: 'Supabase', src: supabase.svg, color: '#3ecf8e' },
+  { label: 'Figma', src: figma.svg, color: '#f24e1e' },
+  { label: 'Slack', src: slack.svg, color: '#ffffff' },
+  { label: 'Stripe', src: stripe.svg, color: '#635bff' },
+  { label: 'Notion', src: notion.svg, color: '#ffffff' },
+  { label: 'Zapier', src: zapier.svg, color: '#ff4f00' },
+  { label: 'Linear', src: linear.svg, color: '#ffffff' },
+  { label: 'Cursor', src: cursor.svg, color: '#ffffff' },
+  { label: 'OpenAI', src: openai.svg, color: '#12d99f' },
+  { label: 'Claude Code', src: claudeCode.svg, color: '#ff8e4d' },
+  { label: 'Perplexity AI', src: perplexityAi.svg, color: '#20c8d9' },
+  { label: 'Google Gemini', src: googleGemini.svg, color: '#8E75B2' },
+  { label: 'Microsoft Copilot', src: microsoftCopilot.svg, color: '#7aa6ff' },
+  { label: 'Azure OpenAI', src: azureOpenAI.svg, color: '#29c7a8' },
+  { label: 'Codex', src: codexOpenAI.svg, color: '#ffffff' },
+  { label: 'DALL·E', src: dallEOpenAI.svg, color: '#b9c5ff' },
+  { label: 'OpenAI Gym', src: openAIGym.svg, color: '#ff6a3d' },
+  { label: 'Anthropic', src: anthropic.svg, color: '#f3f0e8' },
+  // ring 2 — 20 logos
+  { label: 'OpenAI ChatGPT', src: openaiChatgpt.svg, color: '#12d99f' },
+  { label: 'OpenAI', src: openai.svg, color: '#12d99f' },
+  { label: 'Claude', src: claude.svg, color: '#ff8e4d' },
+  { label: 'Perplexity', src: perplexity.svg, color: '#20c8d9' },
+  { label: 'Anthropic', src: anthropic.svg, color: '#f3f0e8' },
+  { label: 'GitHub', src: github.svg, color: '#f7f7f7' },
+  { label: 'Vercel', src: vercel.svg, color: '#f7f7f7' },
+  { label: 'Supabase', src: supabase.svg, color: '#3ecf8e' },
+  { label: 'Figma', src: figma.svg, color: '#f24e1e' },
+  { label: 'Slack', src: slack.svg, color: '#ffffff' },
+  { label: 'Stripe', src: stripe.svg, color: '#635bff' },
+  { label: 'Notion', src: notion.svg, color: '#ffffff' },
+  { label: 'Zapier', src: zapier.svg, color: '#ff4f00' },
+  { label: 'Linear', src: linear.svg, color: '#ffffff' },
+  { label: 'Cursor', src: cursor.svg, color: '#ffffff' },
+  { label: 'Microsoft Copilot', src: microsoftCopilot.svg, color: '#7aa6ff' },
+  { label: 'Google Gemini', src: googleGemini.svg, color: '#8E75B2' },
+  { label: 'Azure OpenAI', src: azureOpenAI.svg, color: '#29c7a8' },
+  { label: 'Codex', src: codexOpenAI.svg, color: '#ffffff' },
+  { label: 'DALL·E', src: dallEOpenAI.svg, color: '#b9c5ff' },
 ];
 
 function makeBrandCanvas(label, color, texture, src, circleFlag = false) {
   const c = document.createElement('canvas');
   c.width = c.height = 192;
   const ctx = c.getContext('2d');
+  const svgText = typeof src === 'object' && src && typeof src.svg === 'string' ? src.svg : '';
+  const svgSrc = typeof src === 'string' ? src : svgText;
 
   function paintBase() {
     ctx.clearRect(0, 0, 192, 192);
@@ -368,10 +406,12 @@ function makeBrandCanvas(label, color, texture, src, circleFlag = false) {
       texture.needsUpdate = true;
     };
     img.onerror = paintFallback;
-    if (/^https?:\/\//.test(src)) {
+    if (/^https?:\/\//.test(svgSrc)) {
       img.crossOrigin = 'anonymous';
     }
-    img.src = src;
+    img.src = /^<svg[\s>]/i.test(svgSrc)
+      ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgSrc)}`
+      : svgSrc;
   }
 
   return c;
@@ -518,7 +558,7 @@ const ROLA_LOGO_SVG =
   '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">' +
     '<g transform="translate(64 96) scale(16)" fill="#ffffff">' +
       '<path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/>' +
-      '<path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity="0.4"/>' +
+      '<path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity="0.8"/>' +
     '</g>' +
   '</svg>';
 const logoCanvas = document.createElement('canvas');
@@ -569,6 +609,7 @@ const ORBIT_OUTER_R_SCALE = 0.86;  // outer ring orbit radius
 const ORBIT_ALPHA_DEC   = 0.05;  // outer rings slightly less opaque
 const ORBIT_RETRACT     = 0.12;  // rings retract toward center when zoomed in
 const ORBIT_RETRACT_SPD = 20;    // damping speed for retract
+const ORBIT_OUTER_SUPPORT_INSET = 0.20; // support segment pulls outer logos inward
 
 let brandT = 0;
 const brandObjects = [];
@@ -622,6 +663,7 @@ ORBIT_LAYERS.forEach((count, layerIdx) => {
       curScale: 0,
       focus: layerIdx === 0 ? 1 : 0,
       focusVelocity: 0,
+      supportLift: 0,
     });
   }
 });
@@ -632,8 +674,14 @@ function updateBrands(dt, scrollProg, activeSegment) {
   const k = limitRange(0, -1 + 2 * scrollProg, 1);
 
   brandObjects.forEach((b, i) => {
-    // Retract rings toward center as zoom progresses (brandRetractFactor=0.4)
-    const retractedR = b.baseR * (1 - k * ORBIT_RETRACT);
+    const supportTarget = b.layerIdx === 1 && activeSegment === 1 && textPhase < 0.001 ? 1 : 0;
+    b.supportLift += (supportTarget - b.supportLift) * Math.min(1, 0.07 * dt);
+    const supportCurve = b.supportLift * b.supportLift * (3 - 2 * b.supportLift);
+
+    // Retract rings toward center as zoom progresses. During Support Services,
+    // the outer ring eases inward and grows to match the inner ring's logo size.
+    const supportInset = b.layerIdx === 1 ? ORBIT_OUTER_SUPPORT_INSET * supportCurve : 0;
+    const retractedR = b.baseR * (1 - k * (ORBIT_RETRACT + supportInset));
     b.curR -= (b.curR - retractedR) / (ORBIT_RETRACT_SPD / dt);
 
     const angle = b.phi + brandT * b.dir;
@@ -645,7 +693,10 @@ function updateBrands(dt, scrollProg, activeSegment) {
     b.plane.position.z = 0.05 + i * 0.0008;
 
     // Scale grows with k; outer layers scale down (brandLayerScaleDecay=0.28)
-    const scaleK = k > 0.005 ? k * (1 - b.layerIdx * ORBIT_SCALE_DEC) : 0;
+    const layerScale = b.layerIdx === 1
+      ? 1 - ORBIT_SCALE_DEC * (1 - supportCurve)
+      : 1 - b.layerIdx * ORBIT_SCALE_DEC;
+    const scaleK = k > 0.005 ? k * layerScale : 0;
     b.curScale  += (scaleK - b.curScale) * Math.min(1, 0.08 * dt);
     b.plane.scale.set(Math.max(0.00001, b.curScale));
 
@@ -687,7 +738,7 @@ const FADE_START    = 1.8;
 const FADE_END       = FADE_START + 1.6;
 window.addEventListener('wheel', e => {
   if (e.deltaY > 0) homeUiReturnLock = false;
-  scrollTarget = limitRange(0, scrollTarget + e.deltaY * 0.0012, SCROLL_MAX);
+  scrollTarget = limitRange(0, scrollTarget + e.deltaY * 0.00095, SCROLL_MAX);
 }, { passive: true });
 
 // ─── Mouse interaction ────────────────────────────────────────────────────────
@@ -932,8 +983,8 @@ function loop(nowMs) {
   const dt = limitRange(0.1, elapsed / TARGET_MS, 3);
   frameAccum += dt;
 
-  const spring = 0.105;
-  const damping = 0.68;
+  const spring = 0.085;
+  const damping = 0.74;
   scrollVelocity += (scrollTarget - scrollProgress) * spring * dt;
   scrollVelocity *= Math.pow(damping, dt);
   scrollProgress = limitRange(0, scrollProgress + scrollVelocity * dt, SCROLL_MAX);
@@ -946,7 +997,7 @@ function loop(nowMs) {
   syncHomeCover();
 
   // Smooth mouse
-  const c = 14 / dt;
+  const c = 16 / dt;
   smooth.x -= (smooth.x - mouse.x) / c;
   smooth.y -= (smooth.y - mouse.y) / c;
 
@@ -961,8 +1012,8 @@ function loop(nowMs) {
   // Camera gently follows mouse, drifting around its base position.
   // Fade the follow out as we zoom in (scrollProgress → 1) so the enlarged
   // sphere stays put instead of swaying with the mouse (which feels dizzying).
-  const cc     = 8 / dt;
-  const follow = 0.7 * (1 - zoomProgress);
+  const cc     = 9 / dt;
+  const follow = 0.62 * (1 - zoomProgress);
   camera.position.x -= (camera.position.x - (0     - smooth.x * follow)) / cc;
   camera.position.y -= (camera.position.y - (baseY + smooth.y * follow)) / cc;
   camera.position.z -= (camera.position.z - targetZ)                     / cc;

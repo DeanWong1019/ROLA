@@ -248,7 +248,11 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 /* ============================================================
    Nav
    ============================================================ */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .3s var(--ease),border-color .3s var(--ease),backdrop-filter .3s var(--ease)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(7,17,26,.38);backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:background .3s var(--ease),border-color .3s var(--ease),backdrop-filter .3s var(--ease)}
 .nav--light:not(.scrolled){background:var(--color-bg-white-elevated);backdrop-filter:blur(16px) saturate(140%);
   -webkit-backdrop-filter:blur(16px) saturate(140%)}
 .nav--light:not(.scrolled) .logo{color:var(--color-text-primary)}
@@ -263,6 +267,8 @@ h2.h-section{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.1
 .nav--light:not(.scrolled) .nav__login{color:var(--color-text-on-brand);border-color:var(--color-brand);background:var(--color-brand)}
 .nav--light:not(.scrolled) .hamburger span{background:var(--color-text-primary)}
 .nav--transparent-dark:not(.scrolled) .logo{color:var(--color-text-primary)}
+.nav--transparent-dark:not(.scrolled){background:rgba(255,255,255,.72);backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);border-bottom:1px solid rgba(8,7,3,.08)}
 .nav--transparent-dark:not(.scrolled) .logo__wordmark path{fill:var(--color-text-primary)}
 .nav--transparent-dark:not(.scrolled) .nav__links a{color:var(--color-text-secondary)}
 .nav--transparent-dark:not(.scrolled) .nav__links a.active,
