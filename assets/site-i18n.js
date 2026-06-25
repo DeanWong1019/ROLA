@@ -264,7 +264,7 @@
 
   function ensureLanguageSwitch(){
     document.querySelectorAll('.nav__actions').forEach(function(actions){
-      if (actions.querySelector('.nav__lang')) return;
+      if (actions.querySelector('.nav__lang') || actions.querySelector('.nav__lang-dropdown')) return;
       var wrap = document.createElement('div');
       wrap.className = 'nav__lang';
       wrap.setAttribute('aria-label', 'Language switch');

@@ -181,14 +181,14 @@
   }
 
   function isActive(active, key){
-    return active === key || (active === 'proxies' && key === 'home');
+    return active === key;
   }
 
   function renderLinks(links, active){
     return links.map(function(link){
       if (link.mega) {
         return '<div class="nav__dropdown">' +
-          '<button type="button" class="nav__dropdown-trigger" aria-haspopup="true" aria-expanded="false">' + link.label + '<span class="nav__chev" aria-hidden="true"></span></button>' +
+          '<button type="button" class="nav__dropdown-trigger" aria-haspopup="true" aria-expanded="false">' + link.label + '<i data-lucide="chevron-down" class="nav__chev-icon" aria-hidden="true"></i></button>' +
           renderMegaMenu() +
           '</div>';
       }
@@ -196,9 +196,23 @@
     }).join('');
   }
 
+  var langOptions = [
+    {code:'en', label:'EN', name:'English'},
+    {code:'zh', label:'中文', name:'中文'}
+  ];
+
   function renderLanguageSwitch(){
     var lang = new URLSearchParams(window.location.search).get('lang') === 'zh' ? 'zh' : 'en';
-    return '<div class="nav__lang" aria-label="Language switch"><a href="' + localizedHref('en') + '" data-lang-option="en"' + (lang === 'en' ? ' class="active"' : '') + '>EN</a><span>/</span><a href="' + localizedHref('zh') + '" data-lang-option="zh"' + (lang === 'zh' ? ' class="active"' : '') + '>中文</a></div>';
+    var current = langOptions.find(function(o){ return o.code === lang; }) || langOptions[0];
+    var items = langOptions.map(function(o){
+      return '<a href="' + localizedHref(o.code) + '" data-lang-option="' + o.code + '"' + (o.code === lang ? ' class="active"' : '') + '>' + o.name + '</a>';
+    }).join('');
+    return '<div class="nav__lang-dropdown" aria-label="Language switch">' +
+      '<button type="button" class="nav__lang-trigger" aria-haspopup="true" aria-expanded="false">' +
+      '<i data-lucide="globe" class="nav__lang-icon" aria-hidden="true"></i><span>' + current.label + '</span>' +
+      '<i data-lucide="chevron-down" class="nav__chev-icon" aria-hidden="true"></i></button>' +
+      '<div class="nav__lang-menu" role="menu">' + items + '</div>' +
+      '</div>';
   }
 
   function renderMobileLanguageLinks(){
@@ -209,7 +223,7 @@
     var ctaLabel = active === 'proxies' ? 'Buy Now' : 'Start Free Trial';
     var ctaHref = active === 'proxies' || active === 'use-cases' ? '#' : 'pricing.html';
     var navClass = active === 'blog' || active === 'faq' ? 'nav nav--light' : active === 'pricing' || active === 'use-cases' ? 'nav nav--transparent-dark' : 'nav';
-    return '<nav class="' + navClass + '" id="nav"><div class="nav__inner"><a href="index.html" class="logo">' + logo + '</a><div class="nav__links">' + renderLinks(desktopLinks, active) + '</div><div class="nav__actions">' + renderLanguageSwitch() + '<a href="#" class="nav__login">Register/Login</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div></nav><div class="mobile-nav" id="mobileNav">' + renderLinks(mobileLinksFor(active), active) + '<button type="button" class="mobile-nav__mega-toggle" id="mobilePurposesToggle">Purposes<span class="nav__chev" aria-hidden="true"></span></button><div class="mobile-mega" id="mobilePurposesPanel">' + renderMegaFlatList() + '</div>' + renderMobileLanguageLinks() + '<a href="' + ctaHref + '" class="btn btn--secondary btn--block">' + ctaLabel + '</a></div>';
+    return '<nav class="' + navClass + '" id="nav"><div class="nav__inner"><a href="index.html" class="logo">' + logo + '</a><div class="nav__links">' + renderLinks(desktopLinks, active) + '</div><div class="nav__actions">' + renderLanguageSwitch() + '<a href="#" class="nav__login">Register/Login</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div></nav><div class="mobile-nav" id="mobileNav">' + renderLinks(mobileLinksFor(active), active) + '<button type="button" class="mobile-nav__mega-toggle" id="mobilePurposesToggle">Purposes<i data-lucide="chevron-down" class="nav__chev-icon" aria-hidden="true"></i></button><div class="mobile-mega" id="mobilePurposesPanel">' + renderMegaFlatList() + '</div>' + renderMobileLanguageLinks() + '<a href="' + ctaHref + '" class="btn btn--secondary btn--block">' + ctaLabel + '</a></div>';
   }
 
   function ensureLucide(cb){
@@ -223,10 +237,10 @@
     document.head.appendChild(s);
   }
 
-  function wireDropdown(){
-    var dropdown = document.querySelector('.nav__dropdown');
+  function wireDropdown(dropdown, triggerSelector){
     if (!dropdown) return;
-    var trigger = dropdown.querySelector('.nav__dropdown-trigger');
+    var trigger = dropdown.querySelector(triggerSelector);
+    if (!trigger) return;
     var closeTimer = null;
 
     function open(){
@@ -257,6 +271,11 @@
     });
   }
 
+  function wireAllDropdowns(){
+    wireDropdown(document.querySelector('.nav__dropdown'), '.nav__dropdown-trigger');
+    wireDropdown(document.querySelector('.nav__lang-dropdown'), '.nav__lang-trigger');
+  }
+
   function wireMobileMega(){
     var toggle = document.getElementById('mobilePurposesToggle');
     var panel = document.getElementById('mobilePurposesPanel');
@@ -267,11 +286,53 @@
     });
   }
 
+  function wireNavIndicator(){
+    var wrap = document.querySelector('.nav__links');
+    if (!wrap) return;
+    var indicator = document.createElement('span');
+    indicator.className = 'nav__links-indicator';
+    indicator.setAttribute('aria-hidden', 'true');
+    wrap.insertBefore(indicator, wrap.firstChild);
+
+    var targets = wrap.querySelectorAll('a, .nav__dropdown-trigger');
+    var dropdown = wrap.querySelector('.nav__dropdown');
+    var dropdownTrigger = dropdown ? dropdown.querySelector('.nav__dropdown-trigger') : null;
+    var hideTimer = null;
+
+    function place(el){
+      clearTimeout(hideTimer);
+      var wrapRect = wrap.getBoundingClientRect();
+      var elRect = el.getBoundingClientRect();
+      indicator.style.transform = 'translateX(' + (elRect.left - wrapRect.left) + 'px)';
+      indicator.style.width = elRect.width + 'px';
+      indicator.style.opacity = '1';
+    }
+    function hideNow(){ indicator.style.opacity = '0'; }
+    function scheduleHide(){
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function(){
+        if (dropdown && dropdown.classList.contains('open')) return;
+        hideNow();
+      }, 170);
+    }
+
+    targets.forEach(function(el){
+      el.addEventListener('mouseenter', function(){ place(el); });
+    });
+    wrap.addEventListener('mouseleave', scheduleHide);
+
+    if (dropdown && dropdownTrigger) {
+      dropdown.addEventListener('mouseenter', function(){ place(dropdownTrigger); });
+      dropdown.addEventListener('mouseleave', scheduleHide);
+    }
+  }
+
   mounts.forEach(function(mount){
     mount.outerHTML = render(mount.getAttribute('data-active') || inferActive());
   });
 
-  wireDropdown();
+  wireAllDropdowns();
   wireMobileMega();
+  wireNavIndicator();
   ensureLucide(function(){ window.lucide.createIcons(); });
 })();
