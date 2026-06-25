@@ -8,11 +8,114 @@
     {key:'home', label:'Home', href:'index.html'},
     {key:'home-2', label:'Home 2', href:'index-v2.html'},
     {key:'proxies', label:'Proxies', href:'proxies.html'},
+    {key:'purposes', label:'Purposes', href:'#', mega:true},
     {key:'pricing', label:'Pricing', href:'pricing.html'},
     {key:'use-cases', label:'Use Cases', href:'use-case.html'},
     {key:'blog', label:'Blog', href:'blog.html'},
     {key:'faq', label:'FAQs', href:'faq.html'}
   ];
+
+  // ---- "Purposes" mega menu data ----
+  var purposesGroups = [
+    { icon:'shopping-cart', title:'E-commerce', items:[
+      {name:'Amazon', kind:'letter', letter:'A', color:'#FF9900'},
+      {name:'BestBuy', kind:'letter', letter:'B', color:'#0046BE'},
+      {name:'Ebay', kind:'brand', slug:'ebay'},
+      {name:'Etsy', kind:'brand', slug:'etsy'},
+      {name:'Shopee', kind:'brand', slug:'shopee'}
+    ]},
+    { icon:'search', title:'Search Engines', items:[
+      {name:'Bing', kind:'letter', letter:'B', color:'#008373'},
+      {name:'Duckduckgo', kind:'brand', slug:'duckduckgo'},
+      {name:'Google', kind:'brand', slug:'google'}
+    ]},
+    { icon:'share-2', title:'Social Networks', items:[
+      {name:'Dating', kind:'icon', icon:'heart', color:'#ec4899'},
+      {name:'Instagram', kind:'brand', slug:'instagram'},
+      {name:'Reddit', kind:'brand', slug:'reddit'},
+      {name:'(X) Twitter', kind:'brand', slug:'x'},
+      {name:'Facebook', kind:'brand', slug:'facebook'},
+      {name:'OnlyFans', kind:'brand', slug:'onlyfans'},
+      {name:'TikTok', kind:'brand', slug:'tiktok'}
+    ]},
+    { icon:'radio', title:'Streaming', items:[
+      {name:'Spotify', kind:'brand', slug:'spotify'},
+      {name:'Twitch', kind:'brand', slug:'twitch'},
+      {name:'Youtube', kind:'brand', slug:'youtube'}
+    ]},
+    { icon:'gamepad-2', title:'Games', items:[
+      {name:'Aion', kind:'letter', letter:'A', color:'#6EC1E4'},
+      {name:'Growtopia', kind:'letter', letter:'G', color:'#FFC107'},
+      {name:'Minecraft', kind:'letter', letter:'M', color:'#4CAF50'},
+      {name:'RuneScape', kind:'letter', letter:'R', color:'#2C2C2C'},
+      {name:'World of Warcraft', kind:'letter', letter:'W', color:'#1E3A8A'},
+      {name:'Diablo 2', kind:'letter', letter:'D', color:'#8B0000'},
+      {name:'Lords Mobile', kind:'letter', letter:'L', color:'#1565C0'},
+      {name:'Path of Exile', kind:'letter', letter:'P', color:'#8D6E63'},
+      {name:'SilkRoad', kind:'letter', letter:'S', color:'#B8860B'}
+    ]},
+    { icon:'layout-grid', title:'Others', items:[
+      {name:'ChatGPT', kind:'letter', letter:'C', color:'#74AA9C'},
+      {name:'Discord', kind:'brand', slug:'discord'},
+      {name:'Sneakers', kind:'icon', icon:'footprints', color:'#6b7280'},
+      {name:'Steam', kind:'brand', slug:'steam'},
+      {name:'Telegram', kind:'brand', slug:'telegram'},
+      {name:'Tickets', kind:'icon', icon:'ticket', color:'#6b7280'},
+      {name:'Upwork', kind:'brand', slug:'upwork'},
+      {name:'WhatsApp', kind:'brand', slug:'whatsapp'},
+      {name:'Wikipedia', kind:'brand', slug:'wikipedia'}
+    ]}
+  ];
+  // 3 top-level columns, each stacking 2 groups (matches the reference layout)
+  var purposesColumns = [
+    [purposesGroups[0], purposesGroups[1]],
+    [purposesGroups[2], purposesGroups[3]],
+    [purposesGroups[4], purposesGroups[5]]
+  ];
+
+  function iconBadge(item){
+    if (item.kind === 'brand') {
+      return '<span class="nav__mega-icon"><img src="https://cdn.simpleicons.org/' + item.slug + '" alt="" loading="lazy" width="16" height="16"></span>';
+    }
+    if (item.kind === 'icon') {
+      return '<span class="nav__mega-icon" style="color:' + item.color + '"><i data-lucide="' + item.icon + '"></i></span>';
+    }
+    return '<span class="nav__mega-icon nav__mega-icon--letter" style="background:' + item.color + '">' + item.letter + '</span>';
+  }
+
+  function renderMegaGroup(group){
+    var half = Math.ceil(group.items.length / 2);
+    var multi = group.items.length > 5;
+    var cols = multi ? [group.items.slice(0, half), group.items.slice(half)] : [group.items];
+    var listsHtml = cols.map(function(col){
+      return '<ul class="nav__mega-sublist">' + col.map(function(item){
+        return '<li class="nav__mega-item">' + iconBadge(item) + '<span>' + item.name + '</span></li>';
+      }).join('') + '</ul>';
+    }).join('');
+    return '<div class="nav__mega-group">' +
+      '<div class="nav__mega-group-title"><i data-lucide="' + group.icon + '"></i><span>' + group.title + '</span></div>' +
+      '<div class="nav__mega-lists">' + listsHtml + '</div>' +
+      '</div>';
+  }
+
+  function renderMegaMenu(){
+    var colsHtml = purposesColumns.map(function(groups){
+      return '<div class="nav__mega-col">' + groups.map(renderMegaGroup).join('') + '</div>';
+    }).join('');
+    return '<div class="nav__megamenu" role="menu">' + colsHtml + '</div>';
+  }
+
+  function renderMegaFlatList(){
+    // simplified flat version for the mobile nav panel
+    return purposesGroups.map(function(group){
+      return '<div class="mobile-mega__group">' +
+        '<div class="mobile-mega__group-title"><i data-lucide="' + group.icon + '"></i><span>' + group.title + '</span></div>' +
+        '<div class="mobile-mega__items">' + group.items.map(function(item){
+          return '<span class="mobile-mega__item">' + iconBadge(item) + '<span>' + item.name + '</span></span>';
+        }).join('') + '</div>' +
+        '</div>';
+    }).join('');
+  }
 
   function mobileLinksFor(active){
     if (active === 'home') {
@@ -83,6 +186,12 @@
 
   function renderLinks(links, active){
     return links.map(function(link){
+      if (link.mega) {
+        return '<div class="nav__dropdown">' +
+          '<button type="button" class="nav__dropdown-trigger" aria-haspopup="true" aria-expanded="false">' + link.label + '<span class="nav__chev" aria-hidden="true"></span></button>' +
+          renderMegaMenu() +
+          '</div>';
+      }
       return '<a href="' + link.href + '"' + (isActive(active, link.key) ? ' class="active"' : '') + '>' + link.label + '</a>';
     }).join('');
   }
@@ -100,10 +209,69 @@
     var ctaLabel = active === 'proxies' ? 'Buy Now' : 'Start Free Trial';
     var ctaHref = active === 'proxies' || active === 'use-cases' ? '#' : 'pricing.html';
     var navClass = active === 'blog' || active === 'faq' ? 'nav nav--light' : active === 'pricing' || active === 'use-cases' ? 'nav nav--transparent-dark' : 'nav';
-    return '<nav class="' + navClass + '" id="nav"><div class="nav__inner"><a href="index.html" class="logo">' + logo + '</a><div class="nav__links">' + renderLinks(desktopLinks, active) + '</div><div class="nav__actions">' + renderLanguageSwitch() + '<a href="#" class="nav__login">Register/Login</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div></nav><div class="mobile-nav" id="mobileNav">' + renderLinks(mobileLinksFor(active), active) + renderMobileLanguageLinks() + '<a href="' + ctaHref + '" class="btn btn--secondary btn--block">' + ctaLabel + '</a></div>';
+    return '<nav class="' + navClass + '" id="nav"><div class="nav__inner"><a href="index.html" class="logo">' + logo + '</a><div class="nav__links">' + renderLinks(desktopLinks, active) + '</div><div class="nav__actions">' + renderLanguageSwitch() + '<a href="#" class="nav__login">Register/Login</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div></nav><div class="mobile-nav" id="mobileNav">' + renderLinks(mobileLinksFor(active), active) + '<button type="button" class="mobile-nav__mega-toggle" id="mobilePurposesToggle">Purposes<span class="nav__chev" aria-hidden="true"></span></button><div class="mobile-mega" id="mobilePurposesPanel">' + renderMegaFlatList() + '</div>' + renderMobileLanguageLinks() + '<a href="' + ctaHref + '" class="btn btn--secondary btn--block">' + ctaLabel + '</a></div>';
+  }
+
+  function ensureLucide(cb){
+    if (window.lucide && window.lucide.createIcons) { cb(); return; }
+    var existing = document.getElementById('lucide-cdn-script');
+    if (existing) { existing.addEventListener('load', cb); return; }
+    var s = document.createElement('script');
+    s.id = 'lucide-cdn-script';
+    s.src = 'https://unpkg.com/lucide@latest';
+    s.onload = cb;
+    document.head.appendChild(s);
+  }
+
+  function wireDropdown(){
+    var dropdown = document.querySelector('.nav__dropdown');
+    if (!dropdown) return;
+    var trigger = dropdown.querySelector('.nav__dropdown-trigger');
+    var closeTimer = null;
+
+    function open(){
+      clearTimeout(closeTimer);
+      dropdown.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+    function close(){
+      dropdown.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+    function scheduleClose(){
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(close, 160);
+    }
+
+    dropdown.addEventListener('mouseenter', open);
+    dropdown.addEventListener('mouseleave', scheduleClose);
+    trigger.addEventListener('click', function(e){
+      e.preventDefault();
+      dropdown.classList.contains('open') ? close() : open();
+    });
+    document.addEventListener('click', function(e){
+      if (!dropdown.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') close();
+    });
+  }
+
+  function wireMobileMega(){
+    var toggle = document.getElementById('mobilePurposesToggle');
+    var panel = document.getElementById('mobilePurposesPanel');
+    if (!toggle || !panel) return;
+    toggle.addEventListener('click', function(){
+      panel.classList.toggle('open');
+      toggle.classList.toggle('open');
+    });
   }
 
   mounts.forEach(function(mount){
     mount.outerHTML = render(mount.getAttribute('data-active') || inferActive());
   });
+
+  wireDropdown();
+  wireMobileMega();
+  ensureLucide(function(){ window.lucide.createIcons(); });
 })();
