@@ -78,7 +78,7 @@
       return '<span class="nav__mega-icon"><img src="https://cdn.simpleicons.org/' + item.slug + '" alt="" loading="lazy" width="16" height="16"></span>';
     }
     if (item.kind === 'icon') {
-      return '<span class="nav__mega-icon" style="color:' + item.color + '"><i data-lucide="' + item.icon + '"></i></span>';
+      return '<span class="nav__mega-icon" style="color:' + item.color + '"><i data-lucide="' + item.icon + '" class="nav__mega-icon-glyph"></i></span>';
     }
     return '<span class="nav__mega-icon nav__mega-icon--letter" style="background:' + item.color + '">' + item.letter + '</span>';
   }
@@ -93,7 +93,7 @@
       }).join('') + '</ul>';
     }).join('');
     return '<div class="nav__mega-group">' +
-      '<div class="nav__mega-group-title"><i data-lucide="' + group.icon + '"></i><span>' + group.title + '</span></div>' +
+      '<div class="nav__mega-group-title"><i data-lucide="' + group.icon + '" class="nav__mega-group-title-icon"></i><span>' + group.title + '</span></div>' +
       '<div class="nav__mega-lists">' + listsHtml + '</div>' +
       '</div>';
   }
@@ -109,7 +109,7 @@
     // simplified flat version for the mobile nav panel
     return purposesGroups.map(function(group){
       return '<div class="mobile-mega__group">' +
-        '<div class="mobile-mega__group-title"><i data-lucide="' + group.icon + '"></i><span>' + group.title + '</span></div>' +
+        '<div class="mobile-mega__group-title"><i data-lucide="' + group.icon + '" class="mobile-mega__group-title-icon"></i><span>' + group.title + '</span></div>' +
         '<div class="mobile-mega__items">' + group.items.map(function(item){
           return '<span class="mobile-mega__item">' + iconBadge(item) + '<span>' + item.name + '</span></span>';
         }).join('') + '</div>' +
