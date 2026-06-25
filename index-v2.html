@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="premium-styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #000; height: 100dvh; overflow: hidden; }
@@ -25,11 +26,9 @@
       inset: 0;
       z-index: 1;
       opacity: var(--home-hero-opacity);
-      transition:
-        opacity .12s linear,
-        filter .24s var(--ease, cubic-bezier(.22,.61,.36,1));
-      will-change: opacity, filter, transform;
+      will-change: transform, filter;
       filter: grayscale(var(--hero-logo-gray));
+      transform: translateY(calc(var(--home-content-y, 0px) - 100vh));
     }
     #gl-container canvas { width: 100% !important; height: 100% !important; }
     .home-content {
@@ -41,14 +40,12 @@
       align-items: center;
       justify-content: flex-start;
       overflow-y: auto;
-      /* auto：整个滚动内容区都能接住滚轮。intro 阶段 content 被 translate
-         到视口下方不挡粒子，bundle 的 wheel/mousemove 挂在 window 上不受影响 */
       pointer-events: auto;
       opacity: var(--home-content-opacity);
       transform: translateY(calc(var(--home-content-y) + var(--home-content-extra-y)));
       will-change: transform, opacity;
-      /* 隐藏原生滚动条，改用下面的自定义指示条 */
       scrollbar-width: none;
+      background: #fff;
     }
     .home-content::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
@@ -61,7 +58,7 @@
       width: 6px;
       z-index: 90;
       border-radius: 6px;
-      background: rgba(255,255,255,0.06);
+      background: var(--color-surface-light-subtle);
       opacity: 0;
       transition: opacity .3s ease;
       pointer-events: none;
@@ -72,24 +69,24 @@
       left: 0;
       right: 0;
       border-radius: 6px;
-      background: rgba(255,255,255,0.28);
+      background: var(--color-border-light-strong);
       transition: background .2s ease;
     }
     .home-scrollbar.is-visible:hover .home-scrollbar__thumb {
-      background: rgba(255,255,255,0.45);
+      background: var(--color-text-tertiary);
     }
     .bfs-title { text-align: center; padding: 120px 24px 60px; }
     .bfs-title h2 {
       font-size: clamp(2rem, 3.5vw, 2.75rem);
       font-weight: 800;
       letter-spacing: -0.02em;
-      color: var(--color-text-on-dark, #F4F8F5);
+      color: #08152a;
       margin-bottom: 16px;
     }
     .bfs-title p {
       font-size: 1.125rem;
       line-height: 1.5;
-      color: var(--color-text-on-dark-secondary, #9BA9A3);
+      color: #667080;
     }
     .bfs-marquee {
       margin-top: 40px;
@@ -97,12 +94,16 @@
     }
     .bfs-marquee .logo-ph {
       opacity: 1;
+      height: 40px;
     }
     .bfs-marquee .logo-ph img {
-      filter: brightness(0) invert(0.55);
+      height: 32px;
+      filter: none;
+      opacity: 0.85;
     }
     .bfs-marquee .logo-ph:hover img {
-      filter: brightness(0) invert(1);
+      filter: none;
+      opacity: 1;
     }
     /* ── Solutions section ── */
     .solutions-pin-wrapper {
@@ -128,53 +129,72 @@
       padding: 0;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
+      grid-template-rows: auto 1fr;
+      column-gap: 80px;
+      row-gap: 0;
       align-items: stretch;
       width: 100%;
+    }
+    .solutions-left {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .solutions-list {
+      grid-column: 1;
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: var(--solutions-list-height, auto);
+    }
+    .solutions-right {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      align-self: start;
+      height: 500px;
+      overflow: hidden;
+      border-radius: 8px 0 0 8px;
     }
     .solutions-title {
       font-family: 'Inter', sans-serif;
       font-size: 44px;
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: #fff;
+      color: var(--color-text-primary);
       line-height: 1.2;
       margin-bottom: 16px;
+      max-width: 800px;
     }
     .solutions-desc {
       font-family: 'Inter', sans-serif;
-      font-size: 1.125rem;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.6);
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      color: rgba(8, 7, 3, .52);
       margin-bottom: 32px;
-    }
-    .solutions-list {
-      display: flex;
-      flex-direction: column;
-      min-height: var(--solutions-list-height, auto);
     }
     .solutions-item__icon {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
+      width: 32px;
+      height: 32px;
       flex-shrink: 0;
-      padding: 6px;
+      color: var(--icon-color);
     }
-    .solutions-item__icon img {
+    .solutions-item__icon svg {
       width: 28px;
       height: 28px;
+      stroke: var(--icon-color);
+      stroke-width: 1.75;
     }
     .solutions-item {
       display: flex;
-      gap: 16px;
+      gap: 20px;
       align-items: flex-start;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid var(--color-border-light);
       padding: 20px 0;
       cursor: pointer;
-      opacity: 0.42;
+      opacity: 1;
       transition: opacity 0.4s ease;
     }
     .solutions-item.is-active {
@@ -191,10 +211,8 @@
       font-size: 1.125rem;
       font-weight: 700;
       line-height: 1.4;
-      color: #fff;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
+      color: var(--color-text-primary);
+      padding: 2px 0;
     }
     .solutions-item__body-extra {
       overflow: hidden;
@@ -218,7 +236,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 0.9375rem;
       line-height: 1.5;
-      color: rgba(255,255,255,0.6);
+      color: var(--color-text-secondary);
       margin-top: 8px;
     }
     .solutions-item__tags {
@@ -231,29 +249,20 @@
       font-family: 'Inter', sans-serif;
       font-size: 0.8125rem;
       font-weight: 400;
-      color: rgba(255,255,255,0.8);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--color-text-secondary);
+      background: var(--color-surface-light-subtle);
+      border: 1px solid var(--color-border-light);
       border-radius: 3px;
       padding: 2px 8px;
       letter-spacing: 0.01em;
-    }
-    .solutions-right {
-      display: flex;
-      align-self: stretch;
-      height: 560px;
-      min-height: 0;
-      overflow: hidden;
-      border-radius: 8px;
     }
     .solutions-mockup {
       position: relative;
       width: 100%;
       height: 100%;
       border: 1px solid rgba(0,0,0,0.18);
-      border-radius: 8px;
+      border-radius: 8px 0 0 8px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .solutions-img {
       position: absolute;
@@ -276,7 +285,7 @@
     .solutions-pin-wrapper--headline-only .solutions-section {
       position: relative;
       height: auto;
-      padding: 64px 0 88px;
+      padding: 120px 0 88px;
     }
     .solutions-pin-wrapper--headline-only .solutions-inner {
       grid-template-columns: 1fr;
@@ -289,7 +298,9 @@
     }
     .solutions-pin-wrapper--headline-only .solutions-title {
       margin-bottom: 0;
+      color: #08152a;
     }
+    .solutions-left .solutions-title { max-width: 800px; }
     .solutions-pin-wrapper--headline-only .bfs-marquee {
       width: 100%;
       max-width: 1280px;
@@ -302,12 +313,14 @@
         gap: 32px;
       }
     }
+    #geo .geo__card-wrap { padding: 48px !important; width: 1280px !important; }
+    #geo .h-section { font-size: 44px; max-width: 800px; }
     .home-coverage {
       position: relative;
       width: 100%;
       min-height: auto;
       flex-shrink: 0;
-      color: #fff;
+      color: var(--color-text-primary);
       padding: 0 0 80px;
       pointer-events: auto;
       font-family: 'Inter', sans-serif;
@@ -329,18 +342,18 @@
       padding-top: 4px;
     }
     .home-coverage__title {
-      font-size: 44px;
+      font-size: clamp(1.75rem, 2.5vw, 2.25rem);
       font-weight: 700;
       line-height: 1.2;
       letter-spacing: -0.02em;
-      color: #fff;
+      color: var(--color-text-primary);
       margin-bottom: 16px;
     }
     .home-coverage__desc {
       max-width: 620px;
       font-size: 1.125rem;
       line-height: 1.6;
-      color: rgba(255,255,255,0.6);
+      color: var(--color-text-secondary);
     }
     .home-coverage__visual {
       width: 100%;
@@ -352,7 +365,8 @@
       width: 100%;
       flex-shrink: 0;
       padding: calc(var(--home-section-gap) * 2) 0 var(--home-section-padding-y);
-      color: #fff;
+      color: var(--color-text-on-dark);
+      background: var(--color-bg-dark);
       pointer-events: auto;
       font-family: 'Inter', sans-serif;
     }
@@ -363,14 +377,14 @@
       padding: 0;
     }
     .home-integrate__title {
-      max-width: 832px;
+      max-width: 800px;
       margin: 0 auto 80px;
       text-align: center;
       font-size: 44px;
       font-weight: 700;
       line-height: 1.2;
       letter-spacing: -0.02em;
-      color: #fff;
+      color: var(--color-text-on-dark);
     }
     .home-integrate__grid {
       display: grid;
@@ -389,7 +403,7 @@
       max-width: 542px;
       font-size: 1.125rem;
       line-height: 1.56;
-      color: rgba(255,255,255,.9);
+      color: var(--color-text-on-dark-secondary);
       margin-bottom: 24px;
     }
     .home-integrate__actions {
@@ -406,7 +420,7 @@
       gap: 10px;
       padding: 10px 16px;
       border-radius: 8px;
-      color: #fff;
+      color: var(--color-text-on-dark);
       text-decoration: none;
       font-size: 1rem;
       line-height: 1.5;
@@ -414,7 +428,7 @@
       transition: background .2s ease, border-color .2s ease;
     }
     .home-integrate__button--outline {
-      border-color: rgba(255,255,255,.8);
+      border-color: var(--color-border-dark);
     }
     .home-integrate__button:hover {
       background: rgba(255,255,255,.08);
@@ -448,7 +462,7 @@
     .home-integrate__langs-label {
       font-size: .875rem;
       line-height: 1.43;
-      color: rgba(255,255,255,.6);
+      color: var(--color-text-on-dark-secondary);
       margin-bottom: 12px;
     }
     .home-integrate__langs {
@@ -462,7 +476,7 @@
       align-items: center;
       gap: 10px;
       min-width: 0;
-      color: #fff;
+      color: var(--color-text-on-dark);
       font-size: 1rem;
       line-height: 1.4;
     }
@@ -479,7 +493,7 @@
       justify-content: center;
       border-radius: 8px;
       background: rgba(255,255,255,.12);
-      color: #fff;
+      color: var(--color-text-on-dark);
       font-size: .8125rem;
       font-weight: 700;
     }
@@ -487,7 +501,8 @@
       height: 502px;
       padding: 16px;
       border-radius: 20px;
-      background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.2));
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--color-border-dark);
       overflow: hidden;
     }
     .home-code-card__top {
@@ -502,7 +517,7 @@
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.2;
-      color: #fff;
+      color: var(--color-text-on-dark);
       white-space: nowrap;
     }
     .home-code-card__tabs {
@@ -512,7 +527,7 @@
       gap: 4px;
       padding: 4px;
       border-radius: 12px;
-      background: rgba(255,255,255,.2);
+      background: rgba(255,255,255,.12);
     }
     .home-code-card__tab {
       min-width: 60px;
@@ -524,7 +539,7 @@
       border-radius: 6px;
       font-size: .75rem;
       line-height: 1;
-      color: #fff;
+      color: var(--color-text-on-dark-secondary);
       white-space: nowrap;
     }
     .home-code-card__tab.is-active {
@@ -569,10 +584,9 @@
       width: 100%;
       flex-shrink: 0;
       padding: var(--home-section-gap) 0 calc(var(--home-section-padding-y) * 3);
-      color: #fff;
+      color: var(--color-text-primary);
       pointer-events: auto;
       font-family: 'Inter', sans-serif;
-      margin-top: 80px;
     }
     .home-usecases__inner {
       max-width: 1280px;
@@ -584,7 +598,7 @@
       font-size: 44px;
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: #fff;
+      color: var(--color-text-primary);
       text-align: center;
       line-height: 1.25;
       margin-bottom: 28px;
@@ -595,11 +609,10 @@
     .home-usecases__tabs {
       display: flex;
       align-items: center;
-      justify-content: space-around;
       gap: 4px;
       padding: 6px;
       border-radius: 12px;
-      background: rgba(255,255,255,0.08);
+      background: var(--color-surface-light-subtle);
       margin-bottom: 60px;
       overflow-x: auto;
       scrollbar-width: none;
@@ -611,7 +624,7 @@
       border-radius: 8px;
       border: none;
       background: transparent;
-      color: rgba(255,255,255,0.55);
+      color: var(--color-text-secondary);
       font-family: 'Inter', sans-serif;
       font-size: 1rem;
       font-weight: 500;
@@ -620,13 +633,13 @@
       white-space: nowrap;
     }
     .home-usecases__tab.is-active {
-      background: #fff;
-      color: #08152a;
+      background: var(--color-text-primary);
+      color: #fff;
       font-weight: 600;
     }
     .home-usecases__tab:hover:not(.is-active) {
-      background: rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.85);
+      background: var(--color-surface-light-hover);
+      color: var(--color-text-primary);
     }
     .home-usecases__body {
       display: grid;
@@ -638,14 +651,14 @@
       font-size: 1.4375rem;
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: #fff;
+      color: var(--color-text-primary);
       line-height: 1.3;
       margin-bottom: 20px;
     }
     .home-usecases__desc {
       font-size: 1.0625rem;
       line-height: 1.65;
-      color: rgba(255,255,255,0.65);
+      color: var(--color-text-secondary);
     }
     .home-usecases__visuals {
       display: flex;
@@ -655,15 +668,15 @@
     }
     .home-usecases__card {
       border-radius: 20px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--color-surface-light-subtle);
+      border: 1px solid var(--color-border-light);
       transition: background 0.3s ease;
     }
     .home-usecases__card:hover {
-      background: rgba(255,255,255,0.09);
+      background: var(--color-surface-light-hover);
     }
     .home-usecases__card--main { flex: 1.6 1 0; }
-    .home-usecases__card--secondary { display: none; }
+    .home-usecases__card--secondary { flex: 1 1 0; }
     @media (max-width: 900px) {
       .home-usecases {
         padding: var(--home-section-gap) 24px calc(var(--home-section-padding-y) * 2);
@@ -683,7 +696,6 @@
       padding: 0 0 calc(var(--home-section-padding-y) * 3);
       pointer-events: auto;
       font-family: 'Inter', sans-serif;
-      margin-top: 80px;
     }
     .home-pricing__inner {
       max-width: 1280px;
@@ -695,42 +707,45 @@
       font-size: 44px;
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: #fff;
+      color: var(--color-text-primary);
       text-align: center;
       line-height: 1.2;
       margin-bottom: 12px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .home-pricing__stripe {
       text-align: center;
       font-size: 0.875rem;
-      color: rgba(255,255,255,0.5);
+      color: var(--color-text-tertiary);
       margin-bottom: 36px;
     }
     .home-pricing__grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--color-surface-light-subtle);
+      border: 1px solid var(--color-border-light);
       border-radius: 12px;
       padding: 8px;
       gap: 8px;
       margin-bottom: 12px;
     }
     .home-pricing__card {
-      background: rgba(255,255,255,0.06);
+      background: #fff;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 24px;
       gap: 20px;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid var(--color-border-light);
       border-radius: 6px;
       position: relative;
       transition: background 0.2s ease, border-color 0.2s ease;
     }
     .home-pricing__card:hover {
-      background: rgba(255,255,255,0.09);
-      border-color: rgba(255,255,255,0.18);
+      background: var(--color-surface-light-subtle);
+      border-color: var(--color-border-light-strong);
     }
     .home-pricing__card--featured {
       background: rgba(253,116,43,0.08);
@@ -744,7 +759,7 @@
       display: flex;
       align-items: flex-start;
       gap: 1px;
-      color: #fff;
+      color: var(--color-text-primary);
     }
     .home-pricing__rate-currency,
     .home-pricing__rate-unit {
@@ -789,7 +804,7 @@
       display: flex;
       align-items: baseline;
       gap: 6px;
-      color: #fff;
+      color: var(--color-text-primary);
     }
     .home-pricing__pkg-size {
       font-size: 1.875rem;
@@ -799,19 +814,19 @@
     .home-pricing__pkg-label {
       font-size: 0.875rem;
       font-weight: 600;
-      color: rgba(255,255,255,0.7);
+      color: var(--color-text-secondary);
     }
     .home-pricing__meta {
       display: flex;
       align-items: center;
       gap: 12px;
       font-size: 0.75rem;
-      color: rgba(255,255,255,0.5);
+      color: var(--color-text-tertiary);
     }
     .home-pricing__meta-sep {
       width: 1px;
       height: 12px;
-      background: rgba(255,255,255,0.2);
+      background: var(--color-border-light);
     }
     .home-pricing__cta-wrap {
       display: flex;
@@ -825,7 +840,7 @@
       width: 100%;
       padding: 8px 16px;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid var(--color-border-light-strong);
       font-family: 'Inter', sans-serif;
       font-size: 0.75rem;
       font-weight: 600;
@@ -834,12 +849,13 @@
       transition: background 0.2s ease, border-color 0.2s ease;
     }
     .home-pricing__btn--dark {
-      background: rgba(255,255,255,0.12);
+      background: var(--color-text-primary);
       color: #fff;
+      border-color: transparent;
     }
     .home-pricing__btn--dark:hover {
-      background: rgba(255,255,255,0.2);
-      border-color: rgba(255,255,255,0.3);
+      background: var(--color-button-secondary-hover);
+      border-color: transparent;
     }
     .home-pricing__btn--featured {
       background: #ff8a00;
@@ -854,7 +870,7 @@
       align-items: center;
       justify-content: flex-end;
       font-size: 0.875rem;
-      color: rgba(255,255,255,0.6);
+      color: var(--color-text-secondary);
       gap: 2px;
     }
     .home-pricing__total-amount {
@@ -871,17 +887,17 @@
       flex-direction: column;
       gap: 14px;
       font-size: 0.875rem;
-      color: rgba(255,255,255,0.6);
+      color: var(--color-text-secondary);
       line-height: 1.4;
     }
     .home-pricing__feature-divider {
       height: 1px;
-      background: rgba(255,255,255,0.1);
+      background: var(--color-border-light);
     }
     /* Enterprise banner */
     .home-pricing__enterprise {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--color-surface-light-subtle);
+      border: 1px solid var(--color-border-light);
       border-radius: 8px;
       padding: 40px 48px;
       display: flex;
@@ -900,7 +916,7 @@
     .home-pricing__ent-title {
       font-size: 1.375rem;
       font-weight: 700;
-      color: #fff;
+      color: var(--color-text-primary);
       line-height: 1.3;
     }
     .home-pricing__ent-title .ent-size {
@@ -929,7 +945,7 @@
     .home-pricing__ent-sep {
       width: 1px;
       height: 17px;
-      background: rgba(255,255,255,0.2);
+      background: var(--color-border-light);
     }
     .home-pricing__ent-features {
       display: grid;
@@ -942,7 +958,7 @@
       align-items: center;
       gap: 10px;
       font-size: 1rem;
-      color: rgba(255,255,255,0.85);
+      color: var(--color-text-secondary);
       white-space: nowrap;
     }
     .home-pricing__ent-check {
@@ -1037,8 +1053,8 @@
     .home-reviews__card {
       flex-shrink: 0;
       width: 320px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.09);
+      background: var(--color-surface-light-subtle);
+      border: 1px solid var(--color-border-light);
       border-radius: 8px;
       padding: 16px 20px;
       display: flex;
@@ -1056,24 +1072,24 @@
       border-radius: 50%;
       overflow: hidden;
       flex-shrink: 0;
-      background: rgba(255,255,255,0.08);
+      background: var(--color-surface-light-hover);
     }
     .home-reviews__avatar img { width: 100%; height: 100%; object-fit: cover; }
     .home-reviews__user-name {
       font-size: .875rem;
       font-weight: 600;
-      color: rgba(255,255,255,.45);
+      color: var(--color-text-primary);
       line-height: 1.3;
     }
     .home-reviews__user-title {
       font-size: .75rem;
-      color: rgba(255,255,255,.25);
+      color: var(--color-text-tertiary);
       line-height: 1.3;
     }
     .home-reviews__card-text {
       font-size: .8125rem;
       line-height: 1.55;
-      color: rgba(255,255,255,.3);
+      color: var(--color-text-secondary);
     }
     /* centre hero */
     .home-reviews__hero {
@@ -1085,10 +1101,11 @@
     .home-reviews__title {
       font-size: 44px;
       font-weight: 700;
-      color: #fff;
+      color: var(--color-text-primary);
       letter-spacing: -.025em;
       line-height: 1.2;
       margin-bottom: 32px;
+      max-width: 800px;
     }
     .home-reviews__actions {
       display: flex;
@@ -1117,14 +1134,14 @@
       align-items: center;
       gap: 10px;
       padding: 10px 16px;
-      color: rgba(255,255,255,.8);
+      color: var(--color-text-secondary);
       font-family: 'Inter', sans-serif;
       font-size: 1rem;
       font-weight: 500;
       text-decoration: none;
       transition: color .2s ease;
     }
-    .home-reviews__btn-ghost:hover { color: #fff; }
+    .home-reviews__btn-ghost:hover { color: var(--color-text-primary); }
     /* trust panel */
     .home-reviews__trust {
       max-width: 1280px;
@@ -1133,8 +1150,8 @@
       z-index: 2;
     }
     .home-reviews__trust-inner {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--color-surface-light-subtle);
+      border: 1px solid var(--color-border-light);
       border-radius: 32px;
       padding: 44px 52px;
       display: grid;
@@ -1145,7 +1162,7 @@
     .home-reviews__trust-title {
       font-size: 1.375rem;
       font-weight: 700;
-      color: #fff;
+      color: var(--color-text-primary);
       line-height: 1.3;
       margin-bottom: 28px;
     }
@@ -1163,14 +1180,14 @@
     .home-reviews__insured-title {
       font-size: 1.625rem;
       font-weight: 700;
-      color: #fff;
+      color: var(--color-text-primary);
       line-height: 1.25;
       margin-bottom: 14px;
     }
     .home-reviews__insured-desc {
       font-size: .9375rem;
       line-height: 1.7;
-      color: rgba(255,255,255,.55);
+      color: var(--color-text-secondary);
     }
     @media (max-width: 900px) {
       .home-reviews__trust-inner {
@@ -1243,8 +1260,7 @@
       z-index: 0;
       pointer-events: none;
       opacity: var(--home-hero-opacity);
-      transition:
-        opacity .12s linear;
+      transform: translateY(calc(var(--home-content-y, 0px) - 100vh));
       background:
         radial-gradient(760px 460px at 82% 12%,
           rgba(26, 215, 159, .09) 0%,
@@ -1274,6 +1290,7 @@
       margin: 0 auto;
       padding: 64px 0 0;
       pointer-events: none;
+      transform: translateY(calc(var(--home-content-y, 0px) - 100vh));
     }
     .home-hero-eyebrow {
       font-size: var(--text-sm, 0.875rem);
@@ -1458,10 +1475,34 @@
       from { opacity: 0; transform: translateY(-22px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    /* 首页初始：nav 无背景无边框（hero 阶段） */
+    #nav {
+      background: transparent !important;
+      border-bottom: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    /* white sheet 滑入后：白色毛玻璃 */
+    .particles-gone #nav {
+      pointer-events: auto;
+      animation: navEnter .6s var(--ease, cubic-bezier(.22,.61,.36,1)) both !important;
+      background: rgba(255,255,255,.92) !important;
+      backdrop-filter: blur(16px) saturate(140%) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+      border-bottom: 1px solid rgba(0,0,0,.08) !important;
+    }
     .particles-gone .nav {
       pointer-events: auto;
       animation: navEnter .6s var(--ease, cubic-bezier(.22,.61,.36,1)) both !important;
     }
+    .particles-gone .nav .logo { color: var(--color-text-primary) !important; }
+    .particles-gone .nav .logo__wordmark path { fill: var(--color-text-primary) !important; }
+    .particles-gone .nav .nav__links a { color: var(--color-text-secondary) !important; }
+    .particles-gone .nav .nav__links a:hover { color: var(--color-text-primary) !important; }
+    .particles-gone .nav .nav__lang,
+    .particles-gone .nav .nav__lang a { color: var(--color-text-secondary) !important; }
+    .particles-gone .nav .nav__login { color: var(--color-text-on-brand) !important; border-color: var(--color-brand) !important; background: var(--color-brand) !important; }
+    .particles-gone .nav .hamburger span { background: var(--color-text-primary) !important; }
     .home-ui-exiting .home-hero-eyebrow {
       animation: homeContentExit .42s var(--ease, cubic-bezier(.22,.61,.36,1)) .04s both !important;
     }
@@ -1498,27 +1539,25 @@
     @media (max-width: 440px) {
       .home-hero-text { padding: 32px 16px 0; }
     }
-    /* Footer inside .home-content fixed scroll container */
-    .home-content footer [data-reveal] {
-      opacity: 1 !important;
-      transform: none !important;
-    }
-    .home-content .footer {
+    /* site-bottom inside .home-content fixed scroll container */
+    .home-content .site-bottom {
       width: 100%;
       flex-shrink: 0;
     }
-    .home-content .footer .container {
+    /* Green gradient override (matches blog.html) */
+    .home-content .site-bottom { background: var(--color-bg-dark-cta) !important; }
+    .home-content .site-bottom::before {
+      background:
+        radial-gradient(130% 96% at 50% -6%, rgba(240,255,248,.98) 0%, rgba(180,255,220,.92) 16%, rgba(100,255,180,.8) 32%, rgba(26,215,159,.6) 50%, rgba(0,141,114,.28) 70%, rgba(7,18,16,0) 90%),
+        radial-gradient(900px 520px at 82% 92%, rgba(180,255,220,.09), rgba(180,255,220,0) 62%),
+        linear-gradient(0deg, var(--color-bg-dark-cta) 0%, #0a1f1a 34%, rgba(14,40,32,.72) 52%, rgba(7,18,16,0) 78%) !important;
+    }
+    .home-content .site-bottom::after {
+      background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,.82) 22%, rgba(248,255,252,.42) 54%, rgba(248,255,252,0) 100%) !important;
+    }
+    .home-content .site-bottom .container {
       max-width: 1280px;
       padding: 0;
-    }
-    #geo .eyebrow {
-      display: none !important;
-    }
-    #geo {
-      width: 100% !important;
-      max-width: 1280px !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
     }
   </style>
 </head>
@@ -1531,9 +1570,9 @@
     <section class="solutions-section">
       <div class="solutions-inner">
         <div class="solutions-left">
-          <h2 class="solutions-title">Trusted by 15,000+ clients globally</h2>
+          <h2 class="solutions-title" data-reveal>Trusted by 15,000+ clients globally</h2>
         </div>
-        <div class="bfs-marquee">
+        <div class="bfs-marquee" data-reveal data-delay="1">
           <div class="marquee">
             <div class="marquee__track">
               <span class="logo-ph"><img src="assets/clients/logoipsum-360.svg" alt="" height="32"></span>
@@ -1565,12 +1604,13 @@
     <section class="solutions-section">
       <div class="solutions-inner">
         <div class="solutions-left">
-          <h2 class="solutions-title">Solutions for Every Use Case</h2>
-          <p class="solutions-desc">Aenean consequat neque in turpis volutpat tristique. Integer nunc nisi, accumsan ultricies enim quis, tincidunt lacinia lorem.</p>
-          <div class="solutions-list">
+          <h2 class="solutions-title" data-reveal>Solutions for Every Use Case</h2>
+          <p class="solutions-desc" data-reveal data-delay="1">Aenean consequat neque in turpis volutpat tristique. Integer nunc nisi, accumsan ultricies enim quis, tincidunt lacinia lorem.</p>
+        </div>
+        <div class="solutions-list" data-reveal data-delay="2">
             <div class="solutions-item" data-solution="0">
-              <div class="solutions-item__icon">
-                <img src="assets/solutions/icon-proxies.svg" alt="">
+              <div class="solutions-item__icon" style="--icon-color:#00d992">
+                <i data-lucide="map-pin" aria-hidden="true"></i>
               </div>
               <div class="solutions-item__body">
                 <p class="solutions-item__name">Proxies Anonymity</p>
@@ -1585,8 +1625,8 @@
               </div>
             </div>
             <div class="solutions-item" data-solution="1">
-              <div class="solutions-item__icon">
-                <img src="assets/solutions/icon-unblockers.svg" alt="">
+              <div class="solutions-item__icon" style="--icon-color:#cd65ea">
+                <i data-lucide="lock" aria-hidden="true"></i>
               </div>
               <div class="solutions-item__body">
                 <p class="solutions-item__name">Website Unblockers</p>
@@ -1601,8 +1641,8 @@
               </div>
             </div>
             <div class="solutions-item" data-solution="2">
-              <div class="solutions-item__icon">
-                <img src="assets/solutions/icon-scraper.svg" alt="">
+              <div class="solutions-item__icon" style="--icon-color:#ffb83f">
+                <i data-lucide="package" aria-hidden="true"></i>
               </div>
               <div class="solutions-item__body">
                 <p class="solutions-item__name">Scraper APIs</p>
@@ -1617,8 +1657,8 @@
               </div>
             </div>
             <div class="solutions-item" data-solution="3">
-              <div class="solutions-item__icon">
-                <img src="assets/solutions/icon-datasets.svg" alt="">
+              <div class="solutions-item__icon" style="--icon-color:#1caff3">
+                <i data-lucide="database" aria-hidden="true"></i>
               </div>
               <div class="solutions-item__body">
                 <p class="solutions-item__name">Datasets</p>
@@ -1633,8 +1673,7 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="solutions-right">
+        <div class="solutions-right" data-reveal data-delay="3">
           <div class="solutions-mockup">
             <img class="solutions-img is-active" data-solution="0" src="https://unsplash.com/photos/oyXis2kALVg/download?force=true" alt="Proxies Anonymity">
             <img class="solutions-img" data-solution="1" src="https://unsplash.com/photos/Im7lZjxeLhg/download?force=true" alt="Website Unblockers">
@@ -1647,23 +1686,22 @@
     </div>
 
     <section class="section" id="geo" data-screen-label="Geo Coverage">
-      <div class="container geo__head-wrap">
+      <div class="container geo__head-wrap" data-reveal>
         <div class="geo-head">
           <div class="section-head">
-            <div class="eyebrow">Coverage</div>
-            <h2 class="h-section">Provide over 250+ countries IP</h2>
+            <h2 class="h-section">Meeting various global business needs</h2>
           </div>
           <p class="geo-head__desc">Covering 200+ countries worldwide, supporting various business and technical needs</p>
         </div>
       </div>
       <div class="container geo__card-wrap">
-        <div class="geo__stats">
+        <div class="geo__stats" data-reveal>
           <div class="geo__stat"><span class="geo__stat-num">200+</span><span class="geo__stat-label">Countries covered</span></div>
           <div class="geo__stat"><span class="geo__stat-num">40M+</span><span class="geo__stat-label">Residential IPs</span></div>
           <div class="geo__stat"><span class="geo__stat-num">99.9%</span><span class="geo__stat-label">Uptime guarantee</span></div>
           <div class="geo__stat"><span class="geo__stat-num">24/7</span><span class="geo__stat-label">Technical support</span></div>
         </div>
-        <div class="geo__locations">
+        <div class="geo__locations" data-reveal>
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/us.png" width="48" height="32" alt="United States"><div><h3>United States / US</h3><p>6,843,600 IPs</p></div></article>
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/hk.png" width="48" height="32" alt="Hong Kong"><div><h3>Hong Kong / HK</h3><p>1,245,300 IPs</p></div></article>
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/jp.png" width="48" height="32" alt="Japan"><div><h3>Japan / JP</h3><p>2,340,800 IPs</p></div></article>
@@ -1674,17 +1712,17 @@
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/de.png" width="48" height="32" alt="Germany"><div><h3>Germany / DE</h3><p>1,110,960 IPs</p></div></article>
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/kr.png" width="48" height="32" alt="South Korea"><div><h3>South Korea / KR</h3><p>1,567,200 IPs</p></div></article>
         </div>
-        <div class="geo__globe-wrap">
+        <div class="geo__globe-wrap" data-reveal>
           <canvas id="cobe-globe" width="920" height="920" aria-label="Global proxy coverage map"></canvas>
         </div>
       </div>
     </section>
 
-<section class="home-integrate" data-screen-label="Easy Integration">
+    <section class="home-integrate" data-screen-label="Easy Integration">
       <div class="home-integrate__inner">
-        <h2 class="home-integrate__title">Easy integrate our solutions to your projects</h2>
+        <h2 class="home-integrate__title" data-reveal>Easy integrate our solutions to your projects</h2>
         <div class="home-integrate__grid">
-          <div class="home-integrate__copy">
+          <div class="home-integrate__copy" data-reveal data-delay="1">
             <div>
               <p class="home-integrate__desc">We ensure that integrating our products into your scraping infrastructure is as effortless as possible. With multiple language support and ready-to-use code examples, a quick and easy start to your web scraping project is a guarantee.</p>
               <div class="home-integrate__actions">
@@ -1704,7 +1742,7 @@
               </div>
             </div>
           </div>
-          <div class="home-code-card">
+          <div class="home-code-card" data-reveal data-delay="2">
             <div class="home-code-card__top">
               <p class="home-code-card__label">Code block examples</p>
               <div class="home-code-card__tabs" aria-label="Code language tabs">
@@ -1743,8 +1781,8 @@
 
     <section class="home-usecases" data-screen-label="Business Areas">
       <div class="home-usecases__inner">
-        <h2 class="home-usecases__title">Accelerates and safeguards your business in the following Areas.</h2>
-        <div class="home-usecases__tabs" role="tablist" aria-label="Business areas">
+        <h2 class="home-usecases__title" data-reveal>Accelerates and safeguards your business in the following Areas.</h2>
+        <div class="home-usecases__tabs" role="tablist" aria-label="Business areas" data-reveal data-delay="1">
           <button class="home-usecases__tab is-active" role="tab" aria-selected="true" data-usecase="ecommerce">E-commerce</button>
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="social">Social Network</button>
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="advertising">Advertising</button>
@@ -1753,7 +1791,7 @@
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="data">Data collection</button>
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="others">Others</button>
         </div>
-        <div class="home-usecases__body">
+        <div class="home-usecases__body" data-reveal data-delay="2">
           <div class="home-usecases__copy">
             <h3 class="home-usecases__subtitle" id="usecases-subtitle">Solutions for Every Use Case</h3>
             <p class="home-usecases__desc" id="usecases-desc">Leverage our proxy network and data tools to power your e-commerce operations — from price monitoring and inventory tracking to competitor analysis and geo-targeted browsing at any scale.</p>
@@ -1769,10 +1807,10 @@
 
     <section class="home-pricing" data-screen-label="Pricing">
       <div class="home-pricing__inner">
-        <h2 class="home-pricing__title">Flexible pricing that adapts to various needs.</h2>
-        <p class="home-pricing__stripe">Fast &amp; Secure payments powered by Stripe</p>
+        <h2 class="home-pricing__title" data-reveal>Flexible pricing that adapts to various needs.</h2>
+        <p class="home-pricing__stripe" data-reveal data-delay="1">Fast &amp; Secure payments powered by Stripe</p>
 
-        <div class="home-pricing__grid">
+        <div class="home-pricing__grid" data-reveal data-delay="2">
           <!-- Card 1 -->
           <div class="home-pricing__card">
             <div class="home-pricing__rate">
@@ -1917,7 +1955,7 @@
         </div><!-- /.home-pricing__grid -->
 
         <!-- Enterprise banner -->
-        <div class="home-pricing__enterprise">
+        <div class="home-pricing__enterprise" data-reveal>
           <div class="home-pricing__ent-left">
             <p class="home-pricing__ent-title">
               Enterprise Plan — <span class="ent-size">10TB+</span> gets <span class="ent-pct">70% off</span>
@@ -2005,7 +2043,7 @@
       </div><!-- /.home-reviews__bg -->
 
       <!-- centre title + CTAs -->
-      <div class="home-reviews__hero">
+      <div class="home-reviews__hero" data-reveal>
         <h2 class="home-reviews__title">Trusted by thousands of<br>users from different industries</h2>
         <div class="home-reviews__actions">
           <a href="#" class="home-reviews__btn-primary">
@@ -2020,7 +2058,7 @@
       </div>
 
       <!-- trust / certification panel -->
-      <div class="home-reviews__trust">
+      <div class="home-reviews__trust" data-reveal>
         <div class="home-reviews__trust-inner">
           <div>
             <h3 class="home-reviews__trust-title">Certified data centers and upstream providers</h3>
@@ -2037,65 +2075,80 @@
 
     </section>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__grid">
-        <div class="footer__brand" data-reveal>
-          <div class="footer__brand-copy">
-            <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="none" aria-hidden="true"><g fill="#11A757" clip-path="url(#rola-logo-ft)"><path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/><path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity=".4"/></g><defs><clipPath id="rola-logo-ft"><path fill="#fff" d="M0 20V0h24v20z"/></clipPath></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="76" height="13" fill="none" aria-label="ROLA-IP" class="logo__wordmark"><path fill="#D4DADD" d="M2.7 12.24H0V.18h6.66q1.494 0 2.538.432 1.044.414 1.584 1.224t.54 1.962q0 .99-.378 1.692T9.81 6.624q-.756.414-1.89.522v.144q.81.216 1.206.648T9.864 9l1.746 3.24H8.478L6.822 9.108A3.2 3.2 0 0 0 6.3 8.37a1.47 1.47 0 0 0-.702-.378q-.414-.126-1.116-.126H2.7zm0-9.63v3.222h3.942q.954 0 1.404-.324.45-.342.45-1.296 0-.9-.45-1.242-.45-.36-1.404-.36zm17.053 9.81q-1.98 0-3.456-.756a5.5 5.5 0 0 1-2.25-2.16q-.774-1.404-.774-3.294t.774-3.276a5.35 5.35 0 0 1 2.25-2.16Q17.773 0 19.753 0q2.052 0 3.51.774a5.35 5.35 0 0 1 2.25 2.16q.792 1.386.792 3.276t-.792 3.294a5.5 5.5 0 0 1-2.25 2.16q-1.458.756-3.51.756m0-2.592q1.332 0 2.124-.342.81-.36 1.17-1.152.378-.792.378-2.124 0-1.35-.378-2.124a2.17 2.17 0 0 0-1.17-1.134q-.792-.36-2.124-.36-1.314 0-2.106.36a2.17 2.17 0 0 0-1.152 1.134q-.36.774-.36 2.124 0 1.332.36 2.124t1.152 1.152q.792.342 2.106.342m11.51 2.412h-2.7V.18h2.7zm7.181 0h-9.126V9.81h9.126zm4.381 0h-3.024L45.075.18h3.852l5.31 12.06h-3.096L47.83 4.518l-.738-1.872h-.198l-.738 1.872zm8.352-2.664h-8.496v-2.43h8.496zm11.327 2.664h-2.7V.18h2.7zm8.794-3.33h-5.364V6.48h5.076q1.134 0 1.656-.396.54-.414.54-1.548 0-1.098-.54-1.512-.522-.414-1.656-.414h-5.076V.18h5.364q1.404 0 2.43.522a3.63 3.63 0 0 1 1.584 1.476q.576.972.576 2.358t-.576 2.376a3.74 3.74 0 0 1-1.584 1.494q-1.026.504-2.43.504m-3.6 3.33h-2.7V.18h2.7z"/></svg></a>
-            <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
-          </div>
-          <div class="footer-ai-summary" aria-label="Get an AI summary of ROLA IP">
-            <span>Get an AI summary of ROLA IP</span>
-            <span class="footer-ai-summary__icons" aria-hidden="true">
-              <img class="footer-ai-summary__icon" src="assets/ai/openai-chatgpt.svg" alt="">
-              <img class="footer-ai-summary__icon" src="assets/ai/claude.svg" alt="">
-              <img class="footer-ai-summary__icon" src="assets/ai/perplexity.svg" alt="">
-            </span>
+  <div class="site-bottom">
+    <section class="finalcta" data-screen-label="Final CTA">
+      <div class="container">
+        <div class="finalcta__box" data-reveal>
+          <h2>Start routing through stable ISP proxies today</h2>
+          <div class="finalcta__ctas">
+            <a href="pricing.html" class="btn btn--primary">Start free trial</a>
+            <a href="#" class="btn btn--ghost">Contact Sales</a>
           </div>
         </div>
-        <div data-reveal data-delay="1">
-          <h4>Product</h4>
-          <ul>
-            <li><a href="index.html#features">ISP Proxies</a></li>
-            <li><a href="pricing.html">Pricing</a></li>
-            <li><a href="index.html#geo">Locations</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="faq.html">FAQs</a></li>
-            <li><a href="pricing.html#trial">Free Trial</a></li>
-          </ul>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__grid">
+          <div class="footer__brand" data-reveal>
+            <div class="footer__brand-copy">
+              <a href="index.html" class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="none" aria-hidden="true"><g fill="#11A757" clip-path="url(#rola-logo-ft)"><path d="M13 4a5 5 0 0 1 0 10v4a9 9 0 1 0-9-9h4a5 5 0 0 1 5-5"/><path d="M2 15a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9z" opacity=".4"/></g><defs><clipPath id="rola-logo-ft"><path fill="#fff" d="M0 20V0h24v20z"/></clipPath></defs></svg><svg xmlns="http://www.w3.org/2000/svg" width="76" height="13" fill="none" aria-label="ROLA-IP" class="logo__wordmark"><path fill="#D4DADD" d="M2.7 12.24H0V.18h6.66q1.494 0 2.538.432 1.044.414 1.584 1.224t.54 1.962q0 .99-.378 1.692T9.81 6.624q-.756.414-1.89.522v.144q.81.216 1.206.648T9.864 9l1.746 3.24H8.478L6.822 9.108A3.2 3.2 0 0 0 6.3 8.37a1.47 1.47 0 0 0-.702-.378q-.414-.126-1.116-.126H2.7zm0-9.63v3.222h3.942q.954 0 1.404-.324.45-.342.45-1.296 0-.9-.45-1.242-.45-.36-1.404-.36zm17.053 9.81q-1.98 0-3.456-.756a5.5 5.5 0 0 1-2.25-2.16q-.774-1.404-.774-3.294t.774-3.276a5.35 5.35 0 0 1 2.25-2.16Q17.773 0 19.753 0q2.052 0 3.51.774a5.35 5.35 0 0 1 2.25 2.16q.792 1.386.792 3.276t-.792 3.294a5.5 5.5 0 0 1-2.25 2.16q-1.458.756-3.51.756m0-2.592q1.332 0 2.124-.342.81-.36 1.17-1.152.378-.792.378-2.124 0-1.35-.378-2.124a2.17 2.17 0 0 0-1.17-1.134q-.792-.36-2.124-.36-1.314 0-2.106.36a2.17 2.17 0 0 0-1.152 1.134q-.36.774-.36 2.124 0 1.332.36 2.124t1.152 1.152q.792.342 2.106.342m11.51 2.412h-2.7V.18h2.7zm7.181 0h-9.126V9.81h9.126zm4.381 0h-3.024L45.075.18h3.852l5.31 12.06h-3.096L47.83 4.518l-.738-1.872h-.198l-.738 1.872zm8.352-2.664h-8.496v-2.43h8.496zm11.327 2.664h-2.7V.18h2.7zm8.794-3.33h-5.364V6.48h5.076q1.134 0 1.656-.396.54-.414.54-1.548 0-1.098-.54-1.512-.522-.414-1.656-.414h-5.076V.18h5.364q1.404 0 2.43.522a3.63 3.63 0 0 1 1.584 1.476q.576.972.576 2.358t-.576 2.376a3.74 3.74 0 0 1-1.584 1.494q-1.026.504-2.43.504m-3.6 3.33h-2.7V.18h2.7z"/></svg></a>
+              <p class="footer__desc">Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.</p>
+            </div>
+            <div class="footer-ai-summary" aria-label="Get an AI summary of ROLA IP">
+              <span>Get an AI summary of ROLA IP</span>
+              <span class="footer-ai-summary__icons" aria-hidden="true">
+                <img class="footer-ai-summary__icon" src="assets/ai/openai-chatgpt.svg" alt="">
+                <img class="footer-ai-summary__icon" src="assets/ai/claude.svg" alt="">
+                <img class="footer-ai-summary__icon" src="assets/ai/perplexity.svg" alt="">
+              </span>
+            </div>
+          </div>
+          <div data-reveal data-delay="1">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="index.html#features">ISP Proxies</a></li>
+              <li><a href="pricing.html">Pricing</a></li>
+              <li><a href="index.html#geo">Locations</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="faq.html">FAQs</a></li>
+              <li><a href="pricing.html#trial">Free Trial</a></li>
+            </ul>
+          </div>
+          <div data-reveal data-delay="2">
+            <h4>Developers</h4>
+            <ul>
+              <li><a href="index.html#integration">Documentation</a></li>
+              <li><a href="#">API Reference</a></li>
+              <li><a href="#">SDKs</a></li>
+              <li><a href="#">Status</a></li>
+            </ul>
+          </div>
+          <div data-reveal data-delay="3">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact Sales</a></li>
+              <li><a href="index.html#compliance">Compliance</a></li>
+              <li><a href="#">Privacy &amp; Terms</a></li>
+            </ul>
+          </div>
         </div>
-        <div data-reveal data-delay="2">
-          <h4>Developers</h4>
-          <ul>
-            <li><a href="index.html#integration">Documentation</a></li>
-            <li><a href="#">API Reference</a></li>
-            <li><a href="#">SDKs</a></li>
-            <li><a href="#">Status</a></li>
-          </ul>
-        </div>
-        <div data-reveal data-delay="3">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact Sales</a></li>
-            <li><a href="index.html#compliance">Compliance</a></li>
-            <li><a href="#">Privacy &amp; Terms</a></li>
-          </ul>
+        <div class="footer__bottom footer__bottom--reveal">
+          <span>© 2026 ROLA-IP. All rights reserved.</span>
+          <span>sales@rola-ip.com</span>
         </div>
       </div>
-      <div class="footer__bottom footer__bottom--reveal">
-        <span>© 2026 ROLA-IP. All rights reserved.</span>
-        <span>sales@rola-ip.com</span>
-      </div>
-    </div>
-  </footer>
+    </footer>
+  </div>
   </div>
 
   <div class="home-scrollbar" aria-hidden="true"><div class="home-scrollbar__thumb"></div></div>
 
   <div data-site-nav data-active="home"></div>
   <script src="assets/site-nav.js"></script>
+  <script>if (window.lucide) lucide.createIcons();</script>
 
   <div class="home-hero-text">
     <p class="home-hero-eyebrow">POWERING THE BEST TEAM</p>
@@ -2176,15 +2229,9 @@
         // ① 粒子/背景淡出：直接设 inline opacity，绕过 bundle 对 CSS 变量的竞争
         // ty=vh*0.75 → ty=vh*0.35 时完全消失
         var heroOp = baseY > 0 ? clamp((baseY / vh - 0.35) / 0.40) : 0;
-        var contentExtraY = Math.round(clamp(heroOp / 0.55) * 120);
-        root.style.setProperty('--home-content-extra-y', contentExtraY + 'px');
-        if (Math.abs(heroOp - prevHero) > 0.002) {
-          prevHero = heroOp;
-          // 只淡出粒子，绿色渐变背景保持常显
-          if (glCanvas) glCanvas.style.opacity = heroOp.toFixed(3);
-        } else if (glCanvas) {
-          glCanvas.style.opacity = heroOp.toFixed(3);
-        }
+        root.style.setProperty('--home-content-extra-y', '0px');
+        // Hero elements are pushed off-screen via CSS transform — keep opacity=1
+        if (glCanvas) glCanvas.style.opacity = '1';
         if (orbitCopy) {
           setTimeout(function(){
             var trustedTop = trustedTitle ? trustedTitle.getBoundingClientRect().top : vh;
@@ -2213,8 +2260,8 @@
         content.style.overflowY = contentReady ? 'auto' : 'hidden';
         if (!contentReady && content.scrollTop !== 0) content.scrollTop = 0;
 
-        // ② 粒子/logo 背景消失的瞬间（heroOp=0）→ nav 出现（.particles-gone 触发 CSS）
-        var gone = heroOp <= 0.001;
+        // nav 出现：white sheet 顶部到达 nav 底部（72px）时触发
+        var gone = baseY <= 180;
         if (gone !== prevGone) {
           prevGone = gone;
           root.classList.toggle('particles-gone', gone);
@@ -2372,6 +2419,71 @@
     })();
   </script>
 
+  <script>
+    // ---- home-content scroll reveal ----
+    // Start observing only once particles-gone fires (white sheet in view).
+    // This ensures .anim is already on <html> and first-screen elements animate correctly.
+    (function(){
+      var homeContent = document.querySelector('.home-content');
+      if (!homeContent) return;
+      var started = false;
+      function startReveal(){
+        if (started) return;
+        started = true;
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+          });
+        }, { root: homeContent, threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+        homeContent.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
+      }
+      // Watch for particles-gone on <html>
+      var mo = new MutationObserver(function(){
+        if (document.documentElement.classList.contains('particles-gone')){
+          mo.disconnect();
+          startReveal();
+        }
+      });
+      mo.observe(document.documentElement, { attributeFilter: ['class'] });
+    })();
+  </script>
+
+  <!-- Cobe globe (geo coverage section) -->
+  <script type="module">
+    import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@latest/+esm';
+    const globeCanvas = document.getElementById('cobe-globe');
+    if (globeCanvas) {
+      let globe, frame, phi = 0;
+      function rotateGlobe() { phi += 0.003; if (globe) globe.update({ phi }); frame = requestAnimationFrame(rotateGlobe); }
+      function mountGlobe() {
+        if (globe) globe.destroy();
+        cancelAnimationFrame(frame); frame = null;
+        const geoWrap = document.querySelector('.geo__globe-wrap') || globeCanvas.parentElement;
+        const rect = geoWrap.getBoundingClientRect();
+        const size = Math.max(320, Math.round((rect.width || 460) * 0.98));
+        globeCanvas.style.width = size + 'px';
+        globeCanvas.style.height = size + 'px';
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        globe = createGlobe(globeCanvas, {
+          devicePixelRatio: dpr, width: size * dpr, height: size * dpr, phi, theta: 0.2,
+          dark: 0, diffuse: 1.2, mapSamples: 8000, mapBrightness: 6, mapBaseBrightness: 0,
+          baseColor: [1, 1, 1], markerColor: [0.1, 0.66, 0.34], glowColor: [1, 1, 1],
+        });
+        globe.update({ phi });
+        if (visible) frame = requestAnimationFrame(rotateGlobe);
+      }
+      let visible = false;
+      const observer = new IntersectionObserver(entries => {
+        visible = entries[0].isIntersecting;
+        if (visible && !frame) frame = requestAnimationFrame(rotateGlobe);
+        if (!visible) { cancelAnimationFrame(frame); frame = null; }
+      }, { threshold: 0 });
+      observer.observe(globeCanvas);
+      mountGlobe();
+      window.addEventListener('resize', mountGlobe, { passive: true });
+    }
+  </script>
+
   <!-- Light rays WebGL (compliance section) -->
   <script type="module">
     import { Renderer, Program, Triangle, Mesh } from 'https://esm.sh/ogl';
@@ -2444,67 +2556,6 @@
       updateSize();
       requestAnimationFrame(loop);
     }
-  </script>
-
-  <!-- Cobe globe (Geo Coverage section) -->
-  <script type="module">
-  import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@latest/+esm';
-
-  const globeCanvas = document.getElementById('cobe-globe');
-  if (globeCanvas) {
-    let globe;
-    let frame;
-    let phi = 0;
-
-    function rotateGlobe() {
-      phi += 0.003;
-      if (globe) globe.update({ phi });
-      frame = requestAnimationFrame(rotateGlobe);
-    }
-
-    function mountGlobe() {
-      if (globe) globe.destroy();
-      cancelAnimationFrame(frame);
-      frame = null;
-
-      const geoWrap = document.querySelector('.geo__globe-wrap') || globeCanvas.parentElement;
-      const rect = geoWrap.getBoundingClientRect();
-      const size = Math.max(320, Math.round((rect.width || 460) * 0.98));
-      globeCanvas.style.width = size + 'px';
-      globeCanvas.style.height = size + 'px';
-
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      globe = createGlobe(globeCanvas, {
-        devicePixelRatio: dpr,
-        width: size,
-        height: size,
-        phi,
-        theta: 0.2,
-        dark: 0,
-        diffuse: 1.2,
-        mapSamples: 8000,
-        mapBrightness: 6,
-        mapBaseBrightness: 0,
-        baseColor: [1, 1, 1],
-        markerColor: [0.1, 0.66, 0.34],
-        glowColor: [1, 1, 1],
-      });
-
-      globe.update({ phi });
-      if (visible) frame = requestAnimationFrame(rotateGlobe);
-    }
-
-    let visible = false;
-    const observer = new IntersectionObserver(entries => {
-      visible = entries[0].isIntersecting;
-      if (visible && !frame) frame = requestAnimationFrame(rotateGlobe);
-      if (!visible) { cancelAnimationFrame(frame); frame = null; }
-    }, { threshold: 0 });
-    observer.observe(globeCanvas);
-
-    mountGlobe();
-    window.addEventListener('resize', mountGlobe, { passive: true });
-  }
   </script>
 </body>
 </html>
