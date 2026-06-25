@@ -1499,10 +1499,6 @@
       .home-hero-text { padding: 32px 16px 0; }
     }
     /* Footer inside .home-content fixed scroll container */
-    .home-content footer [data-reveal] {
-      opacity: 1 !important;
-      transform: none !important;
-    }
     .home-content .footer {
       width: 100%;
       flex-shrink: 0;
@@ -1647,7 +1643,7 @@
     </div>
 
     <section class="section" id="geo" data-screen-label="Geo Coverage">
-      <div class="container geo__head-wrap">
+      <div class="container geo__head-wrap" data-reveal>
         <div class="geo-head">
           <div class="section-head">
             <div class="eyebrow">Coverage</div>
@@ -1657,13 +1653,13 @@
         </div>
       </div>
       <div class="container geo__card-wrap">
-        <div class="geo__stats">
+        <div class="geo__stats" data-reveal>
           <div class="geo__stat"><span class="geo__stat-num">200+</span><span class="geo__stat-label">Countries covered</span></div>
           <div class="geo__stat"><span class="geo__stat-num">40M+</span><span class="geo__stat-label">Residential IPs</span></div>
           <div class="geo__stat"><span class="geo__stat-num">99.9%</span><span class="geo__stat-label">Uptime guarantee</span></div>
           <div class="geo__stat"><span class="geo__stat-num">24/7</span><span class="geo__stat-label">Technical support</span></div>
         </div>
-        <div class="geo__locations">
+        <div class="geo__locations" data-reveal>
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/us.png" width="48" height="32" alt="United States"><div><h3>United States / US</h3><p>6,843,600 IPs</p></div></article>
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/hk.png" width="48" height="32" alt="Hong Kong"><div><h3>Hong Kong / HK</h3><p>1,245,300 IPs</p></div></article>
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/jp.png" width="48" height="32" alt="Japan"><div><h3>Japan / JP</h3><p>2,340,800 IPs</p></div></article>
@@ -1674,7 +1670,7 @@
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/de.png" width="48" height="32" alt="Germany"><div><h3>Germany / DE</h3><p>1,110,960 IPs</p></div></article>
           <article class="geo-loc"><img class="geo-loc__flag" src="https://flagcdn.com/w80/kr.png" width="48" height="32" alt="South Korea"><div><h3>South Korea / KR</h3><p>1,567,200 IPs</p></div></article>
         </div>
-        <div class="geo__globe-wrap">
+        <div class="geo__globe-wrap" data-reveal>
           <canvas id="cobe-globe" width="920" height="920" aria-label="Global proxy coverage map"></canvas>
         </div>
       </div>
@@ -1682,9 +1678,9 @@
 
 <section class="home-integrate" data-screen-label="Easy Integration">
       <div class="home-integrate__inner">
-        <h2 class="home-integrate__title">Easy integrate our solutions to your projects</h2>
+        <h2 class="home-integrate__title" data-reveal>Easy integrate our solutions to your projects</h2>
         <div class="home-integrate__grid">
-          <div class="home-integrate__copy">
+          <div class="home-integrate__copy" data-reveal data-delay="1">
             <div>
               <p class="home-integrate__desc">We ensure that integrating our products into your scraping infrastructure is as effortless as possible. With multiple language support and ready-to-use code examples, a quick and easy start to your web scraping project is a guarantee.</p>
               <div class="home-integrate__actions">
@@ -1704,7 +1700,7 @@
               </div>
             </div>
           </div>
-          <div class="home-code-card">
+          <div class="home-code-card" data-reveal data-delay="2">
             <div class="home-code-card__top">
               <p class="home-code-card__label">Code block examples</p>
               <div class="home-code-card__tabs" aria-label="Code language tabs">
@@ -1743,8 +1739,8 @@
 
     <section class="home-usecases" data-screen-label="Business Areas">
       <div class="home-usecases__inner">
-        <h2 class="home-usecases__title">Accelerates and safeguards your business in the following Areas.</h2>
-        <div class="home-usecases__tabs" role="tablist" aria-label="Business areas">
+        <h2 class="home-usecases__title" data-reveal>Accelerates and safeguards your business in the following Areas.</h2>
+        <div class="home-usecases__tabs" role="tablist" aria-label="Business areas" data-reveal data-delay="1">
           <button class="home-usecases__tab is-active" role="tab" aria-selected="true" data-usecase="ecommerce">E-commerce</button>
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="social">Social Network</button>
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="advertising">Advertising</button>
@@ -1753,7 +1749,7 @@
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="data">Data collection</button>
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="others">Others</button>
         </div>
-        <div class="home-usecases__body">
+        <div class="home-usecases__body" data-reveal data-delay="2">
           <div class="home-usecases__copy">
             <h3 class="home-usecases__subtitle" id="usecases-subtitle">Solutions for Every Use Case</h3>
             <p class="home-usecases__desc" id="usecases-desc">Leverage our proxy network and data tools to power your e-commerce operations — from price monitoring and inventory tracking to competitor analysis and geo-targeted browsing at any scale.</p>
@@ -1769,12 +1765,12 @@
 
     <section class="home-pricing" data-screen-label="Pricing">
       <div class="home-pricing__inner">
-        <h2 class="home-pricing__title">Flexible pricing that adapts to various needs.</h2>
-        <p class="home-pricing__stripe">Fast &amp; Secure payments powered by Stripe</p>
+        <h2 class="home-pricing__title" data-reveal>Flexible pricing that adapts to various needs.</h2>
+        <p class="home-pricing__stripe" data-reveal>Fast &amp; Secure payments powered by Stripe</p>
 
         <div class="home-pricing__grid">
           <!-- Card 1 -->
-          <div class="home-pricing__card">
+          <div class="home-pricing__card" data-reveal>
             <div class="home-pricing__rate">
               <span class="home-pricing__rate-currency">$</span>
               <span class="home-pricing__rate-value">0.80</span>
@@ -1808,7 +1804,7 @@
           </div>
 
           <!-- Card 2 (featured) -->
-          <div class="home-pricing__card home-pricing__card--featured">
+          <div class="home-pricing__card home-pricing__card--featured" data-reveal data-delay="1">
             <div class="home-pricing__rate">
               <span class="home-pricing__rate-currency">$</span>
               <span class="home-pricing__rate-value">0.80</span>
@@ -1848,7 +1844,7 @@
           </div>
 
           <!-- Card 3 -->
-          <div class="home-pricing__card">
+          <div class="home-pricing__card" data-reveal data-delay="2">
             <div class="home-pricing__rate">
               <span class="home-pricing__rate-currency">$</span>
               <span class="home-pricing__rate-value">0.80</span>
@@ -1882,7 +1878,7 @@
           </div>
 
           <!-- Card 4 -->
-          <div class="home-pricing__card">
+          <div class="home-pricing__card" data-reveal data-delay="3">
             <div class="home-pricing__rate">
               <span class="home-pricing__rate-currency">$</span>
               <span class="home-pricing__rate-value">0.80</span>
@@ -2005,7 +2001,7 @@
       </div><!-- /.home-reviews__bg -->
 
       <!-- centre title + CTAs -->
-      <div class="home-reviews__hero">
+      <div class="home-reviews__hero" data-reveal>
         <h2 class="home-reviews__title">Trusted by thousands of<br>users from different industries</h2>
         <div class="home-reviews__actions">
           <a href="#" class="home-reviews__btn-primary">
@@ -2020,7 +2016,7 @@
       </div>
 
       <!-- trust / certification panel -->
-      <div class="home-reviews__trust">
+      <div class="home-reviews__trust" data-reveal data-delay="1">
         <div class="home-reviews__trust-inner">
           <div>
             <h3 class="home-reviews__trust-title">Certified data centers and upstream providers</h3>
@@ -2369,6 +2365,17 @@
           });
         });
       }
+    })();
+
+    // ---- Scroll reveal (same behavior as Proxies page) ----
+    (function(){
+      var content = document.querySelector('.home-content');
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: .12, rootMargin: '0px 0px -8% 0px', root: content || null });
+      document.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
     })();
   </script>
 

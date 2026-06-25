@@ -313,8 +313,15 @@
         gap: 32px;
       }
     }
-    #geo .geo__card-wrap { padding: 48px !important; width: 1280px !important; }
-    #geo .h-section { font-size: 44px; max-width: 800px; }
+    #geo .geo__card-wrap { padding: 48px !important; width: 1280px !important; background: rgba(0,0,0,0.05) !important; }
+    #geo .h-section { font-size: 44px; max-width: 800px; color: #000 !important; }
+    #geo { color: #000 !important; }
+    #geo .section-sub { color: rgba(0,0,0,0.65) !important; }
+    #geo .geo-loc h3 { color: #000 !important; }
+    #geo .geo-loc p { color: rgba(0,0,0,0.65) !important; }
+    #geo .geo__stat-num { color: #000 !important; }
+    #geo .geo__stat-label { color: rgba(0,0,0,0.65) !important; }
+    #geo .geo-head__desc { color: rgba(0,0,0,0.65) !important; }
     .home-coverage {
       position: relative;
       width: 100%;
@@ -369,6 +376,7 @@
       background: var(--color-bg-dark);
       pointer-events: auto;
       font-family: 'Inter', sans-serif;
+      margin-top: 80px;
     }
     .home-integrate__inner {
       max-width: 1280px;
@@ -676,7 +684,7 @@
       background: var(--color-surface-light-hover);
     }
     .home-usecases__card--main { flex: 1.6 1 0; }
-    .home-usecases__card--secondary { flex: 1 1 0; }
+    .home-usecases__card--secondary { display: none; }
     @media (max-width: 900px) {
       .home-usecases {
         padding: var(--home-section-gap) 24px calc(var(--home-section-padding-y) * 2);
@@ -1106,6 +1114,9 @@
       line-height: 1.2;
       margin-bottom: 32px;
       max-width: 800px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
     }
     .home-reviews__actions {
       display: flex;
@@ -2146,7 +2157,7 @@
 
   <div class="home-scrollbar" aria-hidden="true"><div class="home-scrollbar__thumb"></div></div>
 
-  <div data-site-nav data-active="home"></div>
+  <div data-site-nav data-active="home-2"></div>
   <script src="assets/site-nav.js"></script>
   <script>if (window.lucide) lucide.createIcons();</script>
 

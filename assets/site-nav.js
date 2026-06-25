@@ -6,6 +6,7 @@
 
   var desktopLinks = [
     {key:'home', label:'Home', href:'index.html'},
+    {key:'home-2', label:'Home 2', href:'index-v2.html'},
     {key:'proxies', label:'Proxies', href:'proxies.html'},
     {key:'pricing', label:'Pricing', href:'pricing.html'},
     {key:'use-cases', label:'Use Cases', href:'use-case.html'},
@@ -16,6 +17,17 @@
   function mobileLinksFor(active){
     if (active === 'home') {
       return [
+        {key:'home-2', label:'Home 2', href:'index-v2.html'},
+        {key:'proxies', label:'Proxies', href:'proxies.html'},
+        {key:'pricing', label:'Pricing', href:'pricing.html'},
+        {key:'use-cases', label:'Use Cases', href:'use-case.html'},
+        {key:'blog', label:'Blog', href:'blog.html'},
+        {key:'faq', label:'FAQs', href:'faq.html'}
+      ];
+    }
+    if (active === 'home-2') {
+      return [
+        {key:'home', label:'Home', href:'index.html'},
         {key:'proxies', label:'Proxies', href:'proxies.html'},
         {key:'pricing', label:'Pricing', href:'pricing.html'},
         {key:'use-cases', label:'Use Cases', href:'use-case.html'},
@@ -36,6 +48,7 @@
     }
     return [
       {key:'home', label:'Home', href:'index.html'},
+      {key:'home-2', label:'Home 2', href:'index-v2.html'},
       {key:'proxies', label:'Proxies', href:'proxies.html'},
       {key:'features', label:'Features', href:'proxies.html#features'},
       {key:'pricing', label:'Pricing', href:'pricing.html'},
@@ -48,6 +61,7 @@
 
   function inferActive(){
     var path = window.location.pathname.split('/').pop() || 'index.html';
+    if (path === 'index-v2.html') return 'home-2';
     if (path === 'pricing.html') return 'pricing';
     if (path === 'use-case.html') return 'use-cases';
     if (path === 'blog.html') return 'blog';
