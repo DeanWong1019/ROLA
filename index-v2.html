@@ -615,6 +615,7 @@
       margin-right: auto;
     }
     .home-usecases__tabs {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 4px;
@@ -626,8 +627,22 @@
       scrollbar-width: none;
     }
     .home-usecases__tabs::-webkit-scrollbar { display: none; }
+    .home-usecases__tab-indicator {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 0;
+      width: 0;
+      background: var(--color-text-primary);
+      border-radius: 8px;
+      transition: transform 0.32s cubic-bezier(.22,.61,.36,1), width 0.32s cubic-bezier(.22,.61,.36,1);
+      z-index: 1;
+      pointer-events: none;
+    }
     .home-usecases__tab {
-      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+      flex: 1 1 0;
       padding: 8px 24px;
       border-radius: 8px;
       border: none;
@@ -639,9 +654,10 @@
       cursor: pointer;
       transition: background 0.2s ease, color 0.2s ease;
       white-space: nowrap;
+      text-align: center;
     }
     .home-usecases__tab.is-active {
-      background: var(--color-text-primary);
+      background: transparent;
       color: #fff;
       font-weight: 600;
     }
@@ -1794,6 +1810,7 @@
       <div class="home-usecases__inner">
         <h2 class="home-usecases__title" data-reveal>Accelerates and safeguards your business in the following Areas.</h2>
         <div class="home-usecases__tabs" role="tablist" aria-label="Business areas" data-reveal data-delay="1">
+          <span class="home-usecases__tab-indicator" aria-hidden="true"></span>
           <button class="home-usecases__tab is-active" role="tab" aria-selected="true" data-usecase="ecommerce">E-commerce</button>
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="social">Social Network</button>
           <button class="home-usecases__tab" role="tab" aria-selected="false" data-usecase="advertising">Advertising</button>
@@ -2394,14 +2411,29 @@
         data:       { subtitle: 'Enterprise Data Collection', desc: 'Build comprehensive datasets for research, analytics, and business intelligence. Pre-built APIs and ready-to-use datasets cut time-to-insight from weeks to hours.' },
         others:     { subtitle: 'Custom Business Solutions', desc: 'Not sure which product fits your workflow? Our team designs tailored data-collection pipelines for unique use cases — from cybersecurity to academic research.' }
       };
+      var tabsWrap = document.querySelector('.home-usecases__tabs');
       var tabs = document.querySelectorAll('.home-usecases__tab');
+      var indicator = document.querySelector('.home-usecases__tab-indicator');
       var subtitle = document.getElementById('usecases-subtitle');
       var desc = document.getElementById('usecases-desc');
+
+      function placeIndicator(tab, animate) {
+        if (!indicator || !tab) return;
+        if (!animate) indicator.style.transition = 'none';
+        indicator.style.transform = 'translateX(' + tab.offsetLeft + 'px)';
+        indicator.style.width = tab.offsetWidth + 'px';
+        if (!animate) {
+          indicator.offsetHeight;
+          indicator.style.transition = '';
+        }
+      }
+
       tabs.forEach(function(tab) {
         tab.addEventListener('click', function() {
           tabs.forEach(function(t) { t.classList.remove('is-active'); t.setAttribute('aria-selected','false'); });
           tab.classList.add('is-active');
           tab.setAttribute('aria-selected','true');
+          placeIndicator(tab, true);
           var key = tab.getAttribute('data-usecase');
           var data = usecasesData[key];
           if (data && subtitle && desc) {
@@ -2410,6 +2442,15 @@
           }
         });
       });
+
+      if (tabsWrap) {
+        var activeTab = tabsWrap.querySelector('.home-usecases__tab.is-active') || tabs[0];
+        placeIndicator(activeTab, false);
+        window.addEventListener('resize', function() {
+          var current = tabsWrap.querySelector('.home-usecases__tab.is-active') || tabs[0];
+          placeIndicator(current, false);
+        }, { passive: true });
+      }
     })();
 
     (function(){
