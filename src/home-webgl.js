@@ -434,7 +434,7 @@ const brandScene = new Transform();
 brandScene.setParent(scene);
 
 // ─── Particle System ──────────────────────────────────────────────────────────
-const NUM = 12000;
+const NUM = 8000;
 const positions = new Float32Array(NUM * 3);
 
 function createParticle() {
@@ -973,10 +973,21 @@ let textVisible = false;
 let uiPresented = false;
 let orbitCopyRevealFrames = 0;
 
-function loop(nowMs) {
-  requestAnimationFrame(loop);
+let rafId = null;
+let heroVisible = true;
+function heroActive() { return heroVisible && !document.hidden; }
+function startLoop() {
+  if (rafId !== null) return;
+  lastMs = null; // 重置以避免恢复时 dt 暴涨
+  rafId = requestAnimationFrame(loop);
+}
+function stopLoop() {
+  if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+}
 
-  if (!startMs) { startMs = nowMs; lastMs = nowMs; }
+function loop(nowMs) {
+  if (!startMs) { startMs = nowMs; }
+  if (lastMs === null) { lastMs = nowMs; }
   const elapsed = nowMs - lastMs;
   lastMs = nowMs;
 
@@ -1083,6 +1094,25 @@ function loop(nowMs) {
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
   renderer.render({ scene, camera });
+
+  // 不可见时停止调度下一帧，让 GPU 进入空闲
+  if (heroActive()) {
+    rafId = requestAnimationFrame(loop);
+  } else {
+    rafId = null;
+  }
 }
 
-requestAnimationFrame(loop);
+// 当 hero canvas 离开视口或标签页被隐藏时暂停渲染，GPU 占用降到接近 0
+const heroContainer = document.getElementById('gl-container');
+if (heroContainer && 'IntersectionObserver' in window) {
+  new IntersectionObserver(entries => {
+    heroVisible = entries[0].isIntersecting;
+    if (heroActive()) startLoop(); else stopLoop();
+  }, { rootMargin: '50px' }).observe(heroContainer);
+}
+document.addEventListener('visibilitychange', () => {
+  if (heroActive()) startLoop(); else stopLoop();
+});
+
+startLoop();

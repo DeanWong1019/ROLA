@@ -2486,6 +2486,11 @@
         uniforms.rayPos.value = anchor;
         uniforms.rayDir.value = dir;
       };
+      let raysRaf = null;
+      let raysVisible = false;
+      const raysActive = () => raysVisible && !document.hidden;
+      const startRays = () => { if (raysRaf === null) raysRaf = requestAnimationFrame(loop); };
+      const stopRays = () => { if (raysRaf !== null) { cancelAnimationFrame(raysRaf); raysRaf = null; } };
       const loop = t => {
         uniforms.iTime.value = t * 0.001;
         const s = 0.92;
@@ -2493,7 +2498,7 @@
         smoothMouse.y = smoothMouse.y*s + mouse.y*(1-s);
         uniforms.mousePos.value = [smoothMouse.x, smoothMouse.y];
         renderer.render({ scene: mesh });
-        requestAnimationFrame(loop);
+        if (raysActive()) raysRaf = requestAnimationFrame(loop); else raysRaf = null;
       };
       window.addEventListener('resize', updateSize);
       window.addEventListener('mousemove', e => {
@@ -2502,7 +2507,19 @@
         mouse.y = (e.clientY-r.top)/r.height;
       });
       updateSize();
-      requestAnimationFrame(loop);
+      // 仅在容器进入视口且标签页可见时渲染
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(entries => {
+          raysVisible = entries[0].isIntersecting;
+          if (raysActive()) startRays(); else stopRays();
+        }, { rootMargin: '50px' }).observe(container);
+      } else {
+        raysVisible = true;
+      }
+      document.addEventListener('visibilitychange', () => {
+        if (raysActive()) startRays(); else stopRays();
+      });
+      if (raysActive()) startRays();
     }
   </script>
 
