@@ -731,11 +731,13 @@ let logoOpacity    = 1;
 //                             smoothly the whole time and arrives by the
 //                             midpoint (0→50%), then the hero canvas + logo
 //                             desaturation fade out only after that (50→100%).
-const SCROLL_MAX    = 4;
 const OUTER_RING_AT = 1.5;
 const COVER_ENABLED = true;
 const FADE_START    = 1.8;
 const FADE_END       = FADE_START + 1.6;
+// Keep the max at the content-complete point so reverse scrolling has no
+// invisible dead travel before the Trusted section hands back to the hero.
+const SCROLL_MAX    = FADE_END;
 window.addEventListener('wheel', e => {
   if (e.deltaY > 0) homeUiReturnLock = false;
   scrollTarget = limitRange(0, scrollTarget + e.deltaY * 0.00095, SCROLL_MAX);
@@ -940,13 +942,13 @@ function syncHomeCover() {
   // Three curves sharing one continuous window, none of them ever pausing
   // mid-motion:
   // - textT: old stat text fades fast and early — gone before content shows.
-  // - contentT: "Built for scale" slides up smoothly the whole time,
-  //   arriving by the window's midpoint — no stall, no holding pattern.
+  // - contentT: the content layer slides through the whole window so reverse
+  //   scrolling has no invisible dead zone at the Trusted handoff.
   // - canvasT: hero canvas + logo desaturation only start once content has
   //   essentially arrived, finishing as the window ends.
   const rawExit = limitRange(0, (scrollProgress - FADE_START) / (FADE_END - FADE_START), 1);
   const textT    = smoothstep(0, 0.3, rawExit);
-  const contentT = smoothstep(0, 0.5, rawExit);
+  const contentT = smoothstep(0, 1, rawExit);
   const canvasT  = smoothstep(0.3, 0.5, rawExit);
   const heroOpacity = 1 - canvasT;
   coverPhase = canvasT;

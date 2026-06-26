@@ -115,33 +115,29 @@
     .solutions-pin-wrapper {
       width: 100%;
       flex-shrink: 0;  /* 关键：flex 容器里不被压缩，保住高度 */
-      /* section pin 占 1×100vh；每个 item 切换只需 40vh 滚动行程（4 项 = 160vh）
-         => 想更快/更慢切换，只改这里的 40vh 即可，JS 会自动适配 */
-      height: calc(100vh + 40vh * 4);
+      height: auto;
     }
     .solutions-section {
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      position: relative;
+      height: auto;
       width: 100%;
       padding-top: 144px;  /* 72px nav offset + 72px visual padding */
       padding-right: 0;
-      padding-bottom: 72px;
+      padding-bottom: 96px;
       padding-left: 0;
       pointer-events: auto;
       font-family: 'Inter', sans-serif;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       box-sizing: border-box;
     }
     .solutions-inner {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 34px;
       width: 100%;
     }
     .solutions-title {
@@ -158,129 +154,137 @@
       font-size: 1.125rem;
       line-height: 1.6;
       color: rgba(255,255,255,0.6);
-      margin-bottom: 32px;
+      margin-bottom: 0;
+      max-width: 760px;
     }
     .solutions-list {
+      position: relative;
       display: flex;
       flex-direction: column;
-      min-height: var(--solutions-list-height, auto);
+      gap: 64px;
+      min-height: 0;
     }
-    .solutions-item__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      flex-shrink: 0;
-      padding: 6px;
+    .anim .solutions-list[data-reveal] {
+      opacity: 0;
+      transform: none;
+      transition: opacity .85s var(--ease, cubic-bezier(.22,.61,.36,1));
     }
-    .solutions-item__icon img {
-      width: 28px;
-      height: 28px;
+    .anim .solutions-list[data-reveal].in {
+      opacity: 1;
+      transform: none;
+    }
+    .solutions-left {
+      max-width: 780px;
     }
     .solutions-item {
-      display: flex;
-      gap: 16px;
+      --solutions-item-scale: 1;
+      --solutions-item-blur: 0px;
+      --solutions-item-y: 0px;
+      --solutions-item-opacity: 1;
+      position: sticky;
+      top: 7.5rem;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+      gap: clamp(28px, 5vw, 72px);
       align-items: flex-start;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding: 20px 0;
+      min-height: min(560px, calc(100vh - 9.5rem));
+      border: 0;
+      border-radius: 34px;
+      padding: clamp(32px, 5vw, 56px);
+      background:
+        radial-gradient(760px 420px at 82% 100%, rgba(16, 21, 20, 0.72), transparent 68%),
+        linear-gradient(145deg, #101514, #101514);
+      box-shadow: none;
       cursor: pointer;
-      opacity: 0.42;
-      transition: opacity 0.4s ease;
+      opacity: var(--solutions-item-opacity);
+      pointer-events: auto;
+      transform: translate3d(0, var(--solutions-item-y), 0) scale(var(--solutions-item-scale));
+      transform-origin: center top;
+      overflow: hidden;
+      backface-visibility: hidden;
+      contain: paint;
+      will-change: transform, opacity;
+      transition: none;
     }
+    .solutions-item::before { content: none; }
     .solutions-item.is-active {
-      opacity: 1;
+      --solutions-item-opacity: 1;
     }
     .solutions-item__body {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 24px;
       flex: 1;
+      position: relative;
+      z-index: 2;
+      max-width: 520px;
+      align-self: flex-start;
     }
     .solutions-item__name {
       font-family: 'Inter', sans-serif;
-      font-size: 1.125rem;
+      font-size: clamp(var(--text-xl), 2.2vw, var(--text-2xl));
       font-weight: 700;
-      line-height: 1.4;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
       color: #fff;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
+      margin: 0;
     }
     .solutions-item__body-extra {
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height 0.48s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.28s ease;
-    }
-    .solutions-item.is-active .solutions-item__body-extra {
-      max-height: 280px;
-      opacity: 1;
-      transition: max-height 0.48s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.32s ease 0.1s;
+      display: block;
     }
     .solutions-pin-wrapper.is-measuring .solutions-item,
     .solutions-pin-wrapper.is-measuring .solutions-item__body-extra,
-    .solutions-pin-wrapper.is-measuring .solutions-img {
+    .solutions-pin-wrapper.is-measuring .solutions-item__visual {
       transition: none !important;
     }
     .solutions-item__desc {
       font-family: 'Inter', sans-serif;
-      font-size: 0.9375rem;
-      line-height: 1.5;
-      color: rgba(255,255,255,0.6);
-      margin-top: 8px;
+      font-size: var(--text-md);
+      line-height: 1.8;
+      color: rgba(255,255,255,0.68);
+      margin: 0;
     }
-    .solutions-item__tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
+    .solutions-item__points {
+      display: grid;
+      gap: var(--space-4);
+      padding: 0;
+      margin: var(--space-8) 0 0;
+      list-style: none;
     }
-    .solutions-item__tag {
+    .solutions-item__points li {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      align-items: start;
+      gap: var(--space-3);
       font-family: 'Inter', sans-serif;
-      font-size: 0.8125rem;
-      font-weight: 400;
-      color: rgba(255,255,255,0.8);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 3px;
-      padding: 2px 8px;
-      letter-spacing: 0.01em;
+      font-size: var(--text-base);
+      line-height: 1.75;
+      color: rgba(255,255,255,0.82);
     }
-    .solutions-right {
-      display: flex;
-      align-self: center;
-      height: min(560px, calc(100vh - 216px));
-      min-height: 0;
-      overflow: hidden;
-      border-radius: 8px;
+    .solutions-item__point-icon {
+      width: 22px;
+      height: 22px;
+      margin-top: 0.15em;
+      color: var(--color-brand, #1AD79F);
+      stroke-width: 2.2;
     }
-    .solutions-mockup {
+    .solutions-item__visual {
       position: relative;
       width: 100%;
-      height: 100%;
-      border: 1px solid rgba(0,0,0,0.18);
-      border-radius: 8px;
+      min-height: 320px;
+      border: 0;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: none;
+      z-index: 2;
+      align-self: flex-start;
     }
-    .solutions-img {
-      position: absolute;
-      inset: 0;
+    .solutions-item__visual img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0;
-      transform: none;
-      transition: opacity 0.24s ease;
-      pointer-events: none;
-    }
-    .solutions-img.is-active {
-      opacity: 1;
+      min-height: 320px;
     }
     .solutions-pin-wrapper--headline-only {
       height: auto;
@@ -291,9 +295,8 @@
       padding: 64px 0 0;
     }
     .solutions-pin-wrapper--headline-only .solutions-inner {
-      grid-template-columns: 1fr;
       gap: 0;
-      justify-items: center;
+      align-items: center;
     }
     .solutions-pin-wrapper--headline-only .solutions-left {
       max-width: 800px;
@@ -309,16 +312,53 @@
     }
     .solutions-pin-wrapper:not(.solutions-pin-wrapper--headline-only) .solutions-section {
       padding-top: 144px;
-      padding-bottom: 72px;
+      padding-bottom: 96px;
     }
     .solutions-pin-wrapper:not(.solutions-pin-wrapper--headline-only) .solutions-title {
       margin-bottom: 12px;
     }
+    .solutions-pin-wrapper:not(.solutions-pin-wrapper--headline-only) .solutions-left {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .solutions-pin-wrapper:not(.solutions-pin-wrapper--headline-only) .solutions-desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
     @media (max-width: 900px) {
       .solutions-inner {
-        grid-template-columns: 1fr;
         padding: 0 24px;
         gap: 32px;
+      }
+      .solutions-section {
+        padding-top: 112px;
+        padding-bottom: 48px;
+      }
+      .solutions-list {
+        gap: 32px;
+      }
+      .solutions-item {
+        position: relative;
+        top: auto;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        min-height: 0;
+        padding: 24px;
+      }
+      .solutions-item__body {
+        gap: 16px;
+      }
+      .solutions-item__points {
+        gap: var(--space-3);
+        margin-top: var(--space-5);
+      }
+      .solutions-item__points li {
+        grid-template-columns: 22px minmax(0, 1fr);
+      }
+      .solutions-item__visual,
+      .solutions-item__visual img {
+        min-height: 220px;
       }
     }
     .home-coverage {
@@ -1633,84 +1673,80 @@
     <div class="solutions-pin-wrapper">
     <section class="solutions-section">
       <div class="solutions-inner">
-        <div class="solutions-left">
+        <div class="solutions-left" data-reveal>
           <h2 class="solutions-title">Solutions for Every Use Case</h2>
-          <p class="solutions-desc">Aenean consequat neque in turpis volutpat tristique. Integer nunc nisi, accumsan ultricies enim quis, tincidunt lacinia lorem.</p>
-          <div class="solutions-list">
+          <p class="solutions-desc">End-to-end proxy and data collection solutions for different business scenarios, covering anonymous access, anti-bot unlocking, structured extraction, and ready-to-use datasets.</p>
+        </div>
+          <div class="solutions-list" data-reveal data-delay="2">
             <div class="solutions-item" data-solution="0">
-              <div class="solutions-item__icon">
-                <img src="assets/solutions/icon-proxies.svg" alt="">
-              </div>
               <div class="solutions-item__body">
-                <p class="solutions-item__name">Proxies Anonymity</p>
+                <p class="solutions-item__name">Static Residential / ISP Proxies</p>
                 <div class="solutions-item__body-extra">
-                  <p class="solutions-item__desc">A 100-million-level IP pool with 99.9% uptime. Real residential IPs, low detection rate, low ban rate.</p>
-                  <div class="solutions-item__tags">
-                    <span class="solutions-item__tag">ISP</span>
-                    <span class="solutions-item__tag">Datacenter</span>
-                    <span class="solutions-item__tag">Asia</span>
-                  </div>
+                  <p class="solutions-item__desc">Blend datacenter-level stability with residential IP trust for account access, price monitoring, ad verification, and other workflows that need persistent sessions.</p>
+                  <ul class="solutions-item__points">
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Sticky IPs and long-lived sessions</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Residential-grade reputation with ISP stability</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Country, city, and carrier targeting</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Lower risk of abnormal verification and bans</span></li>
+                  </ul>
                 </div>
+              </div>
+              <div class="solutions-item__visual">
+                <img src="https://unsplash.com/photos/oyXis2kALVg/download?force=true" alt="Static Residential / ISP Proxies">
               </div>
             </div>
             <div class="solutions-item" data-solution="1">
-              <div class="solutions-item__icon">
-                <img src="assets/solutions/icon-unblockers.svg" alt="">
-              </div>
               <div class="solutions-item__body">
-                <p class="solutions-item__name">Website Unblockers</p>
+                <p class="solutions-item__name">Rotating Residential Proxy Network</p>
                 <div class="solutions-item__body-extra">
-                  <p class="solutions-item__desc">Bypass anti-bot protection and access any website at scale with automatic CAPTCHA solving and browser fingerprint rotation.</p>
-                  <div class="solutions-item__tags">
-                    <span class="solutions-item__tag">Google</span>
-                    <span class="solutions-item__tag">Amazon</span>
-                    <span class="solutions-item__tag">Cloudflare</span>
-                  </div>
+                  <p class="solutions-item__desc">Rotate through real residential IP pools by request or session for large-scale scraping, market research, SEO monitoring, and cross-region access.</p>
+                  <ul class="solutions-item__points">
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Automatic rotation by request or session</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Real residential IPs for natural access patterns</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Precise geo-targeting across regions</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Built for high-volume collection workflows</span></li>
+                  </ul>
                 </div>
+              </div>
+              <div class="solutions-item__visual">
+                <img src="https://unsplash.com/photos/Im7lZjxeLhg/download?force=true" alt="Rotating Residential Proxy Network">
               </div>
             </div>
             <div class="solutions-item" data-solution="2">
-              <div class="solutions-item__icon">
-                <img src="assets/solutions/icon-scraper.svg" alt="">
-              </div>
               <div class="solutions-item__body">
-                <p class="solutions-item__name">Scraper APIs</p>
+                <p class="solutions-item__name">Anti-bot Unlocking & Scraping APIs</p>
                 <div class="solutions-item__body-extra">
-                  <p class="solutions-item__desc">Pre-built APIs for structured data extraction from major platforms. Get clean JSON without managing infrastructure.</p>
-                  <div class="solutions-item__tags">
-                    <span class="solutions-item__tag">E-commerce</span>
-                    <span class="solutions-item__tag">Social Media</span>
-                    <span class="solutions-item__tag">News</span>
-                  </div>
+                  <p class="solutions-item__desc">Handle proxy rotation, browser fingerprints, CAPTCHA challenges, retries, and extraction behind one API so teams can retrieve stable HTML or structured results.</p>
+                  <ul class="solutions-item__points">
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Automatic anti-bot and CAPTCHA handling</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Advanced JS rendering and remote browsers</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>High-performance requests with near-zero downtime</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Less infrastructure to build and maintain</span></li>
+                  </ul>
                 </div>
+              </div>
+              <div class="solutions-item__visual">
+                <img src="https://unsplash.com/photos/XJXWbfSo2f0/download?force=true" alt="Anti-bot Unlocking & Scraping APIs">
               </div>
             </div>
             <div class="solutions-item" data-solution="3">
-              <div class="solutions-item__icon">
-                <img src="assets/solutions/icon-datasets.svg" alt="">
-              </div>
               <div class="solutions-item__body">
-                <p class="solutions-item__name">Datasets</p>
+                <p class="solutions-item__name">Ready-to-use Datasets & Managed Delivery</p>
                 <div class="solutions-item__body-extra">
-                  <p class="solutions-item__desc">Ready-to-use pre-collected datasets for training AI models, market research, and competitive intelligence.</p>
-                  <div class="solutions-item__tags">
-                    <span class="solutions-item__tag">B2B</span>
-                    <span class="solutions-item__tag">Consumer</span>
-                    <span class="solutions-item__tag">Web</span>
-                  </div>
+                  <p class="solutions-item__desc">Deliver cleaned datasets or custom recurring data pipelines for e-commerce, search, jobs, maps, company directories, market analysis, and AI training.</p>
+                  <ul class="solutions-item__points">
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Cleaned data ready for analysis and AI training</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Custom fields, formats, and refresh frequency</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>One-time datasets or recurring data pipelines</span></li>
+                    <li><i data-lucide="circle-check" class="solutions-item__point-icon" aria-hidden="true"></i><span>Managed delivery without crawler operations</span></li>
+                  </ul>
                 </div>
+              </div>
+              <div class="solutions-item__visual">
+                <img src="https://unsplash.com/photos/SYTO3xs06fU/download?force=true" alt="Ready-to-use Datasets & Managed Delivery">
               </div>
             </div>
           </div>
-        </div>
-        <div class="solutions-right">
-          <div class="solutions-mockup">
-            <img class="solutions-img is-active" data-solution="0" src="https://unsplash.com/photos/oyXis2kALVg/download?force=true" alt="Proxies Anonymity">
-            <img class="solutions-img" data-solution="1" src="https://unsplash.com/photos/Im7lZjxeLhg/download?force=true" alt="Website Unblockers">
-            <img class="solutions-img" data-solution="2" src="https://unsplash.com/photos/XJXWbfSo2f0/download?force=true" alt="Scraper APIs">
-            <img class="solutions-img" data-solution="3" src="https://unsplash.com/photos/SYTO3xs06fU/download?force=true" alt="Datasets">
-          </div>
-        </div>
       </div>
     </section>
     </div>
@@ -2193,7 +2229,7 @@
     </div>
   </section>
 
-  <script src="assets/home-webgl.bundle.js?v=20260624-ai-logo"></script>
+  <script src="assets/home-webgl.bundle.js?v=20260626-scroll-handoff"></script>
 
   <script src="assets/site-i18n.js"></script>
   <script>if (typeof lucide !== 'undefined') lucide.createIcons();</script>
@@ -2297,14 +2333,14 @@
       requestAnimationFrame(loop);
     })();
 
-    // ── 修复：在内容区内往上滚时，冻结 bundle 的 hero 累加器，避免 hero 提前返场把模块盖住 ──
-    // 只拦 deltaY<0（向上）且 scrollTop>0；不 preventDefault，原生滚动照常；
-    // scrollTop 回到 0 后放行，hero 正常返场。capture 阶段先于 bundle 的 window 监听器。
+    // 内容区还有滚动距离时，阻止同一个 wheel 同时驱动 WebGL hero。
+    // 一旦到达顶部，立刻把后续向上滚动交还给 hero，避免 Trusted 区域出现停顿。
     (function(){
       var content = document.querySelector('.home-content');
       if (!content) return;
       window.addEventListener('wheel', function(e){
-        if (e.deltaY < 0 && content.scrollTop > 0) {
+        if (e.deltaY >= 0) return;
+        if (content.scrollTop > 1) {
           e.stopImmediatePropagation();
         }
       }, { capture: true });
@@ -2374,50 +2410,107 @@
         });
       }
 
-      // 为每个 .solutions-pin-wrapper 建立独立的 accordion
+      // 为每个 .solutions-pin-wrapper 建立独立的整卡叠放切换。
       var updaters = [];
       var layoutRefreshers = [];
       document.querySelectorAll('.solutions-pin-wrapper').forEach(function(wrapper){
         var items  = Array.from(wrapper.querySelectorAll('.solutions-item'));
-        var images = Array.from(wrapper.querySelectorAll('.solutions-img'));
         var list   = wrapper.querySelector('.solutions-list');
         if (!items.length) return;
         var activeIdx = -1;
+        var targetProgress = items.map(function(){ return 0; });
+        var currentProgress = items.map(function(){ return 0; });
+        var stackRaf = 0;
+        function clamp01(value) {
+          return value < 0 ? 0 : value > 1 ? 1 : value;
+        }
         function setActive(idx) {
           if (idx === activeIdx) return;
           activeIdx = idx;
           items.forEach(function(el, i) { el.classList.toggle('is-active', i === idx); });
-          images.forEach(function(el, i) { el.classList.toggle('is-active', i === idx); });
+        }
+        function writeStack(force) {
+          var needsNextFrame = false;
+          items.forEach(function(el, i) {
+            var next = targetProgress[i] || 0;
+            var cur = force ? next : currentProgress[i] + (next - currentProgress[i]) * 0.18;
+            if (Math.abs(next - cur) < 0.001) cur = next;
+            currentProgress[i] = cur;
+
+            el.style.setProperty('--solutions-item-scale', (1 - cur * 0.15).toFixed(3));
+            el.style.setProperty('--solutions-item-y', (-cur * 16).toFixed(1) + 'px');
+            el.style.setProperty('--solutions-item-opacity', (1 - cur * 0.58).toFixed(3));
+            el.style.zIndex = String((i + 1) * 10);
+            if (cur !== next) needsNextFrame = true;
+          });
+
+          if (needsNextFrame) {
+            stackRaf = requestAnimationFrame(function(){ writeStack(false); });
+          } else {
+            stackRaf = 0;
+          }
+        }
+        function scheduleStackRender(force) {
+          if (force) {
+            if (stackRaf) cancelAnimationFrame(stackRaf);
+            stackRaf = 0;
+            writeStack(true);
+            return;
+          }
+          if (!stackRaf) {
+            stackRaf = requestAnimationFrame(function(){ writeStack(false); });
+          }
+        }
+        function applyStack(force) {
+          var contentRect = content.getBoundingClientRect();
+          var viewportH = content.clientHeight || window.innerHeight;
+          var firstTop = parseFloat(window.getComputedStyle(items[0]).top);
+          var stickyTop = Number.isFinite(firstTop) ? firstTop : 120;
+          var startY = contentRect.top + viewportH * 0.78;
+          var endY = contentRect.top + stickyTop + viewportH * 0.08;
+          var active = 0;
+
+          items.forEach(function(el, i) {
+            var cardTop = el.getBoundingClientRect().top;
+            if (cardTop <= startY) active = i;
+            targetProgress[i] = 0;
+          });
+
+          setActive(active);
+          items.forEach(function(el, i) {
+            el.setAttribute('aria-hidden', i === active ? 'false' : 'true');
+          });
+
+          items.forEach(function(card, i) {
+            if (i === 0) return;
+            var previous = items[i - 1];
+            var currentTop = card.getBoundingClientRect().top;
+            var progress = clamp01((startY - currentTop) / Math.max(1, startY - endY));
+            if (progress <= 0) return;
+            targetProgress[i - 1] = Math.max(targetProgress[i - 1], progress);
+          });
+
+          scheduleStackRender(!!force);
         }
         function refreshLayout() {
           if (!list) return;
-          var prevIdx = activeIdx < 0 ? 0 : activeIdx;
-          var maxHeight = 0;
-          wrapper.classList.add('is-measuring');
-          list.style.setProperty('--solutions-list-height', '');
-          for (var i = 0; i < items.length; i++) {
-            setActive(i);
-            maxHeight = Math.max(maxHeight, list.scrollHeight, list.offsetHeight);
-          }
-          setActive(prevIdx);
-          wrapper.classList.remove('is-measuring');
-          if (maxHeight > 0) {
-            list.style.setProperty('--solutions-list-height', maxHeight + 'px');
-          }
+          list.style.removeProperty('--solutions-list-height');
         }
         items.forEach(function(el, i) {
-          el.addEventListener('click', function() { setActive(i); });
+          el.addEventListener('click', function() {
+            var contentRect = content.getBoundingClientRect();
+            var cardTop = el.getBoundingClientRect().top - contentRect.top;
+            var stickyTop = parseFloat(window.getComputedStyle(el).top);
+            if (!Number.isFinite(stickyTop)) stickyTop = 0;
+            var target = content.scrollTop + cardTop - stickyTop;
+            content.scrollTo({ top: target, behavior: 'smooth' });
+          });
         });
-        // CSS sticky 负责 pin（合成器驱动，不抖）；JS 只按本模块滚动进度切换激活项
+        // CSS sticky 负责 pin；JS 按下一张卡进入视口的距离缩放/模糊上一张卡。
         function update() {
-          var scrolled = content.scrollTop - wrapper.offsetTop;
-          var total    = wrapper.offsetHeight - window.innerHeight;
-          if (total <= 0) { setActive(0); return; }
-          var progress = Math.max(0, Math.min(1, scrolled / total));
-          var idx = Math.min(items.length - 1, Math.floor(progress * items.length));
-          setActive(idx);
+          applyStack();
         }
-        setActive(0);
+        applyStack(true);
         refreshLayout();
         layoutRefreshers.push(refreshLayout);
         updaters.push(update);
@@ -2426,29 +2519,9 @@
       var lastScrollTop = content.scrollTop;
       function onScroll() {
         var cur = content.scrollTop;
-        var scrollingUp = cur < lastScrollTop;
         lastScrollTop = cur;
         updateScrollbar();
         for (var i = 0; i < updaters.length; i++) updaters[i]();
-        // 向上滚回第一个 item 时跳到 wrapper 顶部，解锁 sticky
-        if (scrollingUp) {
-          var ws = document.querySelectorAll('.solutions-pin-wrapper');
-          for (var j = 0; j < ws.length; j++) {
-            var w = ws[j];
-            var wTop = w.offsetTop;
-            var wEnd = wTop + w.offsetHeight - window.innerHeight;
-            if (cur > wTop && cur < wEnd) {
-              var itemCount = w.querySelectorAll('.solutions-item').length;
-              var progress  = (cur - wTop) / (wEnd - wTop);
-              var idx = Math.min(itemCount - 1, Math.floor(progress * itemCount));
-              if (idx === 0) {
-                content.scrollTop = wTop;
-                lastScrollTop = wTop;
-              }
-              break;
-            }
-          }
-        }
       }
       content.addEventListener('scroll', onScroll, { passive: true });
 

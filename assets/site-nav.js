@@ -25,14 +25,44 @@
     'Others':'其他',
     'Dating':'约会',
     'Sneakers':'球鞋',
-    'Tickets':'票务'
+    'Tickets':'票务',
+    'Dynamic Residential IP':'动态住宅 IP',
+    'Dynamic Datacenter IP':'动态机房 IP',
+    'Mobile IP':'移动手机 IP',
+    'Static Residential IP':'静态住宅 IP',
+    'Static Datacenter IP':'静态机房 IP',
+    'Static IPv6 IP':'静态 IPv6 IP'
   };
   function isZh(){ return new URLSearchParams(window.location.search).get('lang') === 'zh'; }
   function t(text){ return isZh() && navZh[text] ? navZh[text] : text; }
 
+  // ---- "Proxies" dropdown data ----
+  var proxiesGroups = [
+    { title:'Dynamic Proxies IP', items:[
+      {icon:'home', name:'Dynamic Residential IP', href:'proxies.html'},
+      {icon:'server', name:'Dynamic Datacenter IP', href:'proxies.html'},
+      {icon:'smartphone', name:'Mobile IP', href:'proxies.html'}
+    ]},
+    { title:'Static Proxies IP', items:[
+      {icon:'home', name:'Static Residential IP', href:'proxies.html'},
+      {icon:'server', name:'Static Datacenter IP', href:'proxies.html'},
+      {icon:'router', name:'Static IPv6 IP', href:'proxies.html'}
+    ]}
+  ];
+
+  function renderSimpleMenuItems(groups){
+    return groups.map(function(group){
+      return group.items.map(function(item){
+          return '<a href="' + item.href + '" class="nav__simple-item" role="menuitem">' +
+            '<span class="nav__simple-icon"><i data-lucide="' + item.icon + '" class="nav__simple-icon-glyph" aria-hidden="true"></i></span>' +
+            '<span>' + t(item.name) + '</span></a>';
+        }).join('');
+    }).join('');
+  }
+
   var desktopLinks = [
     {key:'home', label:'Home', href:'index.html'},
-    {key:'proxies', label:'Proxies', href:'proxies.html'},
+    {key:'proxies', label:'Proxies', href:'proxies.html', dropdown:true},
     {key:'purposes', label:'Purposes', href:'#', mega:true},
     {key:'pricing', label:'Pricing', href:'pricing.html'},
     {key:'use-cases', label:'Use Cases', href:'use-case.html'},
@@ -123,11 +153,10 @@
       '</div>';
   }
 
-  function renderMegaMenu(){
-    var colsHtml = purposesColumns.map(function(groups){
+  function renderMegaMenuCols(){
+    return purposesColumns.map(function(groups){
       return '<div class="nav__mega-col">' + groups.map(renderMegaGroup).join('') + '</div>';
     }).join('');
-    return '<div class="nav__megamenu" role="menu">' + colsHtml + '</div>';
   }
 
   function renderMegaFlatList(){
@@ -199,9 +228,13 @@
   function renderLinks(links, active){
     return links.map(function(link){
       if (link.mega) {
-        return '<div class="nav__dropdown">' +
+        return '<div class="nav__dropdown" data-panel-key="purposes">' +
           '<button type="button" class="nav__dropdown-trigger" aria-haspopup="true" aria-expanded="false">' + t(link.label) + '<i data-lucide="chevron-down" class="nav__chev-icon" aria-hidden="true"></i></button>' +
-          renderMegaMenu() +
+          '</div>';
+      }
+      if (link.dropdown) {
+        return '<div class="nav__dropdown nav__dropdown--simple" data-panel-key="proxies">' +
+          '<a href="' + link.href + '" class="nav__dropdown-trigger' + (isActive(active, link.key) ? ' active' : '') + '">' + t(link.label) + '<i data-lucide="chevron-down" class="nav__chev-icon" aria-hidden="true"></i></a>' +
           '</div>';
       }
       return '<a href="' + link.href + '"' + (isActive(active, link.key) ? ' class="active"' : '') + '>' + t(link.label) + '</a>';
@@ -284,8 +317,163 @@
   }
 
   function wireAllDropdowns(){
-    wireDropdown(document.querySelector('.nav__dropdown'), '.nav__dropdown-trigger');
     wireDropdown(document.querySelector('.nav__lang-dropdown'), '.nav__lang-trigger');
+  }
+
+  // ---- Unified sliding/morphing panel shared by "Proxies" and "Purposes" ----
+  function initNavPanel(nav){
+    var inner = nav.querySelector('.nav__inner');
+    var dropdowns = nav.querySelectorAll('.nav__dropdown[data-panel-key]');
+    if (!inner || !dropdowns.length) return;
+
+    var panel = document.createElement('div');
+    panel.className = 'nav__panel';
+    panel.setAttribute('role', 'menu');
+    var panelInner = document.createElement('div');
+    panelInner.className = 'nav__panel-inner';
+    panel.appendChild(panelInner);
+    inner.appendChild(panel);
+
+    var specs = {
+      proxies: { kind:'simple', width:268, html: renderSimpleMenuItems(proxiesGroups) },
+      purposes: { kind:'mega', width: null, html: renderMegaMenuCols() }
+    };
+
+    var closeTimer = null;
+    var activeKey = null;
+    var activeTrigger = null;
+
+    function megaWidth(){ return Math.min(980, window.innerWidth * 0.92); }
+
+    function widthFor(key){ return key === 'purposes' ? megaWidth() : specs[key].width; }
+
+    function leftFor(key, trigger, width){
+      if (key === 'purposes') return Math.max(16, (window.innerWidth - width) / 2);
+      return trigger.getBoundingClientRect().left;
+    }
+
+    function measureHeight(html, kind, width){
+      var clone = document.createElement('div');
+      clone.style.cssText = 'position:fixed;left:-9999px;top:0;visibility:hidden;height:auto;width:' + width + 'px;';
+      clone.className = 'nav__panel';
+      var ci = document.createElement('div');
+      ci.className = 'nav__panel-inner nav__panel-inner--' + kind;
+      ci.innerHTML = html;
+      clone.appendChild(ci);
+      document.body.appendChild(clone);
+      var h = clone.scrollHeight;
+      document.body.removeChild(clone);
+      return h;
+    }
+
+    function setKindClass(kind){
+      panelInner.classList.remove('nav__panel-inner--simple', 'nav__panel-inner--mega');
+      panelInner.classList.add('nav__panel-inner--' + kind);
+    }
+
+    function setActiveDropdown(trigger){
+      dropdowns.forEach(function(d){
+        var isActive = trigger && d.contains(trigger);
+        d.classList.toggle('open', !!isActive);
+        var t2 = d.querySelector('.nav__dropdown-trigger');
+        if (t2) t2.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+      });
+    }
+
+    function show(key, trigger){
+      clearTimeout(closeTimer);
+      var spec = specs[key];
+      if (!spec) return;
+      var width = widthFor(key);
+      var left = leftFor(key, trigger, width);
+      var measuredHeight = measureHeight(spec.html, spec.kind, width);
+      var maxHeight = Math.max(160, window.innerHeight - 88);
+      var height = Math.min(measuredHeight, maxHeight);
+
+      if (activeKey === key && panel.classList.contains('open')) {
+        setActiveDropdown(trigger);
+        return;
+      }
+
+      if (!panel.classList.contains('open')) {
+        panel.style.transition = 'none';
+        panel.style.left = left + 'px';
+        panel.style.width = width + 'px';
+        panel.style.height = height + 'px';
+        setKindClass(spec.kind);
+        panelInner.innerHTML = spec.html;
+        ensureLucide(function(){ window.lucide.createIcons(); });
+        panel.offsetHeight;
+        panel.style.transition = '';
+        requestAnimationFrame(function(){ panel.classList.add('open'); });
+      } else {
+        var growing = height >= parseFloat(panel.style.height || 0);
+        panelInner.style.opacity = '0';
+        panel.style.left = left + 'px';
+        panel.style.width = width + 'px';
+        panel.style.height = height + 'px';
+        // When shrinking, wait for the box to finish resizing before swapping
+        // content back in, otherwise the shorter content reveals empty space
+        // at the bottom while the panel is still animating down to size.
+        setTimeout(function(){
+          setKindClass(spec.kind);
+          panelInner.innerHTML = spec.html;
+          ensureLucide(function(){ window.lucide.createIcons(); });
+          panelInner.style.opacity = '1';
+        }, growing ? 150 : 280);
+      }
+      activeKey = key;
+      activeTrigger = trigger;
+      setActiveDropdown(trigger);
+    }
+
+    function hide(){
+      panel.classList.remove('open');
+      activeKey = null;
+      activeTrigger = null;
+      setActiveDropdown(null);
+    }
+
+    function scheduleHide(){
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(hide, 160);
+    }
+
+    dropdowns.forEach(function(dropdown){
+      var trigger = dropdown.querySelector('.nav__dropdown-trigger');
+      var key = dropdown.getAttribute('data-panel-key');
+      if (!trigger || !key) return;
+      dropdown.addEventListener('mouseenter', function(){ show(key, trigger); });
+      dropdown.addEventListener('mouseleave', scheduleHide);
+      trigger.addEventListener('click', function(e){
+        e.preventDefault();
+        if (activeKey === key && panel.classList.contains('open')) hide();
+        else show(key, trigger);
+      });
+    });
+
+    panel.addEventListener('mouseenter', function(){ clearTimeout(closeTimer); });
+    panel.addEventListener('mouseleave', scheduleHide);
+
+    document.addEventListener('click', function(e){
+      if (!panel.contains(e.target) && !e.target.closest('.nav__dropdown[data-panel-key]')) hide();
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') hide();
+    });
+    window.addEventListener('resize', function(){
+      if (!panel.classList.contains('open') || !activeKey || !activeTrigger) return;
+      var width = widthFor(activeKey);
+      var left = leftFor(activeKey, activeTrigger, width);
+      var spec = specs[activeKey];
+      if (spec) {
+        var measuredHeight = measureHeight(spec.html, spec.kind, width);
+        var maxHeight = Math.max(160, window.innerHeight - 88);
+        panel.style.height = Math.min(measuredHeight, maxHeight) + 'px';
+      }
+      panel.style.width = width + 'px';
+      panel.style.left = left + 'px';
+    });
   }
 
   function wireMobileMega(){
@@ -307,8 +495,7 @@
     wrap.insertBefore(indicator, wrap.firstChild);
 
     var targets = wrap.querySelectorAll('a, .nav__dropdown-trigger');
-    var dropdown = wrap.querySelector('.nav__dropdown');
-    var dropdownTrigger = dropdown ? dropdown.querySelector('.nav__dropdown-trigger') : null;
+    var dropdowns = wrap.querySelectorAll('.nav__dropdown');
     var hideTimer = null;
 
     function place(el){
@@ -323,7 +510,8 @@
     function scheduleHide(){
       clearTimeout(hideTimer);
       hideTimer = setTimeout(function(){
-        if (dropdown && dropdown.classList.contains('open')) return;
+        var anyOpen = Array.prototype.some.call(dropdowns, function(d){ return d.classList.contains('open'); });
+        if (anyOpen) return;
         hideNow();
       }, 170);
     }
@@ -333,10 +521,12 @@
     });
     wrap.addEventListener('mouseleave', scheduleHide);
 
-    if (dropdown && dropdownTrigger) {
+    dropdowns.forEach(function(dropdown){
+      var dropdownTrigger = dropdown.querySelector('.nav__dropdown-trigger');
+      if (!dropdownTrigger) return;
       dropdown.addEventListener('mouseenter', function(){ place(dropdownTrigger); });
       dropdown.addEventListener('mouseleave', scheduleHide);
-    }
+    });
   }
 
   mounts.forEach(function(mount){
@@ -346,5 +536,6 @@
   wireAllDropdowns();
   wireMobileMega();
   wireNavIndicator();
+  document.querySelectorAll('.nav').forEach(initNavPanel);
   ensureLucide(function(){ window.lucide.createIcons(); });
 })();
