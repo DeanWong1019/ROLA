@@ -382,9 +382,9 @@
       padding: 0;
     }
     .home-integrate__title {
-      max-width: 832px;
-      margin: 0 auto 80px;
-      text-align: center;
+      max-width: 542px;
+      margin: 0 0 20px;
+      text-align: left;
       font-size: 44px;
       font-weight: 700;
       line-height: 1.2;
@@ -401,7 +401,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 64px;
+      gap: 56px;
     }
     .home-integrate__desc {
       max-width: 542px;
@@ -413,55 +413,46 @@
     .home-integrate__actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 16px;
       align-items: center;
     }
     .home-integrate__button {
-      min-height: 46px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 10px 16px;
+      height: 48px;
+      padding: 0 20px;
       border-radius: 8px;
-      color: #fff;
       text-decoration: none;
-      font-size: 1rem;
-      line-height: 1.5;
+      font-size: var(--text-base);
+      font-weight: 600;
+      line-height: 1;
       border: 1px solid transparent;
-      transition: background .2s ease, border-color .2s ease;
+      white-space: nowrap;
+      transition: background .15s var(--ease), color .15s var(--ease), border-color .15s var(--ease);
     }
-    .home-integrate__button--outline {
-      border-color: rgba(255,255,255,.8);
+    .home-integrate__button--primary {
+      color: var(--color-text-on-brand);
+      background: var(--color-brand);
+      border-color: var(--color-brand);
     }
-    .home-integrate__button:hover {
-      background: rgba(255,255,255,.08);
+    .home-integrate__button--primary:hover {
+      color: var(--color-text-on-brand);
+      background: var(--color-brand-hover);
+      border-color: var(--color-brand-hover);
     }
-    .home-integrate__button-icon {
-      width: 18px;
-      height: 18px;
-      position: relative;
-      flex-shrink: 0;
+    .home-integrate__button--link {
+      height: auto;
+      padding: 0;
+      color: rgba(255,255,255,.68);
+      background: transparent;
+      border-color: transparent;
+      font-weight: 500;
     }
-    .home-integrate__button-icon::before {
-      content: "";
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      right: 1px;
-      top: 4px;
-      border-top: 2px solid currentColor;
-      border-right: 2px solid currentColor;
-      transform: rotate(45deg);
-    }
-    .home-integrate__button-icon::after {
-      content: "";
-      position: absolute;
-      width: 15px;
-      height: 2px;
-      right: 2px;
-      top: 8px;
-      background: currentColor;
+    .home-integrate__button--link:hover {
+      color: #fff;
+      background: transparent;
+      border-color: transparent;
     }
     .home-integrate__langs-label {
       font-size: .875rem;
@@ -470,9 +461,9 @@
       margin-bottom: 12px;
     }
     .home-integrate__langs {
-      display: grid;
-      grid-template-columns: repeat(4, 120px);
-      gap: 18px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 40px;
       align-items: center;
     }
     .home-integrate__lang {
@@ -605,10 +596,18 @@
       color: #fff;
       text-align: center;
       line-height: 1.25;
-      margin-bottom: 28px;
-      max-width: 800px;
+      margin-bottom: 20px;
+      max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
+    }
+    .home-usecases__intro {
+      max-width: 800px;
+      margin: 0 auto 28px;
+      color: rgba(255,255,255,.65);
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      text-align: center;
     }
     .home-usecases__tabs {
       position: relative;
@@ -735,10 +734,31 @@
       margin-bottom: 12px;
     }
     .home-pricing__stripe {
-      text-align: center;
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 36px;
+      width: fit-content;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto 36px;
+      padding: 0 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.72);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      line-height: 1;
+    }
+    .home-pricing__stripe::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      background: currentColor;
+      opacity: .86;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M7 10V8a5 5 0 0 1 10 0v2h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2 0h6V8a3 3 0 1 0-6 0v2Z' clip-rule='evenodd'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M7 10V8a5 5 0 0 1 10 0v2h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2 0h6V8a3 3 0 1 0-6 0v2Z' clip-rule='evenodd'/%3E%3C/svg%3E") center / contain no-repeat;
     }
     .home-pricing__grid {
       display: grid;
@@ -1248,7 +1268,6 @@
         padding: 0;
       }
       .home-integrate__langs {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
       }
       .home-code-card {
@@ -1732,14 +1751,14 @@
 
 <section class="home-integrate" data-screen-label="Easy Integration">
       <div class="home-integrate__inner">
-        <h2 class="home-integrate__title" data-reveal>Easy integrate our solutions to your projects</h2>
         <div class="home-integrate__grid">
           <div class="home-integrate__copy" data-reveal data-delay="1">
             <div>
-              <p class="home-integrate__desc">We ensure that integrating our products into your scraping infrastructure is as effortless as possible. With multiple language support and ready-to-use code examples, a quick and easy start to your web scraping project is a guarantee.</p>
+              <h2 class="home-integrate__title">Easy integrate our solutions to your projects</h2>
+              <p class="home-integrate__desc">Integrating our products into your scraping infrastructure is effortless, with multi-language support and ready-to-use code examples for a quick start.</p>
               <div class="home-integrate__actions">
-                <a class="home-integrate__button home-integrate__button--outline" href="#">Roxy Documentation <span class="home-integrate__button-icon" aria-hidden="true"></span></a>
-                <a class="home-integrate__button" href="#">Join our community</a>
+                <a class="home-integrate__button home-integrate__button--primary" href="#">Rola Documentation</a>
+                <a class="home-integrate__button home-integrate__button--link" href="#">Join our community</a>
               </div>
             </div>
             <div>
@@ -1794,6 +1813,7 @@
     <section class="home-usecases" data-screen-label="Business Areas">
       <div class="home-usecases__inner">
         <h2 class="home-usecases__title" data-reveal>Accelerates and safeguards your business in the following Areas.</h2>
+        <p class="home-usecases__intro" data-reveal data-delay="1">From e-commerce and social platforms to AI and data collection, Rola delivers reliable proxy and data capabilities for the workflows that keep your business moving.</p>
         <div class="home-usecases__tabs" role="tablist" aria-label="Business areas" data-reveal data-delay="1">
           <span class="home-usecases__tab-indicator" aria-hidden="true"></span>
           <button class="home-usecases__tab is-active" role="tab" aria-selected="true" data-usecase="ecommerce">E-commerce</button>
