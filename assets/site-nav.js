@@ -93,7 +93,7 @@
       }).join('') + '</ul>';
     }).join('');
     return '<div class="nav__mega-group">' +
-      '<div class="nav__mega-group-title"><i data-lucide="' + group.icon + '" class="nav__mega-group-title-icon"></i><span>' + group.title + '</span></div>' +
+      '<div class="nav__mega-group-title"><span class="nav__mega-group-icon"><i data-lucide="' + group.icon + '" class="nav__mega-group-title-icon"></i></span><span>' + group.title + '</span></div>' +
       '<div class="nav__mega-lists">' + listsHtml + '</div>' +
       '</div>';
   }
@@ -109,7 +109,7 @@
     // simplified flat version for the mobile nav panel
     return purposesGroups.map(function(group){
       return '<div class="mobile-mega__group">' +
-        '<div class="mobile-mega__group-title"><i data-lucide="' + group.icon + '" class="mobile-mega__group-title-icon"></i><span>' + group.title + '</span></div>' +
+        '<div class="mobile-mega__group-title"><span class="mobile-mega__group-icon"><i data-lucide="' + group.icon + '" class="mobile-mega__group-title-icon"></i></span><span>' + group.title + '</span></div>' +
         '<div class="mobile-mega__items">' + group.items.map(function(item){
           return '<span class="mobile-mega__item">' + iconBadge(item) + '<span>' + item.name + '</span></span>';
         }).join('') + '</div>' +
@@ -222,7 +222,7 @@
   function render(active){
     var ctaLabel = active === 'proxies' ? 'Buy Now' : 'Start Free Trial';
     var ctaHref = active === 'proxies' || active === 'use-cases' ? '#' : 'pricing.html';
-    var navClass = active === 'blog' || active === 'faq' ? 'nav nav--light' : active === 'pricing' || active === 'use-cases' ? 'nav nav--transparent-dark' : 'nav';
+    var navClass = active === 'blog' || active === 'faq' ? 'nav nav--light' : active === 'pricing' || active === 'use-cases' ? 'nav nav--transparent-dark' : active === 'home' ? 'nav nav--home' : 'nav';
     return '<nav class="' + navClass + '" id="nav"><div class="nav__inner"><a href="index.html" class="logo">' + logo + '</a><div class="nav__links">' + renderLinks(desktopLinks, active) + '</div><div class="nav__actions">' + renderLanguageSwitch() + '<a href="#" class="nav__login">Register/Login</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div></nav><div class="mobile-nav" id="mobileNav">' + renderLinks(mobileLinksFor(active), active) + '<button type="button" class="mobile-nav__mega-toggle" id="mobilePurposesToggle">Purposes<i data-lucide="chevron-down" class="nav__chev-icon" aria-hidden="true"></i></button><div class="mobile-mega" id="mobilePurposesPanel">' + renderMegaFlatList() + '</div>' + renderMobileLanguageLinks() + '<a href="' + ctaHref + '" class="btn btn--secondary btn--block">' + ctaLabel + '</a></div>';
   }
 

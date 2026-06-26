@@ -2418,6 +2418,18 @@
       }, { threshold: .12, rootMargin: '0px 0px -8% 0px', root: content || null });
       document.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
     })();
+
+    // ---- Nav background: transparent over the hero, solid once scrolled into content ----
+    (function(){
+      var content = document.querySelector('.home-content');
+      var nav = document.getElementById('nav');
+      if (!content || !nav) return;
+      function onNavScroll() {
+        nav.classList.toggle('scrolled', content.scrollTop > 12);
+      }
+      content.addEventListener('scroll', onNavScroll, { passive: true });
+      onNavScroll();
+    })();
   </script>
 
   <!-- Light rays WebGL (compliance section) -->
