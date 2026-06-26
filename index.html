@@ -124,7 +124,10 @@
       top: 0;
       height: 100vh;
       width: 100%;
-      padding-top: 72px;  /* 顶部固定 nav 高度，使 sticky 内容在 nav 下方居中 → 上下空白一致 */
+      padding-top: 144px;  /* 72px nav offset + 72px visual padding */
+      padding-right: 0;
+      padding-bottom: 72px;
+      padding-left: 0;
       pointer-events: auto;
       font-family: 'Inter', sans-serif;
       display: flex;
@@ -138,7 +141,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
-      align-items: stretch;
+      align-items: center;
       width: 100%;
     }
     .solutions-title {
@@ -249,8 +252,8 @@
     }
     .solutions-right {
       display: flex;
-      align-self: stretch;
-      height: 560px;
+      align-self: center;
+      height: min(560px, calc(100vh - 216px));
       min-height: 0;
       overflow: hidden;
       border-radius: 8px;
@@ -285,7 +288,7 @@
     .solutions-pin-wrapper--headline-only .solutions-section {
       position: relative;
       height: auto;
-      padding: 64px 0 88px;
+      padding: 64px 0 0;
     }
     .solutions-pin-wrapper--headline-only .solutions-inner {
       grid-template-columns: 1fr;
@@ -303,6 +306,13 @@
       width: 100%;
       max-width: 1280px;
       margin-top: 80px;
+    }
+    .solutions-pin-wrapper:not(.solutions-pin-wrapper--headline-only) .solutions-section {
+      padding-top: 144px;
+      padding-bottom: 72px;
+    }
+    .solutions-pin-wrapper:not(.solutions-pin-wrapper--headline-only) .solutions-title {
+      margin-bottom: 12px;
     }
     @media (max-width: 900px) {
       .solutions-inner {
@@ -395,9 +405,9 @@
     }
     .home-integrate__desc {
       max-width: 542px;
-      font-size: 1.125rem;
-      line-height: 1.56;
-      color: rgba(255,255,255,.9);
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      color: rgba(255,255,255,.65);
       margin-bottom: 24px;
     }
     .home-integrate__actions {
@@ -1691,7 +1701,7 @@
         <div class="geo-head">
           <div class="section-head">
             <div class="eyebrow">Coverage</div>
-            <h2 class="h-section">Provide over 250+ countries IP</h2>
+            <h2 class="h-section">Meeting various global business needs</h2>
           </div>
           <p class="geo-head__desc">Covering 200+ countries worldwide, supporting various business and technical needs</p>
         </div>
@@ -2393,12 +2403,35 @@
         updaters.push(update);
       });
 
+      var lastScrollTop = content.scrollTop;
       function onScroll() {
+        var cur = content.scrollTop;
+        var scrollingUp = cur < lastScrollTop;
+        lastScrollTop = cur;
         updateScrollbar();
         for (var i = 0; i < updaters.length; i++) updaters[i]();
+        // 向上滚回第一个 item 时跳到 wrapper 顶部，解锁 sticky
+        if (scrollingUp) {
+          var ws = document.querySelectorAll('.solutions-pin-wrapper');
+          for (var j = 0; j < ws.length; j++) {
+            var w = ws[j];
+            var wTop = w.offsetTop;
+            var wEnd = wTop + w.offsetHeight - window.innerHeight;
+            if (cur > wTop && cur < wEnd) {
+              var itemCount = w.querySelectorAll('.solutions-item').length;
+              var progress  = (cur - wTop) / (wEnd - wTop);
+              var idx = Math.min(itemCount - 1, Math.floor(progress * itemCount));
+              if (idx === 0) {
+                content.scrollTop = wTop;
+                lastScrollTop = wTop;
+              }
+              break;
+            }
+          }
+        }
       }
-
       content.addEventListener('scroll', onScroll, { passive: true });
+
       window.addEventListener('resize', function() {
         for (var i = 0; i < layoutRefreshers.length; i++) layoutRefreshers[i]();
         onScroll();

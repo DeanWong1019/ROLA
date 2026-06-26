@@ -285,7 +285,7 @@
     'Consumer':'消费者',
     'Web':'Web',
     'Coverage':'覆盖地区',
-    'Provide over 250+ countries IP':'提供 250+ 国家 IP',
+    'Meeting various global business needs':'满足多样化的全球业务需求',
     'Covering 200+ countries worldwide, supporting various business and technical needs':'覆盖全球 200+ 国家，满足各种业务与技术需求',
     'Countries covered':'覆盖国家',
     'Residential IPs':'住宅 IP',
