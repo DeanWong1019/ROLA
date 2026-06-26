@@ -1593,6 +1593,8 @@ html[lang="zh-CN"] .nav__links a,
 html[lang="zh-CN"] .lang-btn,
 html[lang="zh-CN"] [class*="btn"]{line-height:1!important}
 html[lang="zh-CN"] p{line-height:1.8}
+html[lang="zh-CN"] .orbit-copy__stat-label{line-height:1.2!important;margin-bottom:14px!important}
+html[lang="zh-CN"] .orbit-copy__stat-value{line-height:1!important}
 html[lang="zh-CN"] li{line-height:1.8}
 html[lang="zh-CN"] .section-sub{line-height:1.85}
 html[lang="zh-CN"] .hero__sub{line-height:1.75}

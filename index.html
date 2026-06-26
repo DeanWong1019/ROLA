@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="premium-styles.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #000; height: 100dvh; overflow: hidden; }
@@ -391,7 +392,6 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 64px;
-      padding: 20px 0;
     }
     .home-integrate__desc {
       max-width: 542px;
@@ -1349,12 +1349,25 @@
       left: max(32px, calc((100vw - 1280px) / 2));
       bottom: 48px;
       z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-size: var(--text-lg, 1.25rem);
       font-weight: 400;
       line-height: 1;
       letter-spacing: 0;
       color: var(--color-text-on-dark-secondary, #9BA9A3);
       pointer-events: none;
+    }
+    .scroll-cue__arrow {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      animation: scroll-bounce 1.4s ease-in-out infinite;
+    }
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50%       { transform: translateY(5px); opacity: 0.5; }
     }
     .orbit-copy {
       position: fixed;
@@ -1390,6 +1403,13 @@
       line-height: 1.2;
       color: color-mix(in srgb, var(--color-text-on-dark-secondary, #9BA9A3), #8f9693 calc(var(--hero-logo-gray) * 100%));
       margin-bottom: 14px;
+    }
+    :lang(zh-CN) .orbit-copy__stat-label {
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    :lang(zh-CN) .orbit-copy__stat-value {
+      line-height: 1;
     }
     .orbit-copy__stat-value {
       font-size: clamp(3rem, 4.8vw, 5.25rem);
@@ -2123,7 +2143,7 @@
     <h1 class="home-hero-h1">Reliable Data Collection Solutions For Personal &amp; Business</h1>
   </div>
 
-  <p class="scroll-cue">Scroll to explore</p>
+  <p class="scroll-cue">Scroll to explore<i data-lucide="arrow-down" class="scroll-cue__arrow" aria-hidden="true"></i></p>
 
   <div class="home-stats">
     <div class="home-stat">
@@ -2146,6 +2166,7 @@
   <script src="assets/home-webgl.bundle.js?v=20260624-ai-logo"></script>
 
   <script src="assets/site-i18n.js"></script>
+  <script>if (typeof lucide !== 'undefined') lucide.createIcons();</script>
   <script>
     // Safety net: if WebGL stalls, force elements visible after 5s
     setTimeout(function(){
@@ -2399,6 +2420,16 @@
         data:       { subtitle: 'Enterprise Data Collection', desc: 'Build comprehensive datasets for research, analytics, and business intelligence. Pre-built APIs and ready-to-use datasets cut time-to-insight from weeks to hours.' },
         others:     { subtitle: 'Custom Business Solutions', desc: 'Not sure which product fits your workflow? Our team designs tailored data-collection pipelines for unique use cases — from cybersecurity to academic research.' }
       };
+      var usecasesZh = {
+        ecommerce:  { subtitle: '适用于每一种场景的解决方案', desc: '借助我们的代理网络与数据工具支撑你的电商运营——从价格监控、库存跟踪到竞品分析与地理定向浏览，任意规模均可。' },
+        social:     { subtitle: '社交网络情报', desc: '跨主流社交平台监测趋势、追踪品牌提及并采集受众洞察。我们的住宅代理让你的数据管道免受速率限制与封锁困扰。' },
+        advertising:{ subtitle: '广告验证与定向', desc: '在任何地区验证广告投放、检测广告欺诈并审计竞品素材，使用真实住宅 IP，模拟全球真实用户会话。' },
+        ai:         { subtitle: 'AI 训练与富化', desc: '采集大规模高质量网页数据，训练并微调 AI 模型。我们的基础设施支撑数百万并发请求，让你的管道永不停滞。' },
+        scraping:   { subtitle: '大规模网页抓取', desc: '不间断地从任意网站抽取结构化数据。自动验证码识别、指纹轮换与 100M+ IP 池，带来近乎完美的成功率。' },
+        data:       { subtitle: '企业级数据采集', desc: '为研究、分析与商业智能构建综合数据集。预置 API 与即用数据集将洞察周期从数周缩短到数小时。' },
+        others:     { subtitle: '定制业务方案', desc: '不确定哪款产品契合你的工作流？我们的团队为独特场景量身定制数据采集管道——从网络安全到学术研究。' }
+      };
+      function isZh(){ return new URLSearchParams(location.search).get('lang') === 'zh'; }
       var tabsWrap = document.querySelector('.home-usecases__tabs');
       var tabs = document.querySelectorAll('.home-usecases__tab');
       var indicator = document.querySelector('.home-usecases__tab-indicator');
@@ -2423,7 +2454,7 @@
           tab.setAttribute('aria-selected','true');
           placeIndicator(tab, true);
           var key = tab.getAttribute('data-usecase');
-          var data = usecasesData[key];
+          var data = (isZh() ? usecasesZh : usecasesData)[key];
           if (data && subtitle && desc) {
             subtitle.textContent = data.subtitle;
             desc.textContent = data.desc;

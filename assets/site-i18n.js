@@ -253,7 +253,113 @@
     'Free trial':'免费试用',
     'Most popular':'最受欢迎',
     'Scale':'扩展版',
-    '/IP':'/个 IP'
+    '/IP':'/个 IP',
+    /* ── Home page (index.html) ── */
+    'POWERING THE BEST TEAM':'为最佳团队赋能',
+    'Reliable Data Collection Solutions For Personal & Business':'为个人与企业打造的可靠数据采集方案',
+    'Scroll to explore':'滚动探索',
+'Supported Countries':'覆盖国家',
+      'Support Services':'支持服务',
+      'IPs Amounts':'IP 数量',
+    'Trusted by 15,000+ clients globally':'受到全球 15,000+ 客户信赖',
+    'Solutions for Every Use Case':'适用于每一种场景的解决方案',
+    'Aenean consequat neque in turpis volutpat tristique. Integer nunc nisi, accumsan ultricies enim quis, tincidunt lacinia lorem.':'针对不同业务场景的端到端代理与数据采集方案，覆盖匿名访问、反爬解锁、结构化抽取及即用数据集。',
+    'Proxies Anonymity':'代理匿名',
+    'A 100-million-level IP pool with 99.9% uptime. Real residential IPs, low detection rate, low ban rate.':'亿级 IP 池，99.9% 在线率。真实住宅 IP，低识别率、低封禁率。',
+    'ISP':'ISP',
+    'Datacenter':'数据中心',
+    'Asia':'亚洲',
+    'Website Unblockers':'网站解锁',
+    'Bypass anti-bot protection and access any website at scale with automatic CAPTCHA solving and browser fingerprint rotation.':'绕过反爬保护，通过自动验证码识别与浏览器指纹轮换大规模访问任意网站。',
+    'Google':'Google',
+    'Amazon':'Amazon',
+    'Cloudflare':'Cloudflare',
+    'Scraper APIs':'爬虫 API',
+    'Pre-built APIs for structured data extraction from major platforms. Get clean JSON without managing infrastructure.':'面向主流平台结构化数据抽取的预置 API，无需管理基础设施即可获取干净的 JSON。',
+    'E-commerce':'电商',
+    'Social Media':'社交媒体',
+    'News':'新闻',
+    'Datasets':'数据集',
+    'Ready-to-use pre-collected datasets for training AI models, market research, and competitive intelligence.':'即用型预采集数据集，可用于训练 AI 模型、市场研究与竞争情报。',
+    'B2B':'B2B',
+    'Consumer':'消费者',
+    'Web':'Web',
+    'Coverage':'覆盖地区',
+    'Provide over 250+ countries IP':'提供 250+ 国家 IP',
+    'Covering 200+ countries worldwide, supporting various business and technical needs':'覆盖全球 200+ 国家，满足各种业务与技术需求',
+    'Countries covered':'覆盖国家',
+    'Residential IPs':'住宅 IP',
+    'Uptime guarantee':'可用性保障',
+    'Technical support':'技术支持',
+    'United States':'美国',
+    'Hong Kong':'香港',
+    'Japan':'日本',
+    'France':'法国',
+    'Poland':'波兰',
+    'United Kingdom':'英国',
+    'Singapore':'新加坡',
+    'Germany':'德国',
+    'South Korea':'韩国',
+    'Global proxy coverage map':'全球代理覆盖图',
+    'Easy Integration':'轻松集成',
+    'Easy integrate our solutions to your projects':'轻松将我们的方案集成到你的项目',
+    'We ensure that integrating our products into your scraping infrastructure is as effortless as possible. With multiple language support and ready-to-use code examples, a quick and easy start to your web scraping project is a guarantee.':'我们确保产品接入你的爬虫基础设施尽可能轻松。多语言支持与即用代码示例，让你的网页抓取项目快速上手、有保障。',
+    'Roxy Documentation':'Roxy 文档',
+    'Join our community':'加入我们的社区',
+    'We support majority of the programming language:':'我们支持主流编程语言：',
+    'Code block examples':'代码示例',
+    'Business Areas':'业务领域',
+    'Accelerates and safeguards your business in the following Areas.':'在以下领域加速并守护你的业务。',
+    'Social Network':'社交网络',
+    'Advertising':'广告',
+    'AI':'AI',
+    'Web scraping':'网页抓取',
+    'Data collection':'数据采集',
+    'Others':'其他',
+    'Leverage our proxy network and data tools to power your e-commerce operations — from price monitoring and inventory tracking to competitor analysis and geo-targeted browsing at any scale.':'借助我们的代理网络与数据工具支撑你的电商运营——从价格监控、库存跟踪到竞品分析与地理定向浏览，任意规模均可。',
+    'Pricing':'价格',
+    'Flexible pricing that adapts to various needs.':'灵活定价，适配各种需求。',
+    'Fast & Secure payments powered by Stripe':'由 Stripe 提供的快速安全支付',
+    'Data Package':'流量套餐',
+    'Valid for 30 days':'30 天有效',
+    'VAT may apply':'可能适用增值税',
+    'Buy now':'立即购买',
+    'Total：':'合计：',
+    'Locations: 17, including US, UK, Germany, France and Canada':'17 个节点：包括美国、英国、德国、法国和加拿大',
+    '24/7 Support':'7×24 支持',
+    'Extra 10GB package':'额外 10GB 套餐',
+    'Enterprise Plan —':'企业方案 ——',
+    'gets':'享',
+    '70% off':'7 折',
+    'off':'折扣',
+    'Easy API Integration':'轻松 API 集成',
+    'API & Password Auth':'API 与密码认证',
+    'Unlimited Concurrent Connections':'不限并发连接',
+    '47M+ Available IPs':'47M+ 可用 IP',
+    'Reviews':'用户评价',
+    'Trusted by thousands of':'深受数千名',
+    'users from different industries':'不同行业用户的信赖',
+    'Get Started Free':'免费开始',
+    'Certified data centers and upstream providers':'认证的数据中心与上游供应商',
+    'All of our<br>products are<br>insured':'我们所有<br>产品均已<br>投保',
+    'All of our products are covered by Technology Errors & Omissions (Technology E&O) and Cyber insurance':'我们所有产品均由技术过失与疏忽（Technology E&O）及网络安全保险承保',
+    'Enterprise ISP proxies for data-driven teams. Stable sessions, transparent per-IP pricing, global coverage.':'面向数据驱动团队的企业级 ISP 代理。稳定会话、透明的按 IP 计费、全球覆盖。',
+    'Get an AI summary of ROLA IP':'获取 ROLA IP 的 AI 摘要',
+    'Product':'产品',
+    'ISP Proxies':'ISP 代理',
+    'Locations':'节点',
+    'Blog':'博客',
+    'FAQs':'常见问题',
+    'Free Trial':'免费试用',
+    'Developers':'开发者',
+    'Documentation':'文档',
+    'API Reference':'API 参考',
+    'SDKs':'SDK',
+    'Status':'状态',
+    'Company':'公司',
+    'About':'关于我们',
+    'Privacy & Terms':'隐私与条款',
+    '© 2026 ROLA-IP. All rights reserved.':'© 2026 ROLA-IP. 保留所有权利。'
   };
 
   function localizedHref(lang){
@@ -287,7 +393,32 @@
     });
   }
 
+  var currentLang = 'en';
+  function watchOrbitLabels(){
+    var obs = new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        var el = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+        if (!el || !el.classList || !el.classList.contains('orbit-copy__stat-label')) return;
+        var text = el.textContent.trim();
+        var want;
+        if (currentLang === 'zh') {
+          want = zh[text] || text;
+        } else {
+          want = Object.keys(zh).find(function(k){ return zh[k] === text; }) || text;
+        }
+        if (el.textContent !== want) el.textContent = want;
+      });
+    });
+    document.querySelectorAll('.orbit-copy__stat-label').forEach(function(el){
+      if (!el._enText) {
+        var tn = el.firstChild;
+        el._enText = (tn && tn.nodeType === 3 && tn._enText) ? tn._enText : el.textContent.trim();
+      }
+      obs.observe(el, { childList: true, characterData: true, subtree: true });
+    });
+  }
   function applyLanguage(lang){
+    currentLang = lang;
     var dict = lang === 'zh' ? zh : {};
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
     if (!document._enTitle) document._enTitle = document.title;
@@ -334,6 +465,16 @@
       url.searchParams.set('lang', lang);
       link.setAttribute('href', url.pathname.split('/').pop() + url.search + url.hash);
     });
+    document.querySelectorAll('.orbit-copy__stat-label').forEach(function(el){
+      var text = el.textContent.trim();
+      var want;
+      if (lang === 'zh') {
+        want = zh[text] || text;
+      } else {
+        want = Object.keys(zh).find(function(k){ return zh[k] === text; }) || text;
+      }
+      if (el.textContent !== want) el.textContent = want;
+    });
   }
 
   function initFooterBottomReveal(){
@@ -359,6 +500,7 @@
   function init(){
     ensureLanguageSwitch();
     var lang = new URLSearchParams(location.search).get('lang') === 'zh' ? 'zh' : 'en';
+    watchOrbitLabels();
     applyLanguage(lang);
     initFooterBottomReveal();
     document.querySelectorAll('[data-lang-option]').forEach(function(link){
