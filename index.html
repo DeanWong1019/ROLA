@@ -66,7 +66,7 @@
       transition: opacity .3s ease;
       pointer-events: none;
     }
-    .home-scrollbar.is-visible { opacity: 1; }
+    .home-scrollbar.is-visible { opacity: 1; pointer-events: auto; }
     .home-scrollbar__thumb {
       position: absolute;
       left: 0;
@@ -74,9 +74,15 @@
       border-radius: 6px;
       background: rgba(255,255,255,0.28);
       transition: background .2s ease;
+      cursor: grab;
     }
     .home-scrollbar.is-visible:hover .home-scrollbar__thumb {
       background: rgba(255,255,255,0.45);
+    }
+    .home-scrollbar.is-dragging .home-scrollbar__thumb,
+    .home-scrollbar.is-dragging:hover .home-scrollbar__thumb {
+      background: rgba(255,255,255,0.55);
+      cursor: grabbing;
     }
     .bfs-title { text-align: center; padding: 120px 24px 60px; }
     .bfs-title h2 {
@@ -108,19 +114,21 @@
     .solutions-pin-wrapper {
       width: 100%;
       flex-shrink: 0;  /* 关键：flex 容器里不被压缩，保住高度 */
-      /* section pin 占 1×100vh；每个 item 切换只需 45vh 滚动行程（4 项 = 180vh）
-         => 想更快/更慢切换，只改这里的 45vh 即可，JS 会自动适配 */
-      height: calc(100vh + 45vh * 4);
+      /* section pin 占 1×100vh；每个 item 切换只需 40vh 滚动行程（4 项 = 160vh）
+         => 想更快/更慢切换，只改这里的 40vh 即可，JS 会自动适配 */
+      height: calc(100vh + 40vh * 4);
     }
     .solutions-section {
       position: sticky;
       top: 0;
       height: 100vh;
       width: 100%;
+      padding-top: 72px;  /* 顶部固定 nav 高度，使 sticky 内容在 nav 下方居中 → 上下空白一致 */
       pointer-events: auto;
       font-family: 'Inter', sans-serif;
       display: flex;
       align-items: center;
+      box-sizing: border-box;
     }
     .solutions-inner {
       max-width: 1280px;
@@ -2258,6 +2266,9 @@
       var thumb     = document.querySelector('.home-scrollbar__thumb');
       if (!content) return;
 
+      // 拖拽 thumb → 直接定位内容滚动
+      var scrollbarDrag = { dragging: false, startY: 0, startScroll: 0, thumbH: 0, trackH: 0 };
+
       // 全局滚动指示条：thumb 高度/位置随内容整体滚动更新
       function updateScrollbar() {
         if (!scrollbar || !thumb) return;
@@ -2270,7 +2281,46 @@
         var thumbH = Math.max(32, trackH * ch / sh);
         var t      = content.scrollTop / maxScroll;
         thumb.style.height = thumbH + 'px';
-        thumb.style.top    = (t * (trackH - thumbH)).toFixed(1) + 'px';
+        // 拖拽中不覆盖 thumb 位置，避免和鼠标位置打架
+        if (!scrollbarDrag.dragging) {
+          thumb.style.top = (t * (trackH - thumbH)).toFixed(1) + 'px';
+        }
+      }
+
+      // 拖拽 thumb → 直接定位内容滚动
+      if (thumb) {
+        thumb.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          scrollbarDrag.dragging    = true;
+          scrollbarDrag.startY      = e.clientY;
+          scrollbarDrag.startScroll = content.scrollTop;
+          scrollbarDrag.thumbH      = thumb.offsetHeight;
+          scrollbarDrag.trackH      = scrollbar.clientHeight;
+          scrollbar.classList.add('is-dragging');
+          document.body.style.userSelect = 'none';
+        });
+        window.addEventListener('mousemove', function(e) {
+          if (!scrollbarDrag.dragging) return;
+          var sh = content.scrollHeight, ch = content.clientHeight;
+          var maxScroll = sh - ch;
+          if (maxScroll <= 0) return;
+          var usable = scrollbarDrag.trackH - scrollbarDrag.thumbH;
+          if (usable <= 0) return;
+          var dy = e.clientY - scrollbarDrag.startY;
+          var target = scrollbarDrag.startScroll + (dy / usable) * maxScroll;
+          content.scrollTop = Math.max(0, Math.min(maxScroll, target));
+          // 拖拽中同步 thumb 位置（updateScrollbar 在 dragging 时跳过 top 更新）
+          var t = content.scrollTop / maxScroll;
+          thumb.style.top = (t * usable).toFixed(1) + 'px';
+        });
+        window.addEventListener('mouseup', function() {
+          if (!scrollbarDrag.dragging) return;
+          scrollbarDrag.dragging = false;
+          scrollbar.classList.remove('is-dragging');
+          document.body.style.userSelect = '';
+          // 松手后立刻按当前 scrollTop 校准 thumb 位置
+          updateScrollbar();
+        });
       }
 
       // 为每个 .solutions-pin-wrapper 建立独立的 accordion
